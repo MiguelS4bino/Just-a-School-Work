@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #333;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* Centraliza os links */
+.nav-center {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-center a {
+    color: white;
+    text-decoration: none; /* Remove sublinhado */
+    padding: 10px 15px;
+}
+
+.nav-center a:hover {
+    background-color: #555;
+    border-radius: 5px;
+}
+
+/* Botão de Login */
+.login-btn {
+    margin-left: auto; /* Empurra para a direita */
+    background-color: #596869;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.login-btn:hover {
+    background-color: #465353;
+}
+
+/* Conteúdo principal */
+.container {
+    margin-top: 80px;
+    padding: 20px;
+    text-align: center;
+}
