@@ -1,11 +1,34 @@
 {
+  "name": "dynamicnotes-tcc",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/MiguelS4bino/DynamicNotes-TCC#readme",
+  "bugs": {
+    "url": "https://github.com/MiguelS4bino/DynamicNotes-TCC/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiguelS4bino/DynamicNotes-TCC.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.12.1",
     "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }
