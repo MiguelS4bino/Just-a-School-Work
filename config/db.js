@@ -11,7 +11,7 @@ const connectDB = async () => {
       `mongodb+srv://${dbUser}:${dbPassword}@cluster0.xkapr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
     )
 
-    console.log("Conectado ao Banco de Dados!")
+    console.log("Conectado ao Banco de Dados.")
   }catch(err){
     console.error("Erro ao conectar ao banco de dados: ", err);
     process.exit(1); // Sai do processo caso a conexão falhe

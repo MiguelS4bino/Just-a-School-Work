@@ -31,7 +31,7 @@ const io = require("socket.io")(server);
 const startServer = async () => {
   try {
     await connectDB();
-    console.log("Conectado ao Banco de Dados.");
+    console.log("Conectado ao Servidor.");
     // Inicia o servidor depois da conexão com o banco de dados
 
     //define onde os arquivos estáticos vão ficar (public)

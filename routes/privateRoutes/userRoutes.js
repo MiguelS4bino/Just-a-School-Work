@@ -5,7 +5,7 @@ const checkToken = require('../../config/auth')
 const router = express.Router()
 
 //Private Route
-router.get('/user/:id', checkToken, async (req, res) => {
+router.get('/:id', checkToken, async (req, res) => {
     const id = req.params.id
 
     //check if user exists
