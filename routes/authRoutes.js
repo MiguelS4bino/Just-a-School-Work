@@ -8,15 +8,17 @@ const router = express.Router()
 
 //User Regiser
 router.post("/register", async (req, res) => {
+  const {name, email, password, confirm_password} = req.body
+  
   //Validations
   if (!name) {
-    res.status(422).json({ msg: "Nome é obrigatório1" });
+    return res.status(422).json({ msg: "Nome é obrigatório1" });
   }
   if (!email) {
-    res.status(422).json({ msg: "Email é obrigatório1" });
+    return res.status(422).json({ msg: "Email é obrigatório1" });
   }
   if (!password) {
-    res.status(422).json({ msg: "Senha é obrigatório1" });
+    return res.status(422).json({ msg: "Senha é obrigatório1" });
   }
 
   if (password !== confirm_password) {
