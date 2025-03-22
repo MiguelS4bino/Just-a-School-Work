@@ -1,41 +1,72 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-    margin: 0;
+/* Animação para o slide contínuo com suavização */
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    20% {
+        transform: translateX(12px);
+        opacity: 0.8;
+    }
+    40% {
+        transform: translateX(24px);
+        opacity: 0.6;
+    }
+    60% {
+        transform: translateX(36px);
+        opacity: 0.4;
+    }
+    80% {
+        transform: translateX(48px);
+        opacity: 0.2;
+    }
+    100% {
+        transform: translateX(60px);
+        opacity: 0;
+    }
 }
 
-.login-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 300px;
+/* Classe que aplica a animação para os blocos */
+.animate-slide {
+    animation: slide 4s ease-in-out infinite;
 }
 
-input {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+/* Atrasos para os elementos, criando o efeito de sequência */
+.delay-200 {
+    animation-delay: 1s;
 }
 
-button {
-    background: #007bff;
+.delay-400 {
+    animation-delay: 2s;
+}
+
+/* Estilos adicionais podem ser definidos aqui */
+.input-field {
+    background-color: #2c2c38;
     color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
     width: 100%;
+    border: 1px solid #444;
+    outline: none;
 }
 
-button:hover {
-    background: #0056b3;
+.checkbox {
+    width: 16px;
+    height: 16px;
+}
+
+.submit-btn {
+    background-color: #5e3c96;
+    color: white;
+    padding: 0.75rem;
+    width: 100%;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #4b2c76;
 }

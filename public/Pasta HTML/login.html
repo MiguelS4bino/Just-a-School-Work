@@ -1,19 +1,137 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Criar Conta</title>
+
+    <!-- Importa o Tailwind CSS via CDN para estilização -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Importa a fonte "Inter" do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Importa o arquivo CSS externo para estilos adicionais -->
     <link rel="stylesheet" href="/public/Pasta CSS/login.css">
+
 </head>
-<body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form>
-            <input type="text" placeholder="Usuário" required>
-            <input type="password" placeholder="Senha" required>
-            <button type="submit">Entrar</button>
-        </form>
+<body class="bg-[#1c1c24] min-h-screen flex items-center justify-center p-4">
+    <!-- Container principal da página -->
+    <div class="w-full max-w-[1200px] bg-[#13131a] rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+        
+        <!-- Seção Esquerda -->
+        <div class="w-full md:w-1/2 relative">
+            <a href="#" class="absolute top-6 left-6 text-white text-2xl font-bold z-10"></a>
+            
+            <div class="relative h-full">
+                <img src="" alt="Logo Dynamic-Notes" class="w-full h-full object-cover"> 
+                <!-- Imagem de fundo (src vazio, precisa ser preenchido) -->
+                
+                <div class="absolute inset-0 bg-purple-900/30"></div> <!-- Sobreposição com cor -->
+                
+                <div class="absolute bottom-12 left-12 text-white">
+                    <h2 class="text-2xl md:text-4xl font-semibold mb-2">Planeje, Organize, Conquiste!</h2>
+                    <h2 class="text-2xl md:text-4xl font-semibold">Do caos à clareza.</h2>
+                    
+                    <!-- Indicador de progresso (3 pequenos blocos) com animação -->
+                    <div class="flex gap-2 mt-4">
+                        <div class="w-4 h-1 bg-white/30 rounded animate-slide"></div>
+                        <div class="w-4 h-1 bg-white/30 rounded animate-slide delay-200"></div>
+                        <div class="w-4 h-1 bg-white rounded animate-slide delay-400"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Direita (Formulário de Cadastro) -->
+        <div class="w-full md:w-1/2 p-6 md:p-12">
+            <div class="max-w-md mx-auto">
+                <h1 class="text-white text-2xl md:text-4xl font-semibold mb-2" id="formTitle">Criar uma conta</h1>
+                <p class="text-gray-400 mb-8">
+                    <span id="toggleText">Já tem uma conta?</span>
+                    <a href="#" class="text-white hover:underline" id="linkToggle">Entrar</a>
+                </p>
+                
+                <!-- Formulário -->
+                <form id="formCadastro" class="space-y-4">
+                    
+                    <!-- Campo Nome e Sobrenome -->
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <input type="text" placeholder="Nome" class="input-field" required>
+                        <input type="text" placeholder="Sobrenome" class="input-field" required>
+                    </div>
+
+                    <!-- Campo E-mail -->
+                    <input type="email" placeholder="E-mail" class="input-field" required>
+
+                    <!-- Campo Senha com botão para exibir/esconder senha -->
+                    <div class="relative">
+                        <input type="password" placeholder="Digite sua senha" class="input-field pr-10" required>
+                        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Checkbox para aceitar os Termos e Condições -->
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" class="checkbox" required>
+                        <span class="text-gray-400">Eu concordo com os <a href="#" class="text-white hover:underline">Termos e Condições</a></span>
+                    </label>
+
+                    <!-- Botão de Criar Conta -->
+                    <button type="submit" class="submit-btn">
+                        Criar conta
+                    </button>
+                </form>
+
+                <!-- Formulário de Login -->
+                <form id="formLogin" class="space-y-4 hidden">
+                    <h1 class="text-white text-2xl md:text-4xl font-semibold mb-2">Entrar</h1>
+                    
+                    <!-- Campo E-mail -->
+                    <input type="email" placeholder="E-mail" class="input-field" required>
+
+                    <!-- Campo Senha -->
+                    <input type="password" placeholder="Digite sua senha" class="input-field" required>
+
+                    <!-- Botão de Login -->
+                    <button type="submit" class="submit-btn">
+                        Entrar
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Alternar entre os formulários de login e cadastro
+        const linkToggle = document.getElementById('linkToggle');
+        const formCadastro = document.getElementById('formCadastro');
+        const formLogin = document.getElementById('formLogin');
+        const formTitle = document.getElementById('formTitle');
+        const toggleText = document.getElementById('toggleText');
+
+        linkToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Alternar visibilidade entre os formulários
+            formCadastro.classList.toggle('hidden');
+            formLogin.classList.toggle('hidden');
+            
+            // Alterar o texto do link
+            if (formCadastro.classList.contains('hidden')) {
+                formTitle.textContent = "Entrar";
+                toggleText.textContent = "Não tem uma conta?";
+                linkToggle.textContent = "Se registrar";
+            } else {
+                formTitle.textContent = "Criar uma conta";
+                toggleText.textContent = "Já tem uma conta?";
+                linkToggle.textContent = "Entrar";
+            }
+        });
+    </script>
 </body>
 </html>
