@@ -57,8 +57,8 @@
                     
                     <!-- Campo Nome e Sobrenome -->
                     <div class="flex flex-col md:flex-row gap-4">
-                        <input type="text" placeholder="Nome" class="input-field" required>
-                        <input type="text" placeholder="Sobrenome" class="input-field" required>
+                        <input type="text" placeholder="Nome" class="input-field" name="name" required>
+                        <input type="text" placeholder="Sobrenome" class="input-field" name="surname" required>
                     </div>
 
                     <!-- Campo E-mail -->
@@ -67,6 +67,15 @@
                     <!-- Campo Senha com botão para exibir/esconder senha -->
                     <div class="relative">
                         <input type="password" placeholder="Digite sua senha" class="input-field pr-10" required>
+                        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <input type="password" placeholder="Confirme sua senha" class="input-field pr-10" name="confirmPassword" required>
                         <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -89,13 +98,11 @@
 
                 <!-- Formulário de Login -->
                 <form id="formLogin" class="space-y-4 hidden">
-                    <h1 class="text-white text-2xl md:text-4xl font-semibold mb-2">Entrar</h1>
-                    
                     <!-- Campo E-mail -->
                     <input type="email" placeholder="E-mail" class="input-field" required>
 
                     <!-- Campo Senha -->
-                    <input type="password" placeholder="Digite sua senha" class="input-field" required>
+                    <input type="password" placeholder="Insira sua senha" class="input-field" required>
 
                     <!-- Botão de Login -->
                     <button type="submit" class="submit-btn">
@@ -107,12 +114,78 @@
     </div>
 
     <script>
+        
         // Alternar entre os formulários de login e cadastro
         const linkToggle = document.getElementById('linkToggle');
         const formCadastro = document.getElementById('formCadastro');
         const formLogin = document.getElementById('formLogin');
         const formTitle = document.getElementById('formTitle');
         const toggleText = document.getElementById('toggleText');
+
+        //Captura os valores inseridos no formulário de cadastros e envia pra o backend
+        document.getElementById('formCadastro').addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+
+            const registerData = {
+                name: formCadastro.querySelector('input[name="name"]').value,
+                surname: formCadastro.querySelector('input[name="surname"]').value,
+                email: formCadastro.querySelector('input[type="email"]').value,
+                password: formCadastro.querySelector('input[type="password"]').value,
+                confirm_password: formCadastro.querySelector('input[name="confirmPassword"]').value
+            }
+
+            await sendData("http://localhost:3000/auth/register", registerData)
+        })
+
+        //Captura os valores inseridos no formulário de login e envia pra o backend
+        document.getElementById('formLogin').addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+
+            const loginData = {
+                email: formLogin.querySelector('input[type="email"]').value,
+                password: formLogin.querySelector('input[type="password"]').value,
+            }
+
+            await sendData("http://localhost:3000/auth/login", loginData, true)
+        })
+
+        //Função para facilitar o envio dos dados via fetch
+        async function sendData(url, data, isLogin = false){
+                try{
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    })
+
+                    const responseJson = await response.json()
+                    if(!response.ok){
+                        throw new Error(responseJson.msg || "Erro ao processar a solicitação")
+                    }
+
+                    console.log("Server response: ", responseJson)
+
+                    if(isLogin){
+                        localStorage.setItem("token", responseJson.token)
+                        console.log(responseJson.msg)
+                        window.location.href = "dashboard.html"
+                    }else{
+                        formCadastro.classList.add('hidden');
+                        formLogin.classList.remove('hidden');
+                        formTitle.textContent = "Entrar";
+                        toggleText.textContent = "Não tem uma conta?";
+                        linkToggle.textContent = "Se registrar";
+                    }
+
+                } catch(err){
+                    console.error("Erro: ", err.message)
+                    alert("Erro: " + err.message)
+                }
+            }
 
         linkToggle.addEventListener('click', (e) => {
             e.preventDefault();
@@ -131,6 +204,8 @@
                 toggleText.textContent = "Já tem uma conta?";
                 linkToggle.textContent = "Entrar";
             }
+
+            
         });
     </script>
 </body>

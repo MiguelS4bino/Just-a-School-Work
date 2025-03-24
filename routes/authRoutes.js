@@ -8,7 +8,7 @@ const router = express.Router()
 
 //User Regiser
 router.post("/register", async (req, res) => {
-  const {name, email, password, confirm_password} = req.body
+  const {name, surname, email, password, confirm_password} = req.body
   
   //Validations
   if (!name) {
@@ -41,6 +41,7 @@ router.post("/register", async (req, res) => {
   //create user
   const user = new User({
     name,
+    surname,
     email,
     password: passwordHash,
   });
