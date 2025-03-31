@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MainPage</title>
+</head>
+<body>
+    <p>Seu token é: <span id="tokenDisplay"></span></p>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const token = localStorage.getItem("token")
+
+            if(!token){
+                window.location.href = "login.html"
+                return
+            }
+
+            document.getElementById("tokenDisplay").textContent = token;
+        })
+    </script>
+</body>
+</html>
