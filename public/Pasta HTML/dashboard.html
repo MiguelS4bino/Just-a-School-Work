@@ -1,24 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MainPage</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sala Principal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-<body>
-    <p>Seu token é: <span id="tokenDisplay"></span></p>
-    
+
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="bg-gray-900 text-white w-64 flex flex-col justify-between p-6">
+            <div>
+                <h1 class="text-2xl font-bold mb-8 text-center">LOGO</h1>
+
+                <div class="flex flex-col items-center text-center mb-8">
+                    <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-blue-500">
+                        <img id="foto-usuario" src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png?fit=500%2C500&ssl=1" alt="Foto do usuário"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <div class="mt-4">
+                        <span class="text-yellow-400 text-xl"><i class="fas fa-trophy"></i></span>
+                        <h2 id="nome-usuario" class="font-semibold mt-1">Nome do Usuário</h2>
+                        <p id="nivel-usuario" class="text-sm text-gray-300">Nível 1</p>
+                    </div>
+
+                    <!-- Barra de XP -->
+                    <div class="w-full mt-4">
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 40%"></div>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1">XP: 120 / 300</p>
+                    </div>
+                </div>
+
+                <nav>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="#" class="hover:text-yellow-400 transition">📊 Dashboard</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition">👥 Usuários</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition">⚙️ Configurações</a></li>
+                        <li><a href="#" class="hover:text-red-400 transition">🚪 Sair</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="flex-1 p-8 overflow-y-auto">
+            <div class="bg-white rounded-2xl shadow-md p-6 mb-6">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
+                <p id="tokenDisplay" class="text-sm text-gray-500">Token: carregando...</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow">
+                    <h2 class="text-xl font-semibold mb-2">Resumo</h2>
+                    <p>Conteúdo do dashboard aqui...</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow">
+                    <h2 class="text-xl font-semibold mb-2">Estatísticas</h2>
+                    <p>Outro conteúdo aqui...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const token = localStorage.getItem("token")
+            const token = localStorage.getItem("token");
+            const id = localStorage.getItem("userId");
 
-            if(!token){
-                window.location.href = "login.html"
-                return
+            console.log("userId recuperado do localStorage:", id);
+
+            if (!token) {
+                window.location.href = "login.html";
+                return;
             }
 
-            document.getElementById("tokenDisplay").textContent = token;
-        })
+            const user = fetch(`http://localhost:3000/user/${id}`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const user = data.user
+
+                    document.getElementById("tokenDisplay").textContent = `Token: ${token}`;
+                    document.getElementById("foto-usuario").src = user.img
+                    document.getElementById("nome-usuario").textContent = `${user.name} ${user.surname}`;
+                    const xpAtual = user.xp;
+                    const xpMaximo = 300;
+                    const porcentagemXP = Math.min((xpAtual / xpMaximo) * 100, 100);
+
+                    document.querySelector(".bg-blue-500").style.width = `${porcentagemXP}%`;
+                    document.querySelector(".text-xs.text-gray-400").textContent = `XP: ${xpAtual} / ${xpMaximo}`
+                })
+                .catch(err => {
+                    console.error('ERRO: ', err)
+                })
+
+        });
     </script>
 </body>
+
 </html>

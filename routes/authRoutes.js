@@ -44,6 +44,10 @@ router.post("/register", async (req, res) => {
     surname,
     email,
     password: passwordHash,
+    level,
+    rank,
+    xp,
+    img
   });
 
   try {
@@ -91,7 +95,12 @@ router.post("/login", async (req, res) => {
 
     res
       .status(200)
-      .json({ msg: "Autentificação realizada com sucesso", token });
+      .json({ msg: "Autentificação realizada com sucesso", 
+        token,
+        user: {
+          id: user._id
+        }
+      });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Aconteceu erro no servidor!" });
