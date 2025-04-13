@@ -17,9 +17,18 @@
                 <h1 class="text-2xl font-bold mb-8 text-center">LOGO</h1>
 
                 <div class="flex flex-col items-center text-center mb-8">
-                    <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-blue-500">
-                        <img id="foto-usuario" src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png?fit=500%2C500&ssl=1" alt="Foto do usuário"
-                            class="w-full h-full object-cover">
+                    <div class="relative group w-24 h-24 rounded-full overflow-hidden border-4 border-blue-500">
+                        <img id="foto-usuario"
+                            src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png?fit=500%2C500&ssl=1"
+                            alt="Foto do usuário"
+                            class="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-60">
+                    
+                        <!-- Botão que aparece no hover -->
+                        <label for="uploadInput"
+                            class="absolute inset-0 bg-black bg-opacity-50 text-white text-center flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer text-sm">
+                            Alterar
+                        </label>
+                        <input id="uploadInput" type="file" accept="image/*" class="hidden">
                     </div>
                     <div class="mt-4">
                         <span class="text-yellow-400 text-xl"><i class="fas fa-trophy"></i></span>
@@ -105,6 +114,35 @@
                 })
 
         });
+        document.getElementById("uploadInput").addEventListener("change", function () {
+            const file = this.files[0]
+            if(!file) return
+
+            const reader = new FileReader()
+
+            reader.onloadend = function(){
+                const base64String = reader.result
+
+                const token = localStorage.getItem("token")
+                const id = localStorage.getItem("userId")
+
+                fetch(`http://localhost:3000/user/photo/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ base64Img: base64String })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('foto-usuario').src = data.updatedUser.img
+                    console.log('Imagem atualizada com sucesso')
+                })
+                .catch(err => console.error('Erro ao enviar imagem: ', err))
+            }
+            reader.readAsDataURL(file)
+        })
     </script>
 </body>
 
