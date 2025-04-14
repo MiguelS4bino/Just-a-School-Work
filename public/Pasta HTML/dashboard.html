@@ -119,12 +119,8 @@
 
             if (file.size > 1 * 1024) {
                 window.alert(`Imagem muito grande!`);
+                this.value = "";
                 return;
-            }
-
-            if(file.size > 1 * 1024){
-                alert('A imagem é muito grande!')
-                return
             }
 
             const reader = new FileReader()
