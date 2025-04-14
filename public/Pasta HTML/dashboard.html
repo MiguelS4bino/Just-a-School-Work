@@ -50,7 +50,7 @@
                         <li><a href="#" class="hover:text-yellow-400 transition">📊 Dashboard</a></li>
                         <li><a href="#" class="hover:text-yellow-400 transition">👥 Usuários</a></li>
                         <li><a href="#" class="hover:text-yellow-400 transition">⚙️ Configurações</a></li>
-                        <li><a href="#" class="hover:text-red-400 transition">🚪 Sair</a></li>
+                        <li><a href="#" class="hover:text-red-400 transition" onclick="logout()">🚪 Sair</a></li>
                     </ul>
                 </nav>
             </div>
@@ -80,9 +80,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             const token = localStorage.getItem("token");
             const id = localStorage.getItem("userId");
-
-            console.log("userId recuperado do localStorage:", id);
-
+            
             if (!token) {
                 window.location.href = "login.html";
                 return;
@@ -117,6 +115,12 @@
         document.getElementById("uploadInput").addEventListener("change", function () {
             const file = this.files[0]
             if(!file) return
+            
+
+            if (file.size > 1 * 1024) {
+                window.alert(`Imagem muito grande!`);
+                return;
+            }
 
             const reader = new FileReader()
 
@@ -137,12 +141,19 @@
                 .then(res => res.json())
                 .then(data => {
                     document.getElementById('foto-usuario').src = data.updatedUser.img
+                    document.getElementById("uploadInput").value = ""
                     console.log('Imagem atualizada com sucesso')
                 })
                 .catch(err => console.error('Erro ao enviar imagem: ', err))
             }
             reader.readAsDataURL(file)
         })
+
+        function logout() {
+            localStorage.removeItem("token")
+            localStorage.removeItem("userId")
+            window.location.href = "login.html"
+        }
     </script>
 </body>
 
