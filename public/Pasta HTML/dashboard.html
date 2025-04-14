@@ -122,6 +122,11 @@
                 return;
             }
 
+            if(file.size > 1 * 1024){
+                alert('A imagem é muito grande!')
+                return
+            }
+
             const reader = new FileReader()
 
             reader.onloadend = function(){
