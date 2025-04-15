@@ -44,10 +44,6 @@ router.post("/register", async (req, res) => {
     surname,
     email,
     password: passwordHash,
-    level,
-    rank,
-    xp,
-    img
   });
 
   try {

@@ -98,7 +98,7 @@
                     const user = data.user
 
                     document.getElementById("tokenDisplay").textContent = `Token: ${token}`;
-                    document.getElementById("foto-usuario").src = user.img
+                    document.getElementById("foto-usuario").src = user.img || "https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png?fit=500%2C500&ssl=1"
                     document.getElementById("nome-usuario").textContent = `${user.name} ${user.surname}`;
                     const xpAtual = user.xp;
                     const xpMaximo = 300;
@@ -117,7 +117,7 @@
             if(!file) return
             
 
-            if (file.size > 1 * 1024) {
+            if (file.size > 165000) {
                 window.alert(`Imagem muito grande!`);
                 this.value = "";
                 return;
