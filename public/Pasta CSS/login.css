@@ -4,64 +4,67 @@
     background-clip: text;
     color: transparent;
 }
-.form-container {
-    background: rgba(15, 23, 42, 0.8);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(30, 58, 138, 0.3);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
+
 .input-field {
-    background: rgba(30, 41, 59, 0.7);
-    border: 1px solid rgba(51, 65, 85, 0.5);
+    background-color: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(59, 130, 246, 0.3);
     color: white;
     transition: all 0.3s ease;
 }
+
 .input-field:focus {
+    outline: none;
     border-color: #3b82f6;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
+
 .btn-primary {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    background: linear-gradient(90deg, #3b82f6, #2563eb);
     transition: all 0.3s ease;
 }
+
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
 }
-.toggle-link {
-    position: relative;
-}
-.toggle-link:after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    background: #3b82f6;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.3s ease;
-}
-.toggle-link:hover:after {
-    transform: scaleX(1);
-    transform-origin: left;
-}
+
 .form-wrapper {
+    display: none;
     opacity: 0;
-    height: 0;
-    overflow: hidden;
-    transition: all 0.5s ease;
+    transition: opacity 0.3s ease;
 }
+
 .form-wrapper.active {
+    display: block;
     opacity: 1;
-    height: auto;
 }
+
 .error-message {
-    background: rgba(220, 38, 38, 0.2);
-    border-left: 3px solid #ef4444;
+    background-color: rgba(220, 38, 38, 0.2);
+    border: 1px solid rgba(220, 38, 38, 0.3);
 }
+
 .success-message {
-    background: rgba(34, 197, 94, 0.2);
-    border-left: 3px solid #10b981;
+    background-color: rgba(22, 163, 74, 0.2);
+    border: 1px solid rgba(22, 163, 74, 0.3);
+}
+
+.toggle-link {
+    transition: all 0.3s ease;
+}
+
+.toggle-link:hover {
+    text-decoration: underline;
+}
+
+.feature-card {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
