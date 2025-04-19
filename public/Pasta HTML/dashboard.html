@@ -50,7 +50,7 @@
                         <li><a href="#" class="hover:text-yellow-400 transition">📊 Dashboard</a></li>
                         <li><a href="#" class="hover:text-yellow-400 transition">👥 Usuários</a></li>
                         <li><a href="#" class="hover:text-yellow-400 transition">⚙️ Configurações</a></li>
-                        <li><a href="#" class="hover:text-red-400 transition" onclick="logout()">🚪 Sair</a></li>
+                        <li><a href="#" class="hover:text-red-400 transition" id="btn-Sair">🚪 Sair</a></li>
                     </ul>
                 </nav>
             </div>
@@ -60,7 +60,7 @@
         <main class="flex-1 p-8 overflow-y-auto">
             <div class="bg-white rounded-2xl shadow-md p-6 mb-6">
                 <h1 class="text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
-                <p id="tokenDisplay" class="text-sm text-gray-500">Token: carregando...</p>
+                <button>Entrar em partida casual</button>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -76,11 +76,14 @@
         </main>
     </div>
 
+    <!-- Biblioteca do socket.io-client (vinda do servidor) -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="/JS/dashboard/main.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const token = localStorage.getItem("token");
             const id = localStorage.getItem("userId");
-            
+
             if (!token) {
                 window.location.href = "login.html";
                 return;
@@ -97,7 +100,6 @@
                 .then(data => {
                     const user = data.user
 
-                    document.getElementById("tokenDisplay").textContent = `Token: ${token}`;
                     document.getElementById("foto-usuario").src = user.img || "https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png?fit=500%2C500&ssl=1"
                     document.getElementById("nome-usuario").textContent = `${user.name} ${user.surname}`;
                     const xpAtual = user.xp;
@@ -149,12 +151,6 @@
             }
             reader.readAsDataURL(file)
         })
-
-        function logout() {
-            localStorage.removeItem("token")
-            localStorage.removeItem("userId")
-            window.location.href = "login.html"
-        }
     </script>
 </body>
 
