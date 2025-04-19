@@ -2,11 +2,6 @@ const socket = io();  // Conecta-se ao servidor Socket.IO
 
 socket.on('connect', () => {
     console.log('[Socket] Conectado ao servidor:', socket.id);
-  
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      socket.emit('register', userId);
-    }
   });
 
 

@@ -4,7 +4,7 @@ const {
     createChallenge,
     getPendingChallenges,
     respondToChallenge
-} = require('../../controllers/challengeController.js')
+} = require('../../server/controllers/challengeController.js')
 
 //criar novo desafio
 router.post('/', createChallenge)

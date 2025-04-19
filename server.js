@@ -6,15 +6,13 @@ const cors = require("cors");
 
 const mongoose = require("mongoose");
 
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
+//Imports
 const connectDB = require("./config/db");
-const checkToken = require("./config/auth.js");
+const registerSocketHandlers = require("./server/socket/handlers.js")
 
 //Models
-const User = require("./models/User.js");
-const Challenge = require("./models/Challenge.js")
+const User = require("./server/models/User.js");
+const Challenge = require("./server/models/Challenge.js")
 
 //Open Routes
 const authRoutes = require("./routes/authRoutes.js");
@@ -24,76 +22,13 @@ const userRoutes = require("./routes/privateRoutes/userRoutes.js");
 const challengeRoutes = require("./routes/privateRoutes/challengeRoutes.js");
 
 const app = express();
-app.use(express.json()); //configura o express pra conseguir trabalhar com json
+app.use(express.json({ limit: '50mb' })); //configura o express pra conseguir trabalhar com json e aumenta a capacidade de armazenamento que ele consegue trabalhar
 app.use(cors()); //habilita o CORS para todas as rotas
 
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 
-//Socket.io logica
-const onlineUsers = {}
-
-io.on("connection", (socket) => {
-  console.log("Novo usuário conectado: ", socket.id)
-
-  //registrar o usuário como online quando ele entrar
-  socket.on("register", (userId) => {
-    onlineUsers[userId] = socket.id
-    console.log(`Usuário ${userId} registrado com socket ID ${socket.id}`)
-  })
-
-  //criar desafio
-  socket.on("create-challenge", (data) => {
-    const { challengerId, opponentId, type } = data
-
-    let chosenOpponentId = opponentId
-    if(!opponentId) {
-      
-      const availableOpponents = Object.keys(onlineUsers).filter(
-        (id) => id !== challengerId
-      )
-
-      if(availableOpponents.length === 0){
-        return socket.emit("no-opponent-available")
-      }
-
-      chosenOpponentId = availableOpponents[Math.floor(Math.random() * availableOpponents.length)]
-    }
-
-    const opponentSocketId = onlineUsers[chosenOpponentId]
-    if(opponentSocketId){
-      const challengeData = {
-        challengerId,
-        opponentId: chosenOpponentId,
-        type
-      }
-
-      io.to(opponentSocketId).emit("challenge-received" , challengeData)
-    }
-  })
-
-  //Responder o desafio
-  socket.on("respond-challenge", (data) => {
-    const challengerSocketId = onlineUsers[data.challengerId]
-
-    if(challengerSocketId){
-      io.to(challengerSocketId).emit("challenge-response", data)
-    }
-
-  })
-
-  //Desconectar usuário
-  socket.on("disconnect", () => {
-    const disconnectedUserId = Object.keys(onlineUsers).find(
-      (key) => onlineUsers[key] === socket.id
-    )
-    if(disconnectedUserId){
-      delete onlineUsers[disconnectedUserId]
-      console.log(`Usuário ${disconnectedUserId} desconectado.`)
-    }
-  })
-
-})
+registerSocketHandlers(io)
 
 //Startar servidor
 const startServer = async () => {

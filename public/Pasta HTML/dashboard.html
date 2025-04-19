@@ -22,7 +22,7 @@
                             src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png?fit=500%2C500&ssl=1"
                             alt="Foto do usuário"
                             class="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-60">
-                    
+
                         <!-- Botão que aparece no hover -->
                         <label for="uploadInput"
                             class="absolute inset-0 bg-black bg-opacity-50 text-white text-center flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer text-sm">
@@ -60,7 +60,7 @@
         <main class="flex-1 p-8 overflow-y-auto">
             <div class="bg-white rounded-2xl shadow-md p-6 mb-6">
                 <h1 class="text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
-                <button>Entrar em partida casual</button>
+                <button id="btnEntrar">Entrar em partida casual</button>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -74,6 +74,37 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Modal de Matchmaking -->
+    <div id="matchmakingModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 shadow-lg text-center w-80 animate-pulse">
+            <h2 class="text-xl font-semibold mb-4">Procurando oponente...</h2>
+            <div class="mb-4">
+                <span class="text-4xl animate-spin inline-block">🎯</span>
+            </div>
+            <button id="cancelMatchmaking" class="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full">
+                Cancelar
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de desafio recebido -->
+    <div id="challengeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 shadow-lg text-center w-96">
+            <h2 class="text-xl font-bold mb-4">Desafio Recebido!</h2>
+            <p class="mb-6">Você foi desafiado para uma partida <span id="challengeType"
+                    class="font-semibold text-blue-500"></span>!</p>
+            <div class="flex justify-center gap-4">
+                <button id="acceptChallenge" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full">
+                    Aceitar
+                </button>
+                <button id="declineChallenge" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full">
+                    Recusar
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Biblioteca do socket.io-client (vinda do servidor) -->
@@ -114,12 +145,13 @@
                 })
 
         });
+
         document.getElementById("uploadInput").addEventListener("change", function () {
             const file = this.files[0]
-            if(!file) return
-            
+            if (!file) return
 
-            if (file.size > 165000) {
+
+            if (file.size > 50 * 1024 * 1024) {
                 window.alert(`Imagem muito grande!`);
                 this.value = "";
                 return;
@@ -127,7 +159,7 @@
 
             const reader = new FileReader()
 
-            reader.onloadend = function(){
+            reader.onloadend = function () {
                 const base64String = reader.result
 
                 const token = localStorage.getItem("token")
@@ -141,13 +173,13 @@
                     },
                     body: JSON.stringify({ base64Img: base64String })
                 })
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById('foto-usuario').src = data.updatedUser.img
-                    document.getElementById("uploadInput").value = ""
-                    console.log('Imagem atualizada com sucesso')
-                })
-                .catch(err => console.error('Erro ao enviar imagem: ', err))
+                    .then(res => res.json())
+                    .then(data => {
+                        document.getElementById('foto-usuario').src = data.updatedUser.img
+                        document.getElementById("uploadInput").value = ""
+                        console.log('Imagem atualizada com sucesso')
+                    })
+                    .catch(err => console.error('Erro ao enviar imagem: ', err))
             }
             reader.readAsDataURL(file)
         })
