@@ -4,44 +4,46 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../server/models/User");
 
-const router = express.Router()
+const router = express.Router();
 
-//User Regiser
+// User Register
 router.post("/register", async (req, res) => {
-  const {name, surname, email, password, confirm_password} = req.body
-  
-  //Validations
-  if (!name) {
-    return res.status(422).json({ msg: "Nome é obrigatório1" });
+  const { nickname, email, password, confirm_password } = req.body;
+
+  // Validações
+  if (!nickname) {
+    return res.status(422).json({ msg: "Nome é obrigatório!" });
   }
   if (!email) {
-    return res.status(422).json({ msg: "Email é obrigatório1" });
+    return res.status(422).json({ msg: "Email é obrigatório!" });
   }
   if (!password) {
-    return res.status(422).json({ msg: "Senha é obrigatório1" });
+    return res.status(422).json({ msg: "Senha é obrigatória!" });
+  }
+  if (!confirm_password) {
+    return res.status(422).json({ msg: "Confirmação de senha é obrigatória!" });
   }
 
   if (password !== confirm_password) {
     return res.status(422).json({ msg: "As senhas não conferem!" });
   }
 
-  //check if user exist
+  // Verificar se o usuário já existe
   const userExists = await User.findOne({ email: email });
 
   if (userExists) {
     return res
       .status(422)
-      .json({ msg: "Usuário já cadastrado! Por favor utilize outro email!" });
+      .json({ msg: "Usuário já cadastrado! Por favor, utilize outro e-mail." });
   }
 
-  //password create & crypt
+  // Criar e criptografar a senha
   const salt = await bcrypt.genSalt(12);
   const passwordHash = await bcrypt.hash(password, salt);
 
-  //create user
+  // Criar o usuário
   const user = new User({
-    name,
-    surname,
+    nickname,
     email,
     password: passwordHash,
   });
@@ -51,7 +53,7 @@ router.post("/register", async (req, res) => {
     res.status(201).json({ msg: "Usuário criado com sucesso!" });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ msg: "Aconteceu erro no servidor!" });
+    res.status(500).json({ msg: "Ocorreu um erro no servidor!" });
   }
 });
 
@@ -89,14 +91,13 @@ router.post("/login", async (req, res) => {
       secret
     );
 
-    res
-      .status(200)
-      .json({ msg: "Autentificação realizada com sucesso", 
-        token,
-        user: {
-          id: user._id
-        }
-      });
+    res.status(200).json({
+      msg: "Autentificação realizada com sucesso",
+      token,
+      user: {
+        id: user._id,
+      },
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Aconteceu erro no servidor!" });

@@ -1,372 +1,552 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FlashMind - Login & Cadastro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.5s ease-in-out',
-                        'float': 'float 3s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-3px)' },
-                        }
-                    },
-                    colors: {
-                        'dark-blue': '#0f172a',
-                        'darker-blue': '#0a1120',
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            animation: {
+              "fade-in": "fadeIn 0.5s ease-in-out",
+              float: "float 3s ease-in-out infinite",
+            },
+            keyframes: {
+              fadeIn: {
+                "0%": { opacity: "0", transform: "translateY(10px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-3px)" },
+              },
+            },
+            colors: {
+              "dark-blue": "#0f172a",
+              "darker-blue": "#0a1120",
+            },
+          },
+        },
+      };
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Pasta CSS/login.css">
-</head>
-<body class="bg-darker-blue text-gray-100 font-sans min-h-screen bg-gradient-to-br from-dark-blue to-darker-blue">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../Pasta CSS/login.css" />
+  </head>
+
+  <body
+    class="bg-darker-blue text-gray-100 font-sans min-h-screen bg-gradient-to-br from-dark-blue to-darker-blue"
+  >
     <!-- Navbar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-dark-blue bg-opacity-90 backdrop-blur-sm border-b border-gray-800">
-        <div class="flex items-center space-x-3">
-            <i class="fas fa-brain text-3xl gradient-text animate-float"></i>
-            <span class="text-2xl font-bold gradient-text">FlashMind</span>
-        </div>
-        <div class="hidden md:flex space-x-8">
-            <a href="guia.html" class="text-gray-400 hover:text-white transition duration-300 hover:scale-105">Guia</a>
-            <a href="sobre.html" class="text-gray-400 hover:text-white transition duration-300 hover:scale-105">Sobre</a>
-            <a href="login.html" class="text-blue-400 hover:text-white transition duration-300 hover:scale-105">Registro</a>
-        </div>
-        <button class="md:hidden text-gray-400 hover:text-white transition">
-            <i class="fas fa-bars text-xl"></i>
-        </button>
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-dark-blue bg-opacity-90 backdrop-blur-sm border-b border-gray-800"
+    >
+      <div class="flex items-center space-x-3">
+        <i class="fas fa-brain text-3xl gradient-text animate-float"></i>
+        <span class="text-2xl font-bold gradient-text">FlashMind</span>
+      </div>
+      <div class="hidden md:flex space-x-8">
+        <a
+          href="guia.html"
+          class="text-gray-400 hover:text-white transition duration-300 hover:scale-105"
+          >Guia</a
+        >
+        <a
+          href="sobre.html"
+          class="text-gray-400 hover:text-white transition duration-300 hover:scale-105"
+          >Sobre</a
+        >
+        <a
+          href="login.html"
+          class="text-blue-400 hover:text-white transition duration-300 hover:scale-105"
+          >Registro</a
+        >
+      </div>
+      <button class="md:hidden text-gray-400 hover:text-white transition">
+        <i class="fas fa-bars text-xl"></i>
+      </button>
     </nav>
 
     <!-- Conteúdo Principal -->
     <main class="flex-grow pt-32 px-6 md:px-20 mx-auto animate-fade-in">
-        <div class="flex flex-col lg:flex-row gap-8 items-center justify-center">
-            <!-- Bloco de conteúdo adicional -->
-            <div class="hidden lg:block w-full max-w-md animate-fade-in">
-                <div class="bg-dark-blue bg-opacity-50 rounded-xl p-8 border border-blue-800/30 backdrop-blur-sm">
-                    <h2 class="text-3xl font-bold text-white mb-6 gradient-text">Transforme sua forma de estudar</h2>
-                    <p class="text-blue-300 mb-6 text-lg">O FlashMind utiliza técnicas de gamificação e inteligência artificial para tornar seu aprendizado mais eficiente e divertido.</p>
-                    
-                    <div class="space-y-4">
-                        <div class="feature-card p-5 rounded-lg">
-                            <div class="flex items-center space-x-4">
-                                <div class="bg-blue-900/30 p-3 rounded-full">
-                                    <i class="fas fa-gamepad text-blue-400 text-xl"></i>
-                                </div>
-                                <h3 class="text-lg font-semibold text-white">Gamificação</h3>
-                            </div>
-                            <p class="text-blue-300 mt-2">Desbloqueie conquistas e suba de nível enquanto aprende.</p>
-                        </div>
-                        
-                        <div class="feature-card p-5 rounded-lg">
-                            <div class="flex items-center space-x-4">
-                                <div class="bg-blue-900/30 p-3 rounded-full">
-                                    <i class="fas fa-robot text-blue-400 text-xl"></i>
-                                </div>
-                                <h3 class="text-lg font-semibold text-white">IA Personalizada</h3>
-                            </div>
-                            <p class="text-blue-300 mt-2">Nossa IA adapta o conteúdo ao seu ritmo de aprendizado.</p>
-                        </div>
-                        
-                        <div class="feature-card p-5 rounded-lg">
-                            <div class="flex items-center space-x-4">
-                                <div class="bg-blue-900/30 p-3 rounded-full">
-                                    <i class="fas fa-chart-line text-blue-400 text-xl"></i>
-                                </div>
-                                <h3 class="text-lg font-semibold text-white">Monitoramento</h3>
-                            </div>
-                            <p class="text-blue-300 mt-2">Acompanhe seu progresso com relatórios detalhados.</p>
-                        </div>
-                    </div>
+      <div class="flex flex-col lg:flex-row gap-8 items-center justify-center">
+        <!-- Bloco de conteúdo adicional -->
+        <div class="hidden lg:block w-full max-w-md animate-fade-in">
+          <div
+            class="bg-dark-blue bg-opacity-50 rounded-xl p-8 border border-blue-800/30 backdrop-blur-sm"
+          >
+            <h2 class="text-3xl font-bold text-white mb-6 gradient-text">
+              Transforme sua forma de estudar
+            </h2>
+            <p class="text-blue-300 mb-6 text-lg">
+              O FlashMind utiliza técnicas de gamificação e inteligência
+              artificial para tornar seu aprendizado mais eficiente e divertido.
+            </p>
+
+            <div class="space-y-4">
+              <div class="feature-card p-5 rounded-lg">
+                <div class="flex items-center space-x-4">
+                  <div class="bg-blue-900/30 p-3 rounded-full">
+                    <i class="fas fa-gamepad text-blue-400 text-xl"></i>
+                  </div>
+                  <h3 class="text-lg font-semibold text-white">Gamificação</h3>
                 </div>
+                <p class="text-blue-300 mt-2">
+                  Desbloqueie conquistas e suba de nível enquanto aprende.
+                </p>
+              </div>
+
+              <div class="feature-card p-5 rounded-lg">
+                <div class="flex items-center space-x-4">
+                  <div class="bg-blue-900/30 p-3 rounded-full">
+                    <i class="fas fa-robot text-blue-400 text-xl"></i>
+                  </div>
+                  <h3 class="text-lg font-semibold text-white">
+                    IA Personalizada
+                  </h3>
+                </div>
+                <p class="text-blue-300 mt-2">
+                  Nossa IA adapta o conteúdo ao seu ritmo de aprendizado.
+                </p>
+              </div>
+
+              <div class="feature-card p-5 rounded-lg">
+                <div class="flex items-center space-x-4">
+                  <div class="bg-blue-900/30 p-3 rounded-full">
+                    <i class="fas fa-chart-line text-blue-400 text-xl"></i>
+                  </div>
+                  <h3 class="text-lg font-semibold text-white">
+                    Monitoramento
+                  </h3>
+                </div>
+                <p class="text-blue-300 mt-2">
+                  Acompanhe seu progresso com relatórios detalhados.
+                </p>
+              </div>
             </div>
-            
-            <!-- Formulário -->
-            <div class="form-container rounded-xl overflow-hidden w-full max-w-2xl mx-auto bg-dark-blue bg-opacity-70 backdrop-blur-sm border border-blue-800/30">
-                <div class="p-6 md:p-8">
-                    <div class="text-center mb-6">
-                        <div class="w-14 h-14 bg-blue-900 bg-opacity-30 rounded-full flex items-center justify-center mx-auto mb-3 animate-fade-in">
-                            <i class="fas fa-user-astronaut text-2xl text-blue-400 animate-float"></i>
-                        </div>
-                        <h1 id="formTitle" class="text-2xl font-bold text-white mb-2">Entrar</h1>
-                        <p class="text-blue-300 text-sm">Bem-vindo ao FlashMind. O seu site de estudos gamificados com IA!</p>
-                    </div>
-
-                    <!-- Formulário de Login -->
-                    <div id="formLogin" class="form-wrapper active">
-                        <form class="space-y-4">
-                            <div id="loginError" class="hidden error-message p-3 rounded text-sm text-red-300"></div>
-                            
-                            <div class="grid grid-cols-1 gap-4">
-                                <div class="space-y-1">
-                                    <label for="loginEmail" class="block text-sm font-medium text-blue-300">E-mail</label>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <i class="fas fa-envelope text-blue-400 text-sm"></i>
-                                        </div>
-                                        <input type="email" id="loginEmail" name="email" required
-                                               class="input-field pl-10 block w-full rounded-lg shadow-sm py-2 px-3 text-sm h-10"
-                                               placeholder="seu@email.com">
-                                    </div>
-                                </div>
-                                
-                                <div class="space-y-1">
-                                    <label for="loginPassword" class="block text-sm font-medium text-blue-300">Senha</label>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <i class="fas fa-lock text-blue-400 text-sm"></i>
-                                        </div>
-                                        <input type="password" id="loginPassword" name="password" required
-                                               class="input-field pl-10 block w-full rounded-lg shadow-sm py-2 px-3 text-sm h-10"
-                                               placeholder="••••••••">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <input id="remember-me" name="remember-me" type="checkbox"
-                                           class="h-3 w-3 text-blue-400 focus:ring-blue-500 border-gray-600 rounded bg-gray-700">
-                                    <label for="remember-me" class="ml-2 block text-xs text-blue-300">Lembrar-me</label>
-                                </div>
-                                <div class="text-xs">
-                                    <a href="recuperarsenha.html" class="font-medium text-blue-400 hover:text-blue-300">Esqueceu sua senha?</a>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn-primary w-full flex justify-center py-2 px-3 rounded-lg shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-10">
-                                Entrar
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Formulário de Cadastro -->
-                    <div id="formCadastro" class="form-wrapper">
-                        <form class="space-y-4">
-                            <div id="registerError" class="hidden error-message p-3 rounded text-sm text-red-300"></div>
-                            
-                            <div class="grid grid-cols-1 gap-4">
-                                <div class="space-y-1">
-                                    <label for="name" class="block text-sm font-medium text-blue-300">Nickname</label>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <i class="fas fa-user text-blue-400 text-sm"></i>
-                                        </div>
-                                        <input type="text" id="name" name="name" required
-                                               class="input-field pl-10 block w-full rounded-lg shadow-sm py-2 px-3 text-sm h-10"
-                                               placeholder="Seu nome">
-                                    </div>
-                                </div>
-                                
-                                <div class="space-y-1">
-                                    <label for="registerEmail" class="block text-sm font-medium text-blue-300">E-mail</label>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <i class="fas fa-envelope text-blue-400 text-sm"></i>
-                                        </div>
-                                        <input type="email" id="registerEmail" name="email" required
-                                               class="input-field pl-10 block w-full rounded-lg shadow-sm py-2 px-3 text-sm h-10"
-                                               placeholder="seu@email.com">
-                                    </div>
-                                </div>
-                                
-                                <div class="space-y-1">
-                                    <label for="registerPassword" class="block text-sm font-medium text-blue-300">Senha</label>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <i class="fas fa-lock text-blue-400 text-sm"></i>
-                                        </div>
-                                        <input type="password" id="registerPassword" name="password" required
-                                               class="input-field pl-10 block w-full rounded-lg shadow-sm py-2 px-3 text-sm h-10"
-                                               placeholder="••••••••">
-                                    </div>
-                                </div>
-                                
-                                <div class="space-y-1">
-                                    <label for="confirmPassword" class="block text-sm font-medium text-blue-300">Confirmar Senha</label>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <i class="fas fa-lock text-blue-400 text-sm"></i>
-                                        </div>
-                                        <input type="password" id="confirmPassword" name="confirmPassword" required
-                                               class="input-field pl-10 block w-full rounded-lg shadow-sm py-2 px-3 text-sm h-10"
-                                               placeholder="••••••••">
-                                    </div>
-                                </div>
-                                
-                                <div class="flex items-start">
-                                    <div class="flex items-center h-3">
-                                        <input id="terms" name="terms" type="checkbox"
-                                               class="h-3 w-3 text-blue-400 focus:ring-blue-500 border-gray-600 rounded bg-gray-700" required>
-                                    </div>
-                                    <label for="terms" class="ml-2 block text-xs text-blue-300">
-                                        Eu concordo com os <a href="#" class="text-blue-400 hover:text-blue-300">Termos</a> e <a href="#" class="text-blue-400 hover:text-blue-300">Política</a>
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn-primary w-full flex justify-center py-2 px-3 rounded-lg shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-10">
-                                Criar conta
-                            </button>
-                        </form>
-                    </div>
-
-                    <div class="mt-5 text-center text-xs text-blue-300">
-                        <span id="toggleText">Não tem uma conta?</span>
-                        <a href="#" id="linkToggle" class="toggle-link font-medium text-blue-400 ml-1">Se registrar</a>
-                    </div>
-                </div>
-                
-                <div class="bg-blue-900 bg-opacity-20 px-4 py-3 text-center">
-                    <p class="text-xs text-blue-300">
-                        ©2025 TCC FlashMind. Todos os direitos reservados.
-                    </p>
-                </div>
-            </div>
+          </div>
         </div>
+
+        <!-- Formulário -->
+        <div
+          class="form-container rounded-xl overflow-hidden w-full max-w-2xl mx-auto bg-dark-blue bg-opacity-70 backdrop-blur-sm border border-blue-800/30"
+        >
+          <div class="p-6 md:p-8">
+            <div class="text-center mb-6">
+              <div
+                class="w-14 h-14 bg-blue-900 bg-opacity-30 rounded-full flex items-center justify-center mx-auto mb-3 animate-fade-in"
+              >
+                <i
+                  class="fas fa-user-astronaut text-2xl text-blue-400 animate-float"
+                ></i>
+              </div>
+              <h1 id="formTitle" class="text-2xl font-bold text-white mb-2">
+                Entrar
+              </h1>
+              <p class="text-blue-300 text-sm">
+                Bem-vindo ao FlashMind. O seu site de estudos gamificados com
+                IA!
+              </p>
+            </div>
+
+            <!-- Formulário de Login -->
+            <div id="formLogin" class="form-wrapper active">
+              <form class="space-y-4">
+                <div
+                  id="loginError"
+                  class="hidden error-message p-3 rounded text-sm text-red-300"
+                ></div>
+
+                <div class="grid grid-cols-1 gap-4">
+                  <div class="space-y-1">
+                    <label
+                      for="loginEmail"
+                      class="block text-sm font-medium text-blue-300"
+                      >E-mail</label
+                    >
+                    <div class="relative">
+                      <div
+                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                      >
+                        <i class="fas fa-envelope text-blue-400 text-sm"></i>
+                      </div>
+                      <input
+                        type="email"
+                        id="loginEmail"
+                        name="email"
+                        required
+                        class="input-field pl-10 block w-full rounded-lg shadow-sm py-2 px-3 text-sm h-10"
+                        placeholder="seu@email.com"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="space-y-1">
+                    <label
+                      for="loginPassword"
+                      class="block text-sm font-medium text-blue-300"
+                      >Senha</label
+                    >
+                    <div class="relative">
+                      <div
+                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                      >
+                        <i class="fas fa-lock text-blue-400 text-sm"></i>
+                      </div>
+                      <input
+                        type="password"
+                        id="loginPassword"
+                        name="password"
+                        required
+                        class="input-field pl-10 block w-full rounded-lg shadow-sm py-2 px-3 text-sm h-10"
+                        placeholder="••••••••"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <input
+                      id="remember-me"
+                      name="remember-me"
+                      type="checkbox"
+                      class="h-3 w-3 text-blue-400 focus:ring-blue-500 border-gray-600 rounded bg-gray-700"
+                    />
+                    <label
+                      for="remember-me"
+                      class="ml-2 block text-xs text-blue-300"
+                      >Lembrar-me</label
+                    >
+                  </div>
+                  <div class="text-xs">
+                    <a
+                      href="recuperarsenha.html"
+                      class="font-medium text-blue-400 hover:text-blue-300"
+                      >Esqueceu sua senha?</a
+                    >
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn-primary w-full flex justify-center py-2 px-3 rounded-lg shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-10"
+                >
+                  Entrar
+                </button>
+              </form>
+            </div>
+
+            <!-- Formulário de Cadastro -->
+            <div id="formCadastro" class="form-wrapper">
+              <form class="space-y-4">
+                <div
+                  id="registerError"
+                  class="hidden error-message p-3 rounded text-sm text-red-300"
+                ></div>
+
+                <div class="grid grid-cols-1 gap-4">
+                  <div class="space-y-1">
+                    <label
+                      for="name"
+                      class="block text-sm font-medium text-blue-300"
+                      >Nickname</label
+                    >
+                    <div class="relative">
+                      <div
+                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                      >
+                        <i class="fas fa-user text-blue-400 text-sm"></i>
+                      </div>
+                      <input
+                        type="text"
+                        id="nickname"
+                        required
+                        class="input-field pl-10 block w-full rounded-lg shadow-sm py-2 px-3 text-sm h-10"
+                        placeholder="Seu nome"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="space-y-1">
+                    <label
+                      for="registerEmail"
+                      class="block text-sm font-medium text-blue-300"
+                      >E-mail</label
+                    >
+                    <div class="relative">
+                      <div
+                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                      >
+                        <i class="fas fa-envelope text-blue-400 text-sm"></i>
+                      </div>
+                      <input
+                        type="email"
+                        id="registerEmail"
+                        name="email"
+                        required
+                        class="input-field pl-10 block w-full rounded-lg shadow-sm py-2 px-3 text-sm h-10"
+                        placeholder="seu@email.com"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="space-y-1">
+                    <label
+                      for="registerPassword"
+                      class="block text-sm font-medium text-blue-300"
+                      >Senha</label
+                    >
+                    <div class="relative">
+                      <div
+                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                      >
+                        <i class="fas fa-lock text-blue-400 text-sm"></i>
+                      </div>
+                      <input
+                        type="password"
+                        id="registerPassword"
+                        name="password"
+                        required
+                        class="input-field pl-10 block w-full rounded-lg shadow-sm py-2 px-3 text-sm h-10"
+                        placeholder="••••••••"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="space-y-1">
+                    <label
+                      for="confirmPassword"
+                      class="block text-sm font-medium text-blue-300"
+                      >Confirmar Senha</label
+                    >
+                    <div class="relative">
+                      <div
+                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                      >
+                        <i class="fas fa-lock text-blue-400 text-sm"></i>
+                      </div>
+                      <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        required
+                        class="input-field pl-10 block w-full rounded-lg shadow-sm py-2 px-3 text-sm h-10"
+                        placeholder="••••••••"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="flex items-start">
+                    <div class="flex items-center h-3">
+                      <input
+                        id="terms"
+                        name="terms"
+                        type="checkbox"
+                        class="h-3 w-3 text-blue-400 focus:ring-blue-500 border-gray-600 rounded bg-gray-700"
+                        required
+                      />
+                    </div>
+                    <label for="terms" class="ml-2 block text-xs text-blue-300">
+                      Eu concordo com os
+                      <a href="#" class="text-blue-400 hover:text-blue-300"
+                        >Termos</a
+                      >
+                      e
+                      <a href="#" class="text-blue-400 hover:text-blue-300"
+                        >Política</a
+                      >
+                    </label>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn-primary w-full flex justify-center py-2 px-3 rounded-lg shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-10"
+                >
+                  Criar conta
+                </button>
+              </form>
+            </div>
+
+            <div class="mt-5 text-center text-xs text-blue-300">
+              <span id="toggleText">Não tem uma conta?</span>
+              <a
+                href="#"
+                id="linkToggle"
+                class="toggle-link font-medium text-blue-400 ml-1"
+                >Se registrar</a
+              >
+            </div>
+          </div>
+
+          <div class="bg-blue-900 bg-opacity-20 px-4 py-3 text-center">
+            <p class="text-xs text-blue-300">
+              ©2025 TCC FlashMind. Todos os direitos reservados.
+            </p>
+          </div>
+        </div>
+      </div>
     </main>
 
     <script>
-        // Alternar entre os formulários de login e cadastro
-        const linkToggle = document.getElementById('linkToggle');
-        const formCadastro = document.getElementById('formCadastro');
-        const formLogin = document.getElementById('formLogin');
-        const formTitle = document.getElementById('formTitle');
-        const toggleText = document.getElementById('toggleText');
-        const loginError = document.getElementById('loginError');
-        const registerError = document.getElementById('registerError');
+      // Alternar entre os formulários de login e cadastro
+      const linkToggle = document.getElementById("linkToggle");
+      const formCadastro = document.getElementById("formCadastro");
+      const formLogin = document.getElementById("formLogin");
+      const formTitle = document.getElementById("formTitle");
+      const toggleText = document.getElementById("toggleText");
+      const loginError = document.getElementById("loginError");
+      const registerError = document.getElementById("registerError");
 
-        function toggleForms() {
-            if (formCadastro.classList.contains('active')) {
-                // Mostrar login
-                formCadastro.classList.remove('active');
-                setTimeout(() => {
-                    formLogin.classList.add('active');
-                }, 300);
-                
-                formTitle.textContent = "Entrar";
-                toggleText.textContent = "Não tem uma conta?";
-                linkToggle.textContent = "Se registrar";
-            } else {
-                // Mostrar cadastro
-                formLogin.classList.remove('active');
-                setTimeout(() => {
-                    formCadastro.classList.add('active');
-                }, 300);
-                
-                formTitle.textContent = "Criar uma conta";
-                toggleText.textContent = "Já tem uma conta?";
-                linkToggle.textContent = "Entrar";
-            }
+      function toggleForms() {
+        if (formCadastro.classList.contains("active")) {
+          // Mostrar login
+          formCadastro.classList.remove("active");
+          setTimeout(() => {
+            formLogin.classList.add("active");
+          }, 300);
+
+          formTitle.textContent = "Entrar";
+          toggleText.textContent = "Não tem uma conta?";
+          linkToggle.textContent = "Se registrar";
+        } else {
+          // Mostrar cadastro
+          formLogin.classList.remove("active");
+          setTimeout(() => {
+            formCadastro.classList.add("active");
+          }, 300);
+
+          formTitle.textContent = "Criar uma conta";
+          toggleText.textContent = "Já tem uma conta?";
+          linkToggle.textContent = "Entrar";
         }
+      }
 
-        //Captura os valores inseridos no formulário de cadastros e envia pra o backend
-        document.getElementById('formCadastro').querySelector('form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            registerError.classList.add('hidden');
-            
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if (password !== confirmPassword) {
-                registerError.textContent = "As senhas não coincidem";
-                registerError.classList.remove('hidden');
-                return;
-            }
-            
-            const registerData = {
-                name: document.getElementById('name').value,
-                surname: document.getElementById('surname').value,
-                email: document.getElementById('registerEmail').value,
-                password: password,
-                confirm_password: confirmPassword
-            }
-            
-            await sendData("http://localhost:3000/auth/register", registerData, false, registerError);
-        })
+      // Captura os valores inseridos no formulário de cadastro e envia para o backend
+      document
+        .getElementById("formCadastro")
+        .querySelector("form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          registerError.classList.add("hidden");
 
-        //Captura os valores inseridos no formulário de login e envia pra o backend
-        document.getElementById('formLogin').querySelector('form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            loginError.classList.add('hidden');
-            
-            const loginData = {
-                email: document.getElementById('loginEmail').value,
-                password: document.getElementById('loginPassword').value,
-            }
-            
-            await sendData("http://localhost:3000/auth/login", loginData, true, loginError);
-        })
+          const password = document.getElementById("registerPassword").value;
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
 
-        //Função para facilitar o envio dos dados via fetch
-        async function sendData(url, data, isLogin = false, errorElement){
-            try {
-                const response = await fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                })
-                
-                const responseJson = await response.json();
-                
-                if(!response.ok){
-                    throw new Error(responseJson.msg || "Erro ao processar a solicitação");
-                }
-                
-                console.log("Server response: ", responseJson);
-                
-                if(isLogin){
-                    localStorage.setItem("token", responseJson.token);
-                    localStorage.setItem("userId", responseJson.user.id);
-                    console.log(responseJson.msg);
-                    window.location.href = "dashboard.html";
-                } else {
-                    toggleForms();
-                    
-                    // Limpar formulário de cadastro
-                    document.getElementById('formCadastro').querySelector('form').reset();
-                    
-                    // Mostrar mensagem de sucesso
-                    loginError.textContent = "Cadastro realizado com sucesso! Faça login para continuar.";
-                    loginError.classList.remove('hidden');
-                    loginError.classList.remove('error-message');
-                    loginError.classList.add('success-message');
-                }
-                
-            } catch(err) {
-                console.error("Erro: ", err.message);
-                if(errorElement) {
-                    errorElement.textContent = err.message;
-                    errorElement.classList.remove('hidden');
-                } else {
-                    alert("Erro: " + err.message);
-                }
-            }
-        }
+          if (password !== confirmPassword) {
+            registerError.textContent = "As senhas não coincidem";
+            registerError.classList.remove("hidden");
+            return;
+          }
 
-        linkToggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            toggleForms();
+          const registerData = {
+            nickname: document.getElementById("nickname").value, // Certifique-se de que o campo "nickname" esteja correto
+            email: document.getElementById("registerEmail").value,
+            password: password,
+            confirm_password: confirmPassword,
+          };
+
+          await sendData(
+            "http://localhost:3000/auth/register",
+            registerData,
+            false,
+            registerError
+          );
         });
+
+      // Captura os valores inseridos no formulário de login e envia para o backend
+      document
+        .getElementById("formLogin")
+        .querySelector("form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          loginError.classList.add("hidden");
+
+          const loginData = {
+            email: document.getElementById("loginEmail").value,
+            password: document.getElementById("loginPassword").value,
+          };
+
+          await sendData(
+            "http://localhost:3000/auth/login",
+            loginData,
+            true,
+            loginError
+          );
+        });
+
+      // Função para facilitar o envio dos dados via fetch
+      async function sendData(url, data, isLogin = false, errorElement) {
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+
+          const responseJson = await response.json();
+
+          if (!response.ok) {
+            throw new Error(
+              responseJson.msg || "Erro ao processar a solicitação"
+            );
+          }
+
+          console.log("Server response: ", responseJson);
+
+          if (isLogin) {
+            localStorage.setItem("token", responseJson.token);
+            localStorage.setItem("userId", responseJson.user.id);
+            console.log(responseJson.msg);
+            window.location.href = "dashboard.html";
+          } else {
+            toggleForms();
+
+            // Limpar formulário de cadastro
+            document
+              .getElementById("formCadastro")
+              .querySelector("form")
+              .reset();
+
+            // Mostrar mensagem de sucesso
+            loginError.textContent =
+              "Cadastro realizado com sucesso! Faça login para continuar.";
+            loginError.classList.remove("hidden");
+            loginError.classList.remove("error-message");
+            loginError.classList.add("success-message");
+          }
+        } catch (err) {
+          console.error("Erro: ", err.message);
+          console.error("Detalhes do erro: ", err); // Exibe mais informações do erro
+          if (errorElement) {
+            errorElement.textContent = err.message;
+            errorElement.classList.remove("hidden");
+          } else {
+            alert("Erro: " + err.message);
+          }
+        }
+      }
+
+      // Alternar entre os formulários de login e cadastro
+      linkToggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        toggleForms();
+      });
     </script>
-</body>
+  </body>
 </html>
