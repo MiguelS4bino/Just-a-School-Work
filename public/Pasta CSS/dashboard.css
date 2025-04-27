@@ -1,0 +1,34 @@
+.gradient-text {
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.feature-card {
+  background: rgba(30, 64, 175, 0.1);
+  transition: all 0.3s ease;
+}
+.feature-card:hover {
+  background: rgba(30, 64, 175, 0.2);
+  transform: translateY(-2px);
+}
+.progress-ring {
+  transform: rotate(-90deg);
+}
+.progress-ring__circle {
+  transition: stroke-dashoffset 0.5s;
+}
+.achievement-card {
+  transition: all 0.3s ease;
+}
+.achievement-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+.game-card {
+  transition: all 0.3s ease;
+}
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
