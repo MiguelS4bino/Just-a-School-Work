@@ -1,51 +1,21 @@
 import socket from './socket.js'
 
-document.addEventListener('DOMContentLoaded', () => {
-  const entrarBtn = document.getElementById('btnEntrar')
-  const matchmakingModal = document.getElementById('matchmakingModal')
-  const cancelBtn = document.getElementById('cancelMatchmaking')
-  const challengeModal = document.getElementById('challengeModal')
-  const acceptBtn = document.getElementById('acceptChallenge')
-  const declineBtn = document.getElementById('declineChallenge')
-  const challengeTypeText = document.getElementById('challengeType')
-  const btnSair = document.getElementById('btn-Sair')
+function getCurrentUserId() {
+  return localStorage.getItem('userId')
+}
 
-  let isSearching = false
-  let currentUserId = localStorage.getItem('userId')
-  let matchmakingTimeout // Variável do timeout do matchmaking
+function isSocketConnected() {
+  return socket.connected && getCurrentUserId();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btnSair = document.getElementById('btn-Sair')
 
   // Registrar usuário após conexão do socket
   socket.on('connect', () => {
     console.log('[Socket] Conectado ao servidor:', socket.id)
   })
-
-  // Função que verifica se o socket está conectado e o ID do usuário está disponível
-  function isSocketConnected() {
-    return socket.connected && currentUserId;
-  }
-
-  // Função para cancelar o matchmaking
-  function cancelMatchmaking() {
-    if (isSearching) {
-      socket.emit('cancel-matchmaking', { userId: currentUserId })
-      console.log('Matchmaking cancelado.')
-      clearTimeout(matchmakingTimeout)
-      matchmakingModal.classList.add('hidden')
-      isSearching = false
-    }
-  }
-
-  // Ao clicar no botão de entrar, inicia o matchmaking
-  entrarBtn.addEventListener('click', () => {
-    if (!isSocketConnected()) {
-      console.warn('Socket não conectado.')
-      return
-    }
-
-    socket.emit('register', currentUserId)
-    console.log('Usuário registrado:', currentUserId)
-  })
-
+  
   // Botão de sair
   if (btnSair) {
     btnSair.addEventListener('click', (e) => {
@@ -54,6 +24,60 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 })
+
+const btnCasualMatch = document.getElementById('btnCasual')
+if (btnCasualMatch) {
+  btnCasualMatch.addEventListener('click', () => {
+    const typeOfMatch = "casual"
+    enterMatchmaking(typeOfMatch)
+  })
+}
+const btnRankedMatch = document.getElementById('btnRanked')
+if (btnRankedMatch) {
+  btnRankedMatch.addEventListener('click', () => {
+    const typeOfMatch = "ranked"
+    enterMatchmaking(typeOfMatch)
+  })
+}
+
+let isSearching = false;
+
+const btnCancelMatchmaking = document.getElementById('cancelMatchmaking')
+if (btnCancelMatchmaking) {
+  
+  btnCancelMatchmaking.addEventListener('click', () => {
+    cancelMatchmaking()
+  })
+}
+
+function enterMatchmaking(typeOfMatch){ 
+  const matchmakingModal = document.getElementById('matchmakingModal')
+  
+    if (!isSocketConnected()) {
+      console.warn('Socket não conectado.')
+      socket.emit('disconnectedOfMatchmaking', getCurrentUserId())
+      return
+    }
+
+    isSearching = true
+    matchmakingModal.classList.remove('hidden')
+
+    socket.emit('registeredOnMatchmaking', { userId: getCurrentUserId(), matchmakingType: typeOfMatch })
+    console.log(`Usuário na fila para o matchmaking de partida ${typeOfMatch}:`, getCurrentUserId())
+  
+}
+
+// Função para cancelar o matchmaking
+function cancelMatchmaking() {
+  const matchmakingModal = document.getElementById('matchmakingModal')
+
+    if (isSearching) {
+      socket.emit('disconnectedOfMatchmaking', { userId: getCurrentUserId() })
+      console.log('Matchmaking cancelado.')
+      matchmakingModal.classList.add('hidden')
+      isSearching = false
+    }
+}
 
 function logout() {
   const userId = localStorage.getItem('userId')
