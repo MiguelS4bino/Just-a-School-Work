@@ -5,90 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FlashMind - Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Inter", "sans-serif"],
-            },
-            animation: {
-              "fade-in": "fadeIn 0.5s ease-in-out",
-              float: "float 3s ease-in-out infinite",
-              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-            },
-            keyframes: {
-              fadeIn: {
-                "0%": { opacity: "0", transform: "translateY(10px)" },
-                "100%": { opacity: "1", transform: "translateY(0)" },
-              },
-              float: {
-                "0%, 100%": { transform: "translateY(0)" },
-                "50%": { transform: "translateY(-3px)" },
-              },
-            },
-            colors: {
-              "dark-blue": "#0f172a",
-              "darker-blue": "#0a1120",
-              "light-blue": "#1e40af",
-              "lighter-blue": "#3b82f6",
-            },
-          },
-        },
-      };
-    </script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
     <link rel="stylesheet" href="../Pasta CSS/dashboard.css">
   </head>
 
-  <body class="bg-darker-blue text-gray-100 font-sans min-h-screen">
-    
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
     <!-- Navbar -->
-    <nav
-      class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-dark-blue bg-opacity-90 backdrop-blur-sm border-b border-gray-800"
-    >
-      <div class="flex items-center space-x-3">
-        <i class="fas fa-brain text-3xl gradient-text animate-float"></i>
-        <span class="text-2xl font-bold gradient-text">FlashMind</span>
-      </div>
-      <div class="hidden md:flex space-x-8">
-        <a
-          href="#"
-          class="text-gray-400 hover:text-white transition duration-300 hover:scale-105"
-          >Dashboard</a
-        >
-        <a
-          href="#"
-          class="text-gray-400 hover:text-white transition duration-300 hover:scale-105"
-          >Ranking</a
-        >
-        <a
-          href="#"
-          class="text-gray-400 hover:text-white transition duration-300 hover:scale-105"
-          >Configurações</a
-        >
-      </div>
-      <button class="md:hidden text-gray-400 hover:text-white transition">
-        <i class="fas fa-bars text-xl"></i>
-      </button>
-    </nav>
+<nav class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-gray-900 bg-opacity-90 backdrop-blur-sm border-b border-gray-800">
+  <div class="flex items-center space-x-3">
+    <i class="fas fa-brain text-3xl gradient-text animate-float"></i>
+    <span class="text-2xl font-bold gradient-text">FlashMind</span>
+  </div>
+  <div class="hidden md:flex space-x-8">
+    <!-- Adicione os links de navegação aqui se necessário -->
+  </div>
+  <div class="flex items-center space-x-4">
+    <!-- Indicador de status online -->
+    <div class="hidden md:flex items-center space-x-2 bg-gray-800/50 px-3 py-1 rounded-full">
+      <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+      <span class="text-xs text-white">Online</span>
+    </div>
+    <!-- Botão para menu mobile -->
+    <button class="md:hidden text-gray-400 hover:text-white transition">
+      <i class="fas fa-bars text-xl"></i>
+    </button>
+  </div>
+</nav>
 
     <!-- Main Content -->
     <div class="flex pt-16">
       <!-- Sidebar -->
       <aside
-        class="hidden md:flex md:w-64 flex-col justify-between p-6 bg-dark-blue border-r border-gray-800 h-screen sticky top-0"
+        class="hidden md:flex md:w-64 flex-col justify-between p-6 bg-gray-800/50 border-r border-gray-700 h-screen sticky top-0 backdrop-blur-sm"
       >
         <div>
           <div class="flex flex-col items-center text-center mb-8">
-            <div class="relative group w-24 h-24 rounded-full overflow-hidden border-4 border-blue-500">
+            <div class="relative group w-24 h-24 rounded-full overflow-hidden border-4 border-blue-500/50 glow-effect">
               <img
                 id="foto-usuario"
                 src=""
@@ -112,7 +66,7 @@
             <!-- Barra de XP -->
             <div class="w-full mt-4">
               <div class="w-full bg-gray-700 rounded-full h-2">
-                <div class="bg-blue-500 h-2 rounded-full" style="width: 40%"></div>
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full" style="width: 40%"></div>
               </div>
               <p id="xp-text" class="text-xs text-gray-400 mt-1">XP: 0 / 300</p>
             </div>
@@ -121,31 +75,43 @@
           <nav>
             <ul class="space-y-4 text-sm">
               <li>
-                <a href="#" id="dashboard-link" class="flex items-center space-x-3 text-blue-400 hover:text-white transition">
+                <a href="#" id="dashboard-link" class="flex items-center space-x-3 text-blue-400 hover:text-white transition p-3 rounded-lg bg-gray-700/30">
                   <i class="fas fa-home w-5 text-center"></i>
                   <span>Dashboard</span>
                 </a>
               </li>
               <li>
-                <a href="#" id="community-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition">
+                <a href="#" id="ranking-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition p-3 rounded-lg hover:bg-gray-700/30">
+                  <i class="fas fa-trophy w-5 text-center"></i>
+                  <span>Ranking</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" id="ia-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition p-3 rounded-lg hover:bg-gray-700/30">
+                  <i class="fas fa-robot w-5 text-center"></i>
+                  <span>IA</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" id="community-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition p-3 rounded-lg hover:bg-gray-700/30">
                   <i class="fas fa-users w-5 text-center"></i>
                   <span>Comunidade</span>
                 </a>
               </li>
               <li>
-                <a href="#" id="achievements-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition">
+                <a href="#" id="achievements-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition p-3 rounded-lg hover:bg-gray-700/30">
                   <i class="fas fa-trophy w-5 text-center"></i>
                   <span>Conquistas</span>
                 </a>
               </li>
               <li>
-                <a href="#" id="stats-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition">
+                <a href="#" id="stats-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition p-3 rounded-lg hover:bg-gray-700/30">
                   <i class="fas fa-chart-line w-5 text-center"></i>
                   <span>Estatísticas</span>
                 </a>
               </li>
               <li>
-                <a href="#" id="settings-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition">
+                <a href="#" id="settings-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition p-3 rounded-lg hover:bg-gray-700/30">
                   <i class="fas fa-cog w-5 text-center"></i>
                   <span>Configurações</span>
                 </a>
@@ -154,7 +120,7 @@
                 <a
                   href="#"
                   id="logout-link"
-                  class="flex items-center space-x-3 text-gray-400 hover:text-red-400 transition"
+                  class="flex items-center space-x-3 text-gray-400 hover:text-red-400 transition p-3 rounded-lg hover:bg-gray-700/30"
                 >
                   <i class="fas fa-sign-out-alt w-5 text-center"></i>
                   <span>Sair</span>
@@ -163,25 +129,21 @@
             </ul>
           </nav>
         </div>
-
-        <div class="text-xs text-gray-500">
-          <p>©2025 FlashMind</p>
-          <p>Todos os direitos reservados</p>
-        </div>
       </aside>
 
       <!-- Main Content Area -->
-      <main class="flex-1 p-6 md:p-8 overflow-y-auto">
+      <main class="flex-1 p-6 md:p-8 overflow-y-auto animate-fade-in">
         <!-- Welcome Banner -->
-        <div class="bg-gradient-to-r from-blue-900 to-blue-800 rounded-2xl p-6 mb-8 relative overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-900/80 to-blue-800/80 rounded-2xl p-6 mb-8 relative overflow-hidden border border-blue-700/30 card-hover">
+          <div class="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-800/30 opacity-20"></div>
           <div class="relative z-10">
-            <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Bem-vindo de volta, <span id="welcome-name">Usuário</span>!</h1>
+            <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Bem-vindo de volta, <span id="welcome-name" class="gradient-text">Usuário</span>!</h1>
             <p class="text-blue-200 max-w-2xl">
               Continue sua jornada de aprendizado. Complete desafios, ganhe XP e suba no ranking!
             </p>
             <button
               id="btnEntrar"
-              class="mt-4 bg-white text-blue-800 hover:bg-blue-100 font-medium py-2 px-6 rounded-full transition duration-300 transform hover:scale-105"
+              class="mt-4 bg-white text-blue-800 hover:bg-blue-100 font-medium py-2 px-6 rounded-full transition duration-300 transform hover:scale-105 shadow-lg"
             >
               Jogar Agora
             </button>
@@ -194,57 +156,57 @@
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <!-- XP Card -->
-          <div class="bg-dark-blue rounded-xl p-6 shadow-lg border border-blue-900/30">
+          <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm text-blue-400">Experiência</p>
                 <h3 class="text-2xl font-bold" id="xp-stat">0 XP</h3>
                 <p class="text-xs text-gray-400 mt-1">Próximo nível em <span id="xp-remaining">300</span> XP</p>
               </div>
-              <div class="w-14 h-14 bg-blue-900/20 rounded-full flex items-center justify-center">
+              <div class="w-14 h-14 bg-blue-900/20 rounded-full flex items-center justify-center glow-effect">
                 <i class="fas fa-bolt text-blue-400 text-xl"></i>
               </div>
             </div>
           </div>
 
           <!-- Level Card -->
-          <div class="bg-dark-blue rounded-xl p-6 shadow-lg border border-blue-900/30">
+          <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm text-blue-400">Nível</p>
                 <h3 class="text-2xl font-bold" id="level-stat">1</h3>
                 <p class="text-xs text-gray-400 mt-1">Progresso na jornada</p>
               </div>
-              <div class="w-14 h-14 bg-blue-900/20 rounded-full flex items-center justify-center">
+              <div class="w-14 h-14 bg-blue-900/20 rounded-full flex items-center justify-center glow-effect">
                 <i class="fas fa-level-up-alt text-blue-400 text-xl"></i>
               </div>
             </div>
           </div>
 
           <!-- Streak Card -->
-          <div class="bg-dark-blue rounded-xl p-6 shadow-lg border border-blue-900/30">
+          <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm text-blue-400">Sequência</p>
                 <h3 class="text-2xl font-bold" id="streak-stat">0 dias</h3>
                 <p class="text-xs text-gray-400 mt-1">Dias consecutivos</p>
               </div>
-              <div class="w-14 h-14 bg-blue-900/20 rounded-full flex items-center justify-center">
-                <i class="fas fa-fire text-blue-400 text-xl"></i>
+              <div class="w-14 h-14 bg-blue-900/20 rounded-full flex items-center justify-center glow-effect">
+                <i class="fas fa-fire text-orange-400 text-xl"></i>
               </div>
             </div>
           </div>
 
           <!-- Rank Card -->
-          <div class="bg-dark-blue rounded-xl p-6 shadow-lg border border-blue-900/30">
+          <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-sm text-blue-400">Ranking</p>
                 <h3 class="text-2xl font-bold" id="rank-stat">#---</h3>
                 <p class="text-xs text-gray-400 mt-1">Entre todos os jogadores</p>
               </div>
-              <div class="w-14 h-14 bg-blue-900/20 rounded-full flex items-center justify-center">
-                <i class="fas fa-trophy text-blue-400 text-xl"></i>
+              <div class="w-14 h-14 bg-blue-900/20 rounded-full flex items-center justify-center glow-effect">
+                <i class="fas fa-trophy text-yellow-400 text-xl"></i>
               </div>
             </div>
           </div>
@@ -255,11 +217,11 @@
           <!-- Left Column -->
           <div class="lg:col-span-2 space-y-6">
             <!-- Quick Play Section -->
-            <div class="bg-dark-blue rounded-xl p-6 shadow-lg border border-blue-900/30">
+            <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
               <div class="flex items-center justify-between mb-6">
                 <h2 class="text-xl font-bold">Modos de Jogo</h2>
                 <div class="flex space-x-2">
-                  <button class="text-xs bg-blue-900/30 text-blue-400 px-3 py-1 rounded-full">
+                  <button class="text-xs bg-blue-900/30 text-blue-400 px-3 py-1 rounded-full hover:bg-blue-900/50 transition">
                     Ver todos
                   </button>
                 </div>
@@ -267,9 +229,9 @@
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Casual Mode -->
-                <div class="game-card bg-blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer">
+                <div class="game-card bg-blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer card-hover">
                   <div class="flex items-center space-x-4">
-                    <div class="bg-blue-900/30 p-3 rounded-full">
+                    <div class="bg-blue-900/30 p-3 rounded-full glow-effect">
                       <i class="fas fa-gamepad text-blue-400 text-xl"></i>
                     </div>
                     <div>
@@ -278,16 +240,17 @@
                     </div>
                   </div>
                   <button
-                    class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm transition" id="btnCasual"
+                    class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg text-sm transition transform hover:scale-[1.02]"
+                    id="btnCasual"
                   >
                     Jogar
                   </button>
                 </div>
 
                 <!-- Competitive Mode -->
-                <div class="game-card bg-blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer">
+                <div class="game-card bg-blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer card-hover">
                   <div class="flex items-center space-x-4">
-                    <div class="bg-blue-900/30 p-3 rounded-full">
+                    <div class="bg-blue-900/30 p-3 rounded-full glow-effect">
                       <i class="fas fa-trophy text-yellow-400 text-xl"></i>
                     </div>
                     <div>
@@ -296,16 +259,17 @@
                     </div>
                   </div>
                   <button
-                    class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm transition" id="btnRanked"
+                    class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg text-sm transition transform hover:scale-[1.02]"
+                    id="btnRanked"
                   >
                     Jogar
                   </button>
                 </div>
 
                 <!-- Challenge Mode -->
-                <div class="game-card bg-blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer">
+                <div class="game-card bg-blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer card-hover">
                   <div class="flex items-center space-x-4">
-                    <div class="bg-blue-900/30 p-3 rounded-full">
+                    <div class="bg-blue-900/30 p-3 rounded-full glow-effect">
                       <i class="fas fa-chess text-purple-400 text-xl"></i>
                     </div>
                     <div>
@@ -314,16 +278,17 @@
                     </div>
                   </div>
                   <button
-                    class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm transition" id="btnFriendlyChallenge"
+                    class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg text-sm transition transform hover:scale-[1.02]"
+                    id="btnFriendlyChallenge"
                   >
                     Jogar
                   </button>
                 </div>
 
                 <!-- Practice Mode -->
-                <div class="game-card bg-blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer">
+                <div class="game-card bg Blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer card-hover">
                   <div class="flex items-center space-x-4">
-                    <div class="bg-blue-900/30 p-3 rounded-full">
+                    <div class="bg-blue-900/30 p-3 rounded-full glow-effect">
                       <i class="fas fa-book text-green-400 text-xl"></i>
                     </div>
                     <div>
@@ -332,7 +297,8 @@
                     </div>
                   </div>
                   <button
-                    class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm transition" id="btnPractice"
+                    class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg text-sm transition transform hover:scale-[1.02]"
+                    id="btnPractice"
                   >
                     Jogar
                   </button>
@@ -341,16 +307,16 @@
             </div>
 
             <!-- Recent Activity -->
-            <div class="bg-dark-blue rounded-xl p-6 shadow-lg border border-blue-900/30">
+            <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
               <div class="flex items-center justify-between mb-6">
                 <h2 class="text-xl font-bold">Atividade Recente</h2>
-                <button class="text-xs bg-blue-900/30 text-blue-400 px-3 py-1 rounded-full">
+                <button class="text-xs bg-blue-900/30 text-blue-400 px-3 py-1 rounded-full hover:bg-blue-900/50 transition">
                   Ver histórico
                 </button>
               </div>
 
               <div class="space-y-4">
-                <div class="flex items-start space-x-3 p-3 rounded-lg bg-blue-900/10">
+                <div class="flex items-start space-x-3 p-3 rounded-lg bg-blue-900/10 border border-blue-800/20 hover:bg-blue-900/20 transition">
                   <div class="bg-blue-900/20 p-2 rounded-full">
                     <i class="fas fa-trophy text-yellow-400 text-sm"></i>
                   </div>
@@ -362,7 +328,7 @@
                   </div>
                 </div>
 
-                <div class="flex items-start space-x-3 p-3 rounded-lg bg-blue-900/10">
+                <div class="flex items-start space-x-3 p-3 rounded-lg bg-blue-900/10 border border-blue-800/20 hover:bg-blue-900/20 transition">
                   <div class="bg-blue-900/20 p-2 rounded-full">
                     <i class="fas fa-level-up-alt text-blue-400 text-sm"></i>
                   </div>
@@ -374,7 +340,7 @@
                   </div>
                 </div>
 
-                <div class="flex items-start space-x-3 p-3 rounded-lg bg-blue-900/10">
+                <div class="flex items-start space-x-3 p-3 rounded-lg bg-blue-900/10 border border-blue-800/20 hover:bg-blue-900/20 transition">
                   <div class="bg-blue-900/20 p-2 rounded-full">
                     <i class="fas fa-book text-green-400 text-sm"></i>
                   </div>
@@ -392,17 +358,17 @@
           <!-- Right Column -->
           <div class="space-y-6">
             <!-- Achievements -->
-            <div class="bg-dark-blue rounded-xl p-6 shadow-lg border border-blue-900/30">
+            <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
               <div class="flex items-center justify-between mb-6">
                 <h2 class="text-xl font-bold">Conquistas</h2>
-                <button class="text-xs bg-blue-900/30 text-blue-400 px-3 py-1 rounded-full">
+                <button class="text-xs bg-blue-900/30 text-blue-400 px-3 py-1 rounded-full hover:bg-blue-900/50 transition">
                   Ver todas
                 </button>
               </div>
 
               <div class="grid grid-cols-2 gap-4">
-                <div class="achievement-card bg-blue-900/10 rounded-lg p-4 text-center border border-blue-800/30">
-                  <div class="w-12 h-12 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                <div class="achievement-card bg-blue-900/10 rounded-lg p-4 text-center border border-blue-800/30 achievement-badge">
+                  <div class="w-12 h-12 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-2 glow-effect">
                     <i class="fas fa-medal text-yellow-400 text-xl"></i>
                   </div>
                   <h3 class="text-sm font-medium">Primeiros Passos</h3>
@@ -434,6 +400,49 @@
                 </div>
               </div>
             </div>
+
+            <!-- Progress Section -->
+            <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
+              <h2 class="text-xl font-bold mb-4">Seu Progresso</h2>
+              <div class="flex flex-col items-center">
+                <div class="relative w-32 h-32 mb-4">
+                  <svg class="w-full h-full" viewBox="0 0 100 100">
+                    <!-- Background circle -->
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="45"
+                      fill="none"
+                      stroke="#1E293B"
+                      stroke-width="8"
+                    />
+                    <!-- Progress circle -->
+                    <circle
+                      class="progress-ring-circle"
+                      cx="50"
+                      cy="50"
+                      r="45"
+                      fill="none"
+                      stroke="url(#progressGradient)"
+                      stroke-width="8"
+                      stroke-linecap="round"
+                      stroke-dasharray="283"
+                      stroke-dashoffset="170"
+                    />
+                    <defs>
+                      <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#3B82F6" />
+                        <stop offset="100%" stop-color="#8B5CF6" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <span class="text-2xl font-bold">40%</span>
+                  </div>
+                </div>
+                <p class="text-sm text-center text-gray-300">Você completou 40% da jornada de aprendizado</p>
+              </div>
+            </div>
           </div>
         </div>
       </main>
@@ -441,120 +450,619 @@
 
     <!-- Modal de Matchmaking -->
     <div id="matchmakingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-      <div class="bg-white rounded-xl p-6 shadow-lg text-center w-80 animate-pulse">
-        <h2 class="text-xl font-semibold mb-4">Procurando oponente...</h2>
-        <div class="mb-4">
-          <span class="text-4xl animate-spin inline-block">🎯</span>
+      <div class="bg-gradient-to-br from-blue-900 to-blue-800 rounded-xl p-8 shadow-lg text-center w-80 animate-pulse border border-blue-700/30">
+        <h2 class="text-xl font-semibold mb-4 text-white">Procurando oponente...</h2>
+        <div class="mb-6">
+          <div class="relative w-20 h-20 mx-auto">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <i class="fas fa-brain text-4xl text-blue-300 animate-pulse-slow"></i>
+            </div>
+          </div>
         </div>
-        <button id="cancelMatchmaking" class="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full">
+        <div class="flex justify-center space-x-2 mb-4">
+          <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0s"></div>
+          <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+          <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+        </div>
+        <button id="cancelMatchmaking" class="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition">
           Cancelar
         </button>
       </div>
     </div>
 
-   
-    <!-- Biblioteca do socket.io-client (vinda do servidor) -->
-<script src="/socket.io/socket.io.js"></script>
-<script type="module" src="/JS/dashboard/main.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const token = localStorage.getItem("token");
-    const id = localStorage.getItem("userId");
+    <!-- Páginas de redirecionamento -->
+    <div id="ranking-page" class="hidden fixed inset-0 bg-gray-900 z-50 overflow-y-auto p-8">
+      <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 shadow-2xl">
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-bold gradient-text">Ranking Global</h2>
+          <button onclick="hidePage('ranking-page')" class="text-gray-400 hover:text-white text-2xl">
+            &times;
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="text-left border-b border-gray-700">
+                <th class="pb-3">Posição</th>
+                <th class="pb-3">Jogador</th>
+                <th class="pb-3">Nível</th>
+                <th class="pb-3">XP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-700 hover:bg-gray-700/50">
+                <td class="py-4">1</td>
+                <td class="py-4 flex items-center space-x-3">
+                  <img src="#" class="w-8 h-8 rounded-full" alt="Jogador">
+                  <span>Getúlio Vargas</span>
+                </td>
+                <td class="py-4">25</td>
+                <td class="py-4">7,500</td>
+              </tr>
+              <tr class="border-b border-gray-700 hover:bg-gray-700/50">
+                <td class="py-4">2</td>
+                <td class="py-4 flex items-center space-x-3">
+                  <img src="#" class="w-8 h-8 rounded-full" alt="Jogador">
+                  <span>Bolsonaro</span>
+                </td>
+                <td class="py-4">23</td>
+                <td class="py-4">6,900</td>
+              </tr>
+              <tr class="border-b border-gray-700 hover:bg-gray-700/50">
+                <td class="py-4">3</td>
+                <td class="py-4 flex items-center space-x-3">
+                  <img src="#" class="w-8 h-8 rounded-full" alt="Jogador">
+                  <span>Lula</span>
+                </td>
+                <td class="py-4">22</td>
+                <td class="py-4">6,600</td>
+              </tr>
+              <tr class="border-b border-gray-700 hover:bg-gray-700/50">
+                <td class="py-4">4</td>
+                <td class="py-4 flex items-center space-x-3">
+                  <img src="#" class="w-8 h-8 rounded-full" alt="Jogador">
+                  <span>Janja</span>
+                </td>
+                <td class="py-4">21</td>
+                <td class="py-4">6,300</td>
+              </tr>
+              <tr class="border-b border-gray-700 hover:bg-gray-700/50">
+                <td class="py-4">5</td>
+                <td class="py-4 flex items-center space-x-3">
+                  <img src="#" class="w-8 h-8 rounded-full" alt="Jogador">
+                  <span>Pablo Marçal</span>
+                </td>
+                <td class="py-4">20</td>
+                <td class="py-4">6,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-6 flex justify-center">
+          <button onclick="hidePage('ranking-page')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
+            Voltar ao Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
 
-    if (!token) {
-      window.location.href = "login.html";
-      return;
-    }
+    <div id="ia-page" class="hidden fixed inset-0 bg-gray-900 z-50 overflow-y-auto p-8">
+      <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 shadow-2xl">
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-bold gradient-text">Assistente de IA</h2>
+          <button onclick="hidePage('ia-page')" class="text-gray-400 hover:text-white text-2xl">
+            &times;
+          </button>
+        </div>
+        <div class="bg-gray-700/50 rounded-lg p-6 mb-6">
+          <div class="flex items-start space-x-4">
+            <div class="bg-blue-900/20 p-3 rounded-full">
+              <i class="fas fa-robot text-blue-400 text-xl"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold mb-2">Como posso te ajudar hoje?</h3>
+              <p class="text-gray-300 text-sm">
+                Eu sou o assistente de IA do FlashMind. Posso te ajudar a melhorar seu desempenho, sugerir exercícios personalizados e responder perguntas sobre o jogo.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="bg-gray-700/50 rounded-lg p-4 cursor-pointer hover:bg-gray-700/70 transition">
+            <h3 class="font-medium">Sugira exercícios para melhorar minha memória</h3>
+          </div>
+          <div class="bg-gray-700/50 rounded-lg p-4 cursor-pointer hover:bg-gray-700/70 transition">
+            <h3 class="font-medium">Analise meu desempenho recente</h3>
+          </div>
+          <div class="bg-gray-700/50 rounded-lg p-4 cursor-pointer hover:bg-gray-700/70 transition">
+            <h3 class="font-medium">Explique como funciona o sistema de XP</h3>
+          </div>
+          <div class="bg-gray-700/50 rounded-lg p-4 cursor-pointer hover:bg-gray-700/70 transition">
+            <h3 class="font-medium">Me dê dicas de como estudar de forma eficiente</h3>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-center">
+          <button onclick="hidePage('ia-page')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
+            Voltar ao Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
 
-    // Busca os dados do usuário
-    fetch(`http://localhost:3000/user/${id}`, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        const user = data.user;
-        document.getElementById("foto-usuario").src = user.img ||
-          "https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png";
-        document.getElementById("nome-usuario").textContent = user.nickname;
-        const xpAtual = user.xp;
-        const xpMaximo = 300;
-        const pct = Math.min((xpAtual / xpMaximo) * 100, 100);
-        document.querySelector(".bg-blue-500").style.width = `${pct}%`;
-        document.querySelector(".text-xs.text-gray-400")
-          .textContent = `XP: ${xpAtual} / ${xpMaximo}`;
-      })
-      .catch(err => console.error('ERRO:', err));
+    <div id="community-page" class="hidden fixed inset-0 bg-gray-900 z-50 overflow-y-auto p-8">
+      <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 shadow-2xl">
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-bold gradient-text">Comunidade FlashMind</h2>
+          <button onclick="hidePage('community-page')" class="text-gray-400 hover:text-white text-2xl">
+            &times;
+          </button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-gray-700/50 rounded-xl p-6 hover:bg-gray-700/70 transition cursor-pointer">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="bg-blue-900/20 p-3 rounded-full">
+                <i class="fas fa-comments text-blue-400 text-xl"></i>
+              </div>
+              <h3 class="font-semibold">Fórum</h3>
+            </div>
+            <p class="text-gray-300 text-sm">
+              Participe de discussões, faça perguntas e compartilhe suas experiências com outros jogadores.
+            </p>
+          </div>
+          <div class="bg-gray-700/50 rounded-xl p-6 hover:bg-gray-700/70 transition cursor-pointer">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="bg-blue-900/20 p-3 rounded-full">
+                <i class="fas fa-users text-blue-400 text-xl"></i>
+              </div>
+              <h3 class="font-semibold">Grupos</h3>
+            </div>
+            <p class="text-gray-300 text-sm">
+              Junte-se a grupos de estudo ou crie o seu próprio para aprender junto com amigos.
+            </p>
+          </div>
+          <div class="bg-gray-700/50 rounded-xl p-6 hover:bg-gray-700/70 transition cursor-pointer">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="bg-blue-900/20 p-3 rounded-full">
+                <i class="fas fa-trophy text-yellow-400 text-xl"></i>
+              </div>
+              <h3 class="font-semibold">Torneios</h3>
+            </div>
+            <p class="text-gray-300 text-sm">
+              Participe de torneios semanais e mostre suas habilidades para toda a comunidade.
+            </p>
+          </div>
+          <div class="bg-gray-700/50 rounded-xl p-6 hover:bg-gray-700/70 transition cursor-pointer">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="bg-blue-900/20 p-3 rounded-full">
+                <i class="fas fa-share-alt text-green-400 text-xl"></i>
+              </div>
+              <h3 class="font-semibold">Compartilhar</h3>
+            </div>
+            <p class="text-gray-300 text-sm">
+              Compartilhe suas conquistas e resultados nas redes sociais.
+            </p>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-center">
+          <button onclick="hidePage('community-page')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
+            Voltar ao Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
 
-    // Matchmaking modal
-    document.getElementById("btnEntrar").addEventListener("click", () => {
-      document.getElementById("matchmakingModal").classList.remove("hidden");
-    });
-    document.getElementById("cancelMatchmaking").addEventListener("click", () => {
-      document.getElementById("matchmakingModal").classList.add("hidden");
-    });
+    <div id="achievements-page" class="hidden fixed inset-0 bg-gray-900 z-50 overflow-y-auto p-8">
+      <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 shadow-2xl">
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-bold gradient-text">Suas Conquistas</h2>
+          <button onclick="hidePage('achievements-page')" class="text-gray-400 hover:text-white text-2xl">
+            &times;
+          </button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="achievement-card bg-blue-900/10 rounded-xl p-6 text-center border border-blue-800/30 achievement-badge">
+            <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4 glow-effect">
+              <i class="fas fa-medal text-yellow-400 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold">Primeiros Passos</h3>
+            <p class="text-sm text-blue-300 mt-2">Complete seu primeiro jogo</p>
+            <p class="text-xs text-gray-400 mt-2">Desbloqueado em: 10/05/2025</p>
+          </div>
+          <div class="achievement-card bg-blue-900/10 rounded-xl p-6 text-center border border-blue-800/30 opacity-50">
+            <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-fire text-orange-400 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold">Sequência</h3>
+            <p class="text-sm text-blue-300 mt-2">Jogue 7 dias seguidos</p>
+            <p class="text-xs text-gray-400 mt-2">0/7 dias completos</p>
+          </div>
+          <div class="achievement-card bg-blue-900/10 rounded-xl p-6 text-center border border-blue-800/30 opacity-50">
+            <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-brain text-purple-400 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold">Gênio</h3>
+            <p class="text-sm text-blue-300 mt-2">Acerto 90% em um jogo</p>
+            <p class="text-xs text-gray-400 mt-2">Melhor: 75%</p>
+          </div>
+          <div class="achievement-card bg-blue-900/10 rounded-xl p-6 text-center border border-blue-800/30 opacity-50">
+            <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-star text-blue-400 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold">Estrela</h3>
+            <p class="text-sm text-blue-300 mt-2">Complete 10 jogos</p>
+            <p class="text-xs text-gray-400 mt-2">3/10 jogos</p>
+          </div>
+          <div class="achievement-card bg-blue-900/10 rounded-xl p-6 text-center border border-blue-800/30 opacity-50">
+            <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-bolt text-yellow-400 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold">Rápido</h3>
+            <p class="text-sm text-blue-300 mt-2">Complete um jogo em menos de 1 minuto</p>
+          </div>
+          <div class="achievement-card bg-blue-900/10 rounded-xl p-6 text-center border border-blue-800/30 opacity-50">
+            <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-book text-green-400 text-2xl"></i>
+            </div>
+            <h3 class="font-semibold">Estudioso</h3>
+            <p class="text-sm text-blue-300 mt-2">Complete 5 sessões de prática</p>
+            <p class="text-xs text-gray-400 mt-2">1/5 sessões</p>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-center">
+          <button onclick="hidePage('achievements-page')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
+            Voltar ao Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
 
-    // Links da sidebar
-    document.getElementById("dashboard-link")?.addEventListener("click", e => {
-      e.preventDefault();
-      console.log("Dashboard link clicked");
-    });
-    document.getElementById("community-link")?.addEventListener("click", e => {
-      e.preventDefault();
-      alert("Redirecionando para Comunidade");
-    });
-    document.getElementById("achievements-link")?.addEventListener("click", e => {
-      e.preventDefault();
-      alert("Redirecionando para Conquistas");
-    });
-    document.getElementById("stats-link")?.addEventListener("click", e => {
-      e.preventDefault();
-      alert("Redirecionando para Estatísticas");
-    });
-    document.getElementById("settings-link")?.addEventListener("click", e => {
-      e.preventDefault();
-      alert("Redirecionando para Configurações");
-    });
-    document.getElementById("logout-link")?.addEventListener("click", e => {
-      e.preventDefault();
-      localStorage.clear();
-      window.location.href = "login.html";
-    });
+    <div id="stats-page" class="hidden fixed inset-0 bg-gray-900 z-50 overflow-y-auto p-8">
+      <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 shadow-2xl">
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-bold gradient-text">Suas Estatísticas</h2>
+          <button onclick="hidePage('stats-page')" class="text-gray-400 hover:text-white text-2xl">
+            &times;
+          </button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div class="bg-gray-700/50 rounded-xl p-6">
+            <h3 class="font-semibold mb-4">Desempenho Geral</h3>
+            <div class="space-y-4">
+              <div>
+                <p class="text-sm text-gray-400">Jogos Completos</p>
+                <p class="text-xl font-bold">3</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-400">Taxa de Acerto</p>
+                <p class="text-xl font-bold">75%</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-400">Melhor Sequência</p>
+                <p class="text-xl font-bold">2 dias</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-700/50 rounded-xl p-6">
+            <h3 class="font-semibold mb-4">Progresso Mensal</h3>
+            <div class="h-40">
+              <!-- Gráfico de progresso (simulado) -->
+              <div class="flex items-end h-full space-x-2">
+                <div class="w-8 bg-blue-500 rounded-t" style="height: 30%"></div>
+                <div class="w-8 bg-blue-500 rounded-t" style="height: 50%"></div>
+                <div class="w-8 bg-blue-500 rounded-t" style="height: 70%"></div>
+                <div class="w-8 bg-blue-500 rounded-t" style="height: 40%"></div>
+                <div class="w-8 bg-blue-500 rounded-t" style="height: 60%"></div>
+                <div class="w-8 bg-blue-500 rounded-t" style="height: 80%"></div>
+                <div class="w-8 bg-blue-500 rounded-t" style="height: 30%"></div>
+              </div>
+              <div class="flex justify-between text-xs text-gray-400 mt-2">
+                <span>Seg</span>
+                <span>Ter</span>
+                <span>Qua</span>
+                <span>Qui</span>
+                <span>Sex</span>
+                <span>Sáb</span>
+                <span>Dom</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-700/50 rounded-xl p-6 mb-6">
+          <h3 class="font-semibold mb-4">Áreas de Conhecimento</h3>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-sm mb-1">
+                <span>Matemática</span>
+                <span>65%</span>
+              </div>
+              <div class="w-full bg-gray-600 rounded-full h-2">
+                <div class="bg-blue-500 h-2 rounded-full" style="width: 65%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1">
+                <span>Ciências</span>
+                <span>45%</span>
+              </div>
+              <div class="w-full bg-gray-600 rounded-full h-2">
+                <div class="bg-blue-500 h-2 rounded-full" style="width: 45%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1">
+                <span>História</span>
+                <span>30%</span>
+              </div>
+              <div class="w-full bg-gray-600 rounded-full h-2">
+                <div class="bg-blue-500 h-2 rounded-full" style="width: 30%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-center">
+          <button onclick="hidePage('stats-page')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
+            Voltar ao Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
 
-    // Upload de foto de perfil
-    document.getElementById("uploadInput").addEventListener("change", function () {
-      const file = this.files[0];
-      if (!file) return;
-      if (file.size > 50 * 1024 * 1024) {
-        alert("Imagem muito grande!");
-        this.value = "";
-        return;
-      }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        fetch(`http://localhost:3000/user/photo/${id}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+    <div id="settings-page" class="hidden fixed inset-0 bg-gray-900 z-50 overflow-y-auto p-8">
+      <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 shadow-2xl">
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-3xl font-bold gradient-text">Configurações</h2>
+          <button onclick="hidePage('settings-page')" class="text-gray-400 hover:text-white text-2xl">
+            &times;
+          </button>
+        </div>
+        <div class="space-y-6">
+          <div class="bg-gray-700/50 rounded-xl p-6">
+            <h3 class="font-semibold mb-4">Perfil</h3>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm text-gray-400 mb-1">Nome de usuário</label>
+                <input type="text" value="FlashUser123" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div>
+                <label class="block text-sm text-gray-400 mb-1">Email</label>
+                <input type="email" value="seuemail@gmail.com" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              </div>
+              <div>
+                <label class="block text-sm text-gray-400 mb-1">Foto de perfil</label>
+                <div class="flex items-center space-x-4">
+                  <img src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png" class="w-12 h-12 rounded-full" alt="Perfil">
+                  <button class="text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                    Alterar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-700/50 rounded-xl p-6">
+            <h3 class="font-semibold mb-4">Preferências</h3>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium">Modo Escuro</p>
+                  <p class="text-xs text-gray-400">Ativar/desativar o tema escuro</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" checked class="sr-only peer">
+                  <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium">Efeitos Sonoros</p>
+                  <p class="text-xs text-gray-400">Ativar/desativar sounds do jogo</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" checked class="sr-only peer">
+                  <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
+              </div>
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium">Notificações</p>
+                  <p class="text-xs text-gray-400">Receber notificações por email</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" class="sr-only peer">
+                  <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-700/50 rounded-xl p-6">
+            <h3 class="font-semibold mb-4">Segurança</h3>
+            <div class="space-y-4">
+              <button class="w-full text-left py-3 px-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition">
+                <p class="font-medium">Alterar senha</p>
+                <p class="text-xs text-gray-400">Atualize sua senha regularmente</p>
+              </button>
+              <button class="w-full text-left py-3 px-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition">
+                <p class="font-medium">Autenticação de dois fatores</p>
+                <p class="text-xs text-gray-400">Adicione uma camada extra de segurança</p>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-center">
+          <button onclick="hidePage('settings-page')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
+            Voltar ao Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    
+    <!-- Script do Tailwind -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            animation: {
+              "fade-in": "fadeIn 0.5s ease-in-out",
+              float: "float 3s ease-in-out infinite",
+              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "gradient": "gradient 6s ease infinite",
+            },
+            keyframes: {
+              fadeIn: {
+                "0%": { opacity: "0", transform: "translateY(10px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-3px)" },
+              },
+              gradient: {
+                "0%, 100%": { 'background-position': '0% 50%' },
+                "50%": { 'background-position': '100% 50%' },
+              }
+            },
+            colors: {
+              "dark-blue": "#0f172a",
+              "darker-blue": "#0a1120",
+              "light-blue": "#1e40af",
+              "lighter-blue": "#3b82f6",
+            },
           },
-          body: JSON.stringify({ base64Img: reader.result })
+        },
+      };
+    </script>
+
+
+    <!-- Scripts -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="/JS/dashboard/main.js"></script>
+    <script>
+      // Funções para mostrar/esconder páginas
+      function showPage(pageId) {
+        document.getElementById(pageId).classList.remove('hidden');
+      }
+      
+      function hidePage(pageId) {
+        document.getElementById(pageId).classList.add('hidden');
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("token");
+        const id = localStorage.getItem("userId");
+
+        if (!token) {
+          window.location.href = "login.html";
+          return;
+        }
+
+        // Busca os dados do usuário
+        fetch(`http://localhost:3000/user/${id}`, {
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
         })
           .then(res => res.json())
           .then(data => {
-            document.getElementById('foto-usuario').src = data.updatedUser.img;
-            this.value = "";
-            console.log('Imagem atualizada com sucesso');
+            const user = data.user;
+            document.getElementById("foto-usuario").src = user.img ||
+              "https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png";
+            document.getElementById("nome-usuario").textContent = user.nickname;
+            document.getElementById("welcome-name").textContent = user.nickname;
+            const xpAtual = user.xp;
+            const xpMaximo = 300;
+            const pct = Math.min((xpAtual / xpMaximo) * 100, 100);
+            document.querySelector(".bg-gradient-to-r").style.width = `${pct}%`;
+            document.getElementById("xp-text").textContent = `XP: ${xpAtual} / ${xpMaximo}`;
+            document.getElementById("xp-stat").textContent = `${xpAtual} XP`;
+            document.getElementById("xp-remaining").textContent = `${xpMaximo - xpAtual}`;
           })
-          .catch(err => console.error('Erro ao enviar imagem:', err));
-      };
-      reader.readAsDataURL(file);
-    });
+          .catch(err => console.error('ERRO:', err));
 
-  });
-</script>
-</body>
+        // Matchmaking modal
+        document.getElementById("btnEntrar").addEventListener("click", () => {
+          document.getElementById("matchmakingModal").classList.remove("hidden");
+        });
+        document.getElementById("cancelMatchmaking").addEventListener("click", () => {
+          document.getElementById("matchmakingModal").classList.add("hidden");
+        });
+
+        // Links da sidebar
+        document.getElementById("dashboard-link")?.addEventListener("click", e => {
+          e.preventDefault();
+          console.log("Dashboard link clicked");
+        });
+        
+        document.getElementById("ranking-link")?.addEventListener("click", e => {
+          e.preventDefault();
+          showPage('ranking-page');
+        });
+        
+        document.getElementById("ia-link")?.addEventListener("click", e => {
+          e.preventDefault();
+          showPage('ia-page');
+        });
+        
+        document.getElementById("community-link")?.addEventListener("click", e => {
+          e.preventDefault();
+          showPage('community-page');
+        });
+        
+        document.getElementById("achievements-link")?.addEventListener("click", e => {
+          e.preventDefault();
+          showPage('achievements-page');
+        });
+        
+        document.getElementById("stats-link")?.addEventListener("click", e => {
+          e.preventDefault();
+          showPage('stats-page');
+        });
+        
+        document.getElementById("settings-link")?.addEventListener("click", e => {
+          e.preventDefault();
+          showPage('settings-page');
+        });
+        
+        document.getElementById("logout-link")?.addEventListener("click", e => {
+          e.preventDefault();
+          localStorage.clear();
+          window.location.href = "login.html";
+        });
+
+        // Upload de foto de perfil
+        document.getElementById("uploadInput").addEventListener("change", function () {
+          const file = this.files[0];
+          if (!file) return;
+          if (file.size > 50 * 1024 * 1024) {
+            alert("Imagem muito grande!");
+            this.value = "";
+            return;
+          }
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            fetch(`http://localhost:3000/user/photo/${id}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify({ base64Img: reader.result })
+            })
+              .then(res => res.json())
+              .then(data => {
+                document.getElementById('foto-usuario').src = data.updatedUser.img;
+                this.value = "";
+                console.log('Imagem atualizada com sucesso');
+              })
+              .catch(err => console.error('Erro ao enviar imagem:', err));
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+    </script>
+  </body>
 </html>
