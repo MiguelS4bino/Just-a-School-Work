@@ -1,4 +1,4 @@
-import socket from './socket.js'
+const socket = io();  // Conecta-se ao servidor Socket.IO
 
 function getCurrentUserId() {
   return localStorage.getItem('userId')
@@ -12,9 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnSair = document.getElementById('btn-Sair')
 
   // Registrar usuário após conexão do socket
-  socket.on('connect', () => {
-    console.log('[Socket] Conectado ao servidor:', socket.id)
-  })
+  socket.on("connect", () => {
+    console.log("[Socket] Conectado ao servidor:", socket.id);
+    const userId = getCurrentUserId();
+    if (userId) {
+      socket.emit("onlineUser", userId);
+      socket.data = { userId }; // apenas para debug
+      window.socketReady = true;
+    }
+  });
+  
   
   // Botão de sair
   if (btnSair) {
@@ -26,19 +33,22 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const btnCasualMatch = document.getElementById('btnCasual')
-if (btnCasualMatch) {
-  btnCasualMatch.addEventListener('click', () => {
-    const typeOfMatch = "casual"
-    enterMatchmaking(typeOfMatch)
-  })
-}
+btnCasualMatch.addEventListener("click", () => {
+  if (!window.socketReady) {
+    alert("Aguarde a conexão com o servidor...");
+    return;
+  }
+  enterMatchmaking("casual");
+});
+
 const btnRankedMatch = document.getElementById('btnRanked')
-if (btnRankedMatch) {
-  btnRankedMatch.addEventListener('click', () => {
-    const typeOfMatch = "ranked"
-    enterMatchmaking(typeOfMatch)
-  })
-}
+btnRankedMatch.addEventListener("click", () => {
+  if (!window.socketReady) {
+    alert("Aguarde a conexão com o servidor...");
+    return;
+  }
+  enterMatchmaking("ranked");
+});
 
 let isSearching = false;
 
