@@ -9,6 +9,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 
     <link rel="stylesheet" href="../Pasta CSS/dashboard.css">
+    <style>
+      #challengeModal {
+        /* NÃO defina display: none aqui! */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgb(70, 70, 70);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: block; /* ou deixe sem isso, já que "hidden" vai controlar */
+        z-index: 1000;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      #challengeModal .modal-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #acceptChallengeBtn, #rejectChallengeBtn {
+        color: tomato;
+        margin-top: 10px;
+      }
+    </style>
   </head>
 
 <body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
@@ -467,6 +497,15 @@
         <button id="cancelMatchmaking" class="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition">
           Cancelar
         </button>
+      </div>
+    </div>
+
+    <!-- Modal de Aceitar/Negar desafio -->
+    <div id="challengeModal" class="hidden">
+      <div class="modal-content">
+        <h2 id="challengeModalTitle"></h2>
+        <button id="acceptChallengeBtn">Aceitar</button>
+        <button id="rejectChallengeBtn">Rejeitar</button>
       </div>
     </div>
 

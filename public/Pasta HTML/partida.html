@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partida</title>
+</head>
+
+<body>
+    <h1>Informações da Partida</h1>
+
+    <div>
+        <h2>Desafiante:</h2>
+        <p id="challengerName">Carregando...</p>
+        <p id="challengerType">Tipo: <span id="challengerMatchType">Carregando...</span></p>
+    </div>
+
+    <div>
+        <h2>Oponente:</h2>
+        <p id="opponentName">Carregando...</p>
+        <p id="opponentType">Tipo: <span id="opponentMatchType">Carregando...</span></p>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <script>
+        async function loadMatchInfo() {
+            const token = localStorage.getItem('token');
+            const matchInfo = JSON.parse(localStorage.getItem('matchInfo'));
+
+            if (matchInfo) {
+                const { challengerId, opponentId, type } = matchInfo;
+
+                try {
+                    // Fetch para obter informações do desafiante
+                    const challengerResponse = await fetch(`http://localhost:3000/user/${challengerId}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,
+                        }
+                    });
+                    const challengerData = await challengerResponse.json();
+                    
+                    // Fetch para obter informações do oponente
+                    const opponentResponse = await fetch(`http://localhost:3000/user/${opponentId}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,
+                        }
+                    });
+                    const opponentData = await opponentResponse.json();
+
+                    // Atualiza as informações no HTML
+                    document.getElementById('challengerName').textContent = 'Desafiante ' + challengerData.user.nickname || `Desafiante ${challengerId}`;
+                    document.getElementById('challengerMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
+
+                    document.getElementById('opponentName').textContent = 'Desafiante ' + opponentData.user.nickname || `Oponente ${opponentId}`;
+                    document.getElementById('opponentMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
+                } catch (error) {
+                    console.error('Erro ao carregar as informações:', error);
+                }
+            }
+        }
+
+        // Chama a função ao carregar a página
+        loadMatchInfo();
+    </script>
+</body>
+
+</html>

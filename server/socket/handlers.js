@@ -43,21 +43,29 @@ function registerSocketHandlers(io) {
       }
     });
 
-    // Resposta ao desafio
+    // Resposta ao desafio(para friendly-matches)
     socket.on("challenge-response", (response) => {
       const { challengerId, opponentId, accepted } = response;
+      const challengerSocket = [...io.sockets.sockets.values()].find(
+        s => s.data.userId === challengerId
+      );
+      const opponentSocket = [...io.sockets.sockets.values()].find(
+        s => s.data.userId === opponentId
+      );
 
       if (accepted) {
         console.log(
           `O desafio foi aceito entre ${challengerId} e ${opponentId}`
         );
         // Iniciar a partida
+        if (challengerSocket) io.to(challengerSocket.id).emit("challenge-accepted")
+        if (opponentSocket) io.to(opponentSocket.id).emit("challenge-accepted")
       } else {
         console.log(
           `O desafio foi rejeitado entre ${challengerId} e ${opponentId}`
         );
         // Reiniciar a busca por oponentes
-        findOpponent(challengerId, availableForMatchmaking[challengerId]);
+        //findOpponent(challengerId, availableForMatchmaking[challengerId]);
       }
     });
 
@@ -102,7 +110,7 @@ function registerSocketHandlers(io) {
   });
 }
 
-function findOpponent(io, userId, matchmakingType) {
+async function findOpponent(io, userId, matchmakingType) {
   if (!matchmakingType || !["casual", "ranked"].includes(matchmakingType)) {
     console.log(`Tipo de matchmaking inválido para o usuário ${userId}.`);
     return;
@@ -128,28 +136,51 @@ function findOpponent(io, userId, matchmakingType) {
     availableOpponents[Math.floor(Math.random() * availableOpponents.length)];
 
   // Criar desafio
-  createChallenge(io, userId, chosenOpponentId, matchmakingType);;
+  try{
+    await createChallenge(io, userId, chosenOpponentId, matchmakingType);
+  } catch(err){
+    console.log({ msg: err.message })
+  }
 }
 
-function createChallenge(io, challengerId, opponentId, type) {
+async function createChallenge(io, challengerId, opponentId, type) {
   const opponentSocket = [...io.sockets.sockets.values()].find(
     s => s.data.userId === opponentId
+  );
+
+  const challengerSocket = [...io.sockets.sockets.values()].find(
+    s => s.data.userId === challengerId
   );
 
   console.log(`Procurando oponente: ${opponentId}, online: ${opponentSocket ? opponentSocket.id : 'não encontrado'}`);
 
   if (opponentSocket) {
-    const challengeData = {
-      challengerId,
-      opponentId,
-      type,
-    };
-    io.to(opponentSocket.id).emit("challenge-received", challengeData);
-    console.log(`Desafio criado entre ${challengerId} e ${opponentId} do tipo ${type}`);
+    console.log('Socket do oponente encontrado: ', opponentSocket.id)
+    try {
+      const challengerUser = await User.findById(challengerId);
+      const challengerNickname = challengerUser?.nickname || "Desafiante";
 
-    // Remover ambos os jogadores da fila de matchmaking
-    delete availableForMatchmaking[challengerId];
-    delete availableForMatchmaking[opponentId];
+      const challengeData = {
+        challengerId,
+        opponentId,
+        type,
+        challengerNickname,
+      };
+
+      try{
+        io.to(opponentSocket.id).emit("challenge-received", challengeData);
+      } catch(err){
+        console.log('disse que erra nessa porra', err.message)
+      }
+      //io.to(challengerSocket.id).emit("challenge-received", challengeData)
+      console.log(`Desafio em espera entre ${challengerId} e ${opponentId} do tipo ${type}`);
+
+      // Remover ambos os jogadores da fila
+      delete availableForMatchmaking[challengerId];
+      delete availableForMatchmaking[opponentId];
+    } catch (error) {
+      console.error("Erro ao buscar nickname do desafiante:", error);
+    }
   } else {
     console.log(`Oponente ${opponentId} não está mais online. Retirando da fila.`);
     delete availableForMatchmaking[opponentId];
