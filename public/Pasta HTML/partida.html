@@ -1,73 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partida</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+        }
+        
+        .player-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        
+        .vs-circle {
+            width: 70px;
+            height: 70px;
+            border: 3px solid #e94560;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .type-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+        }
+        
+        .challenger-badge {
+            background-color: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+        
+        .opponent-badge {
+            background-color: rgba(248, 113, 113, 0.2);
+            color: #f87171;
+        }
+        
+        .error-message {
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+    </style>
 </head>
-
-<body>
-    <h1>Informações da Partida</h1>
-
-    <div>
-        <h2>Desafiante:</h2>
-        <p id="challengerName">Carregando...</p>
-        <p id="challengerType">Tipo: <span id="challengerMatchType">Carregando...</span></p>
-    </div>
-
-    <div>
-        <h2>Oponente:</h2>
-        <p id="opponentName">Carregando...</p>
-        <p id="opponentType">Tipo: <span id="opponentMatchType">Carregando...</span></p>
+<body class="text-white">
+    <div class="container mx-auto px-4 py-12">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold mb-2">Informações da Partida</h1>
+            <p class="text-gray-400">Acompanhe os detalhes do confronto</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-4 rounded-full"></div>
+        </header>
+        
+        <!-- Match Info -->
+        <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+            <!-- Challenger Card -->
+            <div class="player-card bg-gray-800 rounded-xl p-6 w-full md:w-1/3 text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-green-500"></div>
+                <div class="flex justify-center mb-4">
+                    <div class="w-20 h-20 rounded-full bg-gray-700 flex items-center justify-center border-2 border-green-500">
+                        <i class="fas fa-user text-3xl text-green-500"></i>
+                    </div>
+                </div>
+                <h2 class="text-xl font-semibold mb-2 flex items-center justify-center gap-2">
+                    <i class="fas fa-flag text-green-500"></i> Desafiante
+                </h2>
+                <p id="challengerName" class="text-2xl font-bold mb-3">Carregando...</p>
+                <p id="challengerType" class="text-gray-400">
+                    <span id="challengerMatchType" class="type-badge challenger-badge">Carregando...</span>
+                </p>
+                <div class="mt-4 pt-4 border-t border-gray-700">
+                    <div class="flex justify-center gap-4">
+                        <div class="text-center">
+                            <div class="text-green-500 font-bold">-</div>
+                            <div class="text-xs text-gray-400">Vitórias</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-yellow-500 font-bold">-</div>
+                            <div class="text-xs text-gray-400">Empates</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-red-500 font-bold">-</div>
+                            <div class="text-xs text-gray-400">Derrotas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- VS Circle -->
+            <div class="vs-circle rounded-full flex items-center justify-center bg-gray-800 mx-4 my-6 md:my-0">
+                <span class="text-xl font-bold text-red-500">VS</span>
+            </div>
+            
+            <!-- Opponent Card -->
+            <div class="player-card bg-gray-800 rounded-xl p-6 w-full md:w-1/3 text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
+                <div class="flex justify-center mb-4">
+                    <div class="w-20 h-20 rounded-full bg-gray-700 flex items-center justify-center border-2 border-red-500">
+                        <i class="fas fa-user-alt text-3xl text-red-500"></i>
+                    </div>
+                </div>
+                <h2 class="text-xl font-semibold mb-2 flex items-center justify-center gap-2">
+                    <i class="fas fa-shield-alt text-red-500"></i> Oponente
+                </h2>
+                <p id="opponentName" class="text-2xl font-bold mb-3">Carregando...</p>
+                <p id="opponentType" class="text-gray-400">
+                    <span id="opponentMatchType" class="type-badge opponent-badge">Carregando...</span>
+                </p>
+                <div class="mt-4 pt-4 border-t border-gray-700">
+                    <div class="flex justify-center gap-4">
+                        <div class="text-center">
+                            <div class="text-green-500 font-bold">-</div>
+                            <div class="text-xs text-gray-400">Vitórias</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-yellow-500 font-bold">-</div>
+                            <div class="text-xs text-gray-400">Empates</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-red-500 font-bold">-</div>
+                            <div class="text-xs text-gray-400">Derrotas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Match Details -->
+        <div class="mt-12 bg-gray-800 rounded-xl p-6 max-w-3xl mx-auto">
+            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                <i class="fas fa-info-circle text-blue-400"></i> Detalhes da Partida
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-gray-700 p-4 rounded-lg">
+                    <div class="text-blue-400 mb-1">
+                        <i class="fas fa-calendar-alt mr-2"></i> Data
+                    </div>
+                    <div class="text-sm" id="matchDate">-</div>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg">
+                    <div class="text-blue-400 mb-1">
+                        <i class="fas fa-clock mr-2"></i> Horário
+                    </div>
+                    <div class="text-sm" id="matchTime">-</div>
+                </div>
+                <div class="bg-gray-700 p-4 rounded-lg">
+                    <div class="text-blue-400 mb-1">
+                        <i class="fas fa-trophy mr-2"></i> Prêmio
+                    </div>
+                    <div class="text-sm" id="matchPrize">-</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Msg de Erro -->
+        <div id="errorMessage" class="hidden mt-6 bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded relative error-message max-w-3xl mx-auto">
+            <span class="block sm:inline"><i class="fas fa-exclamation-circle mr-2"></i> <span id="errorText">Ocorreu um erro ao carregar as informações da partida.</span></span>
+        </div>
+        
+        <!-- Animação de carregamento -->
+        <div id="loading" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+            <div class="text-center">
+                <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p class="text-white">Carregando dados da partida...</p>
+            </div>
+        </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    
     <script>
         async function loadMatchInfo() {
             const token = localStorage.getItem('token');
             const matchInfo = JSON.parse(localStorage.getItem('matchInfo'));
-
-            if (matchInfo) {
-                const { challengerId, opponentId, type } = matchInfo;
-
-                try {
-                    // Fetch para obter informações do desafiante
-                    const challengerResponse = await fetch(`http://localhost:3000/user/${challengerId}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`,
-                        }
-                    });
-                    const challengerData = await challengerResponse.json();
-                    
-                    // Fetch para obter informações do oponente
-                    const opponentResponse = await fetch(`http://localhost:3000/user/${opponentId}`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`,
-                        }
-                    });
-                    const opponentData = await opponentResponse.json();
-
-                    // Atualiza as informações no HTML
-                    document.getElementById('challengerName').textContent = 'Desafiante ' + challengerData.user.nickname || `Desafiante ${challengerId}`;
-                    document.getElementById('challengerMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
-
-                    document.getElementById('opponentName').textContent = 'Desafiante ' + opponentData.user.nickname || `Oponente ${opponentId}`;
-                    document.getElementById('opponentMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
-                } catch (error) {
-                    console.error('Erro ao carregar as informações:', error);
+            
+            // Show loading animation
+            document.getElementById('loading').style.display = 'flex';
+            document.getElementById('errorMessage').classList.add('hidden');
+            
+            if (!token) {
+                showError('Você precisa estar autenticado para ver esta página');
+                return;
+            }
+            
+            if (!matchInfo) {
+                showError('Nenhuma informação de partida encontrada');
+                return;
+            }
+            
+            const { challengerId, opponentId, type } = matchInfo;
+            
+            try {
+                // Fetch challenger info
+                const challengerResponse = await fetch(`http://localhost:3000/user/${challengerId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    }
+                });
+                
+                if (!challengerResponse.ok) {
+                    throw new Error('Falha ao carregar informações do desafiante');
                 }
+                
+                const challengerData = await challengerResponse.json();
+                
+                // Fetch opponent info
+                const opponentResponse = await fetch(`http://localhost:3000/user/${opponentId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    }
+                });
+                
+                if (!opponentResponse.ok) {
+                    throw new Error('Falha ao carregar informações do oponente');
+                }
+                
+                const opponentData = await opponentResponse.json();
+                
+                // Update HTML with match info
+                document.getElementById('challengerName').textContent = challengerData.user?.nickname || `Desafiante ${challengerId}`;
+                document.getElementById('challengerMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
+                
+                document.getElementById('opponentName').textContent = opponentData.user?.nickname || `Oponente ${opponentId}`;
+                document.getElementById('opponentMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
+                
+                // Update match details
+                const now = new Date();
+                document.getElementById('matchDate').textContent = now.toLocaleDateString();
+                document.getElementById('matchTime').textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                document.getElementById('matchPrize').textContent = type === "casual" ? "100 pontos" : "500 pontos";
+                
+                // Hide loading animation
+                document.getElementById('loading').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Erro ao carregar as informações:', error);
+                showError(error.message || 'Erro ao carregar informações da partida');
+                document.getElementById('loading').style.display = 'none';
             }
         }
-
-        // Chama a função ao carregar a página
-        loadMatchInfo();
+        
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            document.getElementById('errorText').textContent = message;
+            errorElement.classList.remove('hidden');
+            errorElement.classList.add('error-message');
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                errorElement.classList.add('hidden');
+            }, 5000);
+        }
+        
+        // Call function when page loads
+        document.addEventListener('DOMContentLoaded', loadMatchInfo);
     </script>
 </body>
-
 </html>

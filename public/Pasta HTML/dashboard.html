@@ -7,9 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-
-    <link rel="stylesheet" href="../Pasta CSS/dashboard.css">
-    <style>
+    
+  <style>
       #challengeModal {
         /* NÃO defina display: none aqui! */
         position: fixed;
@@ -23,59 +22,128 @@
         display: block; /* ou deixe sem isso, já que "hidden" vai controlar */
         z-index: 1000;
       }
-
+      
       .hidden {
         display: none !important;
       }
-
+      
       #challengeModal .modal-content {
         display: flex;
         flex-direction: column;
         align-items: center;
       }
-
+      
       #acceptChallengeBtn, #rejectChallengeBtn {
         color: tomato;
         margin-top: 10px;
       }
+      
+      /* Adicionando animações personalizadas */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+      }
+      
+      @keyframes gradient {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+      
+      .animate-fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+      
+      .animate-float {
+        animation: float 3s ease-in-out infinite;
+      }
+      
+      .gradient-text {
+        background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      
+      .glow-effect {
+        box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+      }
+      
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      
+      .card-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .achievement-badge {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .achievement-badge::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          to bottom right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.1) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        transform: rotate(30deg);
+        animation: shine 3s infinite;
+      }
+      
+      @keyframes shine {
+        0% { transform: translateX(-100%) rotate(30deg); }
+        100% { transform: translateX(100%) rotate(30deg); }
+      }
     </style>
   </head>
 
-<body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
+  <body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
     <!-- Navbar -->
-<nav class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-gray-900 bg-opacity-90 backdrop-blur-sm border-b border-gray-800">
-  <div class="flex items-center space-x-3">
-    <i class="fas fa-brain text-3xl gradient-text animate-float"></i>
-    <span class="text-2xl font-bold gradient-text">FlashMind</span>
-  </div>
-  <div class="hidden md:flex space-x-8">
-    <!-- Adicione os links de navegação aqui se necessário -->
-  </div>
-  <div class="flex items-center space-x-4">
-    <!-- Indicador de status online -->
-    <div class="hidden md:flex items-center space-x-2 bg-gray-800/50 px-3 py-1 rounded-full">
-      <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-      <span class="text-xs text-white">Online</span>
-    </div>
-    <!-- Botão para menu mobile -->
-    <button class="md:hidden text-gray-400 hover:text-white transition">
-      <i class="fas fa-bars text-xl"></i>
-    </button>
-  </div>
-</nav>
+    <nav class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-gray-900 bg-opacity-90 backdrop-blur-sm border-b border-gray-800">
+      <div class="flex items-center space-x-3">
+        <i class="fas fa-brain text-3xl gradient-text animate-float"></i>
+        <span class="text-2xl font-bold gradient-text">FlashMind</span>
+      </div>
+      <div class="hidden md:flex space-x-8">
+        <!-- Adicione os links de navegação aqui se necessário -->
+      </div>
+      <div class="flex items-center space-x-4">
+        <!-- Indicador de status online -->
+        <div class="hidden md:flex items-center space-x-2 bg-gray-800/50 px-3 py-1 rounded-full">
+          <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+          <span class="text-xs text-white">Online</span>
+        </div>
+        <!-- Botão para menu mobile -->
+        <button class="md:hidden text-gray-400 hover:text-white transition">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </nav>
 
     <!-- Main Content -->
     <div class="flex pt-16">
-      <!-- Sidebar -->
-      <aside
-        class="hidden md:flex md:w-64 flex-col justify-between p-6 bg-gray-800/50 border-r border-gray-700 h-screen sticky top-0 backdrop-blur-sm"
-      >
+      <!-- Sidebar - Removida a classe hidden -->
+      <aside class="md:flex md:w-64 flex-col justify-between p-6 bg-gray-800/50 border-r border-gray-700 h-screen sticky top-0 backdrop-blur-sm">
         <div>
           <div class="flex flex-col items-center text-center mb-8">
             <div class="relative group w-24 h-24 rounded-full overflow-hidden border-4 border-blue-500/50 glow-effect">
               <img
                 id="foto-usuario"
-                src=""
+                src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png"
                 alt="Foto do usuário"
                 class="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-60"
               />
@@ -269,12 +337,13 @@
                       <p class="text-xs text-blue-300">Jogo rápido e divertido</p>
                     </div>
                   </div>
+
                   <button
-                    class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg text-sm transition transform hover:scale-[1.02]"
-                    id="btnCasual"
-                  >
-                    Jogar
-                  </button>
+                  class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg text-sm transition transform hover:scale-[1.02]"
+                  id="btnCasual"
+                  onclick="location.href='partida.html'">
+                  Jogar
+                </button>                
                 </div>
 
                 <!-- Competitive Mode -->
@@ -316,7 +385,7 @@
                 </div>
 
                 <!-- Practice Mode -->
-                <div class="game-card bg Blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer card-hover">
+                <div class="game-card bg-blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer card-hover">
                   <div class="flex items-center space-x-4">
                     <div class="bg-blue-900/30 p-3 rounded-full glow-effect">
                       <i class="fas fa-book text-green-400 text-xl"></i>
@@ -933,8 +1002,7 @@
         </div>
       </div>
     </div>
-    
-    
+
     <!-- Script do Tailwind -->
     <script>
       tailwind.config = {
@@ -974,16 +1042,14 @@
       };
     </script>
 
-
     <!-- Scripts -->
     <script src="/socket.io/socket.io.js"></script>
-    <script type="module" src="/JS/dashboard/main.js"></script>
     <script>
       // Funções para mostrar/esconder páginas
       function showPage(pageId) {
         document.getElementById(pageId).classList.remove('hidden');
       }
-      
+            
       function hidePage(pageId) {
         document.getElementById(pageId).classList.add('hidden');
       }
@@ -1035,37 +1101,37 @@
           e.preventDefault();
           console.log("Dashboard link clicked");
         });
-        
+                
         document.getElementById("ranking-link")?.addEventListener("click", e => {
           e.preventDefault();
           showPage('ranking-page');
         });
-        
+                
         document.getElementById("ia-link")?.addEventListener("click", e => {
           e.preventDefault();
           showPage('ia-page');
         });
-        
+                
         document.getElementById("community-link")?.addEventListener("click", e => {
           e.preventDefault();
           showPage('community-page');
         });
-        
+                
         document.getElementById("achievements-link")?.addEventListener("click", e => {
           e.preventDefault();
           showPage('achievements-page');
         });
-        
+                
         document.getElementById("stats-link")?.addEventListener("click", e => {
           e.preventDefault();
           showPage('stats-page');
         });
-        
+                
         document.getElementById("settings-link")?.addEventListener("click", e => {
           e.preventDefault();
           showPage('settings-page');
         });
-        
+                
         document.getElementById("logout-link")?.addEventListener("click", e => {
           e.preventDefault();
           localStorage.clear();
