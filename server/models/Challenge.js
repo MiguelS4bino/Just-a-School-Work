@@ -23,6 +23,10 @@ const challengeSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    finishedAt:{
+        type: Date,
+        default: null
     }
 })
 

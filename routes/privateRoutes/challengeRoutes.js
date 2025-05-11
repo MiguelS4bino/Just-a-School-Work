@@ -1,18 +1,19 @@
 const express = require('express')
+const Challenge = require('../../server/models/Challenge')
+const checkToken = require('../../config/auth')
+
 const router = express.Router()
-const {
-    createChallenge,
-    getPendingChallenges,
-    respondToChallenge
-} = require('../../server/controllers/challengeController.js')
 
-//criar novo desafio
-router.post('/', createChallenge)
+router.get('/:id', checkToken, async (req, res) => {
+    const id = req.params.id
+    
+    //check if challenge exists
+    const challenge = await Challenge.findById(id)
+    if(!challenge){
+        return res.status(404).json({ msg: 'Desafio não encontrado' })
+    }
 
-//buscar desafios pendentes
-router.get('/pending/:userid', getPendingChallenges)
-
-//Reponder a desafio(aceitar ou rejeitar)
-router.patch('/:challengeId/respond', respondToChallenge)
+    res.status(200).json({ challenge })
+})
 
 module.exports= router

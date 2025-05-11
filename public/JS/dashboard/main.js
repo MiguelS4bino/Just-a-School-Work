@@ -1,4 +1,5 @@
 const socket = io();  // Conecta-se ao servidor Socket.IO
+let currentChallenge = null; // Define o desafio atual no escopo do código para que ele não acabe sendo reescrito ou perdido
 
 function getCurrentUserId() {
   return localStorage.getItem('userId')
@@ -20,17 +21,22 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-  socket.on("challenge-accepted", () => {
-    console.log("Desafio aceito!")
-    window.location.href = "../Pasta HTML/partida.html"
+  socket.on("challenge-accepted", (challengeId) => {
+    console.log("Desafio aceito!", challengeId);
+  
+    localStorage.setItem("matchInfo", challengeId);
+    window.location.href = "../Pasta HTML/partida.html";
+  });
+
+  socket.on("challenge-rejected", () => {
+    console.log("Desafio recusado!")
   })
 
   socket.on("challenge-received", (challengeData) => {
     console.log("[Socket] Desafio recebido:", challengeData);
-    const { challengerId, opponentId, type, challengerNickname } = challengeData;
-  
+    console.log("desafio recebido(challenge-received)")
     // Exibir uma notificação ou modal com as informações do desafio
-    showChallengeModal(challengerNickname, type, challengerId, opponentId)
+    showChallengeModal(challengeData)
   })
 
   // Registrar usuário após conexão do socket
@@ -131,40 +137,44 @@ window.addEventListener('beforeunload', async () => {
   }
 })
 
-function showChallengeModal(challengerNickname, type, challengerId, opponentId) {
-  const matchmakingModal = document.getElementById('matchmakingModal')
+function showChallengeModal(challengeData) {
+  console.log("Enviando Desafio: ", challengeData)
+
+  const matchmakingModal = document.getElementById('matchmakingModal');
   const modal = document.getElementById('challengeModal');
   const modalTitle = document.getElementById('challengeModalTitle');
   const acceptBtn = document.getElementById('acceptChallengeBtn');
   const rejectBtn = document.getElementById('rejectChallengeBtn');
-  
-  matchmakingModal.classList.add('hidden')
-  // Atualizar o título com o nome do desafiante e o tipo de partida
-  modalTitle.textContent = `${challengerNickname} desafiou você para uma partida ${type === 'casual' ? 'casual' : 'ranqueada'}`;
 
-  // Mostrar a modal
+  modalTitle.textContent = `${challengeData.challengerNickname} te desafiou para uma partida ${challengeData.type}`;
   modal.classList.remove('hidden');
 
-  // Ao aceitar o desafio
-  acceptBtn.onclick = () => {
-    socket.emit('challenge-response', {
-      challengerId,
-      opponentId,
-      accepted: true,
-    });
-    modal.classList.add('hidden');  // Fechar a modal após aceitar
+  if(challengeData.challengeId){
+    acceptBtn.onclick = () => {
+      console.log("Objeto ao aceitar: ", challengeData)
+      socket.emit("challenge-response", {
+        challengeId: challengeData.challengeId,
+        challengerId: challengeData.challengerId,
+        opponentId: challengeData.opponentId,
+        type: challengeData.type,
+        accepted: true
+      });
+      modal.classList.add('hidden');
+    };
+  
+    rejectBtn.onclick = () => {
+      socket.emit("challenge-response", {
+        challengeId: challengeData.challengeId,
+        challengerId: challengeData.challengerId,
+        opponentId: challengeData.opponentId,
+        type: challengeData.type,
+        accepted: false
+      });
+      modal.classList.add('hidden');
+    };
+  } else {
+    console.error('Erro ao ler challengeId: challengeId não encontrado no challengeData');
+    throw new Error('challengeId não encontrado no challengeData');
+  }
 
-    localStorage.setItem('matchInfo', JSON.stringify({ challengerId, opponentId, type }));
-    window.location.href = "../Pasta HTML/partida.html"
-  };
-
-  // Ao rejeitar o desafio
-  rejectBtn.onclick = () => {
-    socket.emit('challenge-response', {
-      challengerId,
-      opponentId,
-      accepted: false,
-    });
-    modal.classList.add('hidden');  // Fechar a modal após rejeitar
-  };
 }

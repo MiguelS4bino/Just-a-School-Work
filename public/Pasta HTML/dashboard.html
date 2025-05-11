@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     
   <style>
-      #challengeModal {
+      #challengeModal{
         /* NÃO defina display: none aqui! */
         position: fixed;
         top: 50%;
@@ -340,8 +340,7 @@
 
                   <button
                   class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg text-sm transition transform hover:scale-[1.02]"
-                  id="btnCasual"
-                  onclick="location.href='partida.html'">
+                  id="btnCasual">
                   Jogar
                 </button>                
                 </div>
@@ -1003,47 +1002,9 @@
       </div>
     </div>
 
-    <!-- Script do Tailwind -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Inter", "sans-serif"],
-            },
-            animation: {
-              "fade-in": "fadeIn 0.5s ease-in-out",
-              float: "float 3s ease-in-out infinite",
-              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-              "gradient": "gradient 6s ease infinite",
-            },
-            keyframes: {
-              fadeIn: {
-                "0%": { opacity: "0", transform: "translateY(10px)" },
-                "100%": { opacity: "1", transform: "translateY(0)" },
-              },
-              float: {
-                "0%, 100%": { transform: "translateY(0)" },
-                "50%": { transform: "translateY(-3px)" },
-              },
-              gradient: {
-                "0%, 100%": { 'background-position': '0% 50%' },
-                "50%": { 'background-position': '100% 50%' },
-              }
-            },
-            colors: {
-              "dark-blue": "#0f172a",
-              "darker-blue": "#0a1120",
-              "light-blue": "#1e40af",
-              "lighter-blue": "#3b82f6",
-            },
-          },
-        },
-      };
-    </script>
-
     <!-- Scripts -->
     <script src="/socket.io/socket.io.js"></script>
+    <script src="../JS/dashboard/main.js"></script>
     <script>
       // Funções para mostrar/esconder páginas
       function showPage(pageId) {
@@ -1169,5 +1130,46 @@
         });
       });
     </script>
+    <!-- Script do Tailwind -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            animation: {
+              "fade-in": "fadeIn 0.5s ease-in-out",
+              float: "float 3s ease-in-out infinite",
+              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "gradient": "gradient 6s ease infinite",
+            },
+            keyframes: {
+              fadeIn: {
+                "0%": { opacity: "0", transform: "translateY(10px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-3px)" },
+              },
+              gradient: {
+                "0%, 100%": { 'background-position': '0% 50%' },
+                "50%": { 'background-position': '100% 50%' },
+              }
+            },
+            colors: {
+              "dark-blue": "#0f172a",
+              "darker-blue": "#0a1120",
+              "light-blue": "#1e40af",
+              "lighter-blue": "#3b82f6",
+            },
+          },
+        },
+      };
+    </script>
+
+    
+    
   </body>
 </html>

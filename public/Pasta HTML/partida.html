@@ -81,6 +81,7 @@
                 <div class="absolute top-0 left-0 w-full h-1 bg-green-500"></div>
                 <div class="flex justify-center mb-4">
                     <div class="w-20 h-20 rounded-full bg-gray-700 flex items-center justify-center border-2 border-green-500">
+                        <img id="challengerImage" src="" alt="Foto do desafiante" class="w-full h-full rounded-full object-cover">
                         <i class="fas fa-user text-3xl text-green-500"></i>
                     </div>
                 </div>
@@ -119,6 +120,7 @@
                 <div class="absolute top-0 left-0 w-full h-1 bg-red-500"></div>
                 <div class="flex justify-center mb-4">
                     <div class="w-20 h-20 rounded-full bg-gray-700 flex items-center justify-center border-2 border-red-500">
+                        <img id="opponentImage" src="" alt="Foto do oponente" class="w-full h-full rounded-full object-cover">
                         <i class="fas fa-user-alt text-3xl text-red-500"></i>
                     </div>
                 </div>
@@ -192,93 +194,113 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         async function loadMatchInfo() {
-            const token = localStorage.getItem('token');
-            const matchInfo = JSON.parse(localStorage.getItem('matchInfo'));
-            
-            // Show loading animation
-            document.getElementById('loading').style.display = 'flex';
-            document.getElementById('errorMessage').classList.add('hidden');
-            
-            if (!token) {
-                showError('Você precisa estar autenticado para ver esta página');
-                return;
-            }
-            
-            if (!matchInfo) {
-                showError('Nenhuma informação de partida encontrada');
-                return;
-            }
-            
-            const { challengerId, opponentId, type } = matchInfo;
-            
-            try {
-                // Fetch challenger info
-                const challengerResponse = await fetch(`http://localhost:3000/user/${challengerId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    }
-                });
-                
-                if (!challengerResponse.ok) {
-                    throw new Error('Falha ao carregar informações do desafiante');
-                }
-                
-                const challengerData = await challengerResponse.json();
-                
-                // Fetch opponent info
-                const opponentResponse = await fetch(`http://localhost:3000/user/${opponentId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    }
-                });
-                
-                if (!opponentResponse.ok) {
-                    throw new Error('Falha ao carregar informações do oponente');
-                }
-                
-                const opponentData = await opponentResponse.json();
-                
-                // Update HTML with match info
-                document.getElementById('challengerName').textContent = challengerData.user?.nickname || `Desafiante ${challengerId}`;
-                document.getElementById('challengerMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
-                
-                document.getElementById('opponentName').textContent = opponentData.user?.nickname || `Oponente ${opponentId}`;
-                document.getElementById('opponentMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
-                
-                // Update match details
-                const now = new Date();
-                document.getElementById('matchDate').textContent = now.toLocaleDateString();
-                document.getElementById('matchTime').textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                document.getElementById('matchPrize').textContent = type === "casual" ? "100 pontos" : "500 pontos";
-                
-                // Hide loading animation
-                document.getElementById('loading').style.display = 'none';
-                
-            } catch (error) {
-                console.error('Erro ao carregar as informações:', error);
-                showError(error.message || 'Erro ao carregar informações da partida');
-                document.getElementById('loading').style.display = 'none';
-            }
+        const token = localStorage.getItem('token');
+
+        // Mostrar animação de carregamento
+        document.getElementById('loading').style.display = 'flex';
+        document.getElementById('errorMessage').classList.add('hidden');
+
+        if (!token) {
+            showError('Você precisa estar autenticado para ver esta página');
+            return;
         }
-        
-        function showError(message) {
-            const errorElement = document.getElementById('errorMessage');
-            document.getElementById('errorText').textContent = message;
-            errorElement.classList.remove('hidden');
-            errorElement.classList.add('error-message');
-            
-            // Hide after 5 seconds
-            setTimeout(() => {
-                errorElement.classList.add('hidden');
-            }, 5000);
+
+        const challengeId = JSON.parse(localStorage.getItem('matchInfo'));
+        console.log('ID do desafio:', challengeId);
+
+        try {
+            // Buscar dados do desafio
+            const challenge = await fetch(`http://localhost:3000/challenge/${challengeId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                }
+            });
+
+            if (!challenge.ok) {
+                throw new Error('Falha ao carregar informações do desafio!');
+            }
+
+            const challengeData = await challenge.json()
+            const challengerId = challengeData.challenge.challenger
+            const opponentId = challengeData.challenge.opponent
+            const type = challengeData.challenge.type
+
+            console.log('Challenge data:', challengeData);
+            console.log('ID do desafiante:', challengeData.challenge.challenger);
+            console.log('ID do oponente:', opponentId);
+            // Buscar dados do desafiante
+            const challengerResponse = await fetch(`http://localhost:3000/user/${challengerId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                }
+            });
+
+            if (!challengerResponse.ok) {
+                throw new Error('Falha ao carregar informações do desafiante!');
+            }
+
+            const challengerData = await challengerResponse.json();
+
+            // Buscar dados do oponente
+            const opponentResponse = await fetch(`http://localhost:3000/user/${opponentId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                }
+            });
+
+            if (!opponentResponse.ok) {
+                throw new Error('Falha ao carregar informações do oponente!');
+            }
+
+            const opponentData = await opponentResponse.json();
+
+            // Atualizar o HTML com as informações
+             // Atualizar a foto do desafiante
+            document.getElementById('challengerImage').src = challengerData.user?.img || 'https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png';
+
+            // Atualizar a foto do oponente
+            document.getElementById('opponentImage').src = opponentData.user?.img || 'https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png';
+
+            document.getElementById('challengerName').textContent = challengerData.user?.nickname || `Desafiante ${challengerId}`;
+            document.getElementById('challengerMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
+
+            document.getElementById('opponentName').textContent = opponentData.user?.nickname || `Oponente ${opponentId}`;
+            document.getElementById('opponentMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
+
+            // Atualizar detalhes da partida
+            const now = new Date();
+            document.getElementById('matchDate').textContent = now.toLocaleDateString();
+            document.getElementById('matchTime').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('matchPrize').textContent = type === "casual" ? "100 pontos" : "500 pontos";
+
+            // Esconder animação de carregamento
+            document.getElementById('loading').style.display = 'none';
+
+        } catch (error) {
+            console.error('Erro ao carregar as informações:', error);
+            showError(error.message || 'Erro ao carregar informações da partida');
+            document.getElementById('loading').style.display = 'none';
         }
-        
-        // Call function when page loads
-        document.addEventListener('DOMContentLoaded', loadMatchInfo);
+    }
+
+    function showError(message) {
+        const errorElement = document.getElementById('errorMessage');
+        document.getElementById('errorText').textContent = message;
+        errorElement.classList.remove('hidden');
+        errorElement.classList.add('error-message');
+
+        setTimeout(() => {
+            errorElement.classList.add('hidden');
+        }, 5000);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadMatchInfo);
     </script>
 </body>
 </html>
