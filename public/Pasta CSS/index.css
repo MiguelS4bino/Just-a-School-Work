@@ -1,63 +1,32 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    background-color: #f4f4f4;
-}
-
-/* Navbar */
-.navbar {
-    background-color: #333;
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-}
-
-/* Centraliza os links */
-.nav-center {
-    display: flex;
-    gap: 15px;
-}
-
-.nav-center a {
-    color: white;
-    text-decoration: none; /* Remove sublinhado */
-    padding: 10px 15px;
-}
-
-.nav-center a:hover {
-    background-color: #555;
-    border-radius: 5px;
-}
-
-/* Botão de Login */
-.login-btn {
-    margin-left: auto; /* Empurra para a direita */
-    background-color: #596869;
-    border: none;
-    color: white;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.login-btn:hover {
-    background-color: #465353;
-}
-
-/* Conteúdo principal */
-.container {
-    margin-top: 80px;
-    padding: 20px;
-    text-align: center;
-}
+ @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+        }
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        .bg-gradient-secondary {
+            background: linear-gradient(135deg, #5c1eec 0%, #3b82f6 100%);
+        }
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }

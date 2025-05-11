@@ -1,0 +1,70 @@
+.gradient-text {
+    background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .glow-effect {
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  }
+  
+  .card-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  .tab-button.active {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3B82F6;
+    border-bottom: 2px solid #3B82F6;
+  }
+  
+  .step-number {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+  
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3B82F6;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
