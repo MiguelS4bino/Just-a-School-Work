@@ -1,585 +1,1415 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlashMind - Aprendizado Gamificado</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../Pasta CSS/index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashMind - Aprendizado Gamificado com IA</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome para ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts - Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../Pasta CSS/index.css">
+  
 </head>
-<body class="bg-gray-900 text-gray-100 font-['Inter']">
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-gray-900/90 backdrop-blur-sm border-b border-gray-800">
-        <div class="flex items-center space-x-3">
-            <i class="fa-solid fa-brain text-3xl gradient-text"></i>
-            <span class="text-2xl font-bold gradient-text">FlashMind</span>
-        </div>
-        
-        <div class="hidden md:flex items-center space-x-8">
-            <a href="#home" class="text-gray-300 hover:text-white transition">Início</a>
-            <a href="#features" class="text-gray-300 hover:text-white transition">Recursos</a>
-            <a href="#how-it-works" class="text-gray-300 hover:text-white transition">Como Funciona</a>
-            <a href="#testimonials" class="text-gray-300 hover:text-white transition">Avaliações</a>
-            <a href="#pricing" class="text-gray-300 hover:text-white transition">Planos</a>
-        </div>
-        
-        <div class="flex items-center space-x-4">
-            <a href="login.html" class="hidden md:block text-gray-300 hover:text-white transition">Entrar</a>
-            <button class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-2 rounded-full font-medium transition transform hover:scale-105">
-                Começar Agora
-            </button>
-            <button id="mobile_btn" class="md:hidden text-gray-300">
-                <i class="fa-solid fa-bars text-xl"></i>
-            </button>
-        </div>
-    </nav>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile_menu" class="hidden fixed inset-0 bg-gray-900/95 z-40 flex items-center justify-center backdrop-blur-sm">
-        <div class="text-center">
-            <button id="close_mobile_menu" class="absolute top-6 right-6 text-gray-300 text-2xl">
-                <i class="fa-solid fa-times"></i>
-            </button>
-            <ul class="space-y-8 text-xl">
-                <li><a href="#home" class="text-white hover:text-purple-400 transition">Início</a></li>
-                <li><a href="#features" class="text-white hover:text-purple-400 transition">Recursos</a></li>
-                <li><a href="#how-it-works" class="text-white hover:text-purple-400 transition">Como Funciona</a></li>
-                <li><a href="#testimonials" class="text-white hover:text-purple-400 transition">Avaliações</a></li>
-                <li><a href="#pricing" class="text-white hover:text-purple-400 transition">Planos</a></li>
-                <li><a href="login.html" class="inline-block mt-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-full font-medium">Entrar</a></li>
-            </ul>
-        </div>
+<body class="bg-gradient-primary text-white font-sans min-h-screen">
+  <!-- Navbar -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-primary-950/80 backdrop-blur-md border-b border-primary-800/50 transition-all duration-300">
+    <div class="flex items-center space-x-3">
+      <div class="glow-effect">
+        <i class="fa-solid fa-brain text-3xl text-white"></i>
+      </div>
+      <span class="text-2xl font-bold text-gradient">FlashMind</span>
     </div>
+    
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex items-center space-x-8">
+      <a href="#hero" class="nav-link active text-white">Início</a>
+      <a href="#about" class="nav-link text-gray-300 hover:text-white">O que é</a>
+      <a href="#gamification" class="nav-link text-gray-300 hover:text-white">Gamificação</a>
+      <a href="#ai" class="nav-link text-gray-300 hover:text-white">IA</a>
+      <a href="#benefits" class="nav-link text-gray-300 hover:text-white">Benefícios</a>
+      <a href="login.html" class="ml-4 px-5 py-2 bg-gradient-button rounded-md text-white font-medium hover:shadow-lg transition-all duration-300">
+        Entrar
+      </a>
+    </div>
+    
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white transition">
+      <i class="fas fa-bars text-xl"></i>
+    </button>
+  </nav>
+  
+  <!-- Mobile Menu (hidden by default) -->
+  <div id="mobile-menu" class="mobile-menu fixed top-16 left-0 right-0 z-40 bg-primary-950/95 backdrop-blur-md border-b border-primary-800/50 p-5 shadow-lg">
+    <div class="flex flex-col space-y-4">
+      <a href="#hero" class="text-white bg-primary-800/50 py-2 px-4 rounded-md">Início</a>
+      <a href="#about" class="text-gray-300 hover:text-white py-2 px-4 rounded-md hover:bg-primary-800/50 transition-colors">O que é</a>
+      <a href="#gamification" class="text-gray-300 hover:text-white py-2 px-4 rounded-md hover:bg-primary-800/50 transition-colors">Gamificação</a>
+      <a href="#ai" class="text-gray-300 hover:text-white py-2 px-4 rounded-md hover:bg-primary-800/50 transition-colors">IA</a>
+      <a href="#benefits" class="text-gray-300 hover:text-white py-2 px-4 rounded-md hover:bg-primary-800/50 transition-colors">Benefícios</a>
+      <a href="login.html" class="bg-gradient-button text-white font-medium py-2 px-4 rounded-md text-center">Entrar</a>
+    </div>
+  </div>
 
-    <!-- Hero Section -->
-    <section id="home" class="pt-32 pb-20 px-6 md:px-12 bg-gradient-primary">
-        <div class="container mx-auto flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 mb-16 md:mb-0">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                    Transforme seu <span class="gradient-text">aprendizado</span> em uma experiência divertida
-                </h1>
-                <p class="text-lg text-gray-300 mb-8 max-w-lg">
-                    FlashMind utiliza técnicas de gamificação e neurociência para ajudar você a aprender mais rápido e reter informações por mais tempo.
-                </p>
+  <!-- Hero Section -->
+  <section id="hero" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <!-- Background decorative elements -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl animate-pulse-slow"></div>
+      <div class="absolute bottom-1/3 right-1/4 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1s;"></div>
+    </div>
+    
+    <div class="container mx-auto px-6 py-12 md:py-20 relative z-10">
+      <div class="flex flex-col lg:flex-row items-center gap-12">
+        <div class="lg:w-1/2 animate-fade-in">
+          <span class="inline-block px-3 py-1 text-sm bg-secondary-500/10 text-secondary-300 rounded-full mb-6 border border-secondary-500/20">
+            PROJETO DE TCC
+          </span>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+            Revolucione seus estudos com 
+            <span class="text-gradient">FlashMind</span>
+          </h1>
+          <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+            Uma plataforma inovadora que combina flashcards, gamificação e inteligência artificial para transformar a maneira como você aprende.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row gap-4 mb-8">
+            <a href="#about" class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 text-center">
+              Conheça o Projeto
+            </a>
+            </button>
+          </div>
+          
+          <div class="flex items-center space-x-4 text-gray-400 text-sm">
+            <div class="flex items-center">
+              <i class="fas fa-graduation-cap mr-2"></i>
+              <span>Projeto Acadêmico</span>
+            </div>
+            <div class="h-4 border-l border-primary-700"></div>
+            <div class="flex items-center">
+              <i class="fas fa-code mr-2"></i>
+              <span>Tecnologia Inovadora</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="lg:w-1/2 relative animate-fade-in animate-delay-200">
+          <div class="relative">
+            <div class="absolute -inset-4 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-xl blur-xl"></div>
+            <img 
+              src="https://cdn.midjourney.com/c0a0f5d8-5d5e-4e8f-9fb3-5e0a7a5f5e5e/0_0.webp" 
+              alt="FlashMind Interface" 
+              class="relative z-10 rounded-xl shadow-2xl border border-primary-700/50 w-full"
+            >
+          </div>
+          <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-primary-500/10 rounded-full blur-xl animate-pulse-slow"></div>
+          <div class="absolute -top-6 -left-6 w-32 h-32 bg-secondary-500/10 rounded-full blur-xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+        </div>
+      </div>
+      
+      <!-- Scroll indicator -->
+      <div class="scroll-indicator">
+        <span class="text-sm text-gray-400 mb-2">Rolar para baixo</span>
+        <i class="fas fa-chevron-down text-gray-400"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 md:py-28 relative">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <span class="inline-block px-3 py-1 text-sm bg-secondary-500/10 text-secondary-300 rounded-full mb-4 border border-secondary-500/20">
+          O QUE É FLASHMIND
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          Entendendo o <span class="text-gradient">FlashMind</span>
+        </h2>
+        <p class="text-lg text-gray-300 leading-relaxed">
+          FlashMind é uma plataforma educacional inovadora que combina técnicas comprovadas de aprendizado com tecnologias modernas para criar uma experiência de estudo mais eficiente e envolvente.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <!-- Card 1 -->
+        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in">
+          <div class="w-14 h-14 bg-secondary-500/10 rounded-xl flex items-center justify-center text-secondary-400 mb-6">
+            <i class="fas fa-lightbulb text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Problema</h3>
+          <p class="text-gray-300">
+            Estudantes enfrentam dificuldades para manter a motivação e reter informações a longo prazo usando métodos tradicionais de estudo.
+          </p>
+        </div>
+        
+        <!-- Card 2 -->
+        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in animate-delay-100">
+          <div class="w-14 h-14 bg-primary-500/10 rounded-xl flex items-center justify-center text-primary-400 mb-6">
+            <i class="fas fa-rocket text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Solução</h3>
+          <p class="text-gray-300">
+            Uma plataforma que utiliza flashcards inteligentes, elementos de gamificação e IA para criar uma experiência de aprendizado personalizada e envolvente.
+          </p>
+        </div>
+        
+        <!-- Card 3 -->
+        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in animate-delay-200">
+          <div class="w-14 h-14 bg-green-500/10 rounded-xl flex items-center justify-center text-green-400 mb-6">
+            <i class="fas fa-bullseye text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Objetivo</h3>
+          <p class="text-gray-300">
+            Aumentar a retenção de conhecimento e engajamento dos estudantes, tornando o processo de aprendizado mais eficiente e prazeroso.
+          </p>
+        </div>
+      </div>
+      
+      <div class="flex flex-col lg:flex-row items-center gap-12">
+        <div class="lg:w-1/2 animate-fade-in animate-delay-300">
+          <img 
+            src="https://cdn.midjourney.com/c0a0f5d8-5d5e-4e8f-9fb3-5e0a7a5f5e5e/0_1.webp" 
+            alt="Estudante usando FlashMind" 
+            class="rounded-xl shadow-lg border border-primary-700/50 w-full animate-float">
+        </div>
+        
+        <div class="lg:w-1/2 space-y-6 animate-fade-in animate-delay-400">
+          <h3 class="text-2xl font-bold">Por que <span class="text-gradient">FlashMind</span>?</h3>
+          
+          <div class="space-y-4">
+            <div class="flex items-start">
+              <div class="flex-shrink-0 w-10 h-10 bg-secondary-500/10 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-brain text-secondary-400"></i>
+              </div>
+              <div>
+               <h4 class="font-semibold mb-1">Aprendizado Eficiente</h4>
+                <p class="text-gray-300">Usa métodos como repetição espaçada e testes ativos para facilitar a memorização.</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="flex-shrink-0 w-10 h-10 bg-primary-500/10 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-gamepad text-primary-400"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">Gamificação Envolvente</h4>
+                <p class="text-gray-300">Transforma o estudo em uma experiência divertida com pontos, níveis, conquistas e competições que mantêm a motivação.</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="flex-shrink-0 w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-robot text-green-400"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-1">IA Adaptativa</h4>
+                <p class="text-gray-300">Algoritmos inteligentes que se adaptam ao seu ritmo de aprendizado, focando nas áreas que você mais precisa revisar.</p>
+              </div>
+            </div>
+          </div>
+          
+          <a href="#gamification" class="inline-block mt-4 text-secondary-400 hover:text-secondary-300 transition-colors">
+            Saiba mais sobre gamificação <i class="fas fa-arrow-right ml-1"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gamification Section -->
+  <section id="gamification" class="py-20 md:py-28 bg-primary-950/50 relative">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+      <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl animate-pulse-slow"></div>
+      <div class="absolute bottom-1/4 left-1/3 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1.5s;"></div>
+    </div>
+    
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <span class="inline-block px-3 py-1 text-sm bg-primary-500/10 text-primary-300 rounded-full mb-4 border border-primary-500/20">
+          GAMIFICAÇÃO
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          Como a <span class="text-gradient">Gamificação</span> transforma o aprendizado
+        </h2>
+        <p class="text-lg text-gray-300 leading-relaxed">
+          A gamificação aplica elementos de jogos em contextos não-lúdicos para aumentar o engajamento e a motivação. No FlashMind, isso se traduz em uma experiência de estudo mais divertida e eficaz.
+        </p>
+      </div>
+      
+      <div class="flex flex-col lg:flex-row items-center gap-12 mb-16">
+        <div class="lg:w-1/2 order-2 lg:order-1 animate-fade-in">
+          <h3 class="text-2xl font-bold mb-6">Elementos de Gamificação no FlashMind</h3>
+          
+          <div class="space-y-6">
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-12 h-12 bg-secondary-500/10 rounded-xl flex items-center justify-center mr-4">
+                  <i class="fas fa-star text-secondary-400 text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold mb-2">Sistema de Pontos e Recompensas</h4>
+                  <p class="text-gray-300">
+                    Ganhe pontos ao responder corretamente e completar desafios. Acumule pontos para desbloquear novos níveis, conquistas e recursos exclusivos.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-500/10 rounded-xl flex items-center justify-center mr-4">
+                  <i class="fas fa-trophy text-primary-400 text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold mb-2">Conquistas e Medalhas</h4>
+                  <p class="text-gray-300">
+                    Desbloqueie conquistas ao atingir marcos específicos, como estudar por vários dias consecutivos ou dominar um conjunto de flashcards.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mr-4">
+                  <i class="fas fa-chart-line text-green-400 text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold mb-2">Progressão e Níveis</h4>
+                  <p class="text-gray-300">
+                    Acompanhe seu progresso com barras de experiência e suba de nível à medida que avança em seu aprendizado, desbloqueando novos desafios.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mr-4">
+                  <i class="fas fa-users text-amber-400 text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold mb-2">Competição e Colaboração</h4>
+                  <p class="text-gray-300">
+                    Participe de desafios contra outros estudantes ou forme grupos de estudo para resolver problemas colaborativamente.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="lg:w-1/2 order-1 lg:order-2 mb-8 lg:mb-0 animate-fade-in animate-delay-200">
+          <div class="relative">
+            <div class="absolute -inset-4 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-xl blur-xl"></div>
+            <img 
+              src="https://cdn.midjourney.com/c0a0f5d8-5d5e-4e8f-9fb3-5e0a7a5f5e5e/0_2.webp" 
+              alt="Gamificação no FlashMind" 
+              class="relative z-10 rounded-xl shadow-2xl border border-primary-700/50 w-full"
+            >
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 animate-fade-in animate-delay-300">
+        <h3 class="text-2xl font-bold mb-6 text-center">Benefícios da Gamificação na Educação</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-secondary-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-heart text-secondary-400 text-2xl"></i>
+            </div>
+            <h4 class="font-semibold mb-2">Aumenta a Motivação</h4>
+            <p class="text-gray-300 text-sm">
+              Recompensas imediatas e feedback constante mantêm os estudantes motivados a continuar aprendendo.
+            </p>
+          </div>
+          
+          <div class="text-center">
+            <div class="w-16 h-16 bg-primary-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-brain text-primary-400 text-2xl"></i>
+            </div>
+            <h4 class="font-semibold mb-2">Melhora a Retenção</h4>
+            <p class="text-gray-300 text-sm">
+              O engajamento emocional proporcionado pelos elementos de jogo aumenta a memorização e retenção de conteúdo.
+            </p>
+          </div>
+          
+          <div class="text-center">
+            <div class="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-clock text-green-400 text-2xl"></i>
+            </div>
+            <h4 class="font-semibold mb-2">Cria Hábitos</h4>
+            <p class="text-gray-300 text-sm">
+              Sistemas de sequências e recompensas diárias incentivam a criação de hábitos de estudo consistentes.
+            </p>
+          </div>
+          
+          <div class="text-center">
+            <div class="w-16 h-16 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-smile text-amber-400 text-2xl"></i>
+            </div>
+            <h4 class="font-semibold mb-2">Reduz a Ansiedade</h4>
+            <p class="text-gray-300 text-sm">
+              Transformar o estudo em uma atividade divertida reduz o estresse e a ansiedade associados ao aprendizado.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-16 text-center animate-fade-in animate-delay-400">
+        <a href="#ai" class="inline-flex items-center justify-center bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
+          Descubra o papel da IA <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Section -->
+  <section id="ai" class="py-20 md:py-28 relative">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <span class="inline-block px-3 py-1 text-sm bg-green-500/10 text-green-400 rounded-full mb-4 border border-green-500/20">
+          INTELIGÊNCIA ARTIFICIAL
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          Por que usar <span class="text-gradient">Inteligência Artificial</span>?
+        </h2>
+        <p class="text-lg text-gray-300 leading-relaxed">
+          A inteligência artificial no FlashMind personaliza a experiência de aprendizado, adaptando-se às necessidades individuais de cada estudante para maximizar a eficiência do estudo.
+        </p>
+      </div>
+      
+     <div class="flex flex-col lg:flex-row items-center gap-12 mb-16">
+  <div class="lg:w-1/2 animate-fade-in">
+    <div class="relative">
+      <div class="absolute -inset-4 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-xl blur-xl"></div>
+      <img 
+        src="https://www.freepik.com/free-photo/ai-technology-brain-background-digital-transformation-concept_17164388.htm#fromView=search&page=1&position=22&uuid=af739357-6f70-4058-811a-c6d58ccbc238&query=AI" 
+        alt="IA no FlashMind" 
+        class="relative z-10 rounded-xl shadow-2xl border border-primary-700/50 w-full">
+    </div>
+  </div>
+</div>
+
+        
+        <div class="lg:w-1/2 animate-fade-in animate-delay-200">
+          <h3 class="text-2xl font-bold mb-6">Como a IA Potencializa o Aprendizado</h3>
+          
+          <div class="space-y-6">
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-12 h-12 bg-secondary-500/10 rounded-xl flex items-center justify-center mr-4">
+                  <i class="fas fa-user-cog text-secondary-400 text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold mb-2">Personalização Avançada</h4>
+                  <p class="text-gray-300">
+                    Algoritmos de aprendizado de máquina analisam seu desempenho e padrões de estudo para criar um plano de aprendizado personalizado que se adapta continuamente.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-500/10 rounded-xl flex items-center justify-center mr-4">
+                  <i class="fas fa-brain text-primary-400 text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold mb-2">Algoritmo de Repetição Espaçada</h4>
+                  <p class="text-gray-300">
+                    A IA calcula o momento ideal para revisar cada conceito, baseando-se em modelos cognitivos de como a memória funciona, maximizando a retenção a longo prazo.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mr-4">
+                  <i class="fas fa-file-alt text-green-400 text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold mb-2">Geração de Conteúdo</h4>
+                  <p class="text-gray-300">
+                    Modelos de linguagem natural podem gerar flashcards automaticamente a partir de textos, resumos ou anotações, poupando tempo na criação de material de estudo.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+              <div class="flex items-start">
+                <div class="flex-shrink-0 w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mr-4">
+                  <i class="fas fa-chart-pie text-amber-400 text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="text-lg font-semibold mb-2">Análise Preditiva</h4>
+                  <p class="text-gray-300">
+                    Algoritmos preditivos identificam padrões em seu aprendizado, prevendo áreas de dificuldade e sugerindo estratégias de estudo específicas para superá-las.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 animate-fade-in animate-delay-300">
+        <div class="flex flex-col md:flex-row items-center gap-8">
+          <div class="md:w-1/3">
+            <h3 class="text-2xl font-bold mb-4">Tecnologias de IA Utilizadas</h3>
+            <p class="text-gray-300 mb-6">
+              O FlashMind integra diversas tecnologias de inteligência artificial para criar uma experiência de aprendizado verdadeiramente adaptativa.
+            </p>
+            <ul class="space-y-2">
+              <li class="flex items-center">
+                <i class="fas fa-check text-secondary-400 mr-2"></i>
+                <span>Redes Neurais Profundas</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-secondary-400 mr-2"></i>
+                <span>Processamento de Linguagem Natural</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-secondary-400 mr-2"></i>
+                <span>Algoritmos de Aprendizado por Reforço</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-secondary-400 mr-2"></i>
+                <span>Sistemas de Recomendação</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check text-secondary-400 mr-2"></i>
+                <span>Análise Preditiva</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="md:w-2/3 mt-8 md:mt-0">
+            <div class="bg-primary-950 rounded-xl p-6 border border-primary-800/50">
+              <h4 class="font-semibold mb-4 text-center">Fluxo de Trabalho da IA no FlashMind</h4>
+              
+              <div class="relative">
+                <!-- Timeline line -->
+                <div class="absolute left-16 top-0 bottom-0 w-1 bg-gradient-to-b from-secondary-500/30 to-primary-500/30 hidden md:block"></div>
                 
-                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
-                    <button class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-full font-medium transition transform hover:scale-105">
-                        Comece Gratuitamente!
-                    </button>
-                    
-                    </div>
-
-                <div class="flex items-center space-x-6">
-                    <div class="flex -space-x-2">
+                <div class="space-y-8">
+                  <!-- Step 1 -->
+                  <div class="flex items-start">
+                    <div class="flex-shrink-0 w-8 h-8 bg-secondary-500/20 rounded-full flex items-center justify-center border-2 border-primary-950 relative z-10 mr-8">
+                      <span class="text-sm font-bold">1</span>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-400">Junte-se a<span class="text-purple-400">+10.000</span> aprendizes</p>
-                        <div class="flex items-center">
-                            <i class="fas fa-star text-yellow-400 text-xs"></i>
-                            <i class="fas fa-star text-yellow-400 text-xs"></i>
-                            <i class="fas fa-star text-yellow-400 text-xs"></i>
-                            <i class="fas fa-star text-yellow-400 text-xs"></i>
-                            <i class="fas fa-star text-yellow-400 text-xs"></i>
-                            <span class="text-xs text-gray-400 ml-1">5.0 (1.5k de avaliações)</span>
-                        </div>
+                      <h5 class="font-medium mb-1">Coleta de Dados</h5>
+                      <p class="text-gray-400 text-sm">
+                        A IA coleta dados sobre seu desempenho, tempo de resposta e padrões de erro em cada sessão de estudo.
+                      </p>
                     </div>
+                  </div>
+                  
+                  <!-- Step 2 -->
+                  <div class="flex items-start">
+                    <div class="flex-shrink-0 w-8 h-8 bg-secondary-500/20 rounded-full flex items-center justify-center border-2 border-primary-950 relative z-10 mr-8">
+                      <span class="text-sm font-bold">2</span>
+                    </div>
+                    <div>
+                      <h5 class="font-medium mb-1">Análise e Processamento</h5>
+                      <p class="text-gray-400 text-sm">
+                        Os algoritmos analisam os dados para identificar padrões, pontos fortes e áreas que precisam de mais atenção.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <!-- Step 3 -->
+                  <div class="flex items-start">
+                    <div class="flex-shrink-0 w-8 h-8 bg-primary-500/20 rounded-full flex items-center justify-center border-2 border-primary-950 relative z-10 mr-8">
+                      <span class="text-sm font-bold">3</span>
+                    </div>
+                    <div>
+                      <h5 class="font-medium mb-1">Personalização</h5>
+                      <p class="text-gray-400 text-sm">
+                        Com base na análise, a IA personaliza o conteúdo, a dificuldade e a frequência das revisões para otimizar seu aprendizado.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <!-- Step 4 -->
+                  <div class="flex items-start">
+                    <div class="flex-shrink-0 w-8 h-8 bg-primary-500/20 rounded-full flex items-center justify-center border-2 border-primary-950 relative z-10 mr-8">
+                      <span class="text-sm font-bold">4</span>
+                    </div>
+                    <div>
+                      <h5 class="font-medium mb-1">Adaptação Contínua</h5>
+                      <p class="text-gray-400 text-sm">
+                        O sistema continua aprendendo e se adaptando com cada interação, melhorando constantemente a eficácia do seu estudo.
+                      </p>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
-            
-            <div class="md:w-1/2 flex justify-center relative">
-                <div class="relative max-w-md">
-                    <img src="https://illustrations.popsy.co/amber/digital-nomad.svg" alt="Ilustração de aprendizado" class="w-full floating">
-                    <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-purple-600/20 rounded-full blur-xl"></div>
-                    <div class="absolute -top-6 -right-6 w-32 h-32 bg-blue-600/20 rounded-full blur-xl"></div>
-                </div>
-            </div>
+          </div>
         </div>
-    </section>
+      </div>
+      
+      <div class="mt-16 text-center animate-fade-in animate-delay-400">
+        <a href="#benefits" class="inline-flex items-center justify-center bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
+          Conheça os benefícios <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
 
-
-    <!-- Features -->
-    <section id="features" class="py-20 bg-gray-900">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <span class="inline-block px-3 py-1 text-sm bg-purple-900/30 text-purple-400 rounded-full mb-4">RECURSOS</span>
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Aprenda de forma eficiente e divertida</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">FlashMind combina técnicas comprovadas de aprendizado com elementos de jogos para criar uma experiência única.</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50 card-hover">
-                    <div class="w-14 h-14 bg-purple-900/20 rounded-xl flex items-center justify-center text-purple-400 mb-6 glow-effect">
-                        <i class="fas fa-brain text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Repetição Espaçada</h3>
-                    <p class="text-gray-400">Nosso algoritmo calcula o momento ideal para revisar cada conceito, maximizando sua retenção de longo prazo.</p>
-                </div>
-                
-                <!-- Feature 2 -->
-                <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50 card-hover">
-                    <div class="w-14 h-14 bg-blue-900/20 rounded-xl flex items-center justify-center text-blue-400 mb-6 glow-effect">
-                        <i class="fas fa-gamepad text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Gamificação</h3>
-                    <p class="text-gray-400">Ganhe pontos, desbloqueie conquistas e suba de nível enquanto aprende. Torne o estudo uma experiência viciante.</p>
-                </div>
-                
-                <!-- Feature 3 -->
-                <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50 card-hover">
-                    <div class="w-14 h-14 bg-green-900/20 rounded-xl flex items-center justify-center text-green-400 mb-6 glow-effect">
-                        <i class="fas fa-chart-line text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Acompanhamento de Progresso</h3>
-                    <p class="text-gray-400">Visualize seu progresso com gráficos detalhados e receba insights personalizados para melhorar seu desempenho.</p>
-                </div>
-                
-                <!-- Feature 4 -->
-                <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50 card-hover">
-                    <div class="w-14 h-14 bg-yellow-900/20 rounded-xl flex items-center justify-center text-yellow-400 mb-6 glow-effect">
-                        <i class="fas fa-trophy text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Modo Competitivo</h3>
-                    <p class="text-gray-400">Desafie amigos ou outros jogadores em batalhas de conhecimento e suba no ranking global.</p>
-                </div>
-                
-                <!-- Feature 5 -->
-                <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50 card-hover">
-                    <div class="w-14 h-14 bg-red-900/20 rounded-xl flex items-center justify-center text-red-400 mb-6 glow-effect">
-                        <i class="fas fa-fire text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Sequência de Aprendizado</h3>
-                    <p class="text-gray-400">Mantenha sua sequência diária para ganhar bônus e recompensas especiais. Quanto mais dias seguidos, melhores as recompensas!</p>
-                </div>
-                
-                <!-- Feature 6 -->
-                <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50 card-hover">
-                    <div class="w-14 h-14 bg-indigo-900/20 rounded-xl flex items-center justify-center text-indigo-400 mb-6 glow-effect">
-                        <i class="fas fa-mobile-alt text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Multiplataforma</h3>
-                    <p class="text-gray-400">Acesse seu progresso em qualquer dispositivo. Continue aprendendo no celular, tablet ou computador.</p>
-                </div>
-            </div>
+  <!-- Benefits Section -->
+  <section id="benefits" class="py-20 md:py-28 bg-primary-950/50 relative">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+      <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl animate-pulse-slow"></div>
+      <div class="absolute top-1/4 left-1/3 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1.5s;"></div>
+    </div>
+    
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <span class="inline-block px-3 py-1 text-sm bg-amber-500/10 text-amber-400 rounded-full mb-4 border border-amber-500/20">
+          BENEFÍCIOS
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          Vantagens da plataforma <span class="text-gradient">FlashMind</span>
+        </h2>
+        <p class="text-lg text-gray-300 leading-relaxed">
+          Descubra como o FlashMind pode transformar sua experiência de aprendizado e melhorar seus resultados acadêmicos.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <!-- Benefit 1 -->
+        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in">
+          <div class="w-14 h-14 bg-secondary-500/10 rounded-xl flex items-center justify-center text-secondary-400 mb-6">
+            <i class="fas fa-brain text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Retenção Aprimorada</h3>
+          <p class="text-gray-300">
+            A combinação de repetição espaçada e recuperação ativa aumenta significativamente a retenção de informações a longo prazo.
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-300">
+            <li class="flex items-start">
+              <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
+              <span>Aumento de até 80% na retenção comparado a métodos tradicionais</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
+              <span>Redução do esquecimento através de revisões estratégicas</span>
+            </li>
+          </ul>
         </div>
-    </section>
-
-    <!-- Como funciona: -->
-    <section id="how-it-works" class="py-20 bg-gray-800">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <span class="inline-block px-3 py-1 text-sm bg-blue-900/30 text-blue-400 rounded-full mb-4">COMO FUNCIONA</span>
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Aprenda em 3 passos simples</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">Nosso método garante que você aprenda mais em menos tempo.</p>
-            </div>
-            
-            <div class="flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 mb-12 md:mb-0 md:pr-12">
-                    <div class="relative">
-                        <div class="absolute -top-6 -left-6 w-32 h-32 bg-purple-600/20 rounded-full blur-xl"></div>
-                        <img src="https://illustrations.popsy.co/amber/designer.svg" alt="Como funciona" class="relative z-10">
-                    </div>
-                </div>
-                
-                <div class="md:w-1/2">
-                    <div class="space-y-8">
-                        <!-- Step 1 -->
-                        <div class="flex">
-                            <div class="flex-shrink-0 mr-6">
-                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-900/30 text-purple-400 font-bold text-xl border border-purple-800">
-                                    1
-                                </div>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-semibold mb-2">Escolha seu tópico</h3>
-                                <p class="text-gray-400">
-                                    Selecione a disciplina desejada e nossa Inteligência Artificial auxiliará você com flashcards personalizados.
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <!-- Step 2 -->
-                        <div class="flex">
-                            <div class="flex-shrink-0 mr-6">
-                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-900/30 text-blue-400 font-bold text-xl border border-blue-800">
-                                    2
-                                </div>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-semibold mb-2">Jogue e aprenda</h3>
-                                <p class="text-gray-400">
-                                    Responda perguntas, complete desafios e ganhe pontos enquanto nosso algoritmo adapta o conteúdo ao seu nível.
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <!-- Step 3 -->
-                        <div class="flex">
-                            <div class="flex-shrink-0 mr-6">
-                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-green-900/30 text-green-400 font-bold text-xl border border-green-800">
-                                    3
-                                </div>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-semibold mb-2">Revise no momento certo</h3>
-                                <p class="text-gray-400">
-                                    Receba notificações inteligentes para revisar conceitos no momento ideal antes que você comece a esquecer.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button class="mt-8 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-full font-medium transition transform hover:scale-105">
-                        Experimente Grátis
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section id="testimonials" class="py-20 bg-gray-900">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <span class="inline-block px-3 py-1 text-sm bg-yellow-900/30 text-yellow-400 rounded-full mb-4">AVALIAÇÕES</span>
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">O que nossos usuários dizem</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">Mais de 10.000 aprendizes já transformaram sua forma de estudar com o FlashMind.</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
-                <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50 card-hover">
-                    <div class="flex items-center mb-6">
-                        <div class="flex text-yellow-400 mr-2">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="text-xs text-gray-400">1 semana atrás</span>
-                    </div>
-                    <p class="text-gray-300 mb-6">
-                        "Essa plataforma é tão boa que saí alfabetizado! Recomendo para o povo brasileiro.
-                        E mais, se o plano está caro, não compre!"
-                    </p>
-                    <div class="flex items-center">
-                        <div>
-                            <h4 class="font-medium">Luiz Inácio Lula da Silva</h4>
-                            <p class="text-xs text-gray-400">Estudante de Roubo</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Testimonial 2 -->
-                <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50 card-hover">
-                    <div class="flex items-center mb-6">
-                        <div class="flex text-yellow-400 mr-2">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="text-xs text-gray-400">1 mês atrás</span>
-                    </div>
-                    <p class="text-gray-300 mb-6">
-                        "O datena já foi embora?"
-                    </p>
-                    <div class="flex items-center">
-                        <div>
-                            <h4 class="font-medium">Pablo Marçal</h4>
-                            <p class="text-xs text-gray-400">Engenheiro de Cadeira</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Testimonial 3 -->
-                <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50 card-hover">
-                    <div class="flex items-center mb-6">
-                        <div class="flex text-yellow-400 mr-2">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <span class="text-xs text-gray-400">3 meses atrás</span>
-                    </div>
-                    <p class="text-gray-300 mb-6">
-                        "Perdi minha gaita, mas graças a esse site consegui recuperá-lo. PUUUXA VIDA!"
-                    </p>
-                    <div class="flex items-center">
-                        <div>
-                            <h4 class="font-medium">Júlio do Cocoricó</h4>
-                            <p class="text-xs text-gray-400">Diarista</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="text-center mt-12">
-                <button class="inline-flex items-center text-purple-400 hover:text-purple-300 transition">
-                    <span>Ver mais avaliações</span>
-                    <i class="fas fa-chevron-right ml-2"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing -->
-    <section id="pricing" class="py-20 bg-gray-800">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <span class="inline-block px-3 py-1 text-sm bg-green-900/30 text-green-400 rounded-full mb-4">PLANOS</span>
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">Escolha o plano ideal para você</h2>
-                <p class="text-gray-400 max-w-2xl mx-auto">Comece gratuitamente e atualize quando quiser para acessar recursos premium.</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <!-- Free Plan -->
-                <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50 card-hover">
-                    <h3 class="text-xl font-semibold mb-2">Grátis</h3>
-                    <div class="mb-6">
-                        <span class="text-4xl font-bold">R$0</span>
-                        <span class="text-gray-400">/sempre</span>
-                    </div>
-                    <p class="text-gray-400 mb-6">Perfeito para quem quer experimentar a plataforma.</p>
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Acesso a 5 decks básicos</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Modo casual ilimitado</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Estatísticas básicas</span>
-                        </li>
-                        <li class="flex items-center text-gray-500">
-                            <i class="fas fa-times text-gray-600 mr-2"></i>
-                            <span>Modo competitivo</span>
-                        </li>
-                        <li class="flex items-center text-gray-500">
-                            <i class="fas fa-times text-gray-600 mr-2"></i>
-                            <span>Decks premium</span>
-                        </li>
-                    </ul>
-                    <button class="w-full bg-gray-700 hover:bg-gray-600 text-white py-3 rounded-lg transition">
-                        Começar Agora
-                    </button>
-                </div>
-                
-                <!-- Pro Plan -->
-                <div class="bg-gray-800 rounded-xl p-8 border-2 border-purple-500 card-hover relative">
-                    <div class="absolute top-0 right-0 bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">
-                        POPULAR
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Pro</h3>
-                    <div class="mb-6">
-                        <span class="text-4xl font-bold">R$29</span>
-                        <span class="text-gray-400">/mês</span>
-                    </div>
-                    <p class="text-gray-300 mb-6">Ideal para estudantes e profissionais sérios.</p>
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Acesso a todos os decks</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Modos casual e competitivo</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Estatísticas avançadas</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Desafios personalizados</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Suporte prioritário</span>
-                        </li>
-                    </ul>
-                    <button class="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 rounded-lg transition transform hover:scale-105">
-                        Assinar Agora
-                    </button>
-                </div>
-                
-                <!-- Team Plan -->
-                <div class="bg-gray-800/50 rounded-xl p-8 border border-gray-700/50 card-hover">
-                    <h3 class="text-xl font-semibold mb-2">Time</h3>
-                    <div class="mb-6">
-                        <span class="text-4xl font-bold">R$99</span>
-                        <span class="text-gray-400">/mês</span>
-                    </div>
-                    <p class="text-gray-400 mb-6">Para escolas, empresas e grupos.</p>
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Todos os recursos Pro</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Até 10 membros</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Painel de administração</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Decks personalizados</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-check text-green-400 mr-2"></i>
-                            <span>Suporte 24/7</span>
-                        </li>
-                    </ul>
-                    <button class="w-full bg-gray-700 hover:bg-gray-600 text-white py-3 rounded-lg transition">
-                        Falar com Vendas
-                    </button>
-                </div>
-            </div>
-            
-            <div class="text-center mt-12">
-                <p class="text-gray-400">Precisa de algo diferente? <a href="#" class="text-purple-400 hover:text-purple-300 transition">Fale com nosso time</a></p>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="py-20 bg-gradient-secondary">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">Pronto para transformar seu aprendizado?</h2>
-            <p class="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">Junte-se a milhares de pessoas que já estão aprendendo de forma mais inteligente e divertida.</p>
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <button class="bg-white text-gray-900 hover:bg-gray-100 px-8 py-3 rounded-full font-medium transition transform hover:scale-105">
-                    Comece Agora!
-                </button>
-                <button class="bg-transparent border-2 border-white text-white hover:bg-white/10 px-8 py-3 rounded-full font-medium transition">
-                    Falar com Vendas
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 pt-16 pb-8">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-                <div>
-                    <div class="flex items-center space-x-3 mb-4">
-                        <i class="fa-solid fa-brain text-3xl gradient-text"></i>
-                        <span class="text-2xl font-bold gradient-text">FlashMind</span>
-                    </div>
-                    <p class="text-gray-400 mb-4">
-                        Transformando o aprendizado em uma experiência memorável através da gamificação e neurociência.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Produto</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Recursos</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Planos</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Demonstração</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Atualizações</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Empresa</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Sobre Nós</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Carreiras</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contato</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Suporte</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Central de Ajuda</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Tutoriais</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">API</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Status</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 mb-4 md:mb-0">©2025 TCC FlashMind. Todos os direitos reservados.</p>
-                <div class="flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-white transition">Termos</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">Privacidade</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">Cookies</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Mobile menu toggle
-        document.getElementById('mobile_btn').addEventListener('click', function() {
-            document.getElementById('mobile_menu').classList.remove('hidden');
-        });
         
-        document.getElementById('close_mobile_menu').addEventListener('click', function() {
-            document.getElementById('mobile_menu').classList.add('hidden');
-        });
+        <!-- Benefit 2 -->
+        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in animate-delay-100">
+          <div class="w-14 h-14 bg-primary-500/10 rounded-xl flex items-center justify-center text-primary-400 mb-6">
+            <i class="fas fa-clock text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Eficiência no Estudo</h3>
+          <p class="text-gray-300">
+            Estude de forma mais inteligente, não mais demorada, focando nas áreas que realmente precisam de atenção.
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-300">
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-400 mt-1 mr-2"></i>
+              <span>Redução de até 50% no tempo necessário para dominar um assunto</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-primary-400 mt-1 mr-2"></i>
+              <span>Otimização do tempo de estudo com foco em pontos fracos</span>
+            </li>
+          </ul>
+        </div>
         
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if open
-                    document.getElementById('mobile_menu').classList.add('hidden');
-                }
-            });
-        });
+        <!-- Benefit 3 -->
+        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in animate-delay-200">
+          <div class="w-14 h-14 bg-green-500/10 rounded-xl flex items-center justify-center text-green-400 mb-6">
+            <i class="fas fa-chart-line text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Monitoramento de Progresso</h3>
+          <p class="text-gray-300">
+            Acompanhe seu desenvolvimento com métricas detalhadas e visualizações claras do seu progresso ao longo do tempo.
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-300">
+            <li class="flex items-start">
+              <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+              <span>Dashboards personalizados com estatísticas de desempenho</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+              <span>Identificação de padrões e tendências no seu aprendizado</span>
+            </li>
+          </ul>
+        </div>
         
-        // Change navbar style on scroll
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                navbar.classList.add('shadow-lg');
-                navbar.classList.add('bg-gray-900');
-            } else {
-                navbar.classList.remove('shadow-lg');
-                navbar.classList.add('bg-gray-900/90');
-            }
-        });
-    </script>
+        <!-- Benefit 4 -->
+        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in animate-delay-300">
+          <div class="w-14 h-14 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-400 mb-6">
+            <i class="fas fa-smile text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Motivação Constante</h3>
+          <p class="text-gray-300">
+            Mantenha-se motivado com elementos de gamificação que tornam o estudo uma atividade prazerosa e recompensadora.
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-300">
+            <li class="flex items-start">
+              <i class="fas fa-check text-amber-400 mt-1 mr-2"></i>
+              <span>Aumento significativo na consistência dos estudos</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-amber-400 mt-1 mr-2"></i>
+              <span>Redução da procrastinação através de recompensas imediatas</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Benefit 5 -->
+        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in animate-delay-400">
+          <div class="w-14 h-14 bg-rose-500/10 rounded-xl flex items-center justify-center text-rose-400 mb-6">
+            <i class="fas fa-user-graduate text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Aprendizado Personalizado</h3>
+          <p class="text-gray-300">
+            Experimente um plano de estudos adaptado ao seu estilo de aprendizado, ritmo e objetivos específicos.
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-300">
+            <li class="flex items-start">
+              <i class="fas fa-check text-rose-400 mt-1 mr-2"></i>
+              <span>Adaptação contínua baseada no seu desempenho</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-rose-400 mt-1 mr-2"></i>
+              <span>Conteúdo personalizado para diferentes estilos de aprendizado</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Benefit 6 -->
+        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in animate-delay-500">
+          <div class="w-14 h-14 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-400 mb-6">
+            <i class="fas fa-mobile-alt text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Acessibilidade</h3>
+          <p class="text-gray-300">
+            Estude em qualquer lugar e a qualquer momento com uma plataforma totalmente responsiva e disponível em múltiplos dispositivos.
+          </p>
+          <ul class="mt-4 space-y-2 text-gray-300">
+            <li class="flex items-start">
+              <i class="fas fa-check text-indigo-400 mt-1 mr-2"></i>
+              <span>Sincronização automática entre dispositivos</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check text-indigo-400 mt-1 mr-2"></i>
+              <span>Modo offline para estudar sem conexão com internet</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 animate-fade-in animate-delay-600">
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 md:pr-8">
+            <h3 class="text-2xl font-bold mb-4">Impacto Acadêmico</h3>
+            <p class="text-gray-300 mb-6">
+              O FlashMind foi desenvolvido com base em pesquisas científicas sobre aprendizado e memória, resultando em melhorias significativas no desempenho acadêmico.
+            </p>
+            
+            <div class="space-y-4">
+              <div class="bg-primary-800/30 rounded-lg p-4">
+                <h4 class="font-semibold mb-2 flex items-center">
+                  <i class="fas fa-graduation-cap text-secondary-400 mr-2"></i>
+                  Melhoria no Desempenho
+                </h4>
+                <p class="text-gray-300 text-sm">
+                  Estudantes que utilizam o FlashMind regularmente relatam melhoria nas notas e melhor compreensão dos conceitos estudados.
+                </p>
+              </div>
+              
+              <div class="bg-primary-800/30 rounded-lg p-4">
+                <h4 class="font-semibold mb-2 flex items-center">
+                  <i class="fas fa-book text-primary-400 mr-2"></i>
+                  Preparação para Exames
+                </h4>
+                <p class="text-gray-300 text-sm">
+                  A plataforma é especialmente eficaz na preparação para exames, ajudando os estudantes a revisar grandes volumes de conteúdo de forma eficiente.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="md:w-1/2 mt-8 md:mt-0">
+            <div class="bg-primary-800/30 rounded-lg p-6">
+              <h4 class="font-semibold mb-4 text-center">Comparação de Métodos de Estudo</h4>
+              
+              <div class="space-y-4">
+                <div class="flex items-center">
+                  <div class="w-32 text-sm font-medium">Leitura Passiva</div>
+                  <div class="flex-1 ml-4">
+                    <div class="h-4 bg-primary-700/50 rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-secondary-600 to-primary-600 w-[30%]"></div>
+                    </div>
+                  </div>
+                  <div class="ml-4 text-sm font-medium">30%</div>
+                </div>
+                
+                <div class="flex items-center">
+                  <div class="w-32 text-sm font-medium">Anotações</div>
+                  <div class="flex-1 ml-4">
+                    <div class="h-4 bg-primary-700/50 rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-secondary-600 to-primary-600 w-[45%]"></div>
+                    </div>
+                  </div>
+                  <div class="ml-4 text-sm font-medium">45%</div>
+                </div>
+                
+                <div class="flex items-center">
+                  <div class="w-32 text-sm font-medium">Flashcards Tradicionais</div>
+                  <div class="flex-1 ml-4">
+                    <div class="h-4 bg-primary-700/50 rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-secondary-600 to-primary-600 w-[65%]"></div>
+                    </div>
+                  </div>
+                  <div class="ml-4 text-sm font-medium">65%</div>
+                </div>
+                
+                <div class="flex items-center">
+                  <div class="w-32 text-sm font-medium">FlashMind</div>
+                  <div class="flex-1 ml-4">
+                    <div class="h-4 bg-primary-700/50 rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-secondary-600 to-primary-600 w-[85%]"></div>
+                    </div>
+                  </div>
+                  <div class="ml-4 text-sm font-medium">85%</div>
+                </div>
+              </div>
+              
+              <p class="text-xs text-gray-400 mt-4 text-center">
+                Percentual de retenção de informações após 30 dias
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-16 text-center animate-fade-in animate-delay-700">
+        <a href="#demo" class="inline-flex items-center justify-center bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
+          Ver demonstração <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Section -->
+  <section id="demo" class="py-20 md:py-28 relative">
+    <div class="container mx-auto px-6">
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <span class="inline-block px-3 py-1 text-sm bg-rose-500/10 text-rose-400 rounded-full mb-4 border border-rose-500/20">
+          DEMONSTRAÇÃO
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          Experimente o <span class="text-gradient">FlashMind</span> em ação
+        </h2>
+        <p class="text-lg text-gray-300 leading-relaxed">
+          Veja como funciona a plataforma na prática e experimente alguns dos recursos que tornam o FlashMind uma ferramenta revolucionária de aprendizado.
+        </p>
+      </div>
+      
+      <div class="flex flex-col lg:flex-row items-center gap-12 mb-16">
+        <div class="lg:w-1/2 animate-fade-in">
+          <h3 class="text-2xl font-bold mb-6">Flashcards Interativos</h3>
+          <p class="text-gray-300 mb-8">
+            Os flashcards são a base do sistema de aprendizado do FlashMind. Clique no card abaixo para ver como funciona a interação básica de pergunta e resposta.
+          </p>
+          
+          <div class="flashcard mb-8" id="demo-flashcard">
+            <div class="flashcard-inner">
+              <div class="flashcard-front bg-gradient-card border border-primary-700/50 text-center">
+                <div>
+                  <h4 class="text-xl font-semibold mb-4">Qual é o princípio da repetição espaçada?</h4>
+                  <p class="text-gray-400 text-sm mt-8">Clique para ver a resposta</p>
+                </div>
+              </div>
+              <div class="flashcard-back bg-gradient-card border border-primary-700/50 text-center">
+                <div>
+                  <h4 class="text-xl font-semibold mb-4">Princípio da Repetição Espaçada</h4>
+                  <p class="text-gray-300">
+                    Revisar informações em intervalos crescentes ao longo do tempo, justamente quando estamos prestes a esquecer, fortalece a memória de longo prazo.
+                  </p>
+                  <p class="text-gray-400 text-sm mt-8">Clique para voltar à pergunta</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+            <h4 class="font-semibold mb-4">Recursos dos Flashcards</h4>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
+                <span class="text-gray-300">Suporte a imagens, áudio e vídeo para aprendizado multimídia</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
+                <span class="text-gray-300">Diferentes tipos de questões: múltipla escolha, verdadeiro/falso, preenchimento de lacunas</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
+                <span class="text-gray-300">Marcação de dificuldade para ajustar a frequência de revisão</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
+                <span class="text-gray-300">Organização por tópicos, tags e coleções personalizadas</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="lg:w-1/2 animate-fade-in animate-delay-200">
+          <div class="relative">
+            <div class="absolute -inset-4 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-xl blur-xl"></div>
+            <div class="relative z-10 bg-primary-900/70 backdrop-blur-sm rounded-xl border border-primary-700/50 overflow-hidden">
+              <div class="bg-primary-800 px-4 py-3 flex items-center">
+                <div class="w-3 h-3 bg-rose-500 rounded-full mr-2"></div>
+                <div class="w-3 h-3 bg-amber-500 rounded-full mr-2"></div>
+                <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                <div class="flex-1 text-center text-sm font-medium">FlashMind - Interface de Estudo</div>
+              </div>
+              
+              <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                  <div>
+                    <h4 class="font-semibold">Biologia Celular</h4>
+                    <p class="text-gray-400 text-sm">Deck: Estruturas Celulares</p>
+                  </div>
+                  <div class="flex items-center">
+                    <div class="text-amber-400 mr-4">
+                      <i class="fas fa-fire"></i>
+                      <span class="ml-1">7 dias</span>
+                    </div>
+                    <div class="bg-secondary-500/20 text-secondary-300 px-3 py-1 rounded-full text-xs">
+                      12/30
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="bg-primary-800/50 rounded-xl p-6 mb-6 text-center">
+                  <h5 class="text-xl font-medium mb-2">Qual é a função da mitocôndria na célula?</h5>
+                  <div class="flex justify-center mt-4">
+                    <img 
+                      src="https://cdn.midjourney.com/c0a0f5d8-5d5e-4e8f-9fb3-5e0a7a5f5e5e/0_2.webp" 
+                      alt="Mitocôndria" 
+                      class="h-40 rounded-lg"
+                    >
+                  </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 rounded-lg p-4 text-left transition-colors">
+                    <span class="block font-medium mb-1">A. Síntese de proteínas</span>
+                    <span class="text-gray-400 text-sm">Produção de proteínas para a célula</span>
+                  </button>
+                  
+                  <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 rounded-lg p-4 text-left transition-colors">
+                    <span class="block font-medium mb-1">B. Digestão celular</span>
+                    <span class="text-gray-400 text-sm">Quebra de substâncias na célula</span>
+                  </button>
+                  
+                  <button class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 rounded-lg p-4 text-left transition-colors">
+                    <span class="block font-medium mb-1">C. Produção de energia</span>
+                    <span class="text-gray-200 text-sm">Geração de ATP para a célula</span>
+                  </button>
+                  
+                  <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 rounded-lg p-4 text-left transition-colors">
+                    <span class="block font-medium mb-1">D. Armazenamento de água</span>
+                    <span class="text-gray-400 text-sm">Reserva de água para a célula</span>
+                  </button>
+                </div>
+                
+                <div class="flex justify-between">
+                  <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-gray-300 px-4 py-2 rounded-lg flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Anterior
+                  </button>
+                  
+                  <div class="flex space-x-2">
+                    <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-gray-300 w-10 h-10 rounded-lg flex items-center justify-center">
+                      <i class="fas fa-flag"></i>
+                    </button>
+                    <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-gray-300 w-10 h-10 rounded-lg flex items-center justify-center">
+                      <i class="fas fa-volume-up"></i>
+                    </button>
+                    <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-gray-300 w-10 h-10 rounded-lg flex items-center justify-center">
+                      <i class="fas fa-lightbulb"></i>
+                    </button>
+                  </div>
+                  
+                  <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-gray-300 px-4 py-2 rounded-lg flex items-center">
+                    Próximo <i class="fas fa-arrow-right ml-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8 bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+            <h4 class="font-semibold mb-4">Estatísticas de Aprendizado</h4>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-primary-800/50 rounded-lg p-4 text-center">
+                <div class="text-3xl font-bold text-secondary-400 mb-1">87%</div>
+                <p class="text-sm text-gray-400">Taxa de Acerto</p>
+              </div>
+              
+              <div class="bg-primary-800/50 rounded-lg p-4 text-center">
+                <div class="text-3xl font-bold text-primary-400 mb-1">243</div>
+                <p class="text-sm text-gray-400">Cards Estudados</p>
+              </div>
+              
+              <div class="bg-primary-800/50 rounded-lg p-4 text-center">
+                <div class="text-3xl font-bold text-green-400 mb-1">12</div>
+                <p class="text-sm text-gray-400">Dias Consecutivos</p>
+              </div>
+              
+              <div class="bg-primary-800/50 rounded-lg p-4 text-center">
+                <div class="text-3xl font-bold text-amber-400 mb-1">7</div>
+                <p class="text-sm text-gray-400">Conquistas</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 animate-fade-in animate-delay-300">
+        <h3 class="text-2xl font-bold mb-6 text-center">Recursos Adicionais</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-primary-800/30 rounded-lg p-6 text-center">
+            <div class="w-16 h-16 bg-secondary-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-users text-secondary-400 text-2xl"></i>
+            </div>
+            <h4 class="font-semibold mb-2">Modo Competitivo</h4>
+            <p class="text-gray-300 text-sm">
+              Desafie amigos ou participe de competições globais para testar seus conhecimentos e aumentar sua motivação.
+            </p>
+            <button class="mt-4 bg-secondary-500/20 hover:bg-secondary-500/30 text-secondary-300 px-4 py-2 rounded-lg text-sm transition-colors">
+              Saiba mais
+            </button>
+          </div>
+          
+          <div class="bg-primary-800/30 rounded-lg p-6 text-center">
+            <div class="w-16 h-16 bg-primary-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-magic text-primary-400 text-2xl"></i>
+            </div>
+            <h4 class="font-semibold mb-2">Geração por IA</h4>
+            <p class="text-gray-300 text-sm">
+              Crie flashcards automaticamente a partir de textos, PDFs ou anotações usando nossa tecnologia de inteligência artificial.
+            </p>
+            <button class="mt-4 bg-primary-500/20 hover:bg-primary-500/30 text-primary-300 px-4 py-2 rounded-lg text-sm transition-colors">
+              Saiba mais
+            </button>
+          </div>
+          
+          <div class="bg-primary-800/30 rounded-lg p-6 text-center">
+            <div class="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-sync-alt text-green-400 text-2xl"></i>
+            </div>
+            <h4 class="font-semibold mb-2">Sincronização</h4>
+            <p class="text-gray-300 text-sm">
+              Acesse seus flashcards em qualquer dispositivo com sincronização automática e modo offline para estudar em qualquer lugar.
+            </p>
+            <button class="mt-4 bg-green-500/20 hover:bg-green-500/30 text-green-300 px-4 py-2 rounded-lg text-sm transition-colors">
+              Saiba mais
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-16 text-center animate-fade-in animate-delay-400">
+        <button id="try-demo-button" class="inline-flex items-center justify-center bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
+          Experimente a versão completa <i class="fas fa-external-link-alt ml-2"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 md:py-28 bg-gradient-to-br from-secondary-900/20 to-primary-900/20 relative">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+      <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl animate-pulse-slow"></div>
+      <div class="absolute bottom-1/4 left-1/4 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1.5s;"></div>
+    </div>
+    
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+          Pronto para revolucionar sua forma de estudar?
+        </h2>
+        <p class="text-xl text-gray-300 mb-10 leading-relaxed">
+          Junte-se a milhares de estudantes que já estão transformando seu aprendizado com o FlashMind.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a href="login.html" class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 text-center">
+            Começar Agora
+          </a>
+          <button id="contact-button" class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
+            Entre em Contato
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-primary-950 pt-16 pb-8 border-t border-primary-800/50">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div>
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="glow-effect">
+              <i class="fa-solid fa-brain text-2xl text-white"></i>
+            </div>
+            <span class="text-xl font-bold text-gradient">FlashMind</span>
+          </div>
+          <p class="text-gray-400 mb-6">
+            Transformando o aprendizado em uma experiência memorável através da gamificação e inteligência artificial.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-secondary-400 transition-colors">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-secondary-400 transition-colors">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-secondary-400 transition-colors">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Navegação</h3>
+          <ul class="space-y-2">
+            <li><a href="#hero" class="text-gray-400 hover:text-white transition-colors">Início</a></li>
+            <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">O que é</a></li>
+            <li><a href="#gamification" class="text-gray-400 hover:text-white transition-colors">Gamificação</a></li>
+            <li><a href="#ai" class="text-gray-400 hover:text-white transition-colors">IA</a></li>
+            <li><a href="#benefits" class="text-gray-400 hover:text-white transition-colors">Benefícios</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contato</h3>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope text-secondary-400 mr-2"></i>
+              <a href="mailto:contato@flashmind.com" class="text-gray-400 hover:text-white transition-colors">contato@flashmind.com</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt text-secondary-400 mr-2"></i>
+              <span class="text-gray-400">Etec Jacinto Ferreira de Sá, Ourinhos - SP</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="pt-8 border-t border-primary-800/50 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400 mb-4 md:mb-0">©2025 TCC FlashMind. Todos os direitos reservados.</p>
+        <div class="flex space-x-6">
+          <a href="#" class="text-gray-400 hover:text-white transition-colors">Termos</a>
+          <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacidade</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Contact Modal -->
+  <div id="contact-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-primary-950/80 backdrop-blur-sm">
+    <div class="modal-content bg-primary-900 rounded-xl max-w-2xl w-full mx-4 overflow-hidden shadow-2xl border border-primary-700/50">
+      <div class="flex justify-between items-center p-6 border-b border-primary-700/50">
+        <h3 class="text-xl font-bold">Entre em Contato</h3>
+        <button id="close-contact-modal" class="text-gray-400 hover:text-white transition-colors">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
+      <div class="p-6">
+        <form id="contact-form" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="name" class="block text-gray-300 font-medium mb-2">Nome</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                class="w-full bg-primary-800/50 border border-primary-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
+                required
+              >
+            </div>
+            <div>
+              <label for="email" class="block text-gray-300 font-medium mb-2">E-mail</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                class="w-full bg-primary-800/50 border border-primary-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
+                required
+              >
+            </div>
+          </div>
+          <div>
+            <label for="subject" class="block text-gray-300 font-medium mb-2">Assunto</label>
+            <input 
+              type="text" 
+              id="subject" 
+              name="subject" 
+              class="w-full bg-primary-800/50 border border-primary-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
+              required
+            >
+          </div>
+          <div>
+            <label for="message" class="block text-gray-300 font-medium mb-2">Mensagem</label>
+            <textarea 
+              id="message" 
+              name="message" 
+              rows="4" 
+              class="w-full bg-primary-800/50 border border-primary-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
+              required
+            ></textarea>
+          </div>
+          <div class="flex justify-end">
+            <button type="submit" class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300">
+              Enviar Mensagem
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+   <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#f0f7ff',
+              100: '#e0eefe',
+              200: '#bae0fd',
+              300: '#7cc8fb',
+              400: '#36aaf5',
+              500: '#0c8de3',
+              600: '#026fc2',
+              700: '#055a9e',
+              800: '#0a4b82',
+              900: '#0e406d',
+              950: '#0a2847',
+            },
+            secondary: {
+              50: '#f5f3ff',
+              100: '#ede8ff',
+              200: '#dcd5ff',
+              300: '#c3b2ff',
+              400: '#a683ff',
+              500: '#8b55ff',
+              600: '#7c33f9',
+              700: '#6b21e8',
+              800: '#581dc0',
+              900: '#491c9c',
+              950: '#2e0e70',
+            },
+          }
+        }
+      }
+    }
+  </script>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      
+      // Toggle icon between bars and times
+      const icon = mobileMenuButton.querySelector('i');
+      if (icon.classList.contains('fa-bars')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (mobileMenu.classList.contains('open') && 
+          !mobileMenu.contains(e.target) && 
+          !mobileMenuButton.contains(e.target)) {
+        mobileMenu.classList.remove('open');
+        const icon = mobileMenuButton.querySelector('i');
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+          
+          // Close mobile menu if open
+          if (mobileMenu.classList.contains('open')) {
+            mobileMenu.classList.remove('open');
+            const icon = mobileMenuButton.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+          
+          // Update active nav link
+          document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+          });
+          
+          document.querySelectorAll(`.nav-link[href="${targetId}"]`).forEach(link => {
+            link.classList.add('active');
+          });
+        }
+      });
+    });
+    
+    // Change navbar style on scroll
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('bg-primary-950/95');
+        navbar.classList.add('shadow-lg');
+      } else {
+        navbar.classList.remove('bg-primary-950/95');
+        navbar.classList.remove('shadow-lg');
+      }
+      
+      // Update active nav link based on scroll position
+      const sections = document.querySelectorAll('section[id]');
+      let currentSection = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.offsetHeight;
+        
+        if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+          currentSection = section.getAttribute('id');
+        }
+      });
+      
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSection}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+    
+    // Flashcard flip functionality
+    const demoFlashcard = document.getElementById('demo-flashcard');
+    
+    demoFlashcard.addEventListener('click', () => {
+      demoFlashcard.classList.toggle('flipped');
+    });
+    
+    // Modal functionality
+    const demoModal = document.getElementById('demo-modal');
+    const demoButton = document.getElementById('demo-button');
+    const closeDemoModal = document.getElementById('close-demo-modal');
+    const closeDemoButton = document.getElementById('close-demo-button');
+    
+    const contactModal = document.getElementById('contact-modal');
+    const contactButton = document.getElementById('contact-button');
+    const closeContactModal = document.getElementById('close-contact-modal');
+    const tryDemoButton = document.getElementById('try-demo-button');
+    
+    // Demo modal
+    demoButton.addEventListener('click', () => {
+      demoModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    closeDemoModal.addEventListener('click', () => {
+      demoModal.classList.remove('open');
+      document.body.style.overflow = 'auto';
+    });
+    
+    closeDemoButton.addEventListener('click', () => {
+      demoModal.classList.remove('open');
+      document.body.style.overflow = 'auto';
+    });
+    
+    tryDemoButton.addEventListener('click', () => {
+      demoModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    // Contact modal
+    contactButton.addEventListener('click', () => {
+      contactModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    closeContactModal.addEventListener('click', () => {
+      contactModal.classList.remove('open');
+      document.body.style.overflow = 'auto';
+    });
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', (e) => {
+      if (e.target === demoModal) {
+        demoModal.classList.remove('open');
+        document.body.style.overflow = 'auto';
+      }
+      
+      if (e.target === contactModal) {
+        contactModal.classList.remove('open');
+        document.body.style.overflow = 'auto';
+      }
+    });
+    
+    // Contact form submission
+    const contactForm = document.getElementById('contact-form');
+    
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // In a real application, you would send the form data to a server
+      // For this demo, we'll just show a success message
+      
+      alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+      
+      // Reset form
+      contactForm.reset();
+      
+      // Close modal
+      contactModal.classList.remove('open');
+      document.body.style.overflow = 'auto';
+    });
+  </script>
 </body>
 </html>
