@@ -11,6 +11,11 @@ const challengeSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    winner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
     status: {
         type: String,
         enum: ["pending", "rejected", "accepted", "completed"],
@@ -18,7 +23,7 @@ const challengeSchema = new mongoose.Schema({
     },
     "type": {
         type: String,
-        enum: ["friend", "casual", "ranked"],
+        enum: ["friendly", "casual", "ranked"],
     },
     createdAt: {
         type: Date,

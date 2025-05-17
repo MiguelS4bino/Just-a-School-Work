@@ -203,8 +203,7 @@
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-purple-400"></div>
                 <div class="flex justify-center mb-4">
                     <div class="w-20 h-20 rounded-full bg-slate-800/50 flex items-center justify-center border-2 border-purple-500 overflow-hidden">
-                        <img id="challengerImage" src="/placeholder.svg" alt="Foto do desafiante" class="w-full h-full rounded-full object-cover">
-                        <i class="fas fa-user text-3xl text-purple-500"></i>
+                        <img id="challengerImage" src="../imgs/aiaiai.svg" alt="Foto do desafiante" class="w-full h-full rounded-full object-cover">
                     </div>
                 </div>
                 <h2 class="text-xl font-semibold mb-2 flex items-center justify-center gap-2">
@@ -242,8 +241,7 @@
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-cyan-400"></div>
                 <div class="flex justify-center mb-4">
                     <div class="w-20 h-20 rounded-full bg-slate-800/50 flex items-center justify-center border-2 border-cyan-500 overflow-hidden">
-                        <img id="opponentImage" src="/placeholder.svg" alt="Foto do oponente" class="w-full h-full rounded-full object-cover">
-                        <i class="fas fa-user-alt text-3xl text-cyan-500"></i>
+                        <img id="opponentImage" src="../imgs/aiaiai.svg" alt="Foto do oponente" class="w-full h-full rounded-full object-cover">
                     </div>
                 </div>
                 <h2 class="text-xl font-semibold mb-2 flex items-center justify-center gap-2">
@@ -300,10 +298,6 @@
         </div>
         
         <!-- Botões de Ação -->
-        <div class="mt-8 flex flex-col md:flex-row justify-center gap-4 max-w-3xl mx-auto">
-            <button class="bg-gradient-button hover:opacity-90 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 flex-1">
-                <i class="fas fa-play"></i> Iniciar Partida
-            </button>
             <button class="bg-slate-700/50 hover:bg-slate-700/70 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 border border-slate-600/30 flex-1">
                 <i class="fas fa-comment-alt"></i> Enviar Mensagem
             </button>
@@ -336,117 +330,9 @@
         </div>
     </footer>
 
+    <div id="countdown" class="text-xl font-bold text-center mt-4"></div>
+
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-        async function loadMatchInfo() {
-        const token = localStorage.getItem('token');
-
-        // Mostrar animação de carregamento
-        document.getElementById('loading').style.display = 'flex';
-        document.getElementById('errorMessage').classList.add('hidden');
-
-        if (!token) {
-            showError('Você precisa estar autenticado para ver esta página');
-            return;
-        }
-
-        const challengeId = localStorage.getItem('matchInfo');
-        console.log('ID do desafio:', challengeId);
-
-        try {
-            // Buscar dados do desafio
-            const challenge = await fetch(`http://localhost:3000/challenge/${challengeId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                }
-            });
-
-            if (!challenge.ok) {
-                throw new Error('Falha ao carregar informações do desafio!');
-            }
-
-            const challengeData = await challenge.json()
-            const challengerId = challengeData.challenge.challenger
-            const opponentId = challengeData.challenge.opponent
-            const type = challengeData.challenge.type
-
-            console.log('Challenge data:', challengeData);
-            console.log('ID do desafiante:', challengeData.challenge.challenger);
-            console.log('ID do oponente:', opponentId);
-            
-            // Buscar dados do desafiante
-            const challengerResponse = await fetch(`http://localhost:3000/user/${challengerId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                }
-            });
-
-            if (!challengerResponse.ok) {
-                throw new Error('Falha ao carregar informações do desafiante!');
-            }
-
-            const challengerData = await challengerResponse.json();
-
-            // Buscar dados do oponente
-            const opponentResponse = await fetch(`http://localhost:3000/user/${opponentId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                }
-            });
-
-            if (!opponentResponse.ok) {
-                throw new Error('Falha ao carregar informações do oponente!');
-            }
-
-            const opponentData = await opponentResponse.json();
-
-            // Atualizar o HTML com as informações
-             // Atualizar a foto do desafiante
-            document.getElementById('challengerImage').src = challengerData.user?.img || 'https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png';
-
-            // Atualizar a foto do oponente
-            document.getElementById('opponentImage').src = opponentData.user?.img || 'https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png';
-
-            document.getElementById('challengerName').textContent = challengerData.user?.nickname || `Desafiante ${challengerId}`;
-            document.getElementById('challengerMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
-
-            document.getElementById('opponentName').textContent = opponentData.user?.nickname || `Oponente ${opponentId}`;
-            document.getElementById('opponentMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
-
-            // Atualizar detalhes da partida
-            const now = new Date();
-            document.getElementById('matchDate').textContent = now.toLocaleDateString();
-            document.getElementById('matchTime').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('matchPrize').textContent = type === "casual" ? "100 pontos" : "500 pontos";
-
-            // Esconder animação de carregamento
-            document.getElementById('loading').style.display = 'none';
-
-        } catch (error) {
-            console.error('Erro ao carregar as informações:', error);
-            showError(error.message || 'Erro ao carregar informações da partida');
-            document.getElementById('loading').style.display = 'none';
-        }
-    }
-
-    function showError(message) {
-        const errorElement = document.getElementById('errorMessage');
-        document.getElementById('errorText').textContent = message;
-        errorElement.classList.remove('hidden');
-        errorElement.classList.add('error-message');
-
-        setTimeout(() => {
-            errorElement.classList.add('hidden');
-        }, 5000);
-    }
-
-    document.addEventListener('DOMContentLoaded', loadMatchInfo);
-    </script>
+    <script src="../JS/partida/basicSetup.js"></script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+const chalk = require('chalk')
+
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
@@ -34,7 +36,7 @@ registerSocketHandlers(io)
 const startServer = async () => {
   try {
     await connectDB();
-    console.log("Conectado ao Servidor.");
+    console.log(chalk.green("Conectado ao Servidor."));
     // Inicia o servidor depois da conexão com o banco de dados
 
     //define onde os arquivos estáticos vão ficar (public)
@@ -58,10 +60,14 @@ const startServer = async () => {
     app.use("/challenge", challengeRoutes);
 
     server.listen(3000, () => {
-      console.log("Servidor rodando em http://localhost:3000");
+      console.log
+        (
+          chalk.green.bold('Servidor rodando em: ') +
+          chalk.cyan.underline('http://localhost:3000')
+        );
     });
   } catch (err) {
-    console.error("Erro ao conectar ao Banco de Dados: ", err);
+    console.error( chalk.red("Erro ao conectar ao Banco de Dados: "), err);
     process.exit(1);
   }
 };

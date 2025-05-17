@@ -1,5 +1,4 @@
 const socket = io();  // Conecta-se ao servidor Socket.IO
-let currentChallenge = null; // Define o desafio atual no escopo do código para que ele não acabe sendo reescrito ou perdido
 
 function getCurrentUserId() {
   return localStorage.getItem('userId')
@@ -11,7 +10,7 @@ function isSocketConnected() {
 
 //Conectar o usuario no Socket
 document.addEventListener('DOMContentLoaded', () => {
-  const btnSair = document.getElementById('btn-Sair')
+  const btnSair = document.getElementById('logout-link')
 
   // Botão de sair
   if (btnSair) {
@@ -25,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("Desafio aceito!", challengeId);
   
     localStorage.setItem("matchInfo", challengeId);
-    window.location.href = "../Pasta HTML/partida.html";
+    window.location.href = "../Pasta HTML/match.html";
   });
 
   socket.on("challenge-rejected", () => {
@@ -33,10 +32,22 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   socket.on("challenge-received", (challengeData) => {
-    console.log("[Socket] Desafio recebido:", challengeData);
-    console.log("desafio recebido(challenge-received)")
-    // Exibir uma notificação ou modal com as informações do desafio
-    showChallengeModal(challengeData)
+    const loggedUserId = getCurrentUserId()
+
+    if (challengeData.opponentId === loggedUserId && challengeData.type == "friendly" ) {
+      console.log("[Socket] Desafio recebido:", challengeData);
+      // Exibir um modal com as informações do desafio
+      showChallengeModal(challengeData)
+    } else if(challengeData.opponentId === loggedUserId){
+      console.log("Redirecionando...")
+      socket.emit("challenge-response", {
+        challengeId: challengeData.challengeId,
+        challengerId: challengeData.challengerId,
+        opponentId: challengeData.opponentId,
+        type: challengeData.type,
+        accepted: true
+      });
+    }
   })
 
   // Registrar usuário após conexão do socket
@@ -112,7 +123,7 @@ function logout() {
   const userId = localStorage.getItem('userId')
 
   if (userId) {
-    socket.emit('userLogout', { userId })
+    socket.emit('userLogout', userId)
     socket.disconnect()
     localStorage.removeItem('token')
     localStorage.removeItem('userId')
