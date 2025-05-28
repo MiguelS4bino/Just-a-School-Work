@@ -19,7 +19,7 @@
   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-primary-950/80 backdrop-blur-md border-b border-primary-800/50 transition-all duration-300">
     <div class="flex items-center space-x-3">
       <div class="glow-effect">
-        <i class="fa-solid fa-brain text-3xl text-white"></i>
+        <i class="fa-solid fa-brain text-3xl text-gradient"></i>
       </div>
       <span class="text-2xl font-bold text-gradient">FlashMind</span>
     </div>
@@ -469,7 +469,7 @@
             <ul class="space-y-2">
               <li class="flex items-center">
                 <i class="fas fa-check text-secondary-400 mr-2"></i>
-                <span>Redes Neurais Profundas</span>
+                <span>Otimização</span>
               </li>
               <li class="flex items-center">
                 <i class="fas fa-check text-secondary-400 mr-2"></i>
@@ -735,10 +735,10 @@
               <div class="bg-primary-800/30 rounded-lg p-4">
                 <h4 class="font-semibold mb-2 flex items-center">
                   <i class="fas fa-book text-primary-400 mr-2"></i>
-                  Preparação para Exames
+                  Preparação para Provas acadêmicas
                 </h4>
                 <p class="text-gray-300 text-sm">
-                  A plataforma é especialmente eficaz na preparação para exames, ajudando os estudantes a revisar grandes volumes de conteúdo de forma eficiente.
+                  A plataforma é especialmente eficaz na preparação para provas, ajudando os estudantes a revisar grandes volumes de conteúdo de forma eficiente.
                 </p>
               </div>
             </div>
@@ -1030,9 +1030,13 @@
       </div>
       
       <div class="mt-16 text-center animate-fade-in animate-delay-400">
-        <button id="try-demo-button" class="inline-flex items-center justify-center bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
-          Experimente a versão completa <i class="fas fa-external-link-alt ml-2"></i>
-        </button>
+    <a href="../Pasta HTML/login.html">
+    <button id="try-demo-button" class="inline-flex items-center justify-center bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
+      Experimente a versão completa <i class="fas fa-external-link-alt ml-2"></i>
+    </button>
+  </a>
+</div>
+
       </div>
     </div>
   </section>
@@ -1054,12 +1058,14 @@
         </p>
         
         <div class="flex flex-col sm:flex-row justify-center gap-4">
-          <a href="login.html" class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 text-center">
+          <a href="../Pasta HTML/login.html" class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 text-center">
             Começar Agora
           </a>
-          <button id="contact-button" class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
+          <a href="../Pasta HTML/contato.html">
+            <button id="contact-button" class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
             Entre em Contato
-          </button>
+            </button>
+          </a>
         </div>
       </div>
     </div>
@@ -1072,7 +1078,7 @@
         <div>
           <div class="flex items-center space-x-3 mb-6">
             <div class="glow-effect">
-              <i class="fa-solid fa-brain text-2xl text-white"></i>
+              <i class="fa-solid fa-brain text-3xl text-gradient"></i>
             </div>
             <span class="text-xl font-bold text-gradient">FlashMind</span>
           </div>
@@ -1147,8 +1153,7 @@
                 id="name" 
                 name="name" 
                 class="w-full bg-primary-800/50 border border-primary-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
-                required
-              >
+                required>
             </div>
             <div>
               <label for="email" class="block text-gray-300 font-medium mb-2">E-mail</label>
@@ -1157,8 +1162,7 @@
                 id="email" 
                 name="email" 
                 class="w-full bg-primary-800/50 border border-primary-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
-                required
-              >
+                required>
             </div>
           </div>
           <div>
@@ -1168,8 +1172,7 @@
               id="subject" 
               name="subject" 
               class="w-full bg-primary-800/50 border border-primary-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
-              required
-            >
+              required>
           </div>
           <div>
             <label for="message" class="block text-gray-300 font-medium mb-2">Mensagem</label>
@@ -1178,8 +1181,7 @@
               name="message" 
               rows="4" 
               class="w-full bg-primary-800/50 border border-primary-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
-              required
-            ></textarea>
+              required></textarea>
           </div>
           <div class="flex justify-end">
             <button type="submit" class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300">
