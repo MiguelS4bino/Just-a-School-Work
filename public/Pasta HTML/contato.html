@@ -1,11 +1,527 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contato</title>
-</head>
-<body>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashMind - Contato</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome para ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts - Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            'slate': {
+              950: '#0A101F',
+              900: '#0F172A',
+              800: '#1E293B',
+              700: '#334155',
+            },
+            'purple': {
+              600: '#9333EA',
+              500: '#A855F7',
+              400: '#C084FC',
+            },
+            'cyan': {
+              600: '#0891B2',
+              500: '#06B6D4',
+              400: '#22D3EE',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    .bg-gradient-primary {
+      background: linear-gradient(135deg, #0A101F 0%, #1E293B 100%);
+    }
     
+    .text-gradient {
+      background: linear-gradient(90deg, #A855F7 0%, #06B6D4 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .bg-gradient-button {
+      background: linear-gradient(90deg, #A855F7 0%, #06B6D4 100%);
+    }
+    
+    .bg-gradient-button:hover {
+      background: linear-gradient(90deg, #9333EA 0%, #0891B2 100%);
+    }
+    
+    .glow-effect {
+      position: relative;
+    }
+    
+    .glow-effect::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, #A855F7 0%, #06B6D4 100%);
+      border-radius: 50%;
+      filter: blur(10px);
+      opacity: 0.3;
+      z-index: -1;
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .input-field:focus {
+      box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
+    }
+    
+    .tab-active {
+      background: linear-gradient(90deg, rgba(168, 85, 247, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+      color: white;
+      font-weight: 500;
+    }
+    
+    .tab-inactive {
+      color: #94A3B8;
+      font-weight: 400;
+    }
+    
+    .form-active {
+      display: block;
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    .form-inactive {
+      display: none;
+    }
+    
+    .contact-card {
+      transition: all 0.3s ease;
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .map-container {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Corrigindo o overflow */
+    body {
+      min-height: 100vh;
+    }
+    
+    .background-elements {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Animação dos links da navegação */
+    .nav-link {
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-image: linear-gradient(90deg, #8b55ff, #36aaf5);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .nav-link.active {
+      color: white;
+    }
+    
+    .nav-link.active::after {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-primary text-slate-100 font-sans min-h-screen flex flex-col">
+  <!-- Background decorative elements (alterado para fixed e z-index negativo) -->
+  <div class="background-elements">
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/3 right-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl"></div>
+  </div>
+  
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-slate-900/80 backdrop-blur-md border-b border-slate-800/50">
+    <div class="flex items-center space-x-3">
+      <a href="../Pasta HTML/index.html" class="flex items-center space-x-3 hover:opacity-90 transition-opacity">
+        <div class="glow-effect">
+          <i class="fa-solid fa-brain text-3xl text-gradient"></i>
+        </div>
+        <span class="text-2xl font-bold text-gradient">FlashMind</span>
+      </a>
+    </div>
+    <div class="hidden md:flex items-center">
+      <a href="../Pasta HTML/index.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Início</a>
+      <a href="../Pasta HTML/guia.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Guia</a>
+      <a href="../Pasta HTML/sobre.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Sobre</a>
+      <a href="../Pasta HTML/contato.html" class="nav-link text-white font-medium mr-6">Contato</a>
+      <a href="../Pasta HTML/login.html" class="bg-gradient-to-r from-purple-600 to-cyan-500 px-6 py-2 rounded-md text-white font-medium hover:shadow-lg transition-all duration-300">
+        Entrar
+      </a>
+    </div>
+    <button class="md:hidden text-slate-300">
+      <i class="fa-solid fa-bars text-2xl"></i>
+    </button>
+  </header>
+  
+  <!-- Main Content -->
+  <main class="flex-grow w-full max-w-6xl mx-auto pt-24 px-6 md:px-12 pb-16">
+    <div class="flex flex-col lg:flex-row gap-12">
+      <!-- Contact Info -->
+      <div class="w-full lg:w-2/5 space-y-8 animate-fade-in">
+        <h1 class="text-4xl font-bold mb-6 leading-tight text-white">
+          Entre em <span class="text-gradient">contato</span> conosco
+        </h1>
+        
+        <p class="text-slate-300 mb-8 text-lg leading-relaxed">
+          Tem dúvidas, sugestões ou precisa de suporte? Nossa equipe está pronta para ajudar você a aproveitar ao máximo sua experiência de aprendizado.
+        </p>
+        <div class="space-y-6">
+          <!-- Contact Card 1 -->
+          <div class="contact-card border border-slate-800/50 bg-slate-900/30 backdrop-blur-md p-6 rounded-xl">
+            <div class="flex items-start space-x-4">
+              <div class="bg-gradient-to-br from-purple-500/10 to-cyan-500/10 p-3 rounded-lg">
+                <i class="fa-solid fa-envelope text-purple-400 text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-medium text-white mb-1">E-mail</h3>
+                <p class="text-slate-300 mb-2">Envie-nos uma mensagem diretamente</p>
+                <a href="mailto:contato@flashmind.com" class="text-purple-400 hover:text-purple-300 transition">contato@flashmind.com</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Contact Card 2 -->
+          <div class="contact-card border border-slate-800/50 bg-slate-900/30 backdrop-blur-md p-6 rounded-xl">
+            <div class="flex items-start space-x-4">
+              <div class="bg-gradient-to-br from-purple-500/10 to-cyan-500/10 p-3 rounded-lg">
+                <i class="fa-solid fa-headset text-purple-400 text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-medium text-white mb-1">Suporte</h3>
+                <p class="text-slate-300 mb-2">Atendimento personalizado</p>
+                <a href="tel:+5511999999999" class="text-purple-400 hover:text-purple-300 transition">+55 (14) XXXX-XXXX</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Contact Card 3 -->
+          <div class="contact-card border border-slate-800/50 bg-slate-900/30 backdrop-blur-md p-6 rounded-xl">
+            <div class="flex items-start space-x-4">
+              <div class="bg-gradient-to-br from-purple-500/10 to-cyan-500/10 p-3 rounded-lg">
+                <i class="fa-solid fa-location-dot text-purple-400 text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-medium text-white mb-1">Endereço</h3>
+                <p class="text-slate-300">ETEC Jacinto Ferreira de Sá</p>
+                <p class="text-slate-300">Av. Antônio de Almeida Leite, 913</p>
+                <p class="text-slate-300">Vila Moraes - Ourinhos/SP</p>
+                <p class="text-slate-300">CEP: 19907-000</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Social Media -->
+          <div class="flex items-center space-x-4 pt-4">
+            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-800/50 text-slate-300 hover:text-white hover:bg-purple-500/20 transition">
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-800/50 text-slate-300 hover:text-white hover:bg-purple-500/20 transition">
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-800/50 text-slate-300 hover:text-white hover:bg-purple-500/20 transition">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-800/50 text-slate-300 hover:text-white hover:bg-purple-500/20 transition">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Contact Form -->
+      <div class="w-full lg:w-3/5">
+        <div class="border border-slate-800/50 bg-slate-900/30 backdrop-blur-md shadow-xl rounded-xl overflow-hidden">
+          <div class="p-8">
+            <h2 class="text-2xl font-bold text-white mb-6">Envie sua mensagem</h2>
+            
+            <div id="form-error" class="hidden bg-red-900/10 border border-red-800/30 text-red-300 p-4 rounded-md text-sm mb-6"></div>
+            <div id="form-success" class="hidden bg-emerald-900/10 border border-emerald-800/30 text-emerald-300 p-4 rounded-md text-sm mb-6"></div>
+            
+            <form id="contact-form" class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label for="name" class="block text-slate-300 font-medium">Nome</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                      <i class="fa-solid fa-user text-slate-400 text-sm"></i>
+                    </div>
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      placeholder="Seu nome completo"
+                      class="input-field pl-10 w-full bg-slate-800/20 border border-slate-700/50 text-white h-11 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500/20"
+                      required/>
+                  </div>
+                </div>
+                
+                <div class="space-y-2">
+                  <label for="email" class="block text-slate-300 font-medium">E-mail</label>
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                      <i class="fa-solid fa-envelope text-slate-400 text-sm"></i>
+                    </div>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="seu@email.com"
+                      class="input-field pl-10 w-full bg-slate-800/20 border border-slate-700/50 text-white h-11 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500/20"
+                      required/>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="space-y-2">
+                <label for="subject" class="block text-slate-300 font-medium">Assunto</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-tag text-slate-400 text-sm"></i>
+                  </div>
+                  <select
+                    id="subject"
+                    name="subject"
+                    class="input-field pl-10 w-full bg-slate-800/20 border border-slate-700/50 text-white h-11 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500/20 appearance-none"
+                    required>
+                    <option value="" disabled selected>Selecione um assunto</option>
+                    <option value="support">Suporte Técnico</option>
+                    <option value="sales">Vendas e Planos</option>
+                    <option value="feedback">Feedback/Sugestão</option>
+                    <option value="partnership">Parcerias</option>
+                    <option value="other">Outro</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-chevron-down text-slate-400 text-sm"></i>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="space-y-2">
+                <label for="message" class="block text-slate-300 font-medium">Mensagem</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="5"
+                  placeholder="Escreva sua mensagem aqui..."
+                  class="input-field w-full bg-slate-800/20 border border-slate-700/50 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500/20 p-3"
+                  required></textarea>
+              </div>
+              
+              <div class="flex items-start space-x-2.5">
+                <input
+                  type="checkbox"
+                  id="consent"
+                  name="consent"
+                  class="h-4 w-4 mt-1 rounded border-slate-700 bg-slate-800/50 text-purple-500 focus:ring-purple-500/20"
+                  required/>
+                <label for="consent" class="text-sm text-slate-300">
+                  Concordo em compartilhar meus dados conforme a
+                  <a href="#" class="text-purple-400 hover:text-purple-300 transition">Política de Privacidade</a>
+                </label>
+              </div>
+              
+              <button
+                type="submit"
+                class="w-full h-11 bg-gradient-button text-white font-medium rounded-md transition-all duration-300 flex items-center justify-center">
+                <span id="submit-text">Enviar mensagem</span>
+                <span id="submit-loading" class="hidden ml-2">
+                  <i class="fa-solid fa-spinner fa-spin"></i>
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="w-full bg-slate-900/80 backdrop-blur-sm border-t border-slate-800/50 py-8">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="glow-effect">
+              <i class="fa-solid fa-brain text-3xl text-gradient"></i>
+            </div>
+            <span class="text-xl font-bold text-gradient">FlashMind</span>
+          </div>
+          <p class="text-slate-300 text-sm">
+            Transformando aprendizado em diversão desde 2025. Aprenda, compita e cresça com nossa plataforma.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-4 text-white">Links Rápidos</h3>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li><a href="#" class="hover:text-purple-400 transition">Dashboard</a></li>
+            <li><a href="#" class="hover:text-purple-400 transition">Ranking</a></li>
+            <li><a href="#" class="hover:text-purple-400 transition">Comunidade</a></li>
+            <li><a href="#" class="hover:text-purple-400 transition">Torneios</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-4 text-white">Ajuda</h3>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li><a href="#" class="hover:text-purple-400 transition">Central de Ajuda</a></li>
+            <li><a href="#" class="hover:text-purple-400 transition">Termos de Serviço</a></li>
+            <li><a href="#" class="hover:text-purple-400 transition">Política de Privacidade</a></li>
+            <li><a href="#" class="hover:text-purple-400 transition">Contate-nos</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-4 text-white">Redes Sociais</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center text-slate-300 hover:bg-purple-600/20 hover:text-purple-400 transition">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center text-slate-300 hover:bg-cyan-600/20 hover:text-cyan-400 transition">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center text-slate-300 hover:bg-purple-600/20 hover:text-purple-400 transition">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center text-slate-300 hover:bg-cyan-600/20 hover:text-cyan-400 transition">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="border-t border-slate-800/50 mt-8 pt-8 text-center text-sm text-slate-300">
+        <p>©2025 TCC FlashMind. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    // Form submission handler
+    const contactForm = document.getElementById('contact-form');
+    const formError = document.getElementById('form-error');
+    const formSuccess = document.getElementById('form-success');
+    const submitText = document.getElementById('submit-text');
+    const submitLoading = document.getElementById('submit-loading');
+    
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Hide previous messages
+      formError.classList.add('hidden');
+      formSuccess.classList.add('hidden');
+      
+      // Show loading state
+      submitText.classList.add('hidden');
+      submitLoading.classList.remove('hidden');
+      
+      // Get form data
+      const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value,
+        consent: document.getElementById('consent').checked
+      };
+      
+      try {
+        // Simulate API call (replace with actual fetch)
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Show success message
+        formSuccess.textContent = "Sua mensagem foi enviada com sucesso! Entraremos em contato em breve.";
+        formSuccess.classList.remove('hidden');
+        
+        // Reset form
+        contactForm.reset();
+        
+      } catch (error) {
+        console.error("Erro ao enviar mensagem:", error);
+        formError.textContent = "Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente mais tarde.";
+        formError.classList.remove('hidden');
+      } finally {
+        // Reset button state
+        submitText.classList.remove('hidden');
+        submitLoading.classList.add('hidden');
+      }
+    });
+    
+    // Simple form validation
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+      input.addEventListener('invalid', (e) => {
+        e.preventDefault();
+        input.classList.add('border-red-500');
+        
+        const errorMessage = document.createElement('p');
+        errorMessage.className = 'text-red-400 text-xs mt-1';
+        errorMessage.textContent = 'Este campo é obrigatório';
+        
+        // Check if error message already exists
+        if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('text-red-400')) {
+          input.parentNode.insertBefore(errorMessage, input.nextSibling);
+        }
+      });
+      
+      input.addEventListener('input', () => {
+        input.classList.remove('border-red-500');
+        if (input.nextElementSibling && input.nextElementSibling.classList.contains('text-red-400')) {
+          input.nextElementSibling.remove();
+        }
+      });
+    });
+  </script>
 </body>
 </html>

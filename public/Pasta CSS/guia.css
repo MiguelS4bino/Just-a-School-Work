@@ -109,3 +109,31 @@
       .scrollbar-hide::-webkit-scrollbar {
         display: none;
       }
+      /* Animação dos links da navegação */
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background-image: linear-gradient(90deg, #8b55ff, #36aaf5);
+        transition: width 0.3s ease;
+      }
+      
+      .nav-link:hover::after {
+        width: 100%;
+      }
+      
+      .nav-link.active {
+        color: white;
+      }
+      
+      .nav-link.active::after {
+        width: 100%;
+      }

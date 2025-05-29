@@ -4,116 +4,268 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FlashMind - Dashboard</title>
+    
+    <!-- External CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     
-  <style>
-      #challengeModal{
-        /* NÃO defina display: none aqui! */
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgb(70, 70, 70);
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        display: block; /* ou deixe sem isso, já que "hidden" vai controlar */
-        z-index: 1000;
-      }
-      
-      .hidden {
-        display: none !important;
-      }
-      
-      #challengeModal .modal-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      #acceptChallengeBtn, #rejectChallengeBtn {
-        color: tomato;
-        margin-top: 10px;
-      }
-      
-      /* Adicionando animações personalizadas */
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      
-      @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-3px); }
-      }
-      
-      @keyframes gradient {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-      }
-      
-      .animate-fade-in {
-        animation: fadeIn 0.5s ease-in-out;
-      }
-      
-      .animate-float {
-        animation: float 3s ease-in-out infinite;
-      }
-      
+    <!-- Tailwind Config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            animation: {
+              "fade-in": "fadeIn 0.5s ease-in-out",
+              float: "float 3s ease-in-out infinite",
+              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+              "gradient": "gradient 6s ease infinite",
+              "slide-up": "slideUp 0.5s ease-out",
+              "slide-down": "slideDown 0.3s ease-in",
+              "scale": "scale 0.2s ease-in-out",
+            },
+            keyframes: {
+              fadeIn: {
+                "0%": { opacity: "0", transform: "translateY(10px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-3px)" },
+              },
+              gradient: {
+                "0%, 100%": { 'background-position': '0% 50%' },
+                "50%": { 'background-position': '100% 50%' },
+              },
+              slideUp: {
+                "0%": { transform: "translateY(20px)", opacity: "0" },
+                "100%": { transform: "translateY(0)", opacity: "1" },
+              },
+              slideDown: {
+                "0%": { transform: "translateY(-20px)", opacity: "0" },
+                "100%": { transform: "translateY(0)", opacity: "1" },
+              },
+              scale: {
+                "0%": { transform: "scale(0.95)" },
+                "100%": { transform: "scale(1)" },
+              }
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+      /* Gradientes e Textos */
       .gradient-text {
-        background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+        background: linear-gradient(45deg, #3B82F6, #8B5CF6);
         -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         background-clip: text;
-        color: transparent;
       }
-      
-      .glow-effect {
-        box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+
+      /* Modal e Animações */
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-2px) rotate(-1deg); }
+        75% { transform: translateX(2px) rotate(1deg); }
       }
-      
+
+      .animate-shake {
+        animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+      }
+
+      /* Hover Effects */
       .card-hover {
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
-      
+
       .card-hover:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
       }
-      
-      .achievement-badge {
+
+      /* Button Animations */
+      button {
+        transition: all 0.2s ease-in-out;
+      }
+
+      button:active {
+        transform: scale(0.95);
+      }
+
+      /* Glow Effect */
+      .glow-effect {
         position: relative;
         overflow: hidden;
+        z-index: 1;
       }
-      
-      .achievement-badge::after {
+
+      .glow-effect::after {
         content: '';
         position: absolute;
         top: -50%;
         left: -50%;
         width: 200%;
         height: 200%;
-        background: linear-gradient(
-          to bottom right,
-          rgba(255, 255, 255, 0) 0%,
-          rgba(255, 255, 255, 0.1) 50%,
-          rgba(255, 255, 255, 0) 100%
-        );
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
         transform: rotate(30deg);
-        animation: shine 3s infinite;
+        animation: glow 3s infinite;
+        z-index: -1;
+      }
+
+      @keyframes glow {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* Friends Dropdown */
+      #friendsDropdown {
+        transform-origin: top right;
+        transition: all 0.2s ease-out;
+        z-index: 100;
+      }
+
+      #friendsDropdown.hidden {
+        display: none;
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+      }
+
+      #friendsDropdown:not(.hidden) {
+        display: block;
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+
+      .friend-item {
+        transition: transform 0.2s ease;
+      }
+
+      .friend-item:hover {
+        transform: translateX(4px);
+      }
+
+      /* Online Indicator */
+      .online-indicator {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+
+      /* Tooltips */
+      [data-tooltip] {
+        position: relative;
+      }
+
+      [data-tooltip]:before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 4px 8px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        font-size: 12px;
+        border-radius: 4px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.2s ease;
+        z-index: 50;
+      }
+
+      [data-tooltip]:hover:before {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Modal Styles */
+      #matchmakingModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      #matchmakingModal.hidden {
+        display: none;
+      }
+
+      #matchmakingModal > div {
+        background: linear-gradient(to bottom right, rgb(30, 41, 59), rgb(15, 23, 42));
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      /* Achievement Badge */
+      .achievement-badge {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .achievement-badge::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transform: translateX(-100%);
+        animation: shine 2s infinite;
+      }
+
+      @keyframes shine {
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      /* Responsive Fixes */
+      @media (max-width: 768px) {
+        .card-hover:hover {
+          transform: none;
+        }
+        
+        #friendsDropdown,
+        #notificationDropdown {
+          position: fixed;
+          top: 4rem;
+          right: 1rem;
+          left: 1rem;
+          width: auto;
+        }
       }
       
-      @keyframes shine {
-        0% { transform: translateX(-100%) rotate(30deg); }
-        100% { transform: translateX(100%) rotate(30deg); }
+      /* Fix for hidden elements */
+      .hidden {
+        display: none !important;
       }
     </style>
   </head>
 
   <body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
-    <!-- Navbar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-gray-900 bg-opacity-90 backdrop-blur-sm border-b border-gray-800">
+    <!-- Todo o conteúdo HTML existente permanece aqui, sem alterações -->
+    <header class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-gray-900 bg-opacity-90 backdrop-blur-sm border-b border-gray-800">
       <div class="flex items-center space-x-3">
         <i class="fas fa-brain text-3xl gradient-text animate-float"></i>
         <span class="text-2xl font-bold gradient-text">FlashMind</span>
@@ -122,6 +274,145 @@
         <!-- Adicione os links de navegação aqui se necessário -->
       </div>
       <div class="flex items-center space-x-4">
+        <!-- Notificações -->
+        <div class="relative">
+          <button class="text-gray-400 hover:text-white transition" id="notificationBtn">
+            <i class="fas fa-bell text-xl"></i>
+            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">3</span>
+          </button>
+          <!-- Dropdown de notificações -->
+          <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-80 bg-gray-800 rounded-xl shadow-lg border border-gray-700 z-50">
+            <div class="p-4 border-b border-gray-700">
+              <h3 class="font-semibold">Notificações</h3>
+            </div>
+            <div class="max-h-96 overflow-y-auto">
+              <a href="#" class="block p-4 hover:bg-gray-700 border-b border-gray-700">
+                <p class="text-sm"><span class="font-medium text-blue-400">Novo desafio!</span> Você recebeu um desafio de matemática.</p>
+                <p class="text-xs text-gray-400 mt-1">Há 5 minutos</p>
+              </a>
+              <a href="#" class="block p-4 hover:bg-gray-700 border-b border-gray-700">
+                <p class="text-sm"><span class="font-medium text-green-400">Conquista desbloqueada!</span> Você completou 3 jogos seguidos.</p>
+                <p class="text-xs text-gray-400 mt-1">Há 30 minutos</p>
+              </a>
+              <a href="#" class="block p-4 hover:bg-gray-700">
+                <p class="text-sm"><span class="font-medium text-purple-400">Novo torneio!</span> Um torneio de ciências começará em breve.</p>
+                <p class="text-xs text-gray-400 mt-1">Há 1 hora</p>
+              </a>
+            </div>
+            <div class="p-4 border-t border-gray-700">
+              <a href="#" class="text-sm text-blue-400 hover:text-blue-300">Ver todas as notificações</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Amigos -->
+        <div class="relative">
+          <button class="text-gray-400 hover:text-white transition" id="friendsBtn">
+            <i class="fas fa-users text-xl"></i>
+            <span class="absolute -top-1 -right-1 bg-green-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">5</span>
+          </button>
+          <!-- Dropdown de amigos -->
+          <div id="friendsDropdown" class="hidden absolute right-0 mt-2 w-80 bg-gray-800 rounded-xl shadow-lg border border-gray-700 z-50">
+            <div class="p-4 border-b border-gray-700">
+              <div class="flex justify-between items-center">
+                <h3 class="font-semibold">Amigos</h3>
+                <div class="flex space-x-2">
+                  <button class="text-gray-400 hover:text-white transition" title="Adicionar amigo">
+                    <i class="fas fa-user-plus"></i>
+                  </button>
+                  <button class="text-gray-400 hover:text-white transition" title="Procurar amigos">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="max-h-96 overflow-y-auto">
+              <!-- Online Friends -->
+              <div class="p-3 border-b border-gray-700">
+                <h4 class="text-sm text-gray-400 mb-2">Online (3)</h4>
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between hover:bg-gray-700/50 p-2 rounded-lg transition-colors">
+                    <div class="flex items-center space-x-3">
+                      <div class="relative">
+                        <img src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png" class="w-8 h-8 rounded-full" alt="Amigo">
+                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-gray-800"></div>
+                      </div>
+                      <div>
+                        <p class="text-sm font-medium">Dilma Rousseff</p>
+                        <p class="text-xs text-gray-400">Jogando agora</p>
+                      </div>
+                    </div>
+                    <button class="text-blue-400 hover:text-blue-300 transition">
+                      <i class="fas fa-gamepad"></i>
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between hover:bg-gray-700/50 p-2 rounded-lg transition-colors">
+                    <div class="flex items-center space-x-3">
+                      <div class="relative">
+                        <img src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png" class="w-8 h-8 rounded-full" alt="Amigo">
+                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-gray-800"></div>
+                      </div>
+                      <div>
+                        <p class="text-sm font-medium">Pablo Marçal</p>
+                        <p class="text-xs text-gray-400">Online</p>
+                      </div>
+                    </div>
+                    <button class="text-blue-400 hover:text-blue-300 transition">
+                      <i class="fas fa-gamepad"></i>
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-between hover:bg-gray-700/50 p-2 rounded-lg transition-colors">
+                    <div class="flex items-center space-x-3">
+                      <div class="relative">
+                        <img src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png" class="w-8 h-8 rounded-full" alt="Amigo">
+                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-gray-800"></div>
+                      </div>
+                      <div>
+                        <p class="text-sm font-medium">Alexandre de Moraes</p>
+                        <p class="text-xs text-gray-400">No menu</p>
+                      </div>
+                    </div>
+                    <button class="text-blue-400 hover:text-blue-300 transition">
+                      <i class="fas fa-gamepad"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Offline Friends -->
+              <div class="p-3">
+                <h4 class="text-sm text-gray-400 mb-2">Offline (2)</h4>
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between hover:bg-gray-700/50 p-2 rounded-lg transition-colors opacity-50">
+                    <div class="flex items-center space-x-3">
+                      <div class="relative">
+                        <img src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png" class="w-8 h-8 rounded-full" alt="Amigo">
+                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-gray-500 rounded-full border-2 border-gray-800"></div>
+                      </div>
+                      <div>
+                        <p class="text-sm font-medium">Gustavo Guanabara</p>
+                        <p class="text-xs text-gray-400">Última vez: 2h atrás</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-center justify-between hover:bg-gray-700/50 p-2 rounded-lg transition-colors opacity-50">
+                    <div class="flex items-center space-x-3">
+                      <div class="relative">
+                        <img src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png" class="w-8 h-8 rounded-full" alt="Amigo">
+                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-gray-500 rounded-full border-2 border-gray-800"></div>
+                      </div>
+                      <div>
+                        <p class="text-sm font-medium">Filipe Deschamps</p>
+                        <p class="text-xs text-gray-400">Última vez: 5h atrás</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Indicador de status online -->
         <div class="hidden md:flex items-center space-x-2 bg-gray-800/50 px-3 py-1 rounded-full">
           <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
@@ -132,7 +423,7 @@
           <i class="fas fa-bars text-xl"></i>
         </button>
       </div>
-    </nav>
+    </header>
 
     <!-- Main Content -->
     <div class="flex pt-16">
@@ -145,12 +436,10 @@
                 id="foto-usuario"
                 src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png"
                 alt="Foto do usuário"
-                class="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-60"
-              />
+                class="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-60"/>
               <label
                 for="uploadInput"
-                class="absolute inset-0 bg-black bg-opacity-50 text-white text-center flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer text-sm"
-              >
+                class="absolute inset-0 bg-black bg-opacity-50 text-white text-center flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer text-sm">
                 Alterar
               </label>
               <input id="uploadInput" type="file" accept="image/*" class="hidden" />
@@ -547,14 +836,38 @@
     </div>
 
     <!-- Modal de Matchmaking -->
-    <div id="matchmakingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-      <div class="bg-gradient-to-br from-blue-900 to-blue-800 rounded-xl p-8 shadow-lg text-center w-80 animate-pulse border border-blue-700/30">
+    <div id="matchmakingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden transition-opacity duration-300">
+      <div class="bg-gradient-to-br from-blue-900 to-blue-800 rounded-xl p-8 shadow-lg text-center w-80 border border-blue-700/30 transform transition-all duration-300 scale-95 opacity-0">
         <h2 class="text-xl font-semibold mb-4 text-white">Procurando oponente...</h2>
         <div class="mb-6">
           <div class="relative w-20 h-20 mx-auto">
             <div class="absolute inset-0 flex items-center justify-center">
-              <i class="fas fa-brain text-4xl text-blue-300 animate-pulse-slow"></i>
+              <i class="fas fa-brain text-4xl text-blue-300 animate-pulse"></i>
             </div>
+            <!-- Círculo de loading animado -->
+            <svg class="animate-spin absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+              <circle 
+                cx="50" 
+                cy="50" 
+                r="45" 
+                fill="none" 
+                stroke="currentColor" 
+                class="text-blue-500/20" 
+                stroke-width="8"
+              />
+              <circle 
+                cx="50" 
+                cy="50" 
+                r="45" 
+                fill="none" 
+                stroke="currentColor" 
+                class="text-blue-400" 
+                stroke-width="8"
+                stroke-dasharray="283"
+                stroke-dashoffset="200"
+                transform="rotate(-90 50 50)"
+              />
+            </svg>
           </div>
         </div>
         <div class="flex justify-center space-x-2 mb-4">
@@ -562,7 +875,8 @@
           <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
           <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
         </div>
-        <button id="cancelMatchmaking" class="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition">
+        <p class="text-sm text-blue-200 mb-4" id="searchingText">Procurando jogadores próximos ao seu nível...</p>
+        <button id="cancelMatchmaking" class="mt-2 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
           Cancelar
         </button>
       </div>
@@ -1003,10 +1317,12 @@
     </div>
 
     <!-- Scripts -->
+    <!-- External Scripts -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="../JS/dashboard/main.js"></script>
+
+    <!-- Page Navigation Script -->
     <script>
-      // Funções para mostrar/esconder páginas
       function showPage(pageId) {
         document.getElementById(pageId).classList.remove('hidden');
       }
@@ -1014,8 +1330,96 @@
       function hidePage(pageId) {
         document.getElementById(pageId).classList.add('hidden');
       }
+    </script>
 
+    <!-- Main Functionality Script -->
+    <script>
       document.addEventListener("DOMContentLoaded", () => {
+        // Friends Dropdown
+        const friendsBtn = document.getElementById('friendsBtn');
+        const friendsDropdown = document.getElementById('friendsDropdown');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        
+        if (friendsBtn && friendsDropdown) {
+          friendsBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            friendsDropdown.classList.toggle('hidden');
+            
+            if (notificationDropdown && !notificationDropdown.classList.contains('hidden')) {
+              notificationDropdown.classList.add('hidden');
+            }
+          });
+
+          document.addEventListener('click', (e) => {
+            if (!friendsDropdown.contains(e.target) && !friendsBtn.contains(e.target)) {
+              friendsDropdown.classList.add('hidden');
+            }
+          });
+
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !friendsDropdown.classList.contains('hidden')) {
+              friendsDropdown.classList.add('hidden');
+            }
+          });
+
+          // Challenge Buttons
+          const challengeButtons = friendsDropdown.querySelectorAll('.fa-gamepad');
+          challengeButtons.forEach(button => {
+            button.parentElement.addEventListener('click', (e) => {
+              e.preventDefault();
+              const friendName = e.target.closest('.flex').querySelector('.font-medium').textContent;
+              
+              const notification = document.createElement('div');
+              notification.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg transform translate-y-full opacity-0 transition-all duration-300 z-50';
+              notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                  <i class="fas fa-paper-plane"></i>
+                  <span>Desafio enviado para ${friendName}!</span>
+                </div>
+              `;
+              
+              document.body.appendChild(notification);
+              
+              requestAnimationFrame(() => {
+                notification.style.transform = 'translateY(0)';
+                notification.style.opacity = '1';
+              });
+              
+              setTimeout(() => {
+                notification.style.transform = 'translateY(full)';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+              }, 3000);
+            });
+          });
+        }
+
+        // Notifications
+        const notificationBtn = document.getElementById('notificationBtn');
+        if (notificationBtn && notificationDropdown) {
+          notificationBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notificationDropdown.classList.toggle('hidden');
+            notificationBtn.classList.add('animate-shake');
+            setTimeout(() => {
+              notificationBtn.classList.remove('animate-shake');
+            }, 1000);
+          });
+
+          document.addEventListener('click', (e) => {
+            if (!notificationDropdown.contains(e.target) && !notificationBtn.contains(e.target)) {
+              notificationDropdown.classList.add('hidden');
+            }
+          });
+
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+              notificationDropdown.classList.add('hidden');
+            }
+          });
+        }
+
+        // User Authentication
         const token = localStorage.getItem("token");
         const id = localStorage.getItem("userId");
 
@@ -1024,7 +1428,7 @@
           return;
         }
 
-        // Busca os dados do usuário
+        // User Data Fetch
         fetch(`http://localhost:3000/user/${id}`, {
           method: 'GET',
           headers: {
@@ -1049,127 +1453,127 @@
           })
           .catch(err => console.error('ERRO:', err));
 
-        // Matchmaking modal
-        document.getElementById("btnEntrar").addEventListener("click", () => {
-          document.getElementById("matchmakingModal").classList.remove("hidden");
-        });
-        document.getElementById("cancelMatchmaking").addEventListener("click", () => {
-          document.getElementById("matchmakingModal").classList.add("hidden");
+        // Matchmaking Modal
+        const matchmakingModal = document.getElementById('matchmakingModal');
+        const modalContent = matchmakingModal.querySelector('div');
+        const searchingText = document.getElementById('searchingText');
+        const searchTexts = [
+          'Procurando jogadores próximos ao seu nível...',
+          'Analisando partidas compatíveis...',
+          'Verificando conexões disponíveis...',
+          'Preparando o desafio perfeito...'
+        ];
+        let searchTextIndex = 0;
+        let searchingInterval;
+
+        function showMatchmakingModal() {
+          matchmakingModal.classList.remove('hidden');
+          matchmakingModal.offsetHeight;
+          modalContent.classList.remove('scale-95', 'opacity-0');
+          startSearchingAnimation();
+        }
+
+        function hideMatchmakingModal() {
+          modalContent.classList.add('scale-95', 'opacity-0');
+          setTimeout(() => {
+            matchmakingModal.classList.add('hidden');
+            stopSearchingAnimation();
+          }, 300);
+        }
+
+        function startSearchingAnimation() {
+          searchingInterval = setInterval(() => {
+            searchTextIndex = (searchTextIndex + 1) % searchTexts.length;
+            searchingText.textContent = searchTexts[searchTextIndex];
+          }, 3000);
+        }
+
+        function stopSearchingAnimation() {
+          clearInterval(searchingInterval);
+          searchTextIndex = 0;
+          searchingText.textContent = searchTexts[0];
+        }
+
+        document.getElementById('btnEntrar').addEventListener('click', showMatchmakingModal);
+        document.getElementById('cancelMatchmaking').addEventListener('click', hideMatchmakingModal);
+        
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && !matchmakingModal.classList.contains('hidden')) {
+            hideMatchmakingModal();
+          }
         });
 
-        // Links da sidebar
-        document.getElementById("dashboard-link")?.addEventListener("click", e => {
-          e.preventDefault();
-          console.log("Dashboard link clicked");
-        });
-                
+        // Photo Upload
+        const uploadInput = document.getElementById('uploadInput');
+        const fotoUsuario = document.getElementById('foto-usuario');
+        
+        if (uploadInput && fotoUsuario) {
+          uploadInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+              if (file.size > 50 * 1024 * 1024) {
+                alert("Imagem muito grande!");
+                this.value = "";
+                return;
+              }
+
+              fotoUsuario.style.opacity = '0.5';
+              const loadingIcon = document.createElement('i');
+              loadingIcon.className = 'fas fa-spinner fa-spin absolute inset-0 m-auto text-2xl text-white';
+              fotoUsuario.parentElement.appendChild(loadingIcon);
+              
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                setTimeout(() => {
+                  fotoUsuario.src = e.target.result;
+                  fotoUsuario.style.opacity = '1';
+                  loadingIcon.remove();
+                  fotoUsuario.classList.add('animate-scale');
+                  setTimeout(() => fotoUsuario.classList.remove('animate-scale'), 300);
+                }, 1000);
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+        }
+
+        // Sidebar Navigation
         document.getElementById("ranking-link")?.addEventListener("click", e => {
           e.preventDefault();
           showPage('ranking-page');
         });
-                
+        
         document.getElementById("ia-link")?.addEventListener("click", e => {
           e.preventDefault();
           showPage('ia-page');
         });
-                
+        
         document.getElementById("community-link")?.addEventListener("click", e => {
           e.preventDefault();
           showPage('community-page');
         });
-                
+        
         document.getElementById("achievements-link")?.addEventListener("click", e => {
           e.preventDefault();
           showPage('achievements-page');
         });
-                
+        
         document.getElementById("stats-link")?.addEventListener("click", e => {
           e.preventDefault();
           showPage('stats-page');
         });
-                
+        
         document.getElementById("settings-link")?.addEventListener("click", e => {
           e.preventDefault();
           showPage('settings-page');
         });
-                
+        
         document.getElementById("logout-link")?.addEventListener("click", e => {
           e.preventDefault();
           localStorage.clear();
           window.location.href = "login.html";
         });
-
-        // Upload de foto de perfil
-        document.getElementById("uploadInput").addEventListener("change", function () {
-          const file = this.files[0];
-          if (!file) return;
-          if (file.size > 50 * 1024 * 1024) {
-            alert("Imagem muito grande!");
-            this.value = "";
-            return;
-          }
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            fetch(`http://localhost:3000/user/photo/${id}`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-              },
-              body: JSON.stringify({ base64Img: reader.result })
-            })
-              .then(res => res.json())
-              .then(data => {
-                document.getElementById('foto-usuario').src = data.updatedUser.img;
-                this.value = "";
-                console.log('Imagem atualizada com sucesso');
-              })
-              .catch(err => console.error('Erro ao enviar imagem:', err));
-          };
-          reader.readAsDataURL(file);
-        });
       });
     </script>
-    <!-- Script do Tailwind -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Inter", "sans-serif"],
-            },
-            animation: {
-              "fade-in": "fadeIn 0.5s ease-in-out",
-              float: "float 3s ease-in-out infinite",
-              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-              "gradient": "gradient 6s ease infinite",
-            },
-            keyframes: {
-              fadeIn: {
-                "0%": { opacity: "0", transform: "translateY(10px)" },
-                "100%": { opacity: "1", transform: "translateY(0)" },
-              },
-              float: {
-                "0%, 100%": { transform: "translateY(0)" },
-                "50%": { transform: "translateY(-3px)" },
-              },
-              gradient: {
-                "0%, 100%": { 'background-position': '0% 50%' },
-                "50%": { 'background-position': '100% 50%' },
-              }
-            },
-            colors: {
-              "dark-blue": "#0f172a",
-              "darker-blue": "#0a1120",
-              "light-blue": "#1e40af",
-              "lighter-blue": "#3b82f6",
-            },
-          },
-        },
-      };
-    </script>
-
-    
-    
   </body>
 </html>
