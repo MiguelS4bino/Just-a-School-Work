@@ -55,32 +55,25 @@
   </div>
 
   <!-- Hero Section -->
-  <section id="hero" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
-    <!-- Background decorative elements -->
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl animate-pulse-slow"></div>
-      <div class="absolute bottom-1/3 right-1/4 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1s;"></div>
-    </div>
-    
-    <div class="container mx-auto px-6 py-12 md:py-20 relative z-10">
-      <div class="flex flex-col lg:flex-row items-center gap-12">
+  <section id="hero" class="relative min-h-screen flex items-center pt-28 pb-20 overflow-hidden">
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+      <div class="flex flex-col lg:flex-row items-center gap-16">
         <div class="lg:w-1/2 animate-fade-in">
-          <span class="inline-block px-3 py-1 text-sm bg-secondary-500/10 text-secondary-300 rounded-full mb-6 border border-secondary-500/20">
+          <span class="inline-block px-4 py-2 text-sm bg-secondary-500/10 text-secondary-300 rounded-full mb-8 border border-secondary-500/20">
             PROJETO DE TCC
           </span>
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
             Revolucione seus estudos com 
             <span class="text-gradient">FlashMind</span>
           </h1>
-          <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+          <p class="text-xl text-gray-300 mb-10 leading-relaxed">
             Uma plataforma inovadora que combina flashcards, gamificação e inteligência artificial para transformar a maneira como você aprende.
           </p>
           
-          <div class="flex flex-col sm:flex-row gap-4 mb-8">
-            <a href="#about" class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 text-center">
+          <div class="flex flex-col sm:flex-row gap-6 mb-12">
+            <a href="#about" class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-4 rounded-lg font-medium transition-all duration-300 text-center">
               Conheça o Projeto
             </a>
-            </button>
           </div>
           
           <div class="flex items-center space-x-4 text-gray-400 text-sm">
@@ -101,7 +94,7 @@
           <div class="relative">
             <div class="absolute -inset-4 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-xl blur-xl"></div>
             <img 
-              src="../imgs/interface-flashmind.png" 
+              src="../imgs/ImgLandingPage1.png" 
               alt="FlashMind Interface" 
               class="relative z-10 rounded-xl shadow-2xl border border-primary-700/50 w-full"
               loading="lazy"
@@ -111,17 +104,17 @@
       </div>
       
       <!-- Scroll indicator -->
-      <div class="scroll-indicator">
-        <span class="text-sm text-gray-400 mb-2">Rolar para baixo</span>
+      <div class="scroll-indicator absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce">
+        <span class="text-sm text-gray-400 mb-2 bg-primary-950/80 px-4 py-1 rounded-full backdrop-blur-sm">Rolar para baixo</span>
         <i class="fas fa-chevron-down text-gray-400"></i>
       </div>
     </div>
   </section>
 
   <!-- About Section -->
-  <section id="about" class="py-20 md:py-28 relative">
-    <div class="container mx-auto px-6">
-      <div class="max-w-3xl mx-auto text-center mb-16">
+  <section id="about" class="py-24 md:py-32 relative">
+    <div class="container mx-auto px-6 md:px-12">
+      <div class="max-w-3xl mx-auto text-center mb-20">
         <span class="inline-block px-3 py-1 text-sm bg-secondary-500/10 text-secondary-300 rounded-full mb-4 border border-secondary-500/20">
           O QUE É FLASHMIND
         </span>
@@ -171,7 +164,7 @@
       <div class="flex flex-col lg:flex-row items-center gap-12">
         <div class="lg:w-1/2 animate-fade-in animate-delay-300">
           <img 
-            src="../imgs/learning-platform.png" 
+            src="../imgs/ImgLandingPage3.png" 
             alt="Estudante usando FlashMind" 
             class="rounded-xl shadow-lg border border-primary-700/50 w-full animate-float"
             loading="lazy"
@@ -222,14 +215,9 @@
   </section>
 
   <!-- Gamification Section -->
-  <section id="gamification" class="py-20 md:py-28 bg-primary-950/50 relative">
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-      <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl animate-pulse-slow"></div>
-      <div class="absolute bottom-1/4 left-1/3 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1.5s;"></div>
-    </div>
-    
-    <div class="container mx-auto px-6 relative z-10">
-      <div class="max-w-3xl mx-auto text-center mb-16">
+  <section id="gamification" class="py-24 md:py-32 bg-primary-950/50 relative">
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+      <div class="max-w-3xl mx-auto text-center mb-20">
         <span class="inline-block px-3 py-1 text-sm bg-primary-500/10 text-primary-300 rounded-full mb-4 border border-primary-500/20">
           GAMIFICAÇÃO
         </span>
@@ -308,8 +296,8 @@
           <div class="relative">
             <div class="absolute -inset-4 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-xl blur-xl"></div>
             <img 
-              src="https://cdn.midjourney.com/c0a0f5d8-5d5e-4e8f-9fb3-5e0a7a5f5e5e/0_2.webp" 
-              alt="Gamificação no FlashMind" 
+              src="../imgs/ImgLandingPage4.png" 
+              alt="Gamificação transformando o aprendizado" 
               class="relative z-10 rounded-xl shadow-2xl border border-primary-700/50 w-full"
             >
           </div>
@@ -371,87 +359,115 @@
   </section>
 
   <!-- AI Section -->
-  <section id="ai" class="py-20 md:py-28 relative">
-    <div class="container mx-auto px-6">
-      <div class="max-w-3xl mx-auto text-center mb-16">
-        <span class="inline-block px-3 py-1 text-sm bg-green-500/10 text-green-400 rounded-full mb-4 border border-green-500/20">
+  <section id="ai" class="py-24 md:py-32 relative">
+    <div class="container mx-auto px-6 md:px-12">
+      <div class="max-w-3xl mx-auto text-center mb-20">
+        <span class="inline-block px-4 py-2 text-sm bg-green-500/10 text-green-400 rounded-full mb-4 border border-green-500/20">
           INTELIGÊNCIA ARTIFICIAL
         </span>
-        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-8">
           Por que usar <span class="text-gradient">Inteligência Artificial</span>?
         </h2>
-        <p class="text-lg text-gray-300 leading-relaxed">
+        <p class="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto">
           A inteligência artificial no FlashMind personaliza a experiência de aprendizado, adaptando-se às necessidades individuais de cada estudante para maximizar a eficiência do estudo.
         </p>
       </div>
       
-     <div class="flex flex-col lg:flex-row items-center gap-12 mb-16">
-  <div class="lg:w-1/2 animate-fade-in">
-    <div class="relative">
-      <div class="absolute -inset-4 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-xl blur-xl"></div>
-      <img 
-        src="https://www.freepik.com/free-photo/ai-technology-brain-background-digital-transformation-concept_17164388.htm#fromView=search&page=1&position=22&uuid=af739357-6f70-4058-811a-c6d58ccbc238&query=AI" 
-        alt="IA no FlashMind" 
-        class="relative z-10 rounded-xl shadow-2xl border border-primary-700/50 w-full">
-    </div>
-  </div>
-</div>
+      <div class="flex flex-col lg:flex-row items-start gap-16 mb-24">
+        <div class="lg:w-1/2 animate-fade-in">
+          <div class="relative mb-12">
+            <div class="absolute -inset-4 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-xl blur-xl"></div>
+            <img 
+              src="../imgs/ImgLandingPage2.png" 
+              alt="IA no FlashMind" 
+              class="relative z-10 rounded-xl shadow-2xl border border-primary-700/50 w-full">
+          </div>
 
+          <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30">
+            <h4 class="text-xl font-semibold mb-6">Tecnologias de IA Utilizadas</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="flex items-center space-x-3 bg-primary-800/30 p-4 rounded-lg">
+                <div class="w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center">
+                  <i class="fas fa-brain text-green-400"></i>
+                </div>
+                <span class="text-gray-300">Machine Learning</span>
+              </div>
+              <div class="flex items-center space-x-3 bg-primary-800/30 p-4 rounded-lg">
+                <div class="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center">
+                  <i class="fas fa-language text-blue-400"></i>
+                </div>
+                <span class="text-gray-300">Processamento de Linguagem Natural</span>
+              </div>
+              <div class="flex items-center space-x-3 bg-primary-800/30 p-4 rounded-lg">
+                <div class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center">
+                  <i class="fas fa-chart-network text-purple-400"></i>
+                </div>
+                <span class="text-gray-300">Redes Neurais</span>
+              </div>
+              <div class="flex items-center space-x-3 bg-primary-800/30 p-4 rounded-lg">
+                <div class="w-10 h-10 bg-amber-500/10 rounded-full flex items-center justify-center">
+                  <i class="fas fa-chart-line text-amber-400"></i>
+                </div>
+                <span class="text-gray-300">Análise Preditiva</span>
+              </div>
+            </div>
+          </div>
+        </div>
         
         <div class="lg:w-1/2 animate-fade-in animate-delay-200">
-          <h3 class="text-2xl font-bold mb-6">Como a IA Potencializa o Aprendizado</h3>
+          <h3 class="text-2xl font-bold mb-8">Como a IA Potencializa o Aprendizado</h3>
           
-          <div class="space-y-6">
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+          <div class="space-y-8">
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 hover:bg-primary-800/30 transition-colors">
               <div class="flex items-start">
-                <div class="flex-shrink-0 w-12 h-12 bg-secondary-500/10 rounded-xl flex items-center justify-center mr-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-secondary-500/10 rounded-xl flex items-center justify-center mr-6">
                   <i class="fas fa-user-cog text-secondary-400 text-xl"></i>
                 </div>
                 <div>
-                  <h4 class="text-lg font-semibold mb-2">Personalização Avançada</h4>
-                  <p class="text-gray-300">
+                  <h4 class="text-lg font-semibold mb-3">Personalização Avançada</h4>
+                  <p class="text-gray-300 leading-relaxed">
                     Algoritmos de aprendizado de máquina analisam seu desempenho e padrões de estudo para criar um plano de aprendizado personalizado que se adapta continuamente.
                   </p>
                 </div>
               </div>
             </div>
             
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 hover:bg-primary-800/30 transition-colors">
               <div class="flex items-start">
-                <div class="flex-shrink-0 w-12 h-12 bg-primary-500/10 rounded-xl flex items-center justify-center mr-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-primary-500/10 rounded-xl flex items-center justify-center mr-6">
                   <i class="fas fa-brain text-primary-400 text-xl"></i>
                 </div>
                 <div>
-                  <h4 class="text-lg font-semibold mb-2">Algoritmo de Repetição Espaçada</h4>
-                  <p class="text-gray-300">
+                  <h4 class="text-lg font-semibold mb-3">Algoritmo de Repetição Espaçada</h4>
+                  <p class="text-gray-300 leading-relaxed">
                     A IA calcula o momento ideal para revisar cada conceito, baseando-se em modelos cognitivos de como a memória funciona, maximizando a retenção a longo prazo.
                   </p>
                 </div>
               </div>
             </div>
             
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 hover:bg-primary-800/30 transition-colors">
               <div class="flex items-start">
-                <div class="flex-shrink-0 w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mr-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mr-6">
                   <i class="fas fa-file-alt text-green-400 text-xl"></i>
                 </div>
                 <div>
-                  <h4 class="text-lg font-semibold mb-2">Geração de Conteúdo</h4>
-                  <p class="text-gray-300">
+                  <h4 class="text-lg font-semibold mb-3">Geração de Conteúdo</h4>
+                  <p class="text-gray-300 leading-relaxed">
                     Modelos de linguagem natural podem gerar flashcards automaticamente a partir de textos, resumos ou anotações, poupando tempo na criação de material de estudo.
                   </p>
                 </div>
               </div>
             </div>
             
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 hover:bg-primary-800/30 transition-colors">
               <div class="flex items-start">
-                <div class="flex-shrink-0 w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mr-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mr-6">
                   <i class="fas fa-chart-pie text-amber-400 text-xl"></i>
                 </div>
                 <div>
-                  <h4 class="text-lg font-semibold mb-2">Análise Preditiva</h4>
-                  <p class="text-gray-300">
+                  <h4 class="text-lg font-semibold mb-3">Análise Preditiva</h4>
+                  <p class="text-gray-300 leading-relaxed">
                     Algoritmos preditivos identificam padrões em seu aprendizado, prevendo áreas de dificuldade e sugerindo estratégias de estudo específicas para superá-las.
                   </p>
                 </div>
@@ -460,122 +476,13 @@
           </div>
         </div>
       </div>
-      
-      <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 animate-fade-in animate-delay-300">
-        <div class="flex flex-col md:flex-row items-center gap-8">
-          <div class="md:w-1/3">
-            <h3 class="text-2xl font-bold mb-4">Tecnologias de IA Utilizadas</h3>
-            <p class="text-gray-300 mb-6">
-              O FlashMind integra diversas tecnologias de inteligência artificial para criar uma experiência de aprendizado verdadeiramente adaptativa.
-            </p>
-            <ul class="space-y-2">
-              <li class="flex items-center">
-                <i class="fas fa-check text-secondary-400 mr-2"></i>
-                <span>Otimização</span>
-              </li>
-              <li class="flex items-center">
-                <i class="fas fa-check text-secondary-400 mr-2"></i>
-                <span>Processamento de Linguagem Natural</span>
-              </li>
-              <li class="flex items-center">
-                <i class="fas fa-check text-secondary-400 mr-2"></i>
-                <span>Algoritmos de Aprendizado por Reforço</span>
-              </li>
-              <li class="flex items-center">
-                <i class="fas fa-check text-secondary-400 mr-2"></i>
-                <span>Sistemas de Recomendação</span>
-              </li>
-              <li class="flex items-center">
-                <i class="fas fa-check text-secondary-400 mr-2"></i>
-                <span>Análise Preditiva</span>
-              </li>
-            </ul>
-          </div>
-          
-          <div class="md:w-2/3 mt-8 md:mt-0">
-            <div class="bg-primary-950 rounded-xl p-6 border border-primary-800/50">
-              <h4 class="font-semibold mb-4 text-center">Fluxo de Trabalho da IA no FlashMind</h4>
-              
-              <div class="relative">
-                <!-- Timeline line -->
-                <div class="absolute left-16 top-0 bottom-0 w-1 bg-gradient-to-b from-secondary-500/30 to-primary-500/30 hidden md:block"></div>
-                
-                <div class="space-y-8">
-                  <!-- Step 1 -->
-                  <div class="flex items-start">
-                    <div class="flex-shrink-0 w-8 h-8 bg-secondary-500/20 rounded-full flex items-center justify-center border-2 border-primary-950 relative z-10 mr-8">
-                      <span class="text-sm font-bold">1</span>
-                    </div>
-                    <div>
-                      <h5 class="font-medium mb-1">Coleta de Dados</h5>
-                      <p class="text-gray-400 text-sm">
-                        A IA coleta dados sobre seu desempenho, tempo de resposta e padrões de erro em cada sessão de estudo.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <!-- Step 2 -->
-                  <div class="flex items-start">
-                    <div class="flex-shrink-0 w-8 h-8 bg-secondary-500/20 rounded-full flex items-center justify-center border-2 border-primary-950 relative z-10 mr-8">
-                      <span class="text-sm font-bold">2</span>
-                    </div>
-                    <div>
-                      <h5 class="font-medium mb-1">Análise e Processamento</h5>
-                      <p class="text-gray-400 text-sm">
-                        Os algoritmos analisam os dados para identificar padrões, pontos fortes e áreas que precisam de mais atenção.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <!-- Step 3 -->
-                  <div class="flex items-start">
-                    <div class="flex-shrink-0 w-8 h-8 bg-primary-500/20 rounded-full flex items-center justify-center border-2 border-primary-950 relative z-10 mr-8">
-                      <span class="text-sm font-bold">3</span>
-                    </div>
-                    <div>
-                      <h5 class="font-medium mb-1">Personalização</h5>
-                      <p class="text-gray-400 text-sm">
-                        Com base na análise, a IA personaliza o conteúdo, a dificuldade e a frequência das revisões para otimizar seu aprendizado.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <!-- Step 4 -->
-                  <div class="flex items-start">
-                    <div class="flex-shrink-0 w-8 h-8 bg-primary-500/20 rounded-full flex items-center justify-center border-2 border-primary-950 relative z-10 mr-8">
-                      <span class="text-sm font-bold">4</span>
-                    </div>
-                    <div>
-                      <h5 class="font-medium mb-1">Adaptação Contínua</h5>
-                      <p class="text-gray-400 text-sm">
-                        O sistema continua aprendendo e se adaptando com cada interação, melhorando constantemente a eficácia do seu estudo.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="mt-16 text-center animate-fade-in animate-delay-400">
-        <a href="#benefits" class="inline-flex items-center justify-center bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
-          Conheça os benefícios <i class="fas fa-arrow-right ml-2"></i>
-        </a>
-      </div>
     </div>
   </section>
 
   <!-- Benefits Section -->
-  <section id="benefits" class="py-20 md:py-28 bg-primary-950/50 relative">
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-      <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl animate-pulse-slow"></div>
-      <div class="absolute top-1/4 left-1/3 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1.5s;"></div>
-    </div>
-    
-    <div class="container mx-auto px-6 relative z-10">
-      <div class="max-w-3xl mx-auto text-center mb-16">
+  <section id="benefits" class="py-24 md:py-32 bg-primary-950/50 relative">
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+      <div class="max-w-3xl mx-auto text-center mb-20">
         <span class="inline-block px-3 py-1 text-sm bg-amber-500/10 text-amber-400 rounded-full mb-4 border border-amber-500/20">
           BENEFÍCIOS
         </span>
@@ -587,7 +494,7 @@
         </p>
       </div>
       
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
         <!-- Benefit 1 -->
         <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in">
           <div class="w-14 h-14 bg-secondary-500/10 rounded-xl flex items-center justify-center text-secondary-400 mb-6">
@@ -809,9 +716,9 @@
   </section>
 
   <!-- Demo Section -->
-  <section id="demo" class="py-20 md:py-28 relative">
-    <div class="container mx-auto px-6">
-      <div class="max-w-3xl mx-auto text-center mb-16">
+  <section id="demo" class="py-24 md:py-32 relative">
+    <div class="container mx-auto px-6 md:px-12">
+      <div class="max-w-3xl mx-auto text-center mb-20">
         <span class="inline-block px-3 py-1 text-sm bg-rose-500/10 text-rose-400 rounded-full mb-4 border border-rose-500/20">
           DEMONSTRAÇÃO
         </span>
@@ -823,7 +730,7 @@
         </p>
       </div>
       
-      <div class="flex flex-col lg:flex-row items-center gap-12 mb-16">
+      <div class="flex flex-col lg:flex-row items-center gap-16 mb-20">
         <div class="lg:w-1/2 animate-fade-in">
           <h3 class="text-2xl font-bold mb-6">Flashcards Interativos</h3>
           <p class="text-gray-300 mb-8">
@@ -905,9 +812,9 @@
                   <h5 class="text-xl font-medium mb-2">Qual é a função da mitocôndria na célula?</h5>
                   <div class="flex justify-center mt-4">
                     <img 
-                      src="https://cdn.midjourney.com/c0a0f5d8-5d5e-4e8f-9fb3-5e0a7a5f5e5e/0_2.webp" 
+                      src="../imgs/ImgExemploMitocôndria.jpg" 
                       alt="Mitocôndria" 
-                      class="h-40 rounded-lg"
+                      class="h-60 w-auto rounded-lg shadow-lg border border-primary-700/50"
                     >
                   </div>
                 </div>
@@ -1044,15 +951,10 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="py-20 md:py-28 bg-gradient-to-br from-secondary-900/20 to-primary-900/20 relative">
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-      <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl animate-pulse-slow"></div>
-      <div class="absolute bottom-1/4 left-1/4 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 1.5s;"></div>
-    </div>
-    
-    <div class="container mx-auto px-6 relative z-10">
+  <section class="py-24 md:py-32 bg-gradient-to-br from-secondary-900/20 to-primary-900/20 relative">
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
       <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-8">
           Pronto para revolucionar sua forma de estudar?
         </h2>
         <p class="text-xl text-gray-300 mb-10 leading-relaxed">
@@ -1415,5 +1317,25 @@
       document.body.style.overflow = 'auto';
     });
   </script>
+
+  <style>
+    .scroll-indicator {
+      z-index: 20;
+      pointer-events: none;
+    }
+    
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0) translateX(-50%);
+      }
+      50% {
+        transform: translateY(-10px) translateX(-50%);
+      }
+    }
+    
+    .animate-bounce {
+      animation: bounce 2s infinite;
+    }
+  </style>
 </body>
 </html>
