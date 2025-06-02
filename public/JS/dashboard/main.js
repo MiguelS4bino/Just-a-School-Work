@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("Desafio aceito!", challengeId);
   
     localStorage.setItem("matchInfo", challengeId);
+    localStorage.setItem("userId", getCurrentUserId());
     window.location.href = "../Pasta HTML/match.html";
   });
 
@@ -92,15 +93,22 @@ if (btnCancelMatchmaking) {
 
 function enterMatchmaking(typeOfMatch){ 
   const matchmakingModal = document.getElementById('matchmakingModal')
-  
+  const modalContent = matchmakingModal.querySelector('div')
+
     if (!isSocketConnected()) {
       console.warn('Socket não conectado.')
-      socket.emit('disconnectedOfMatchmaking', getCurrentUserId())
       return
     }
 
     isSearching = true
     matchmakingModal.classList.remove('hidden')
+
+    // Força o reflow para garantir que a transição ocorra
+    void modalContent.offsetWidth
+
+    // Ativa animação de entrada
+    modalContent.classList.remove('scale-95', 'opacity-0')
+    modalContent.classList.add('scale-100', 'opacity-100')
 
     socket.emit('registeredOnMatchmaking', { userId: getCurrentUserId(), matchmakingType: typeOfMatch })
     console.log(`Usuário na fila para o matchmaking de partida ${typeOfMatch}:`, getCurrentUserId())

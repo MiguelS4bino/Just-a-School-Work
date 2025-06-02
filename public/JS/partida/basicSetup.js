@@ -1,3 +1,76 @@
+const apiUrl = 'http://localhost:3000';
+const socket = io();
+import Game from './game.js';
+
+function showError(message) {
+    const errorElement = document.getElementById('errorMessage');
+    document.getElementById('errorText').textContent = message;
+    errorElement.classList.remove('hidden');
+    errorElement.classList.add('error-message');
+
+    setTimeout(() => {
+        errorElement.classList.add('hidden');
+    }, 5000);
+}
+
+let game = null;
+
+let match = {};
+
+socket.on('connect', () => {
+    console.clear();
+    socket.on("matchEndedByDisconnection", ({winner, disconnectedPlayer}) => {
+        console.log(`Partida finalizada por desconexão do oponente${disconnectedPlayer}. Vencedor: ${winner}`);
+        openFinishModal(winner, disconnectedPlayer);
+    });
+    console.clear();
+    console.log('Socket reconectado com id:', socket.id);
+
+    const userId = localStorage.getItem('userId');
+    const matchId = localStorage.getItem('matchInfo');
+  
+    if (userId && matchId) {
+      // Envia para o servidor para associar socket à room do match
+      socket.emit('inGame', {
+        socketId: socket.id,
+        userId, 
+        matchId,
+      });
+      socket.data = { userId };                   // Debug
+      window.socketReady = true;
+    }
+
+    game = new Game(socket, userId, matchId);
+});
+
+
+document.addEventListener('DOMContentLoaded', async () =>{
+    try {
+        const matchId = localStorage.getItem('matchInfo');
+        match = await getMatchInfo(matchId);
+
+        if (match.status === 'finished') {
+            await openFinishModal(match.winner, match.loser);
+            return; // impede que o restante da lógica rode
+        }
+
+        loadMatchInfo();
+        enterGameScreen();
+    } catch (error) {
+        showError(error.message || 'Erro ao carregar informações da partida');
+    }    
+});
+
+//Função para fazer a tela de inicio da partida desaparecer e fazer a "gameScren" aparecer
+function enterGameScreen(){
+    setTimeout(() => { 
+        const startScreenContent = document.getElementById("startScreenContent");
+        startScreenContent.classList.add('hidden');
+        const gameScreenContent = document.getElementById("gameContent");
+        gameScreenContent.classList.remove('hidden')
+    } , 5000);
+}
+
 async function loadMatchInfo() {
     const token = localStorage.getItem('token');
 
@@ -74,6 +147,7 @@ async function loadMatchInfo() {
         document.getElementById('opponentImage').src = opponentData.user.img;
 
         document.getElementById('challengerName').textContent = challengerData.user?.nickname || `Desafiante ${challengerId}`;
+
         document.getElementById('challengerMatchType').textContent = type === "casual" ? "Casual" : "Ranqueada";
 
         document.getElementById('opponentName').textContent = opponentData.user?.nickname || `Oponente ${opponentId}`;
@@ -95,34 +169,91 @@ async function loadMatchInfo() {
     }
 }
 
-function showError(message) {
-    const errorElement = document.getElementById('errorMessage');
-    document.getElementById('errorText').textContent = message;
-    errorElement.classList.remove('hidden');
-    errorElement.classList.add('error-message');
-
-    setTimeout(() => {
-        errorElement.classList.add('hidden');
-    }, 5000);
-}
-
-document.addEventListener('DOMContentLoaded', loadMatchInfo);
-/*
-let countdown = 5;
-const countdownElement = document.getElementById('countdown');
-
-const interval = setInterval(() => {
-    countdownElement.textContent = `A partida começa em ${countdown} segundos...`;
-    countdown--;
-
-    if (countdown < 0) {
-        clearInterval(interval);
-        startMatch(); // Chama a função para ir para a partida
+async function getMatchInfo(matchId){
+    const token = localStorage.getItem('token')
+    if (!token) {
+        throw new Error('Token de autenticação não encontrado.');
     }
-}, 1000);
 
-function startMatch() {
-    const challengeId = localStorage.getItem('matchInfo');
-    window.location.href = `/match.html?challengeId=${challengeId}`;
+    try {
+        const response = await fetch(`${apiUrl}/challenge/${matchId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao buscar informações da partida.');
+        }
+        let winner = null;
+        let loser = null;
+        const data = await response.json();
+        if(data.challenge.opponent == data.challenge.winner){
+            winner = data.challenge.opponent;
+            loser = data.challenge.challenger;
+        } else if (data.challenge.challenger == data.challenge.winner){
+            winner = data.challenge.challenger;
+            loser = data.challenge.opponent;
+        }
+
+        return {
+            status: data.challenge.status,
+            winner: winner,
+            loser: loser,
+        };
+    } catch (error) {
+        console.error('Erro em getMatchInfo:', error);
+        throw error;
+    }
 }
-*/
+
+async function openFinishModal(winner, loser){
+    const token = localStorage.getItem('token');
+    try {
+        // Buscar dados do vencedor
+        const winnerResponse = await fetch(`${apiUrl}/user/${winner}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Buscar dados do perdedor
+        const loserResponse = await fetch(`${apiUrl}/user/${loser}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!winnerResponse.ok || !loserResponse.ok) {
+            throw new Error('Erro ao buscar nomes do vencedor ou perdedor.');
+        }
+
+        const winnerData = await winnerResponse.json();
+        const loserData = await loserResponse.json();
+
+        const winnerName = winnerData.user.nickname || `Jogador ${winnerId}`;
+        const loserName = loserData.user.nickname || `Jogador ${loserId}`;
+
+        // Preencher nomes no modal
+        document.getElementById('matchWinnerId').textContent = winnerName;
+        document.getElementById('matchLoserId').textContent = loserName;
+
+        // Exibir modal
+        const modal = document.getElementById('matchResultModal');
+        modal.classList.remove('hidden');
+
+        // Botão de fechar
+        const closeBtn = document.getElementById('closeModalBtn');
+        closeBtn.addEventListener('click', () => {
+            window.location.href = "../Pasta HTML/dashboard.html";
+        });
+
+    } catch (err) {
+        console.error('Erro ao abrir modal de final de partida:', err);
+        showError('Erro ao exibir resultado da partida');
+    }
+}

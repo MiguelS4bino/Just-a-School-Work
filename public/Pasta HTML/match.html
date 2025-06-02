@@ -188,7 +188,7 @@
         </div>
     </header>
 
-    <div class="container mx-auto px-4 py-24 relative z-10 animate-fade-in">
+    <div class="container mx-auto px-4 py-24 relative z-10 animate-fade-in" id="startScreenContent">
         <!-- Header -->
         <header class="text-center mb-12">
             <h1 class="text-4xl font-bold mb-2">Informações da Partida</h1>
@@ -316,7 +316,58 @@
             </div>
         </div>
     </div>
-    
+
+    <!-- Game Section -->
+    <section class="mt-20 px-4 md:px-12 hidden" id="gameContent" >
+        <div class="max-w-4xl mx-auto bg-slate-800/60 p-8 rounded-2xl border border-slate-700 shadow-xl backdrop-blur-md">
+            <!-- Pergunta -->
+            <h2 class="text-2xl md:text-3xl font-semibold text-center mb-6">
+                Qual é a capital do Brasil?
+            </h2>
+            
+            <!-- Opções -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button class="bg-slate-700 hover:bg-slate-600 transition rounded-xl py-4 px-6 text-left font-medium border border-slate-600">São Paulo</button>
+                <button class="bg-slate-700 hover:bg-slate-600 transition rounded-xl py-4 px-6 text-left font-medium border border-slate-600">Rio de Janeiro</button>
+                <button class="bg-slate-700 hover:bg-slate-600 transition rounded-xl py-4 px-6 text-left font-medium border border-slate-600">Brasília</button>
+                <button class="bg-slate-700 hover:bg-slate-600 transition rounded-xl py-4 px-6 text-left font-medium border border-slate-600">Belo Horizonte</button>
+            </div>
+
+            <!-- Progresso e tempo -->
+            <div class="flex items-center justify-between mt-8 text-sm text-slate-400">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-stopwatch text-purple-400"></i>
+                    <span>Tempo restante: <span class="text-white font-semibold">15s</span></span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-bolt text-cyan-400"></i>
+                    <span>Pergunta <span class="text-white font-semibold">1</span> de 10</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="matchResultModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="bg-slate-800/70 border border-slate-700 rounded-2xl p-6 w-full max-w-sm text-center shadow-xl relative animate-fade-in">
+          
+          <!-- Resultado (ID mantido) -->
+          <h2 id="matchResultTitle" class="text-2xl font-bold text-white mb-2">Resultado</h2>
+      
+          <!-- IDs do vencedor e perdedor (mantidos para JS) -->
+          <p class="text-sm text-slate-400 mb-1">
+            Vencedor: <span id="matchWinnerId" class="text-white">user123</span>
+          </p>
+          <p class="text-sm text-slate-400 mb-6">
+            Perdedor: <span id="matchLoserId" class="text-white">user456</span>
+          </p>
+      
+          <!-- Botão Voltar -->
+          <button class="px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 text-white font-semibold hover:brightness-110 transition shadow-md" id="closeModalBtn">
+            Voltar
+          </button>
+        </div>
+      </div>
+
     <!-- Footer -->
     <footer class="bg-slate-900/80 backdrop-blur-sm border-t border-slate-800/50 py-6 mt-16">
         <div class="container mx-auto px-6 text-center">
@@ -333,6 +384,7 @@
     <div id="countdown" class="text-xl font-bold text-center mt-4"></div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="../JS/partida/basicSetup.js"></script>
+    <script type="module" src="../JS/partida/basicSetup.js"></script>
+    <script type="module" src="../JS/partida/game.js"></script>
 </body>
 </html>

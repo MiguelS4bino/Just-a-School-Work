@@ -12,11 +12,11 @@ const mongoose = require("mongoose");
 
 //Imports
 const connectDB = require("./config/db");
-const registerSocketHandlers = require("./server/socket/handlers.js")
+const registerSocketHandlers = require("./serverSide/socket/handlers.js")
 
 //Models
-const User = require("./server/models/User.js");
-const Challenge = require("./server/models/Challenge.js")
+const User = require("./serverSide/models/User.js");
+const Challenge = require("./serverSide/models/Challenge.js")
 
 //Open Routes
 const authRoutes = require("./routes/authRoutes.js");

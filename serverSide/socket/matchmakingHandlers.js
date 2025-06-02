@@ -34,7 +34,7 @@ function handleMatchmakingEvents(io, socket) {
     }
     availableForMatchmaking[userId] = matchmakingType;
     console.log(`Usuário ${userId} registrado no matchmaking do tipo ${matchmakingType}`);
-    console.log("Fila de matchmaking após registro:", availableForMatchmaking);
+    console.log("Fila de matchmaking:", availableForMatchmaking);
 
     // Emite evento para tentar casar pares
     matchmakingEvents.emit('queueUpdated', io);
@@ -53,7 +53,7 @@ function handleMatchmakingEvents(io, socket) {
     if (userId) {
       delete onlineUsers[userId];
       delete availableForMatchmaking[userId];
-      console.log(chalk.yellow(`Usuário ${chalk.bold(userId)} removido da lista online.`));
+      console.log(chalk.yellow(`Usuário ${chalk.bold(userId.userId)} removido da lista online.`));
       matchmakingEvents.emit('queueUpdated', io);
     } else {
       console.error("userLogout recebido sem userId.");

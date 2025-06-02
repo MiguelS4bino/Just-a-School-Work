@@ -1,5 +1,5 @@
 const express = require('express')
-const User = require('../../server/models/User')
+const User = require('../../serverSide/models/User')
 const checkToken = require('../../config/auth')
 
 const router = express.Router()
