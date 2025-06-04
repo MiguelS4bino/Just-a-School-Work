@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FlashMind - Login & Cadastro</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="../imgs/brain.ico">
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome para ícones -->
@@ -44,6 +46,27 @@
 </head>
 
 <body class="min-h-screen bg-gradient-primary flex items-center justify-center p-4 md:p-10 relative overflow-hidden">
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-slate-900/80 backdrop-blur-md border-b border-slate-800/50">
+    <div class="flex items-center space-x-3">
+      <a href="../Pasta HTML/index.html" class="flex items-center space-x-3 hover:opacity-90 transition-opacity">
+        <div class="glow-effect">
+          <i class="fa-solid fa-brain text-3xl text-gradient"></i>
+        </div>
+        <span class="text-2xl font-bold text-gradient">FlashMind</span>
+      </a>
+    </div>
+    <div class="hidden md:flex items-center">
+      <a href="../Pasta HTML/index.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Início</a>
+      <a href="../Pasta HTML/guia.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Guia</a>
+      <a href="../Pasta HTML/sobre.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Sobre</a>
+      <a href="../Pasta HTML/contato.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Contato</a>
+      <a href="../Pasta HTML/login.html" class="nav-link text-white font-medium bg-gradient-to-r from-purple-600 to-cyan-500 px-6 py-2 rounded-md hover:shadow-lg transition-all duration-300">
+        Entrar
+      </a>
+    </div>
+  </header>
+
   <!-- Background decorative elements -->
   <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
     <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>

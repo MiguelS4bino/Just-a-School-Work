@@ -163,10 +163,19 @@
     }
     
     .text-gradient {
-      background: linear-gradient(90deg, #6a3dd9, #2196f3);
+      background: linear-gradient(90deg, #8b55ff, #2196f3);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      position: relative;
+      display: inline-block;
+      filter: drop-shadow(0 0 10px rgba(139, 85, 255, 0.3));
+      transition: all 0.3s ease;
+    }
+    
+    .text-gradient:hover {
+      filter: drop-shadow(0 0 15px rgba(139, 85, 255, 0.5));
+      transform: scale(1.02);
     }
     
     /* Efeitos de hover */
@@ -404,4 +413,151 @@
     
     ::-webkit-scrollbar-thumb:hover {
       background: linear-gradient(180deg, #5a2fc9, #0284e2);
+    }
+    
+    /* Melhorias nos ícones */
+    .icon-pulse {
+      animation: iconPulse 2s ease-in-out infinite;
+      filter: drop-shadow(0 0 8px rgba(139, 85, 255, 0.3));
+      transition: all 0.3s ease;
+    }
+    
+    .icon-pulse:hover {
+      filter: drop-shadow(0 0 12px rgba(139, 85, 255, 0.5));
+      transform: scale(1.1);
+    }
+    
+    @keyframes iconPulse {
+      0%, 100% { 
+        transform: scale(1);
+        filter: drop-shadow(0 0 8px rgba(139, 85, 255, 0.3));
+      }
+      50% { 
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 12px rgba(139, 85, 255, 0.5));
+      }
+    }
+    
+    /* Efeito de brilho nos ícones */
+    .icon-glow {
+      position: relative;
+      display: inline-flex;
+      padding: 0.75rem;
+      border-radius: 50%;
+      background: linear-gradient(45deg, rgba(139, 85, 255, 0.15), rgba(33, 150, 243, 0.15));
+      transition: all 0.3s ease;
+      box-shadow: 
+        0 0 20px rgba(139, 85, 255, 0.2),
+        inset 0 0 15px rgba(33, 150, 243, 0.2);
+    }
+    
+    .icon-glow::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(45deg, rgba(139, 85, 255, 0.6), rgba(33, 150, 243, 0.6));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .icon-glow:hover::before {
+      opacity: 1;
+    }
+    
+    .icon-glow i {
+      font-size: 1.75em;
+      background: linear-gradient(45deg, #8b55ff, #2196f3);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 0 10px rgba(139, 85, 255, 0.3));
+    }
+    
+    .icon-glow:hover i {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 15px rgba(139, 85, 255, 0.5));
+    }
+    
+    /* Efeito de rotação suave */
+    .icon-rotate {
+      transition: transform 0.3s ease;
+    }
+    
+    .icon-rotate:hover {
+      transform: rotate(15deg);
+    }
+    
+    /* Efeito de flutuação */
+    .icon-float {
+      animation: iconFloat 3s ease-in-out infinite;
+    }
+    
+    @keyframes iconFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+    
+    /* Efeito de shake */
+    .icon-shake {
+      transition: transform 0.3s ease;
+    }
+    
+    .icon-shake:hover {
+      animation: iconShake 0.5s ease-in-out;
+    }
+    
+    @keyframes iconShake {
+      0%, 100% { transform: rotate(0); }
+      25% { transform: rotate(-10deg); }
+      75% { transform: rotate(10deg); }
+    }
+    
+    /* Efeito de bounce */
+    .icon-bounce {
+      transition: transform 0.3s ease;
+    }
+    
+    .icon-bounce:hover {
+      animation: iconBounce 0.5s cubic-bezier(0.36, 0, 0.66, -0.56);
+      transform-origin: center bottom;
+    }
+    
+    @keyframes iconBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    /* Efeito de onda */
+    .icon-wave {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .icon-wave::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 150%;
+      height: 150%;
+      background: radial-gradient(circle, rgba(139, 85, 255, 0.2) 0%, transparent 70%);
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+    
+    .icon-wave:hover::after {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
     }
