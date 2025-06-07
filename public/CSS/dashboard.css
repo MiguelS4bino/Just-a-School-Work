@@ -1,0 +1,369 @@
+/* Import base styles */
+@import 'base.css';
+
+/* Dashboard Specific Styles */
+.dashboard-container {
+  background: rgba(10, 22, 37, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+/* Sidebar */
+.sidebar {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(148, 163, 184, 0.1);
+  transition: all 0.3s ease;
+}
+
+.sidebar-link {
+  transition: all 0.3s ease;
+  border-radius: 0.5rem;
+}
+
+.sidebar-link:hover {
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.sidebar-link.active {
+  background: rgba(168, 85, 247, 0.2);
+  color: white;
+}
+
+/* Main Content Area */
+.main-content {
+  transition: all 0.3s ease;
+}
+
+/* Cards */
+.stat-card {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+/* Progress Bars */
+.progress-bar {
+  background: rgba(148, 163, 184, 0.1);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #8b55ff, #2196f3);
+  transition: width 0.3s ease;
+}
+
+/* Notifications */
+.notification-item {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.notification-item:hover {
+  background: rgba(148, 163, 184, 0.05);
+}
+
+.notification-dot {
+  width: 8px;
+  height: 8px;
+  background: #8b55ff;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* Friends List */
+.friend-item {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.friend-item:hover {
+  background: rgba(148, 163, 184, 0.05);
+}
+
+.friend-status {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-online {
+  background: #10B981;
+}
+
+.status-offline {
+  background: #6B7280;
+}
+
+.status-busy {
+  background: #EF4444;
+}
+
+/* Game Modes */
+.game-mode-card {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.game-mode-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+/* Achievements */
+.achievement-card {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.achievement-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+.achievement-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(168, 85, 247, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #A855F7;
+  transition: all 0.3s ease;
+}
+
+.achievement-card:hover .achievement-icon {
+  transform: scale(1.1);
+  background: rgba(168, 85, 247, 0.2);
+}
+
+/* Profile Section */
+.profile-card {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.profile-card:hover {
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+.profile-image {
+  border: 2px solid transparent;
+  background: linear-gradient(45deg, #8b55ff, #2196f3) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  transition: all 0.3s ease;
+}
+
+.profile-image:hover {
+  transform: scale(1.05);
+}
+
+/* Gradientes e Textos */
+.gradient-text {
+  background: linear-gradient(45deg, #3B82F6, #8B5CF6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Modal e Animações */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px) rotate(-1deg); }
+  75% { transform: translateX(2px) rotate(1deg); }
+}
+
+.animate-shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Hover Effects */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Button Animations */
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* Glow Effect */
+.glow-effect {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.glow-effect::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  transform: rotate(30deg);
+  animation: glow 3s infinite;
+  z-index: -1;
+}
+
+@keyframes glow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Friends Dropdown */
+#friendsDropdown {
+  transform-origin: top right;
+  transition: all 0.2s ease-out;
+  z-index: 100;
+}
+
+#friendsDropdown.hidden {
+  display: none;
+  opacity: 0;
+  transform: scale(0.95) translateY(-10px);
+}
+
+#friendsDropdown:not(.hidden) {
+  display: block;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.friend-item {
+  transition: transform 0.2s ease;
+}
+
+.friend-item:hover {
+  transform: translateX(4px);
+}
+
+/* Online Indicator */
+.online-indicator {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Tooltips */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]:before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 50;
+}
+
+[data-tooltip]:hover:before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Modal Styles */
+#matchmakingModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#matchmakingModal.hidden {
+  display: none;
+}
+
+/* Achievement Badge */
+.achievement-badge {
+  position: relative;
+  overflow: hidden;
+}
+
+.achievement-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+  .card-hover:hover {
+    transform: none;
+  }
+  
+  #friendsDropdown,
+  #notificationDropdown {
+    position: fixed;
+    top: 4rem;
+    right: 1rem;
+    left: 1rem;
+    width: auto;
+  }
+}
+
+/* Fix for hidden elements */
+.hidden {
+  display: none !important;
+} 

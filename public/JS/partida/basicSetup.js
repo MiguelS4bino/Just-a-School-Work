@@ -14,7 +14,6 @@ function showError(message) {
 }
 
 let game = null;
-
 let match = {};
 
 socket.on('connect', () => {
@@ -43,7 +42,6 @@ socket.on('connect', () => {
     game = new Game(socket, userId, matchId);
 });
 
-
 document.addEventListener('DOMContentLoaded', async () =>{
     try {
         const matchId = localStorage.getItem('matchInfo');
@@ -61,7 +59,6 @@ document.addEventListener('DOMContentLoaded', async () =>{
     }    
 });
 
-//Função para fazer a tela de inicio da partida desaparecer e fazer a "gameScren" aparecer
 function enterGameScreen(){
     setTimeout(() => { 
         const startScreenContent = document.getElementById("startScreenContent");

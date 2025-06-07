@@ -1,0 +1,99 @@
+/* Import base styles */
+@import 'base.css';
+
+/* About Page Specific Styles */
+.team-card {
+  background: rgba(10, 22, 37, 0.95);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.team-image {
+  transition: all 0.3s ease;
+}
+
+.team-card:hover .team-image {
+  transform: scale(1.05);
+}
+
+/* Timeline Styles */
+.timeline-container {
+  position: relative;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #8b55ff, #2196f3);
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.timeline-item.animate {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(45deg, #8b55ff, #2196f3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Mission Section */
+.mission-card {
+  background: rgba(10, 22, 37, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 85, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.mission-card:hover {
+  border-color: rgba(139, 85, 255, 0.4);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Stats Counter */
+.stat-counter {
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #8b55ff, #2196f3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Values Section */
+.value-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(139, 85, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.value-card:hover .value-icon {
+  transform: scale(1.1);
+  background: rgba(139, 85, 255, 0.2);
+} 

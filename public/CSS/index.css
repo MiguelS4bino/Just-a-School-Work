@@ -1,0 +1,140 @@
+/* Import base styles */
+@import 'base.css';
+
+/* Hero Section Animations */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes shine {
+  0% { background-position: -100% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* Hero Section Styles */
+.hero-container {
+  background: linear-gradient(135deg, rgba(10, 40, 71, 0.95), rgba(46, 14, 112, 0.95));
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(139, 85, 255, 0.1), transparent 70%);
+  opacity: 0.5;
+}
+
+/* Feature Cards */
+.feature-card {
+  background: rgba(10, 22, 37, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 85, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-card:hover {
+  border-color: rgba(139, 85, 255, 0.4);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Icon Animations */
+.icon-pulse {
+  animation: iconPulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(139, 85, 255, 0.3));
+}
+
+@keyframes iconPulse {
+  0%, 100% { 
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px rgba(139, 85, 255, 0.3));
+  }
+  50% { 
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 12px rgba(139, 85, 255, 0.5));
+  }
+}
+
+/* CTA Button */
+.cta-button {
+  background: linear-gradient(90deg, #4a1fa9, #026fc2);
+  background-size: 200% auto;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button:hover {
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(74, 31, 169, 0.2);
+}
+
+.cta-button::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: rotate(45deg);
+  animation: shine 3s infinite;
+}
+
+/* Stats Section */
+.stats-container {
+  background: rgba(10, 22, 37, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #8b55ff, #2196f3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Testimonials */
+.testimonial-card {
+  background: rgba(10, 22, 37, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 85, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.testimonial-card:hover {
+  border-color: rgba(139, 85, 255, 0.4);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  transform: translateY(-100%);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+}
+
+.mobile-menu.open {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  display: flex;
+  opacity: 1;
+} 

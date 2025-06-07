@@ -1,0 +1,125 @@
+/* Import base styles */
+@import 'base.css';
+
+/* Guide Page Specific Styles */
+.tab-button {
+  position: relative;
+  color: #94a3b8;
+  transition: all 0.3s ease;
+}
+
+.tab-button.active {
+  color: white;
+  background: rgba(168, 85, 247, 0.2);
+}
+
+.tab-button:hover:not(.active) {
+  background: rgba(148, 163, 184, 0.1);
+  color: white;
+}
+
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Step Numbers */
+.step-number {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(6, 182, 212, 0.2));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 16px;
+  color: #A855F7;
+}
+
+/* Feature Icons */
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(168, 85, 247, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  color: #A855F7;
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover .feature-icon {
+  transform: scale(1.1);
+  background: rgba(168, 85, 247, 0.2);
+}
+
+/* FAQ Section */
+.faq-question {
+  transition: all 0.3s ease;
+}
+
+.faq-question i {
+  transition: transform 0.3s ease;
+}
+
+.faq-question.active i {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.faq-answer.active {
+  max-height: 500px;
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Background decorative elements */
+.bg-decoration {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(3xl);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.bg-decoration-1 {
+  top: 25%;
+  left: 25%;
+  width: 24rem;
+  height: 24rem;
+  background: rgba(168, 85, 247, 0.05);
+}
+
+.bg-decoration-2 {
+  bottom: 33%;
+  right: 25%;
+  width: 20rem;
+  height: 20rem;
+  background: rgba(6, 182, 212, 0.05);
+} 

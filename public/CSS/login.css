@@ -1,0 +1,74 @@
+/* Import base styles */
+@import 'base.css';
+
+/* Login Form Specific Styles */
+.login-container {
+  backdrop-filter: blur(10px);
+  background: rgba(10, 22, 37, 0.95);
+}
+
+.tab-active {
+  color: white;
+  border-bottom: 2px solid #8b55ff;
+}
+
+.tab-inactive {
+  color: #94a3b8;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-inactive:hover {
+  color: white;
+  border-bottom: 2px solid rgba(139, 85, 255, 0.5);
+}
+
+.form-active {
+  display: block;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.form-inactive {
+  display: none;
+}
+
+/* Login Form Animations */
+@keyframes formShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.shake {
+  animation: formShake 0.5s ease;
+}
+
+/* Login Button Effects */
+.login-button {
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(139, 85, 255, 0.3);
+}
+
+.login-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(139, 85, 255, 0.2);
+}
+
+/* Social Login Buttons */
+.social-login-button {
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.social-login-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Remember Me Checkbox */
+.remember-me {
+  accent-color: #8b55ff;
+} 

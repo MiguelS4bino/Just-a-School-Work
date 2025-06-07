@@ -36,6 +36,101 @@
       transform: translateY(0);
     }
 
+    /* Logo Animation */
+    .icon-glow {
+      position: relative;
+      background: linear-gradient(90deg, #8b55ff, #2196f3);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: iconFloat 4s ease-in-out infinite;
+    }
+
+    .icon-glow::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 180%;
+      height: 180%;
+      background: radial-gradient(circle, rgba(139, 85, 255, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: glowFloat 4s ease-in-out infinite;
+      z-index: -2;
+    }
+
+    .icon-glow::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 150%;
+      height: 150%;
+      background: radial-gradient(circle, rgba(33, 150, 243, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: glowFloatInner 4s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes glowFloat {
+      0%, 100% { 
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
+      }
+      25% { 
+        transform: translate(-52%, -48%) scale(1.4);
+        opacity: 0.1;
+      }
+      50% { 
+        transform: translate(-50%, -52%) scale(1.8);
+        opacity: 0.2;
+      }
+      75% { 
+        transform: translate(-48%, -50%) scale(1.4);
+        opacity: 0.1;
+      }
+    }
+
+    @keyframes glowFloatInner {
+      0%, 100% { 
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
+      }
+      25% { 
+        transform: translate(-51%, -49%) scale(1.2);
+        opacity: 0.2;
+      }
+      50% { 
+        transform: translate(-50%, -51%) scale(1.5);
+        opacity: 0.3;
+      }
+      75% { 
+        transform: translate(-49%, -50%) scale(1.2);
+        opacity: 0.2;
+      }
+    }
+
+    @keyframes iconFloat {
+      0%, 100% { 
+        transform: translateY(0) scale(1);
+        filter: brightness(1) drop-shadow(0 0 0 rgba(139, 85, 255, 0));
+      }
+      25% { 
+        transform: translateY(-4px) scale(1.1);
+        filter: brightness(1.2) drop-shadow(0 0 8px rgba(139, 85, 255, 0.3));
+      }
+      50% { 
+        transform: translateY(-8px) scale(1.2);
+        filter: brightness(1.4) drop-shadow(0 0 12px rgba(139, 85, 255, 0.5));
+      }
+      75% { 
+        transform: translateY(-4px) scale(1.1);
+        filter: brightness(1.2) drop-shadow(0 0 8px rgba(139, 85, 255, 0.3));
+      }
+    }
+
     /* Estado inicial para garantir visibilidade */
     @media (prefers-reduced-motion: reduce) {
       .fade-in {
@@ -148,17 +243,65 @@
 
     /* Texto Gradiente */
     .text-gradient {
-      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      background: linear-gradient(90deg, #8b55ff, #2196f3);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      background-size: 200% auto;
-      animation: textGradient 4s linear infinite;
+      position: relative;
+      animation: textFloat 4s ease-in-out infinite;
     }
 
-    @keyframes textGradient {
-      0% { background-position: 0% center; }
-      100% { background-position: 200% center; }
+    .text-gradient::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      right: -20px;
+      bottom: -20px;
+      background: radial-gradient(circle, rgba(139, 85, 255, 0.15) 0%, transparent 70%);
+      border-radius: 15px;
+      animation: textGlowFloat 4s ease-in-out infinite;
+      z-index: -2;
+    }
+
+    .text-gradient::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: radial-gradient(circle, rgba(33, 150, 243, 0.2) 0%, transparent 70%);
+      border-radius: 10px;
+      animation: textGlowFloatInner 4s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes textFloat {
+      0%, 100% { transform: translateY(0); filter: brightness(1); }
+      50% { transform: translateY(-4px); filter: brightness(1.2); }
+    }
+
+    @keyframes textGlowFloat {
+      0%, 100% { 
+        transform: scale(1);
+        opacity: 0.15;
+      }
+      50% { 
+        transform: scale(1.1);
+        opacity: 0.1;
+      }
+    }
+
+    @keyframes textGlowFloatInner {
+      0%, 100% { 
+        transform: scale(1);
+        opacity: 0.2;
+      }
+      50% { 
+        transform: scale(1.05);
+        opacity: 0.15;
+      }
     }
 
     /* Navbar Animation */
@@ -261,54 +404,110 @@
 
     /* Navbar Styles */
     .navbar {
+      background: rgba(15, 23, 42, 0.8);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+      height: 5rem;
     }
 
     .navbar.scrolled {
-      background: rgba(15, 23, 42, 0.9);
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
+      background: rgba(15, 23, 42, 0.95);
       border-bottom: 1px solid rgba(59, 130, 246, 0.2);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
 
+    /* Navigation Link Styles */
     .nav-link {
       position: relative;
+      padding: 0.5rem;
+      color: #94a3b8;
+      font-weight: 500;
+      font-size: 0.95rem;
       transition: all 0.3s ease;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
     }
 
     .nav-link::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 50%;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
       width: 0;
       height: 2px;
       background: linear-gradient(90deg, #3b82f6, #8b5cf6);
       transition: all 0.3s ease;
-      transform: translateX(-50%);
       opacity: 0;
     }
 
     .nav-link:hover::after,
     .nav-link.active::after {
-      width: 70%;
+      width: 20px;
       opacity: 1;
     }
 
     .nav-link:hover {
       color: white;
-      background: rgba(59, 130, 246, 0.1);
     }
 
     .nav-link.active {
       color: white;
-      background: rgba(59, 130, 246, 0.15);
+    }
+
+    /* Logo Styles */
+    .icon-glow {
+      position: relative;
+      color: #3b82f6;
+      animation: iconPulse 2s ease-in-out infinite;
+    }
+
+    .icon-glow::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 150%;
+      height: 150%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    /* Text Gradient */
+    .text-gradient {
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Button Gradient */
+    .nav-button {
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      transition: all 0.3s ease;
+    }
+
+    .nav-button:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Desktop Navigation Container */
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      height: 100%;
+    }
+
+    /* Navbar Container */
+    .navbar-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      padding: 0 1.5rem;
     }
 
     .nav-button {
@@ -347,6 +546,7 @@
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       opacity: 0;
       visibility: hidden;
+      z-index: 1001;
     }
 
     .mobile-menu.open {
@@ -400,9 +600,269 @@
     }
 
     /* ... existing styles ... */
+
+    /* Flashcard Styles */
+    .flashcard {
+      perspective: 2000px;
+      width: 100%;
+      max-width: 680px;
+      height: 680px; /* Aumentado para mostrar todo o conteúdo sem scroll */
+      cursor: pointer;
+      position: relative;
+      margin: 2rem auto;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(139, 85, 255, 0.2);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+
+    /* Adiciona de volta a animação de virar */
+    .flashcard.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flashcard-front,
+    .flashcard-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(20px);
+    }
+
+    /* Adiciona de volta a rotação do verso */
+    .flashcard-back {
+      transform: rotateY(180deg);
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    .flashcard-header {
+      padding: 1rem 1.25rem;
+      background: rgba(30, 41, 59, 0.8);
+      border-radius: 1rem;
+      border: 1px solid rgba(139, 85, 255, 0.2);
+      margin-bottom: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .flashcard-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      background: rgba(30, 41, 59, 0.3);
+      border-radius: 1rem;
+      border: 1px solid rgba(139, 85, 255, 0.1);
+      margin-bottom: 1rem;
+    }
+
+    .flashcard-question {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .flashcard-image {
+      width: 100%;
+      max-width: 240px; /* Reduzido para caber melhor */
+      height: auto;
+      margin: 1rem auto;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(139, 85, 255, 0.2);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .answer-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+      padding: 0.5rem;
+    }
+
+    .answer-option {
+      padding: 0.875rem 1rem; /* Reduzido um pouco */
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(139, 85, 255, 0.2);
+      border-radius: 0.75rem;
+      color: #e2e8f0;
+      text-align: left;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      min-height: 3rem; /* Reduzido um pouco */
+    }
+
+    /* Estilo para resposta incorreta */
+    .answer-option.incorrect {
+      background: rgba(239, 68, 68, 0.1) !important;
+      border-color: rgba(239, 68, 68, 0.4) !important;
+      color: #ef4444 !important;
+    }
+
+    /* Estilo para resposta correta */
+    .answer-option.correct {
+      background: rgba(34, 197, 94, 0.1) !important;
+      border-color: rgba(34, 197, 94, 0.4) !important;
+      color: #22c55e !important;
+    }
+
+    /* Efeito de shake para respostas erradas */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+
+    .shake {
+      animation: shake 0.5s ease-in-out;
+    }
+
+    .flashcard-controls {
+      padding: 1rem;
+      border-top: 1px solid rgba(139, 85, 255, 0.1);
+      background: rgba(15, 23, 42, 0.4);
+      border-radius: 0 0 1.5rem 1.5rem;
+      flex-shrink: 0;
+    }
+
+    /* Ajuste para telas menores */
+    @media (max-width: 768px) {
+      .flashcard {
+        height: 720px; /* Um pouco maior em mobile */
+      }
+
+      .answer-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .flashcard-image {
+        max-width: 200px;
+      }
+
+      .answer-option {
+        padding: 0.75rem;
+      }
+    }
+
+    .answer-option:hover {
+      background: rgba(30, 41, 59, 0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .control-btn {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(139, 85, 255, 0.2);
+      border-radius: 9999px;
+      color: #94a3b8;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .control-btn:hover {
+      background: rgba(30, 41, 59, 0.7);
+      color: #8b55ff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .answer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Estilo para os modais */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.show {
+      display: block;
+    }
+
+    .modal-content {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(139, 85, 255, 0.2);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      z-index: 1000;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-content.show {
+      display: block;
+    }
+
+    /* Estilo para o formulário de report */
+    .report-form {
+      margin-top: 1rem;
+    }
+
+    .report-form textarea {
+      width: 100%;
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(139, 85, 255, 0.2);
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      color: #e2e8f0;
+      margin-bottom: 1rem;
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .report-form textarea:focus {
+      outline: none;
+      border-color: rgba(139, 85, 255, 0.4);
+    }
   </style>
   
-  <link rel="stylesheet" href="../Pasta CSS/index.css">
+  <link rel="stylesheet" href="../CSS/index.css">
 </head>
 
 <body class="bg-gradient-primary text-white font-sans min-h-screen animated-gradient no-js">
@@ -410,26 +870,29 @@
   <div id="particles-js"></div>
 
   <!-- Navbar -->
-  <nav id="navbar" class="navbar fixed top-0 left-0 right-0 z-50 py-6 px-6 md:px-12 transition-all duration-300">
-    <div class="max-w-7xl mx-auto">
-      <div class="flex items-center justify-between">
+  <nav id="navbar" class="navbar fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 h-20">
+      <div class="flex items-center justify-between h-full">
         <!-- Logo -->
-        <a href="#" class="flex items-center space-x-4 group">
+        <a href="#" class="flex items-center space-x-4">
           <div class="relative w-14 h-14 flex items-center justify-center icon-glow">
             <i class="fa-solid fa-brain text-3xl"></i>
           </div>
-          <span class="text-3xl md:text-4xl font-bold text-gradient tracking-tight">FlashMind</span>
+          <span class="text-3xl font-bold text-gradient">FlashMind</span>
         </a>
 
         <!-- Desktop Navigation -->
-        <div class="hidden lg:flex items-center space-x-1">
+        <div class="hidden lg:flex items-center space-x-8">
           <a href="#hero" class="nav-link active">Início</a>
           <a href="#about" class="nav-link">O que é</a>
           <a href="#gamification" class="nav-link">Gamificação</a>
           <a href="#ai" class="nav-link">IA</a>
           <a href="#benefits" class="nav-link">Benefícios</a>
-          <div class="w-px h-6 bg-primary-700/30 mx-2"></div>
-          <a href="../Pasta HTML/login.html" class="nav-button ml-4 px-6 py-2.5 rounded-lg text-white font-medium flex items-center space-x-2 hover:shadow-lg transition-all duration-300">
+          <div class="h-6 w-px bg-primary-700/30"></div>
+          <a href="../Pasta HTML/login.html" 
+             class="nav-button px-6 py-2 rounded-lg text-white font-medium 
+                    hover:shadow-lg hover:shadow-primary-500/20 
+                    transition-all duration-300 flex items-center space-x-2">
             <span>Entrar</span>
             <i class="fas fa-arrow-right text-sm opacity-70"></i>
           </a>
@@ -451,11 +914,11 @@
   <div id="mobile-menu" class="mobile-menu lg:hidden fixed top-0 right-0 bottom-0 w-[280px] z-50 p-6">
     <div class="flex flex-col h-full">
       <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 bg-primary-800/50 rounded-lg flex items-center justify-center">
-            <i class="fa-solid fa-brain text-2xl text-gradient"></i>
+        <div class="flex items-center space-x-4">
+          <div class="w-14 h-14 flex items-center justify-center icon-glow">
+            <i class="fa-solid fa-brain text-3xl"></i>
           </div>
-          <span class="text-xl font-bold text-gradient">FlashMind</span>
+          <span class="text-3xl font-bold text-gradient">FlashMind</span>
         </div>
       </div>
 
@@ -1172,222 +1635,218 @@
         </p>
       </div>
       
-      <div class="flex flex-col lg:flex-row items-center gap-16 mb-20">
-        <div class="lg:w-1/2 animate-fade-in">
-          <h3 class="text-2xl font-bold mb-6">Flashcards Interativos</h3>
-          <p class="text-gray-300 mb-8">
-            Os flashcards são a base do sistema de aprendizado do FlashMind. Clique no card abaixo para ver como funciona a interação básica de pergunta e resposta.
-          </p>
-          
-          <div class="flashcard mb-8" id="demo-flashcard">
+      <div class="grid grid-cols-1 gap-8 mb-20 mt-16">
+       
+
+          <!-- Flashcard Demo -->
+          <div class="flashcard" id="demo-flashcard">
             <div class="flashcard-inner">
-              <div class="flashcard-front bg-gradient-card border border-primary-700/50 text-center">
-                <div>
-                  <h4 class="text-xl font-semibold mb-4">Qual é o princípio da repetição espaçada?</h4>
-                  <p class="text-gray-400 text-sm mt-8">Clique para ver a resposta</p>
-                </div>
-              </div>
-              <div class="flashcard-back bg-gradient-card border border-primary-700/50 text-center">
-                <div>
-                  <h4 class="text-xl font-semibold mb-4">Princípio da Repetição Espaçada</h4>
-                  <p class="text-gray-300">
-                    Revisar informações em intervalos crescentes ao longo do tempo, justamente quando estamos prestes a esquecer, fortalece a memória de longo prazo.
-                  </p>
-                  <p class="text-gray-400 text-sm mt-8">Clique para voltar à pergunta</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
-            <h4 class="font-semibold mb-4">Recursos dos Flashcards</h4>
-            <ul class="space-y-3">
-              <li class="flex items-start">
-                <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
-                <span class="text-gray-300">Suporte a imagens, áudio e vídeo para aprendizado multimídia</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
-                <span class="text-gray-300">Diferentes tipos de questões: múltipla escolha, verdadeiro/falso, preenchimento de lacunas</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
-                <span class="text-gray-300">Marcação de dificuldade para ajustar a frequência de revisão</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
-                <span class="text-gray-300">Organização por tópicos, tags e coleções personalizadas</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        
-        <div class="lg:w-1/2 animate-fade-in animate-delay-200">
-          <div class="relative">
-            <div class="absolute -inset-4 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-xl blur-xl"></div>
-            <div class="relative z-10 bg-primary-900/70 backdrop-blur-sm rounded-xl border border-primary-700/50 overflow-hidden">
-              <div class="bg-primary-800 px-4 py-3 flex items-center">
-                <div class="w-3 h-3 bg-rose-500 rounded-full mr-2"></div>
-                <div class="w-3 h-3 bg-amber-500 rounded-full mr-2"></div>
-                <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-                <div class="flex-1 text-center text-sm font-medium">FlashMind - Interface de Estudo</div>
-              </div>
-              
-              <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                  <div>
-                    <h4 class="font-semibold">Biologia Celular</h4>
-                    <p class="text-gray-400 text-sm">Deck: Estruturas Celulares</p>
+              <!-- Front of Card -->
+              <div class="flashcard-front">
+                <div class="flashcard-header">
+                  <div class="flashcard-title">
+                    <i class="fas fa-flask"></i>
+                    <span>Biologia</span>
                   </div>
-                  <div class="flex items-center">
-                    <div class="text-amber-400 mr-4">
-                      <i class="fas fa-fire"></i>
-                      <span class="ml-1">7 dias</span>
-                    </div>
-                    <div class="bg-secondary-500/20 text-secondary-300 px-3 py-1 rounded-full text-xs">
-                      12/30
+                  <div class="flashcard-progress">12/30</div>
+                </div>
+
+                <div class="flashcard-content">
+                  <div class="flex-1">
+                    <h3 class="flashcard-question">
+                      Qual é a função da mitocôndria na célula?
+                    </h3>
+
+                    <img src="../imgs/ImgExemploMitocôndria.jpg" alt="Mitocôndria" class="flashcard-image">
+
+                    <div class="answer-grid">
+                      <button class="answer-option">
+                        A. Síntese de proteínas
+                      </button>
+                      <button class="answer-option">
+                        B. Digestão celular
+                      </button>
+                      <button class="answer-option">
+                        C. Produção de energia
+                      </button>
+                      <button class="answer-option">
+                        D. Armazenamento de água
+                      </button>
                     </div>
                   </div>
                 </div>
-                
-                <div class="bg-primary-800/50 rounded-xl p-6 mb-6 text-center">
-                  <h5 class="text-xl font-medium mb-2">Qual é a função da mitocôndria na célula?</h5>
-                  <div class="flex justify-center mt-4">
-                    <img 
-                      src="../imgs/ImgExemploMitocôndria.jpg" 
-                      alt="Mitocôndria" 
-                      class="h-60 w-auto rounded-lg shadow-lg border border-primary-700/50"
-                    >
-                  </div>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 rounded-lg p-4 text-left transition-colors">
-                    <span class="block font-medium mb-1">A. Síntese de proteínas</span>
-                    <span class="text-gray-400 text-sm">Produção de proteínas para a célula</span>
-                  </button>
-                  
-                  <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 rounded-lg p-4 text-left transition-colors">
-                    <span class="block font-medium mb-1">B. Digestão celular</span>
-                    <span class="text-gray-400 text-sm">Quebra de substâncias na célula</span>
-                  </button>
-                  
-                  <button class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 rounded-lg p-4 text-left transition-colors">
-                    <span class="block font-medium mb-1">C. Produção de energia</span>
-                    <span class="text-gray-200 text-sm">Geração de ATP para a célula</span>
-                  </button>
-                  
-                  <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 rounded-lg p-4 text-left transition-colors">
-                    <span class="block font-medium mb-1">D. Armazenamento de água</span>
-                    <span class="text-gray-400 text-sm">Reserva de água para a célula</span>
-                  </button>
-                </div>
-                
-                <div class="flex justify-between">
-                  <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-gray-300 px-4 py-2 rounded-lg flex items-center">
-                    <i class="fas fa-arrow-left mr-2"></i> Anterior
-                  </button>
-                  
-                  <div class="flex space-x-2">
-                    <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-gray-300 w-10 h-10 rounded-lg flex items-center justify-center">
+
+                <div class="flashcard-controls">
+                  <div class="flex justify-center gap-4">
+                    <button class="control-btn" title="Reportar">
                       <i class="fas fa-flag"></i>
                     </button>
-                    <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-gray-300 w-10 h-10 rounded-lg flex items-center justify-center">
-                      <i class="fas fa-volume-up"></i>
-                    </button>
-                    <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-gray-300 w-10 h-10 rounded-lg flex items-center justify-center">
+                    <button class="control-btn" title="Dica" id="hintBtn">
                       <i class="fas fa-lightbulb"></i>
                     </button>
+                    <button class="control-btn" title="Informações">
+                      <i class="fas fa-info-circle"></i>
+                    </button>
                   </div>
-                  
-                  <button class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-gray-300 px-4 py-2 rounded-lg flex items-center">
-                    Próximo <i class="fas fa-arrow-right ml-2"></i>
-                  </button>
+                </div>
+              </div>
+
+              <!-- Back of Card -->
+              <div class="flashcard-back">
+                <div class="flashcard-header">
+                  <div class="flashcard-title">
+                    <i class="fas fa-check-circle text-green-400"></i>
+                    <span>Resposta Correta!</span>
+                  </div>
+                  <div class="flashcard-progress">12/30</div>
+                </div>
+
+                <div class="flashcard-content">
+                  <div class="flex-1">
+                    <div class="bg-slate-800/50 rounded-xl p-6 mb-6">
+                      <h4 class="font-semibold mb-4">Explicação:</h4>
+                      <p class="text-gray-300">
+                        A mitocôndria é conhecida como a "usina de energia" da célula. Ela realiza a respiração celular, 
+                        processo que produz ATP (adenosina trifosfato), a principal fonte de energia para as atividades celulares.
+                      </p>
+                    </div>
+
+                    <div class="bg-slate-800/50 rounded-xl p-6">
+                      <h4 class="font-semibold mb-4">Análise das alternativas:</h4>
+                      <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-start">
+                          <i class="fas fa-times text-red-400 mt-1 mr-2"></i>
+                          <span>A. Síntese de proteínas - Função do Ribossomo</span>
+                        </li>
+                        <li class="flex items-start">
+                          <i class="fas fa-times text-red-400 mt-1 mr-2"></i>
+                          <span>B. Digestão celular - Função do Lisossomo</span>
+                        </li>
+                        <li class="flex items-start">
+                          <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                          <span>C. Produção de energia - Função correta da mitocôndria</span>
+                        </li>
+                        <li class="flex items-start">
+                          <i class="fas fa-times text-red-400 mt-1 mr-2"></i>
+                          <span>D. Armazenamento de água - Função do Vacúolo</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flashcard-controls">
+                  <div class="flex justify-center gap-4">
+                    <button class="control-btn" title="Voltar" id="backBtn">
+                      <i class="fas fa-undo"></i>
+                    </button>
+                    <button class="control-btn" title="Compartilhar">
+                      <i class="fas fa-share"></i>
+                    </button>
+                    <button class="control-btn" title="Salvar">
+                      <i class="fas fa-bookmark"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          <div class="mt-8 bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
-            <h4 class="font-semibold mb-4">Estatísticas de Aprendizado</h4>
-            <div class="grid grid-cols-2 gap-4">
-              <div class="bg-primary-800/50 rounded-lg p-4 text-center">
-                <div class="text-3xl font-bold text-secondary-400 mb-1">87%</div>
-                <p class="text-sm text-gray-400">Taxa de Acerto</p>
-              </div>
-              
-              <div class="bg-primary-800/50 rounded-lg p-4 text-center">
-                <div class="text-3xl font-bold text-primary-400 mb-1">243</div>
-                <p class="text-sm text-gray-400">Cards Estudados</p>
-              </div>
-              
-              <div class="bg-primary-800/50 rounded-lg p-4 text-center">
-                <div class="text-3xl font-bold text-green-400 mb-1">12</div>
-                <p class="text-sm text-gray-400">Dias Consecutivos</p>
-              </div>
-              
-              <div class="bg-primary-800/50 rounded-lg p-4 text-center">
-                <div class="text-3xl font-bold text-amber-400 mb-1">7</div>
-                <p class="text-sm text-gray-400">Conquistas</p>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-      
-      <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 animate-fade-in animate-delay-300">
-        <h3 class="text-2xl font-bold mb-6 text-center">Recursos Adicionais</h3>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-primary-800/30 rounded-lg p-6 text-center">
-            <div class="w-16 h-16 bg-secondary-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-users text-secondary-400 text-2xl"></i>
-            </div>
-            <h4 class="font-semibold mb-2">Modo Competitivo</h4>
-            <p class="text-gray-300 text-sm">
-              Desafie amigos ou participe de competições globais para testar seus conhecimentos e aumentar sua motivação.
-            </p>
-            <button class="mt-4 bg-secondary-500/20 hover:bg-secondary-500/30 text-secondary-300 px-4 py-2 rounded-lg text-sm transition-colors">
-              Saiba mais
-            </button>
-          </div>
-          
-          <div class="bg-primary-800/30 rounded-lg p-6 text-center">
-            <div class="w-16 h-16 bg-primary-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-magic text-primary-400 text-2xl"></i>
-            </div>
-            <h4 class="font-semibold mb-2">Geração por IA</h4>
-            <p class="text-gray-300 text-sm">
-              Crie flashcards automaticamente a partir de textos, PDFs ou anotações usando nossa tecnologia de inteligência artificial.
-            </p>
-            <button class="mt-4 bg-primary-500/20 hover:bg-primary-500/30 text-primary-300 px-4 py-2 rounded-lg text-sm transition-colors">
-              Saiba mais
-            </button>
-          </div>
-          
-          <div class="bg-primary-800/30 rounded-lg p-6 text-center">
-            <div class="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-sync-alt text-green-400 text-2xl"></i>
-            </div>
-            <h4 class="font-semibold mb-2">Sincronização</h4>
-            <p class="text-gray-300 text-sm">
-              Acesse seus flashcards em qualquer dispositivo com sincronização automática e modo offline para estudar em qualquer lugar.
-            </p>
-            <button class="mt-4 bg-green-500/20 hover:bg-green-500/30 text-green-300 px-4 py-2 rounded-lg text-sm transition-colors">
-              Saiba mais
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      <div class="mt-16 text-center animate-fade-in animate-delay-400">
-    <a href="../Pasta HTML/login.html">
-    <button id="try-demo-button" class="inline-flex items-center justify-center bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
-      Experimente a versão completa <i class="fas fa-external-link-alt ml-2"></i>
-    </button>
-  </a>
-</div>
 
+        <!-- Stats and Features Section -->
+        <div class="max-w-4xl mx-auto mt-16 space-y-8">
+          <!-- Stats Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30 text-center">
+              <div class="text-3xl font-bold text-secondary-400 mb-2">87%</div>
+              <p class="text-sm text-gray-400">Taxa de Acerto</p>
+            </div>
+            
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30 text-center">
+              <div class="text-3xl font-bold text-primary-400 mb-2">243</div>
+              <p class="text-sm text-gray-400">Cards Estudados</p>
+            </div>
+            
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30 text-center">
+              <div class="text-3xl font-bold text-green-400 mb-2">12</div>
+              <p class="text-sm text-gray-400">Dias Consecutivos</p>
+            </div>
+            
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30 text-center">
+              <div class="text-3xl font-bold text-amber-400 mb-2">7</div>
+              <p class="text-sm text-gray-400">Conquistas</p>
+            </div>
+          </div>
+
+          <!-- Features Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+            <!-- Features Card -->
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+              <h4 class="font-semibold mb-4">Recursos dos Flashcards</h4>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
+                  <span class="text-gray-300">Suporte a imagens, áudio e vídeo para aprendizado multimídia</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
+                  <span class="text-gray-300">Diferentes tipos de questões: múltipla escolha, verdadeiro/falso, preenchimento de lacunas</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
+                  <span class="text-gray-300">Marcação de dificuldade para ajustar a frequência de revisão</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
+                  <span class="text-gray-300">Organização por tópicos, tags e coleções personalizadas</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Advanced Features Card -->
+            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
+              <h4 class="font-semibold mb-4">Recursos Avançados</h4>
+              <div class="space-y-4">
+                <div class="flex items-center gap-3 bg-primary-800/50 rounded-lg p-3">
+                  <div class="w-10 h-10 bg-secondary-500/10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-users text-secondary-400"></i>
+                  </div>
+                  <div>
+                    <h5 class="font-medium">Modo Competitivo</h5>
+                    <p class="text-sm text-gray-400">Desafie amigos e participe de rankings</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-center gap-3 bg-primary-800/50 rounded-lg p-3">
+                  <div class="w-10 h-10 bg-primary-500/10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-magic text-primary-400"></i>
+                  </div>
+                  <div>
+                    <h5 class="font-medium">Geração por IA</h5>
+                    <p class="text-sm text-gray-400">Crie flashcards automaticamente</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-center gap-3 bg-primary-800/50 rounded-lg p-3">
+                  <div class="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-sync-alt text-green-400"></i>
+                  </div>
+                  <div>
+                    <h5 class="font-medium">Sincronização</h5>
+                    <p class="text-sm text-gray-400">Acesse em qualquer dispositivo</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-12">
+        <a href="../Pasta HTML/login.html" class="inline-flex items-center justify-center bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-4 h-14 text-lg rounded-lg font-medium transition-all duration-300 hover:scale-105">
+          Experimente a versão completa
+          <i class="fas fa-arrow-right ml-2"></i>
+        </a>
       </div>
     </div>
   </section>
@@ -1407,10 +1866,8 @@
           <a href="../Pasta HTML/login.html" class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 text-center">
             Começar Agora
           </a>
-          <a href="../Pasta HTML/contato.html">
-            <button id="contact-button" class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
+          <a href="../Pasta HTML/contato.html" class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 inline-block">
             Entre em Contato
-            </button>
           </a>
         </div>
       </div>
@@ -1480,64 +1937,7 @@
     </div>
   </footer>
 
-  <!-- Contact Modal -->
-  <div id="contact-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-primary-950/80 backdrop-blur-sm">
-    <div class="modal-content bg-primary-900 rounded-xl max-w-2xl w-full mx-4 overflow-hidden shadow-2xl border border-primary-700/50">
-      <div class="flex justify-between items-center p-6 border-b border-primary-700/50">
-        <h3 class="text-xl font-bold">Entre em Contato</h3>
-        <button id="close-contact-modal" class="text-gray-400 hover:text-white transition-colors">
-          <i class="fas fa-times text-xl"></i>
-        </button>
-      </div>
-      <div class="p-6">
-        <form id="contact-form" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="name" class="block text-gray-300 font-medium mb-2">Nome</label>
-              <input 
-                type="text" 
-                id="name" 
-                name="name" 
-                class="w-full bg-primary-800/50 border border-primary-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
-                required>
-            </div>
-            <div>
-              <label for="email" class="block text-gray-300 font-medium mb-2">E-mail</label>
-              <input 
-                type="email" 
-                id="email" 
-                name="email" 
-                class="w-full bg-primary-800/50 border border-primary-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
-                required>
-            </div>
-          </div>
-          <div>
-            <label for="subject" class="block text-gray-300 font-medium mb-2">Assunto</label>
-            <input 
-              type="text" 
-              id="subject" 
-              name="subject" 
-              class="w-full bg-primary-800/50 border border-primary-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
-              required>
-          </div>
-          <div>
-            <label for="message" class="block text-gray-300 font-medium mb-2">Mensagem</label>
-            <textarea 
-              id="message" 
-              name="message" 
-              rows="4" 
-              class="w-full bg-primary-800/50 border border-primary-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-secondary-500/50"
-              required></textarea>
-          </div>
-          <div class="flex justify-end">
-            <button type="submit" class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300">
-              Enviar Mensagem
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+
 
 
    <script>
@@ -1602,6 +2002,8 @@
   </style>
 
   <script>
+
+
     // Remove no-js class
     document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
 
@@ -1799,6 +2201,330 @@
           grab: { distance: 140, line_linked: { opacity: 0.3 } }
         }
       }
+    });
+  </script>
+
+  <!-- Scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const flashcard = document.getElementById('demo-flashcard');
+      const answerOptions = document.querySelectorAll('.answer-option');
+      const backBtn = document.getElementById('backBtn');
+      const hintBtn = document.getElementById('hintBtn');
+      const hintModal = document.getElementById('hintModal');
+      const hintOverlay = document.getElementById('hintOverlay');
+      let hasAnswered = false;
+
+      // Função para mostrar a dica
+      function showHintModal() {
+        hintModal.classList.add('show');
+        hintOverlay.classList.add('show');
+      }
+
+      // Função para fechar a dica
+      window.closeHintModal = function() {
+        hintModal.classList.remove('show');
+        hintOverlay.classList.remove('show');
+      }
+
+      // Botão de dica
+      hintBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        showHintModal();
+      });
+
+      // Fechar modal ao clicar fora
+      hintOverlay.addEventListener('click', closeHintModal);
+
+      answerOptions.forEach(option => {
+        option.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (hasAnswered) return;
+          hasAnswered = true;
+
+          // Remove classes anteriores
+          answerOptions.forEach(opt => {
+            opt.classList.remove('correct', 'incorrect', 'shake');
+          });
+
+          const isCorrect = this.textContent.trim() === 'C. Produção de energia';
+
+          if (isCorrect) {
+            this.classList.add('correct');
+            setTimeout(() => {
+              flashcard.classList.add('flipped');
+            }, 500);
+          } else {
+            this.classList.add('incorrect', 'shake');
+            
+            const correctOption = document.querySelector('.answer-option:nth-child(3)');
+            setTimeout(() => {
+              correctOption.classList.add('correct');
+            }, 300);
+
+            setTimeout(() => {
+              flashcard.classList.add('flipped');
+            }, 1200);
+          }
+        });
+      });
+
+      // Botão de voltar
+      backBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        flashcard.classList.remove('flipped');
+        hasAnswered = false;
+        answerOptions.forEach(option => {
+          option.classList.remove('correct', 'incorrect', 'shake');
+        });
+      });
+
+      // Remover o evento de clique do flashcard
+      flashcard.removeEventListener('click', function() {});
+    });
+  </script>
+
+  <!-- Estilo para o modal de dica -->
+  <style>
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        backdrop-filter: blur(4px);
+      }
+
+      .modal-overlay.show {
+        display: block;
+      }
+
+      .modal-content {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(139, 85, 255, 0.2);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        z-index: 1000;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+
+      .modal-content.show {
+        display: block;
+      }
+  </style>
+
+      <!-- Modais -->
+    <div class="modal-overlay" id="hintOverlay"></div>
+    <div class="modal-content" id="hintModal">
+      <h3 class="text-xl font-semibold mb-4 text-white">Dica</h3>
+      <p class="text-gray-300 mb-6">
+        Esta organela é conhecida como a "usina de energia" da célula, pois é responsável pela produção de ATP através da respiração celular.
+      </p>
+      <button class="w-full bg-gradient-button text-white py-2 px-4 rounded-lg hover:opacity-90 transition" onclick="closeModal('hint')">
+        Entendi
+      </button>
+    </div>
+
+  <!-- Estilo para os modais -->
+  <style>
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.show {
+      display: block;
+    }
+
+    .modal-content {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(139, 85, 255, 0.2);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      z-index: 1000;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-content.show {
+      display: block;
+    }
+
+    /* Estilo para o formulário de report */
+    .report-form {
+      margin-top: 1rem;
+    }
+
+    .report-form textarea {
+      width: 100%;
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(139, 85, 255, 0.2);
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      color: #e2e8f0;
+      margin-bottom: 1rem;
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .report-form textarea:focus {
+      outline: none;
+      border-color: rgba(139, 85, 255, 0.4);
+    }
+  </style>
+
+  <!-- Modal de Dica -->
+  <div class="modal-overlay" id="hintOverlay"></div>
+  <div class="modal-content" id="hintModal">
+    <h3 class="text-xl font-semibold mb-4 text-white">Dica</h3>
+    <p class="text-gray-300 mb-6">
+      Esta organela é conhecida como a "usina de energia" da célula, pois é responsável pela produção de ATP através da respiração celular.
+    </p>
+    <button class="w-full bg-gradient-button text-white py-2 px-4 rounded-lg hover:opacity-90 transition" onclick="closeModal('hint')">
+      Entendi
+    </button>
+  </div>
+
+  <!-- Modal de Report -->
+  <div class="modal-overlay" id="reportOverlay"></div>
+  <div class="modal-content" id="reportModal">
+    <h3 class="text-xl font-semibold mb-4 text-white">Reportar Problema</h3>
+    <div class="report-form">
+      <textarea placeholder="Descreva o problema que você encontrou nesta questão..." id="reportText"></textarea>
+      <div class="flex gap-3">
+        <button class="flex-1 bg-gradient-button text-white py-2 px-4 rounded-lg hover:opacity-90 transition" onclick="submitReport()">
+          Enviar
+        </button>
+        <button class="flex-1 bg-slate-700 text-white py-2 px-4 rounded-lg hover:bg-slate-600 transition" onclick="closeModal('report')">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const flashcard = document.getElementById('demo-flashcard');
+      const answerOptions = document.querySelectorAll('.answer-option');
+      const backBtn = document.getElementById('backBtn');
+      const hintBtn = document.getElementById('hintBtn');
+      const reportBtn = document.querySelector('.control-btn[title="Reportar"]');
+      let hasAnswered = false;
+
+      // Funções para manipular os modais
+      window.showModal = function(type) {
+        document.getElementById(`${type}Modal`).classList.add('show');
+        document.getElementById(`${type}Overlay`).classList.add('show');
+      }
+
+      window.closeModal = function(type) {
+        document.getElementById(`${type}Modal`).classList.remove('show');
+        document.getElementById(`${type}Overlay`).classList.remove('show');
+        if (type === 'report') {
+          document.getElementById('reportText').value = '';
+        }
+      }
+
+      // Função para enviar report
+      window.submitReport = function() {
+        const reportText = document.getElementById('reportText').value;
+        if (reportText.trim()) {
+          alert('Problema reportado com sucesso! Obrigado pelo feedback.');
+          closeModal('report');
+        } else {
+          alert('Por favor, descreva o problema antes de enviar.');
+        }
+      }
+
+      // Event listeners para os botões
+      hintBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        showModal('hint');
+      });
+
+      reportBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        showModal('report');
+      });
+
+      // Fechar modais ao clicar no overlay
+      document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+          if (this.id === 'hintOverlay') {
+            closeModal('hint');
+          } else if (this.id === 'reportOverlay') {
+            closeModal('report');
+          }
+        });
+      });
+
+      answerOptions.forEach(option => {
+        option.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (hasAnswered) return;
+          hasAnswered = true;
+
+          answerOptions.forEach(opt => {
+            opt.classList.remove('correct', 'incorrect', 'shake');
+          });
+
+          const isCorrect = this.textContent.trim() === 'C. Produção de energia';
+
+          if (isCorrect) {
+            this.classList.add('correct');
+            setTimeout(() => {
+              flashcard.classList.add('flipped');
+            }, 500);
+          } else {
+            this.classList.add('incorrect', 'shake');
+            
+            const correctOption = document.querySelector('.answer-option:nth-child(3)');
+            setTimeout(() => {
+              correctOption.classList.add('correct');
+            }, 300);
+
+            setTimeout(() => {
+              flashcard.classList.add('flipped');
+            }, 1200);
+          }
+        });
+      });
+
+      backBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        flashcard.classList.remove('flipped');
+        hasAnswered = false;
+        answerOptions.forEach(option => {
+          option.classList.remove('correct', 'incorrect', 'shake');
+        });
+      });
+
+      // Remover o evento de clique do flashcard
+      flashcard.removeEventListener('click', function() {});
     });
   </script>
 </body>
