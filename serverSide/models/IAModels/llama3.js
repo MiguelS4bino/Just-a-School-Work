@@ -1,8 +1,9 @@
+//NAO FUNCIONAL
 const axios = require("axios");
 require("dotenv").config()
 
 const HF_TOKEN = process.env.HF_TOKEN;
-const API_URL = "https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct";
+const API_URL = "https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct";
 
 const queryLlama3 = async (prompt) => {
     try{
@@ -11,7 +12,7 @@ const queryLlama3 = async (prompt) => {
                 inputs: prompt,
                 parameters: {
                     max_new_tokens: 200,
-                    temperature: 0.7,
+                    temperature: 0.2,
                 },
             },
             {
@@ -24,7 +25,9 @@ const queryLlama3 = async (prompt) => {
         const result = response.data;
         return result[0]?.generated_text || "Nenhuma resposta gerada.";
     }catch(err){
-        console.err("Erro na consulta ao Llama3: ", error.response?.data || error.message)
+        console.error("Erro na consulta ao Llama3: ", err.response?.data || err.message)
         return "Erro na geração de texto."
     }
 }   
+
+module.exports = queryLlama3;

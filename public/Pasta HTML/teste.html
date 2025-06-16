@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>IA Teste</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      color: #4a4a4a;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      width: 250px;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+      border-color: #7a42f4;
+      box-shadow: 0 0 8px #a88af7;
+      outline: none;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #7a42f4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #6931d1;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Testando funcionamento da IA:</h1>
+  <input type="text" name="IA" id="IA" placeholder="Digite algo...">
+  <button onclick="sendText()">Enviar</button>
+  <div id="output"></div>
+
+  <script>
+    const apiUrl = 'http://localhost:3000';
+    
+    
+
+    async function sendText(){
+        try{
+            const output = document.getElementById("output");
+            const input = document.getElementById('IA');
+            let prompt = input.value;
+
+            let response = await fetch(`${apiUrl}/IA/genText`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ prompt })
+            })
+        
+            if(!response.ok){
+                output.textContent = "Erro ao se comunicar com a IA.";
+                return;
+            }
+
+            response = await response.json();
+            
+            output.innerHTML = "";
+            const p = document.createElement("p");
+            p.textContent = "Resposta da IA: " + response.resposta;
+            output.appendChild(p);
+            input.value="";
+        } catch(err){
+            output.textContent = "Erro ao processar a resposta.";
+            console.error(err);
+        }
+    }
+
+  </script>
+</body>
+</html>
