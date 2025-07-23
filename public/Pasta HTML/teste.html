@@ -17,7 +17,12 @@
 
     h1 {
       color: #4a4a4a;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
+    }
+
+    .mainContainer{
+      align-items: center;
+      text-align: center;
     }
 
     input[type="text"] {
@@ -36,7 +41,7 @@
     }
 
     button {
-      margin-top: 15px;
+      margin-top: 2px;
       padding: 10px 20px;
       background-color: #7a42f4;
       color: white;
@@ -57,26 +62,78 @@
     }
 
     #output {
+      white-space: pre-wrap;
       margin-top: 20px;
+      margin: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    #outputIA {
+      white-space: pre-wrap;
+      margin-top: 20px;
+      margin: 20px;
       font-size: 18px;
       color: #333;
     }
   </style>
 </head>
 <body>
-  <h1>Testando funcionamento da IA:</h1>
-  <input type="text" name="IA" id="IA" placeholder="Digite algo...">
-  <button onclick="sendText()">Enviar</button>
-  <div id="output"></div>
+  <div class="mainContainer">
+    <h1>Testando funcionamento do Tesseract:</h1>
+    <input type="file" name="imageInput" id="imageInput" accept="image/*" multiple>
+    <button onclick="sendImage()">Enviar</button>
+    <div id="output"></div>
 
+    <h1>Testando funcionamento da IA:</h1>
+    <input type="text" name="IA" id="IA" placeholder="Digite algo...">
+    <button onclick="sendText()">Enviar</button>
+    <div id="outputIA"></div>
+  </div>
+  
   <script>
+    const userId = localStorage.getItem('userId');
     const apiUrl = 'http://localhost:3000';
     
-    
+    async function sendImage(){
+        try{
+            const output = document.getElementById("output");
+            const imgs = document.getElementById('imageInput').files;
+
+            const formData = new FormData();
+
+            for(let i = 0; i < imgs.length; i++){
+              formData.append("imgs", imgs[i]);
+            }
+
+            let response = await fetch(`${apiUrl}/IA/${userId}/extractText`, {
+                method: "POST",
+                body: formData
+            })
+        
+            if(!response.ok){
+                output.textContent = "Erro ao se comunicar com o Tesseract.";
+                return;
+            }
+
+            console.log(response);
+            response = await response.json();
+            
+            console.log(response.resumoOrganizado)
+            output.innerHTML = "";
+            const p = document.createElement("p");
+            p.innerHTML = "Resposta do Tesseract: <br><br>" + response.resumoOrganizado;
+            output.appendChild(p);
+            document.getElementById('imageInput').value=null;
+        } catch(err){
+            output.textContent = "Erro ao processar a resposta.";
+            console.error(err);
+        }
+    }
 
     async function sendText(){
         try{
-            const output = document.getElementById("output");
+            const outputIA = document.getElementById("outputIA");
             const input = document.getElementById('IA');
             let prompt = input.value;
 
@@ -95,10 +152,10 @@
 
             response = await response.json();
             
-            output.innerHTML = "";
+            outputIA.innerHTML = "";
             const p = document.createElement("p");
-            p.textContent = "Resposta da IA: " + response.resposta;
-            output.appendChild(p);
+            p.innerHTML = "Resposta da IA: <br><br>" + response.resumoOrganizado;
+            outputIA.appendChild(p);
             input.value="";
         } catch(err){
             output.textContent = "Erro ao processar a resposta.";

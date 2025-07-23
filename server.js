@@ -17,6 +17,8 @@ const registerSocketHandlers = require("./serverSide/socket/handlers.js")
 //Models
 const User = require("./serverSide/models/User.js");
 const Challenge = require("./serverSide/models/Challenge.js")
+const Folder = require("./serverSide/models/Folder.js")
+const Note = require("./serverSide/models/Note.js")
 
 //Open Routes
 const authRoutes = require("./routes/authRoutes.js");

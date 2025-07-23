@@ -1,15 +1,32 @@
-const Tesseract = require('tesseract.js');
-const axios = require('axios');
-require('dotenv').config();
+const { createWorker } = require('tesseract.js');
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-
-async function readImage(imagePath){
-    const res = await Tesseract.recognize(
-        imagePath, 'por', { logger: m => console.log(m) }
-    );
-
-    return res.data.text;
+async function readImage(imagePath) {
+  const worker = await createWorker('eng');
+  const ret = await worker.recognize(imagePath);
+  await worker.terminate();
+  return ret.data.text;
 }
+/* 
+async function readImage(imagePath) {
+  try {
+    const { data } = await Tesseract.recognize(imagePath, 'por', {
+      logger: m => console.log(m)
+    });
 
+    const extractText = (items) =>
+      items?.map(item => item.text?.trim()).filter(Boolean).join('\n');
+
+    const blocksText = extractText(data.blocks);
+    if (blocksText) return blocksText;
+
+    const linesText = extractText(data.lines);
+    if (linesText) return linesText;
+
+    return data.text?.trim() || "";
+  } catch (error) {
+    console.error("Erro ao reconhecer imagem:", error);
+    return "";
+  }
+}
+*/
 module.exports = readImage;
