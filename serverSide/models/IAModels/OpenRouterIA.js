@@ -42,12 +42,12 @@ async function extractTextfromImage(imagePath) {
   }
 }
 
-async function gerarResumo(texto) {
+async function organizeContent(texto) {
   try {
     const response = await axios.post(
       API_URL,
       {
-        model: "cohere/command-r",
+        model: "qwen/qwen3-235b-a22b-07-25:free",
         messages: [
           {
             role: "system",
@@ -62,10 +62,17 @@ async function gerarResumo(texto) {
             Siga este modelo:
 
             {
-              "Tema Principal": {
-                "Subtópico A": ["explicação clara e objetiva"],
-                "Subtópico B": ["explicação clara e objetiva"]
-              }
+              "title": "Tema Principal",
+              "notes": [
+                {
+                  "title": "Subtópico A",
+                  "items": ["explicação clara e objetiva"]
+                },
+                {
+                  "title": "Subtópico B",
+                  "items": ["explicação clara e objetiva"]
+                }
+              ]
             }
 
             Texto:
@@ -91,4 +98,4 @@ async function gerarResumo(texto) {
   }
 }
 
-module.exports = { gerarResumo , extractTextfromImage};
+module.exports = { organizeContent , extractTextfromImage};

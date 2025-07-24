@@ -6,9 +6,9 @@ const path = require('path');
 //Utils
 const saveOrganizedNotes = require("../../serverSide/utils/noteUtils");
 
-const { gerarResumo, extractTextfromImage } = require('../../serverSide/models/IAModels/OpenRouterIA');
-const detectText = require('../../serverSide/models/IAModels/VisionAi');
+const { organizeContent, extractTextfromImage } = require('../../serverSide/models/IAModels/OpenRouterIA');
 const readImage = require('../../serverSide/models/IAModels/Tessereract');
+const Folder = require('../../serverSide/models/Folder');
 
 const router = express.Router();
 
@@ -33,33 +33,62 @@ router.post("/:id/extractText", upload.array('imgs'), async (req, res) => {
     let extractedText = "";
     for (const img of imgs) {
       const text = await extractTextfromImage(img.path);
-      extractedText += `\n\n${text}`;
+      extractedText += `\n${text}`;
       fs.unlinkSync(img.path); // apaga o arquivo após uso
     }
 
     console.log(extractedText.trim());
-    
-    const prompt= extractedText.trim();
-    if (!prompt) return res.status(400).json({ erro: "Sem texto para ser organizado." });
-
-    const resultado = await gerarResumo(prompt);
-    if (!resultado) return res.status(500).json({ erro: "Erro ao processar texto." });
-
-    // Converte para JSON real
-    const organized = JSON.parse(resultado);
-    console.log(organized)
-
-    res.status(200).json({ resumoOrganizado: resultado });
-    /*
-    // SALVA NO MONGO
-    await saveOrganizedNotes(userId, organized);
-    console.log("Notas Organizadas e salvas com sucesso!", )
-    
-    */
+    return res.status(200).json({ resumoOrganizado: extractedText.trim() });
   } catch (err) {
     console.error("Erro ao extrair texto:", err);
-    res.status(500).json({ erro: "Erro ao processar imagens." });
+    return res.status(500).json({ erro: "Erro ao processar imagens." });
   }
 });
+
+router.post("/:id/organizeText", async (req, res) => {
+  try{
+    const userId = req.params.id;
+    const text = req.body.text;
+    if(!userId) return res.status(400).json({ erro: "UserId na requisição é obrigatório!" });
+    if(!text) return res.status(400).json({ erro: "Sem texto a ser organizado." });
+
+    const iaResult = await organizeContent(text);
+    if(!iaResult) return res.status(500).json({ erro: "Erro ao processar texto(IA)." });
+
+    let inJsonContent;
+    try {
+      inJsonContent = JSON.parse(iaResult);
+    } catch (parseErr) {
+      console.error("Erro ao fazer parse do JSON retornado pela IA:", parseErr);
+      return res.status(500).json({ erro: "Resposta da IA inválida." });
+    }
+    console.log(inJsonContent);
+
+    const objectSave = await saveOrganizedNotes(userId, inJsonContent, text);
+    if(objectSave.success){
+      console.log("Notas salvas com sucesso e pasta criada: ", objectSave.folderId);
+      return res.status(200).json({ msg: "Notas organizadas e guardadas na aba 'Pastas'." });
+    } else {
+      console.error("Erro ao salvar notas: ", objectSave.error);
+      return res.status(500).json({ error: "Erro ao salvar notas no Banco de Dados"});
+    }
+  }catch(err){
+    console.error("Erro ao organizar texto: ", err);
+    return res.status(500).json({ erro: "Erro ao organizar texto." });
+  }
+})
+
+router.get("/:id/getFolder", async (req, res) => {
+  try{
+    const folderId = req.params.id;
+    const folders = await Folder.findById(folderId).populate('extractedItems');
+    
+    
+    return res.status(200).json({ folders: folders });
+  } catch(err){
+    console.error("Erro ao resgatar pastas do bd: ", err);
+    return res.status(500).json({ erro: "Erro ao resgatar pastas." });
+  }
+})
 
 module.exports = router;
