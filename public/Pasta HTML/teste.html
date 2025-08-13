@@ -1,359 +1,410 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlashMind - Tesseract</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../imgs/brain.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="../imgs/brain.ico">
-    <link rel="apple-touch-icon" href="../imgs/brain.ico">
-    
-    <!-- External CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-    
-    <!-- Tailwind Config -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Inter", "sans-serif"],
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashMind - Tesseract</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="../imgs/brain.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="../imgs/brain.ico">
+  <link rel="apple-touch-icon" href="../imgs/brain.ico">
+
+  <!-- External CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          },
+          animation: {
+            "fade-in": "fadeIn 0.5s ease-in-out",
+            float: "float 3s ease-in-out infinite",
+            "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            "gradient": "gradient 6s ease infinite",
+            "slide-up": "slideUp 0.5s ease-out",
+            "slide-down": "slideDown 0.3s ease-in",
+            "scale": "scale 0.2s ease-in-out",
+          },
+          keyframes: {
+            fadeIn: {
+              "0%": { opacity: "0", transform: "translateY(10px)" },
+              "100%": { opacity: "1", transform: "translateY(0)" },
             },
-            animation: {
-              "fade-in": "fadeIn 0.5s ease-in-out",
-              float: "float 3s ease-in-out infinite",
-              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-              "gradient": "gradient 6s ease infinite",
-              "slide-up": "slideUp 0.5s ease-out",
-              "slide-down": "slideDown 0.3s ease-in",
-              "scale": "scale 0.2s ease-in-out",
+            float: {
+              "0%, 100%": { transform: "translateY(0)" },
+              "50%": { transform: "translateY(-3px)" },
             },
-            keyframes: {
-              fadeIn: {
-                "0%": { opacity: "0", transform: "translateY(10px)" },
-                "100%": { opacity: "1", transform: "translateY(0)" },
-              },
-              float: {
-                "0%, 100%": { transform: "translateY(0)" },
-                "50%": { transform: "translateY(-3px)" },
-              },
-              gradient: {
-                "0%, 100%": { 'background-position': '0% 50%' },
-                "50%": { 'background-position': '100% 50%' },
-              },
-              slideUp: {
-                "0%": { transform: "translateY(20px)", opacity: "0" },
-                "100%": { transform: "translateY(0)", opacity: "1" },
-              },
-              slideDown: {
-                "0%": { transform: "translateY(-20px)", opacity: "0" },
-                "100%": { transform: "translateY(0)", opacity: "1" },
-              },
-              scale: {
-                "0%": { transform: "scale(0.95)" },
-                "100%": { transform: "scale(1)" },
-              }
+            gradient: {
+              "0%, 100%": { 'background-position': '0% 50%' },
+              "50%": { 'background-position': '100% 50%' },
             },
+            slideUp: {
+              "0%": { transform: "translateY(20px)", opacity: "0" },
+              "100%": { transform: "translateY(0)", opacity: "1" },
+            },
+            slideDown: {
+              "0%": { transform: "translateY(-20px)", opacity: "0" },
+              "100%": { transform: "translateY(0)", opacity: "1" },
+            },
+            scale: {
+              "0%": { transform: "scale(0.95)" },
+              "100%": { transform: "scale(1)" },
+            }
           },
         },
-      };
-    </script>
+      },
+    };
+  </script>
 
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="../CSS/dashboard.css">
-    
-    <style>
-      .gradient-text {
-        background: linear-gradient(45deg, #3B82F6, #8B5CF6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-      
-      .card-hover {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      
-      .card-hover:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-      }
-      
-      .glow-effect {
-        position: relative;
-        overflow: hidden;
-        z-index: 1;
-      }
-      
-      .glow-effect::after {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-        transform: rotate(30deg);
-        animation: glow 3s infinite;
-        z-index: -1;
-      }
-      
-      @keyframes glow {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-      
-      .upload-area {
-        border: 2px dashed #4B5563;
-        transition: all 0.3s ease;
-      }
-      
-      .upload-area:hover {
-        border-color: #3B82F6;
-        background-color: rgba(59, 130, 246, 0.05);
-      }
-      
-      .upload-area.dragover {
-        border-color: #3B82F6;
-        background-color: rgba(59, 130, 246, 0.1);
-      }
-      
-      .loading-spinner {
-        animation: spin 1s linear infinite;
-      }
-      
-      @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-      }
-    </style>
-  </head>
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="../CSS/dashboard.css">
 
-  <body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-gray-900 bg-opacity-90 backdrop-blur-sm border-b border-gray-800">
-      <div class="flex items-center space-x-3">
-        <i class="fas fa-brain text-3xl gradient-text animate-float"></i>
-        <span class="text-2xl font-bold gradient-text">FlashMind</span>
+  <style>
+    .gradient-text {
+      background: linear-gradient(45deg, #3B82F6, #8B5CF6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .glow-effect {
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .glow-effect::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      transform: rotate(30deg);
+      animation: glow 3s infinite;
+      z-index: -1;
+    }
+
+    @keyframes glow {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .upload-area {
+      border: 2px dashed #4B5563;
+      transition: all 0.3s ease;
+    }
+
+    .upload-area:hover {
+      border-color: #3B82F6;
+      background-color: rgba(59, 130, 246, 0.05);
+    }
+
+    .upload-area.dragover {
+      border-color: #3B82F6;
+      background-color: rgba(59, 130, 246, 0.1);
+    }
+
+    .loading-spinner {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
+  <!-- Header -->
+  <header
+    class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-gray-900 bg-opacity-90 backdrop-blur-sm border-b border-gray-800">
+    <div class="flex items-center space-x-3">
+      <i class="fas fa-brain text-3xl gradient-text animate-float"></i>
+      <span class="text-2xl font-bold gradient-text">FlashMind</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <a href="dashboard.html" class="text-gray-400 hover:text-white transition">
+        <i class="fas fa-arrow-left text-xl"></i>
+        <span class="ml-2">Voltar ao Dashboard</span>
+      </a>
+      <div
+        class="hidden md:flex items-center space-x-2 bg-gradient-to-r from-purple-900/50 to-pink-800/50 px-4 py-2 rounded-full border border-purple-600/30">
+        <i class="fas fa-magic text-purple-400"></i>
+        <span class="text-sm text-purple-200 font-medium">Tesseract OCR Ativo</span>
       </div>
-      <div class="flex items-center space-x-4">
-        <a href="dashboard.html" class="text-gray-400 hover:text-white transition">
-          <i class="fas fa-arrow-left text-xl"></i>
-          <span class="ml-2">Voltar ao Dashboard</span>
-        </a>
-        <div class="hidden md:flex items-center space-x-2 bg-gradient-to-r from-purple-900/50 to-pink-800/50 px-4 py-2 rounded-full border border-purple-600/30">
-          <i class="fas fa-magic text-purple-400"></i>
-          <span class="text-sm text-purple-200 font-medium">Tesseract OCR Ativo</span>
-        </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="pt-20 px-6 md:px-12 pb-8 animate-fade-in">
+    <!-- Welcome Banner -->
+    <div
+      class="bg-gradient-to-r from-blue-900/80 to-blue-800/80 rounded-2xl p-6 mb-8 relative overflow-hidden border border-blue-700/30 card-hover">
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-800/30 opacity-20"></div>
+      <div class="relative z-10">
+        <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">
+          <i class="fas fa-camera text-blue-400 mr-3"></i>
+          Transcrição de Imagens
+        </h1>
+        <p class="text-blue-200 max-w-2xl">
+          Envie uma imagem contendo texto e nossa IA fará a transcrição automática.
+          Ideal para digitalizar documentos, anotações e muito mais!
+        </p>
       </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="pt-20 px-6 md:px-12 pb-8 animate-fade-in">
-      <!-- Welcome Banner -->
-      <div class="bg-gradient-to-r from-blue-900/80 to-blue-800/80 rounded-2xl p-6 mb-8 relative overflow-hidden border border-blue-700/30 card-hover">
-        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-800/30 opacity-20"></div>
-        <div class="relative z-10">
-          <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">
-            <i class="fas fa-camera text-blue-400 mr-3"></i>
-            Transcrição de Imagens
-          </h1>
-          <p class="text-blue-200 max-w-2xl">
-            Envie uma imagem contendo texto e nossa IA fará a transcrição automática. 
-            Ideal para digitalizar documentos, anotações e muito mais!
-          </p>
-        </div>
-        <div class="absolute -right-10 -bottom-10 opacity-20">
-          <i class="fas fa-robot text-[200px] text-white"></i>
-        </div>
+      <div class="absolute -right-10 -bottom-10 opacity-20">
+        <i class="fas fa-robot text-[200px] text-white"></i>
       </div>
+    </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Upload Section -->
-        <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
-          <div class="flex items-center mb-6">
-            <div class="bg-blue-900/20 p-3 rounded-full glow-effect mr-4">
-              <i class="fas fa-upload text-blue-400 text-xl"></i>
-            </div>
-            <h2 class="text-xl font-bold">Enviar Imagem</h2>
-          </div>
-
-          <!-- Upload Area -->
-          <div class="upload-area rounded-lg p-8 text-center mb-6 cursor-pointer">
-            <div class="mb-4">
-              <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
-              <p class="text-lg font-medium text-gray-300 mb-2">Selecione uma imagem para transcrição</p>
-              <p class="text-sm text-gray-400">Formatos aceitos: JPG, PNG, GIF</p>
-            </div>
-            <input type="file" name="imageInput" id="imageInput" accept="image/*" multiple class="hidden">
-            <button onclick="document.getElementById('imageInput').click()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-all duration-300 transform hover:scale-105">
-              Selecionar Arquivo
-            </button>
-          </div>
-
-          <!-- Process Button -->
-          <button onclick="sendImage()" class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
-            <i class="fas fa-magic mr-2"></i>
-            Processar Imagem
-          </button>
-        </div>
-
-        <!-- Results Section -->
-        <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
-          <div class="flex items-center justify-between mb-6">
-            <div class="flex items-center">
-              <div class="bg-green-900/20 p-3 rounded-full glow-effect mr-4">
-                <i class="fas fa-file-text text-green-400 text-xl"></i>
-              </div>
-              <h2 class="text-xl font-bold">Texto Transcrito</h2>
-            </div>
-          </div>
-
-          <!-- Results Content -->
-          <div class="bg-gray-700/50 rounded-lg p-4 min-h-[300px]">
-            <div id="output" class="text-gray-300">
-              <div class="text-center py-12">
-                <i class="fas fa-file-text text-4xl text-gray-500 mb-4"></i>
-                <p class="text-gray-400">O texto transcrito aparecerá aqui</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- IA Chat Section -->
-      <div class="mt-8 bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Upload Section -->
+      <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
         <div class="flex items-center mb-6">
-          <div class="bg-purple-900/20 p-3 rounded-full glow-effect mr-4">
-            <i class="fas fa-robot text-purple-400 text-xl"></i>
+          <div class="bg-blue-900/20 p-3 rounded-full glow-effect mr-4">
+            <i class="fas fa-upload text-blue-400 text-xl"></i>
           </div>
-          <h2 class="text-xl font-bold">Chat com IA</h2>
+          <h2 class="text-xl font-bold">Enviar Imagem</h2>
         </div>
 
-        <div class="flex space-x-4">
-          <input type="text" name="IA" id="IA" placeholder="Digite sua pergunta para a IA..." class="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <button onclick="sendText()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
-            <i class="fas fa-paper-plane mr-2"></i>
-            Enviar
+        <!-- Upload Area -->
+        <div class="upload-area rounded-lg p-8 text-center mb-6 cursor-pointer">
+          <div class="mb-4">
+            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+            <p class="text-lg font-medium text-gray-300 mb-2">Selecione uma imagem para transcrição</p>
+            <p class="text-sm text-gray-400">Formatos aceitos: JPG, PNG, GIF</p>
+          </div>
+          <input type="file" name="imageInput" id="imageInput" accept="image/*" multiple class="hidden">
+          <button onclick="document.getElementById('imageInput').click()"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-all duration-300 transform hover:scale-105">
+            Selecionar Arquivo
           </button>
+          <div id="preview" class="flex flex-wrap gap-5 mt-4"></div>
         </div>
 
-        <div id="outputIA" class="mt-4 bg-gray-700/50 rounded-lg p-4 min-h-[200px]">
-          <div class="text-center py-8">
-            <i class="fas fa-comments text-4xl text-gray-500 mb-4"></i>
-            <p class="text-gray-400">A resposta da IA aparecerá aqui</p>
-          </div>
-        </div>
+        <!-- Process Button -->
+        <button onclick="extractText()"
+          class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
+          <i class="fas fa-magic mr-2"></i>
+          Processar Imagem
+        </button>
       </div>
 
-      <!-- Instructions Section -->
-      <div class="mt-8 bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
-        <h3 class="text-lg font-bold mb-4 flex items-center">
-          <i class="fas fa-info-circle text-blue-400 mr-2"></i>
-          Como usar
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="text-center">
-            <div class="bg-blue-900/20 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
-              <i class="fas fa-upload text-blue-400 text-xl"></i>
+      <!-- Results Section -->
+      <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center">
+            <div class="bg-green-900/20 p-3 rounded-full glow-effect mr-4">
+              <i class="fas fa-file-text text-green-400 text-xl"></i>
             </div>
-            <h4 class="font-semibold mb-2">1. Envie a Imagem</h4>
-            <p class="text-sm text-gray-400">Selecione uma imagem contendo texto para transcrição</p>
-          </div>
-          <div class="text-center">
-            <div class="bg-blue-900/20 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
-              <i class="fas fa-magic text-blue-400 text-xl"></i>
-            </div>
-            <h4 class="font-semibold mb-2">2. Processe</h4>
-            <p class="text-sm text-gray-400">Clique em "Processar Imagem" e aguarde nossa IA fazer a transcrição</p>
-          </div>
-          <div class="text-center">
-            <div class="bg-blue-900/20 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
-              <i class="fas fa-copy text-blue-400 text-xl"></i>
-            </div>
-            <h4 class="font-semibold mb-2">3. Copie o Texto</h4>
-            <p class="text-sm text-gray-400">Edite, copie ou use o texto transcrito conforme necessário</p>
+            <h2 class="text-xl font-bold">Texto Transcrito</h2>
           </div>
         </div>
+
+        <!-- Results Content -->
+        <div class="bg-gray-700/50 rounded-lg p-4 min-h-[300px]">
+          <div class="text-gray-300">
+            <div class="text-center py-12" id="output">
+              <i class="fas fa-file-text text-4xl text-gray-500 mb-4"></i>
+              <p class="text-gray-400">O texto transcrito aparecerá aqui</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botões -->
+        <div class="flex justify-center gap-4 mt-4 hidden" id="textButtons">
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">Cancelar</button>
+            <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg shadow">Editar</button>
+            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow" onclick="organizeText()">Organizar</button>
+        </div>
       </div>
-    </main>
-  
+    </div>
+    </div>
+
+    <!-- Instructions Section -->
+    <div class="mt-8 bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
+      <h3 class="text-lg font-bold mb-4 flex items-center">
+        <i class="fas fa-info-circle text-blue-400 mr-2"></i>
+        Como usar
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="text-center">
+          <div class="bg-blue-900/20 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-upload text-blue-400 text-xl"></i>
+          </div>
+          <h4 class="font-semibold mb-2">1. Envie a Imagem</h4>
+          <p class="text-sm text-gray-400">Selecione uma imagem contendo texto para transcrição</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-blue-900/20 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-magic text-blue-400 text-xl"></i>
+          </div>
+          <h4 class="font-semibold mb-2">2. Processe</h4>
+          <p class="text-sm text-gray-400">Clique em "Processar Imagem" e aguarde nossa IA fazer a transcrição</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-blue-900/20 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-copy text-blue-400 text-xl"></i>
+          </div>
+          <h4 class="font-semibold mb-2">3. Copie o Texto</h4>
+          <p class="text-sm text-gray-400">Edite, copie ou use o texto transcrito conforme necessário</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
   <script>
     const userId = localStorage.getItem('userId');
     const apiUrl = 'http://localhost:3000';
-    
-    async function sendImage(){
-        try{
-            const output = document.getElementById("output");
-            const imgs = document.getElementById('imageInput').files;
+    let actualText = "";
 
-            const formData = new FormData();
+    const buttons = document.getElementById("textButtons");
 
-            for(let i = 0; i < imgs.length; i++){
-              formData.append("imgs", imgs[i]);
-            }
+    const imageInput = document.getElementById('imageInput');
+    const preview = document.getElementById('preview');
+    let imagensSalvas = []; // array para armazenar imagens
 
-            let response = await fetch(`${apiUrl}/IA/${userId}/extractText`, {
-                method: "POST",
-                body: formData
-            })
-        
-            if(!response.ok){
-                output.textContent = "Erro ao se comunicar com o Tesseract.";
-                return;
-            }
+    imageInput.onchange = function () {
+      // adiciona as novas imagens no array
+      for (const file of imageInput.files) {
+        imagensSalvas.push(file);
+      }
 
-            console.log(response);
-            response = await response.json();
-            
-            console.log(response.resumoOrganizado)
-            output.innerHTML = "";
-            const p = document.createElement("p");
-            p.innerHTML = "Resposta do Tesseract: <br><br>" + response.resumoOrganizado;
-            output.appendChild(p);
-            document.getElementById('imageInput').value=null;
-        } catch(err){
-            output.textContent = "Erro ao processar a resposta.";
-            console.error(err);
+      // limpa e renderiza todas
+      preview.innerHTML = '';
+      imagensSalvas.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.className = "w-24 h-24 object-cover rounded";
+          preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    };
+
+    let processing = false;
+    async function extractText() {
+      if (processing) return;
+      processing = true;
+
+      try {
+        actualText = null;
+        preview.innerHTML = '';
+        const output = document.getElementById("output");
+        const imgs = document.getElementById('imageInput').files;
+
+        if(!imgs || imgs.length === 0){
+          output.textContent = "";
+          const p = document.createElement("p");
+          p.innerHTML = "Insira pelo menos uma imagem válida.";
+          output.appendChild(p);
+          return;
         }
+
+        const formData = new FormData();
+
+        for (let i = 0; i < imgs.length; i++) {
+          formData.append("imgs", imgs[i]);
+        }
+
+        let response = await fetch(`${apiUrl}/IA/${userId}/extractText`, {
+          method: "POST",
+          body: formData
+        })
+
+        if (!response.ok) {
+          output.textContent = "Erro ao se comunicar com a IA.";
+          return;
+        }
+
+        console.log(response);
+        response = await response.json();
+
+        console.log(response.resumoOrganizado)
+        actualText = response.resumoOrganizado;
+        output.innerHTML = "";
+        const p = document.createElement("p");
+        p.innerText = response.resumoOrganizado;
+        output.appendChild(p);
+        buttons.classList.remove("hidden");
+        imagensSalvas = [];
+        document.getElementById('imageInput').value = null;
+      } catch (err) {
+        output.textContent = "Erro ao processar a resposta.";
+        console.error(err);
+      } finally {
+        processing = false;
+      }
     }
 
-    async function sendText(){
-        try{
-            const outputIA = document.getElementById("outputIA");
-            const input = document.getElementById('IA');
-            let prompt = input.value;
+    async function organizeText() {
+      if (processing) return;
+      processing = true;
+      try {
+        let prompt = outputIA.textContent;
 
-            let response = await fetch(`${apiUrl}/IA/genText`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ prompt })
-            })
-        
-            if(!response.ok){
-                output.textContent = "Erro ao se comunicar com a IA.";
-                return;
-            }
+        let response = await fetch(`${apiUrl}/IA/${userId}/organizeText`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ prompt })
+        })
 
-            response = await response.json();
-            
-            outputIA.innerHTML = "";
-            const p = document.createElement("p");
-            p.innerHTML = "Resposta da IA: <br><br>" + response.resumoOrganizado;
-            outputIA.appendChild(p);
-            input.value="";
-        } catch(err){
-            output.textContent = "Erro ao processar a resposta.";
-            console.error(err);
+        if (!response.ok) {
+          output.textContent = "Erro ao se comunicar com a IA.";
+          return;
         }
+
+        response = await response.json();
+
+        output.innerHTML = "";
+        const p = document.createElement("p");
+        p.innerHTML = "Resposta da IA: <br><br>" + response.resumoOrganizado;
+        output.appendChild(p);
+        input.value = "";
+        actualText = "";
+        buttons.classList.add("hidden");
+      } catch (err) {
+        output.textContent = "Erro ao processar a resposta.";
+        console.error(err);
+      } finally {
+        processing = false;
+      }
     }
 
   </script>
 </body>
+
 </html>
