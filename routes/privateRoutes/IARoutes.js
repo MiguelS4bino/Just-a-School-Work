@@ -48,7 +48,7 @@ router.post("/:id/extractText", upload.array('imgs'), async (req, res) => {
 router.post("/:id/organizeText", async (req, res) => {
   try{
     const userId = req.params.id;
-    const text = req.body.text;
+    const text = req.body.prompt;
     if(!userId) return res.status(400).json({ erro: "UserId na requisição é obrigatório!" });
     if(!text) return res.status(400).json({ erro: "Sem texto a ser organizado." });
 
@@ -60,6 +60,7 @@ router.post("/:id/organizeText", async (req, res) => {
       inJsonContent = JSON.parse(iaResult);
     } catch (parseErr) {
       console.error("Erro ao fazer parse do JSON retornado pela IA:", parseErr);
+      console.error("Resposta da IA recebida:", iaResult);
       return res.status(500).json({ erro: "Resposta da IA inválida." });
     }
     console.log(inJsonContent);

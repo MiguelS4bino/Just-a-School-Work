@@ -15,11 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
     showPage('ranking-page');
   });
   
-  document.getElementById("ia-link")?.addEventListener("click", e => {
-    e.preventDefault();
-    showPage('ia-page');
-  });
-  
   document.getElementById("community-link")?.addEventListener("click", e => {
     e.preventDefault();
     showPage('community-page');

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlashMind - User Folders</title>
+<style>
+    .folders-container {
+        display: flex;          /* Flexbox para organizar em linha/coluna */
+        flex-wrap: wrap;        /* Permite quebrar linha quando não cabe mais */
+        gap: 16px;              /* Espaço entre as folders */
+        padding: 16px;
+        background-color: #1f2937; /* fundo só pra visualização */
+        border-radius: 12px;
+        min-height: 200px;
+    }
+
+    .folder {
+        width: 120px;
+        min-height: 120px;
+        background-color: #4ade80;
+        border: 2px solid #16a34a;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .folder:hover {
+        transform: scale(1.05);
+    }
+    .items {
+        display: none; /* escondido inicialmente */
+        margin-top: 5px;
+        border: 1px solid #67be67;
+        padding: 5px;
+    }
+    .itemContent {
+        border: 1px dashed #67be67;
+        padding: 5px;
+        margin-top: 5px;
+    }
+</style>
+</head>
+<body>
+
+<div id="foldersContainer" class="folders-container"></div>
+
+
+<script>
+const container = document.getElementById("foldersContainer");
+
+function createFolder(name, content) {
+  const folder = document.createElement("div");
+  folder.className = "folder";
+
+  const title = document.createElement("h4");
+  title.textContent = name;
+  folder.appendChild(title);
+
+  const contentDiv = document.createElement("div");
+  contentDiv.className = "folderContent";
+  contentDiv.textContent = content;
+  contentDiv.style.display = "none"; // inicia escondido
+  folder.appendChild(contentDiv);
+
+  // Toggle do conteúdo ao clicar na pasta
+  folder.addEventListener("click", () => {
+    contentDiv.style.display = contentDiv.style.display === "none" ? "block" : "none";
+  });
+
+  container.appendChild(folder);
+}
+
+// Exemplo de criação
+createFolder("Folder 1", "Conteúdo do Folder 1");
+createFolder("Folder 2", "Conteúdo do Folder 2");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+createFolder("Folder 3", "Conteúdo do Folder 3");
+</script>
+
+</body>
+</html>

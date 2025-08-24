@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlashMind - Tesseract</title>
+  <title>FlashMind</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="../imgs/brain.ico">
@@ -235,16 +235,19 @@
           <div class="text-gray-300">
             <div class="text-center py-12" id="output">
               <i class="fas fa-file-text text-4xl text-gray-500 mb-4"></i>
-              <p class="text-gray-400">O texto transcrito aparecerá aqui</p>
+              <p class="text-gray-400" id="outputText">O texto transcrito aparecerá aqui</p>
             </div>
           </div>
         </div>
 
         <!-- Botões -->
         <div class="flex justify-center gap-4 mt-4 hidden" id="textButtons">
-            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">Cancelar</button>
-            <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg shadow">Editar</button>
-            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow" onclick="organizeText()">Organizar</button>
+          <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow"
+            id="clearBtn">Cancelar</button>
+          <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg shadow"
+            id="editBtn">Editar</button>
+          <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow"
+            onclick="organizeText()">Organizar</button>
         </div>
       </div>
     </div>
@@ -324,7 +327,7 @@
         const output = document.getElementById("output");
         const imgs = document.getElementById('imageInput').files;
 
-        if(!imgs || imgs.length === 0){
+        if (!imgs || imgs.length === 0) {
           output.textContent = "";
           const p = document.createElement("p");
           p.innerHTML = "Insira pelo menos uma imagem válida.";
@@ -353,10 +356,10 @@
 
         console.log(response.resumoOrganizado)
         actualText = response.resumoOrganizado;
-        output.innerHTML = "";
-        const p = document.createElement("p");
-        p.innerText = response.resumoOrganizado;
-        output.appendChild(p);
+
+        const outputText = document.getElementById("outputText");
+        outputText.innerText = response.resumoOrganizado;
+
         buttons.classList.remove("hidden");
         imagensSalvas = [];
         document.getElementById('imageInput').value = null;
@@ -369,41 +372,59 @@
     }
 
     async function organizeText() {
+      buttons.classList.add("hidden");
       if (processing) return;
       processing = true;
       try {
-        let prompt = outputIA.textContent;
+        let prompt = outputText.textContent;
+        if (!prompt) window.alert("Algum texto devia ter sido inserido.");
 
-        let response = await fetch(`${apiUrl}/IA/${userId}/organizeText`, {
+        let res = await fetch(`${apiUrl}/IA/${userId}/organizeText`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({ prompt })
-        })
+        });
 
-        if (!response.ok) {
+        if (!res.ok) {
           output.textContent = "Erro ao se comunicar com a IA.";
           return;
         }
 
-        response = await response.json();
+        data = await res.json();
+        output.textContent = data.msg;
+        console.log(data);
 
-        output.innerHTML = "";
-        const p = document.createElement("p");
-        p.innerHTML = "Resposta da IA: <br><br>" + response.resumoOrganizado;
-        output.appendChild(p);
-        input.value = "";
         actualText = "";
-        buttons.classList.add("hidden");
+
       } catch (err) {
         output.textContent = "Erro ao processar a resposta.";
         console.error(err);
       } finally {
         processing = false;
       }
+
     }
 
+    const editBtn = document.getElementById("editBtn");
+    const outputText = document.getElementById("outputText");
+    editBtn.addEventListener("click", () => {
+      if (outputText.isContentEditable) {
+        outputText.contentEditable = "false";
+        editBtn.textContent = "Editar";
+      } else {
+        outputText.contentEditable = "true";
+        outputText.focus();
+        editBtn.textContent = "Salvar";
+      }
+    })
+
+    const clearBtn = document.getElementById("clearBtn");
+    clearBtn.addEventListener("click", () => {
+      buttons.classList.add("hidden");
+      output.innerHTML = "";
+    })
   </script>
 </body>
 

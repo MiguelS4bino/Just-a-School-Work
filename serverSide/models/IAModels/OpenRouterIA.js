@@ -47,7 +47,8 @@ async function organizeContent(texto) {
     const response = await axios.post(
       API_URL,
       {
-        model: "qwen/qwen3-235b-a22b-07-25:free",
+        model: "qwen/qwen2.5-vl-32b-instruct:free",
+        response_format: { type: "json_object" },
         messages: [
           {
             role: "system",
@@ -76,7 +77,7 @@ async function organizeContent(texto) {
             }
 
             Texto:
-            ${texto}`
+            "${texto}"`
           }
         ],
         temperature: 0.8,
