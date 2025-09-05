@@ -157,6 +157,10 @@
         <i class="fas fa-arrow-left text-xl"></i>
         <span class="ml-2">Voltar ao Dashboard</span>
       </a>
+      <a href="foldersView.html" class="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105">
+        <i class="fas fa-folder-open mr-2"></i>
+        <span>Minhas Pastas</span>
+      </a>
       <div
         class="hidden md:flex items-center space-x-2 bg-gradient-to-r from-purple-900/50 to-pink-800/50 px-4 py-2 rounded-full border border-purple-600/30">
         <i class="fas fa-magic text-purple-400"></i>
@@ -248,6 +252,10 @@
             id="editBtn">Editar</button>
           <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow"
             onclick="organizeText()">Organizar</button>
+          <a href="foldersView.html" class="bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white px-4 py-2 rounded-lg shadow transition-all duration-300 transform hover:scale-105">
+            <i class="fas fa-folder-open mr-2"></i>
+            Ver Pastas
+          </a>
         </div>
       </div>
     </div>
@@ -397,6 +405,17 @@
         console.log(data);
 
         actualText = "";
+        
+        // Mostra botão para ir às pastas após organizar
+        const viewFoldersBtn = document.createElement('div');
+        viewFoldersBtn.className = 'mt-4 text-center';
+        viewFoldersBtn.innerHTML = `
+          <a href="foldersView.html" class="inline-block bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105">
+            <i class="fas fa-folder-open mr-2"></i>
+            Ver Minhas Pastas
+          </a>
+        `;
+        output.appendChild(viewFoldersBtn);
 
       } catch (err) {
         output.textContent = "Erro ao processar a resposta.";

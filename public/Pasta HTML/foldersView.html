@@ -1,100 +1,803 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlashMind - User Folders</title>
+    <title>FlashMind - Minhas Pastas</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../imgs/brain.ico">
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
 <style>
-    .folders-container {
-        display: flex;          /* Flexbox para organizar em linha/coluna */
-        flex-wrap: wrap;        /* Permite quebrar linha quando não cabe mais */
-        gap: 16px;              /* Espaço entre as folders */
-        padding: 16px;
-        background-color: #1f2937; /* fundo só pra visualização */
-        border-radius: 12px;
-        min-height: 200px;
-    }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    .folder {
-        width: 120px;
-        min-height: 120px;
-        background-color: #4ade80;
-        border: 2px solid #16a34a;
-        border-radius: 8px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
+        /* Animação dos links da navegação */
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-image: linear-gradient(90deg, #8b55ff, #36aaf5);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            color: white;
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
 
-    .folder:hover {
-        transform: scale(1.05);
-    }
-    .items {
-        display: none; /* escondido inicialmente */
-        margin-top: 5px;
-        border: 1px solid #67be67;
-        padding: 5px;
-    }
-    .itemContent {
-        border: 1px dashed #67be67;
-        padding: 5px;
-        margin-top: 5px;
+        /* Animações para as pastas */
+        .folder-content {
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .folder-content.expanded {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .glow-effect {
+            filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.3));
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #8b55ff, #36aaf5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%);
+        }
+
+        .bg-gradient-button {
+            background: linear-gradient(135deg, #8b55ff, #36aaf5);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
     }
 </style>
 </head>
-<body>
 
-<div id="foldersContainer" class="folders-container"></div>
+<body class="bg-gradient-primary text-slate-100 font-sans min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-slate-900/80 backdrop-blur-md border-b border-slate-800/50">
+        <div class="flex items-center space-x-3">
+            <a href="../Pasta HTML/index.html" class="flex items-center space-x-3 hover:opacity-90 transition-opacity">
+                <div class="glow-effect">
+                    <i class="fa-solid fa-brain text-3xl text-gradient"></i>
+                </div>
+                <span class="text-2xl font-bold text-gradient">FlashMind</span>
+            </a>
+        </div>
+        
+        <!-- Links de navegação -->
+        <div class="hidden md:flex items-center">
+            <a href="../Pasta HTML/index.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Início</a>
+            <a href="../Pasta HTML/guia.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Guia</a>
+            <a href="../Pasta HTML/sobre.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Sobre</a>
+            <a href="../Pasta HTML/contato.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Contato</a>
+            <a href="../Pasta HTML/dashboard.html" class="nav-link text-white font-medium mr-6">Dashboard</a>
+            <a href="../Pasta HTML/login.html" class="bg-gradient-to-r from-purple-600 to-cyan-500 px-6 py-2 rounded-md text-white font-medium hover:shadow-lg transition-all duration-300">
+                Entrar
+            </a>
+        </div>
+    </header>
 
+    <!-- Background decorative elements -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/3 right-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-32 px-6 md:px-12 max-w-7xl mx-auto w-full pb-16 animate-fade-in relative z-10">
+        <!-- Header Section -->
+        <section class="mb-16 text-center">
+            <h1 class="text-5xl font-bold mb-6 text-white">
+                📚 <span class="text-gradient">Minhas Pastas</span>
+            </h1>
+            <p class="text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto">
+                Organize e visualize suas anotações de forma inteligente. Clique em uma pasta para ver o conteúdo completo.
+            </p>
+        </section>
+
+        <!-- Folders Container -->
+        <div id="foldersContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="col-span-full flex justify-center items-center h-64">
+                <div class="flex items-center text-white text-xl">
+                    <div class="spinner mr-4"></div>
+                    Carregando suas pastas...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-slate-900/80 backdrop-blur-sm border-t border-slate-800/50 py-8">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="glow-effect">
+                            <i class="fa-solid fa-brain text-3xl text-gradient"></i>
+                        </div>
+                        <span class="text-xl font-bold text-gradient">FlashMind</span>
+                    </div>
+                    <p class="text-slate-400 text-sm">
+                        Transformando aprendizado em diversão desde 2025. Aprenda, compita e cresça com nossa plataforma.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-white">Links Rápidos</h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="../Pasta HTML/dashboard.html" class="hover:text-purple-400 transition">Dashboard</a></li>
+                        <li><a href="#" class="hover:text-purple-400 transition">Ranking</a></li>
+                        <li><a href="#" class="hover:text-purple-400 transition">Comunidade</a></li>
+                        <li><a href="#" class="hover:text-purple-400 transition">Torneios</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-white">Ajuda</h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="hover:text-purple-400 transition">Central de Ajuda</a></li>
+                        <li><a href="#" class="hover:text-purple-400 transition">Termos de Serviço</a></li>
+                        <li><a href="#" class="hover:text-purple-400 transition">Política de Privacidade</a></li>
+                        <li><a href="../Pasta HTML/contato.html" class="hover:text-purple-400 transition">Contate-nos</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-white">Redes Sociais</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-purple-600/20 hover:text-purple-400 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-cyan-600/20 hover:text-cyan-400 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-purple-600/20 hover:text-purple-400 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-cyan-600/20 hover:text-cyan-400 transition">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800/50 mt-8 pt-8 text-center text-sm text-slate-500">
+                <p>©2025 TCC FlashMind. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
 <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'slate': {
+                            950: '#0A101F',
+                            900: '#0F172A',
+                            800: '#1E293B',
+                            700: '#334155',
+                        },
+                        'purple': {
+                            600: '#9333EA',
+                            500: '#A855F7',
+                            400: '#C084FC',
+                        },
+                        'cyan': {
+                            600: '#0891B2',
+                            500: '#06B6D4',
+                            400: '#22D3EE',
+                        }
+                    }
+                }
+            }
+        }
+
 const container = document.getElementById("foldersContainer");
 
-function createFolder(name, content) {
+        // Configuração da API
+        const API_BASE_URL = 'http://localhost:3000';
+        
+        // Função para obter o token de autenticação
+        function getAuthToken() {
+            return localStorage.getItem('token') || sessionStorage.getItem('token');
+        }
+        
+        // Função para obter o ID do usuário
+        function getUserId() {
+            return localStorage.getItem('userId') || sessionStorage.getItem('userId');
+        }
+        
+        // Função para mostrar notificação
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-20 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 ${
+                type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function truncateText(text, maxLength = 150) {
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+
+        function createFolder(folderData) {
   const folder = document.createElement("div");
-  folder.className = "folder";
+            folder.className = "bg-slate-800/30 rounded-xl border border-slate-700/30 backdrop-blur-sm card-hover overflow-hidden";
+            folder.dataset.folderId = folderData._id;
 
-  const title = document.createElement("h4");
-  title.textContent = name;
-  folder.appendChild(title);
+            // Header da pasta
+            const folderHeader = document.createElement("div");
+            folderHeader.className = "bg-gradient-to-r from-purple-600/20 to-cyan-500/20 p-6 relative cursor-pointer";
 
-  const contentDiv = document.createElement("div");
-  contentDiv.className = "folderContent";
-  contentDiv.textContent = content;
-  contentDiv.style.display = "none"; // inicia escondido
-  folder.appendChild(contentDiv);
+            const folderTitle = document.createElement("h3");
+            folderTitle.className = "text-xl font-semibold text-white mb-2 pr-12";
+            folderTitle.textContent = folderData.title;
 
-  // Toggle do conteúdo ao clicar na pasta
-  folder.addEventListener("click", () => {
-    contentDiv.style.display = contentDiv.style.display === "none" ? "block" : "none";
-  });
+            const folderDate = document.createElement("p");
+            folderDate.className = "text-sm text-slate-400";
+            folderDate.textContent = formatDate(folderData.createdAt);
 
-  container.appendChild(folder);
-}
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete-btn absolute top-4 right-4 w-8 h-8 bg-red-500/20 hover:bg-red-500/40 text-red-400 rounded-full flex items-center justify-center transition-all duration-200";
+            deleteBtn.innerHTML = "<i class='fas fa-times text-sm'></i>";
+            deleteBtn.title = "Deletar pasta";
 
-// Exemplo de criação
-createFolder("Folder 1", "Conteúdo do Folder 1");
-createFolder("Folder 2", "Conteúdo do Folder 2");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
-createFolder("Folder 3", "Conteúdo do Folder 3");
+            folderHeader.appendChild(folderTitle);
+            folderHeader.appendChild(folderDate);
+            folderHeader.appendChild(deleteBtn);
+
+            // Conteúdo da pasta
+            const folderContent = document.createElement("div");
+            folderContent.className = "folder-content p-6";
+
+            // Texto relacionado
+            const relacionedSection = document.createElement("div");
+            relacionedSection.className = "mb-6";
+
+            const relacionedTitle = document.createElement("h4");
+            relacionedTitle.className = "text-lg font-semibold text-white mb-3 flex items-center";
+            relacionedTitle.innerHTML = "<i class='fas fa-file-text text-purple-400 mr-2'></i>Texto Relacionado";
+
+            const relacionedContent = document.createElement("div");
+            relacionedContent.className = "bg-slate-700/20 p-4 rounded-lg border-l-4 border-purple-500 text-slate-300 text-sm leading-relaxed";
+            relacionedContent.textContent = folderData.relacionedText;
+
+            relacionedSection.appendChild(relacionedTitle);
+            relacionedSection.appendChild(relacionedContent);
+
+            // Itens extraídos
+            const extractedSection = document.createElement("div");
+            extractedSection.className = "mb-4";
+
+            const extractedTitle = document.createElement("h4");
+            extractedTitle.className = "text-lg font-semibold text-white mb-3 flex items-center";
+            extractedTitle.innerHTML = "<i class='fas fa-tags text-cyan-400 mr-2'></i>Itens Extraídos";
+
+            const extractedContent = document.createElement("div");
+            extractedContent.className = "flex flex-wrap gap-2";
+
+            // Verifica se extractedItems existe e tem conteúdo
+            if (folderData.extractedItems && folderData.extractedItems.length > 0) {
+                folderData.extractedItems.forEach(item => {
+                    const itemTag = document.createElement("span");
+                    itemTag.className = "bg-gradient-to-r from-purple-500/20 to-cyan-500/20 text-purple-300 px-3 py-1 rounded-full text-sm border border-purple-500/30";
+                    
+                    // Se o item é um objeto (populado), usa o título, senão usa o item diretamente
+                    if (typeof item === 'object' && item.title) {
+                        itemTag.textContent = item.title;
+                    } else if (typeof item === 'string') {
+                        itemTag.textContent = item;
+                    } else {
+                        itemTag.textContent = 'Item sem título';
+                    }
+                    
+                    extractedContent.appendChild(itemTag);
+                });
+            } else {
+                const noItemsTag = document.createElement("span");
+                noItemsTag.className = "text-slate-400 text-sm italic";
+                noItemsTag.textContent = "Nenhum item extraído";
+                extractedContent.appendChild(noItemsTag);
+            }
+
+            extractedSection.appendChild(extractedTitle);
+            extractedSection.appendChild(extractedContent);
+
+            folderContent.appendChild(relacionedSection);
+            folderContent.appendChild(extractedSection);
+
+            folder.appendChild(folderHeader);
+            folder.appendChild(folderContent);
+
+            // Event listeners
+            folderHeader.addEventListener("click", (e) => {
+                if (e.target !== deleteBtn && !deleteBtn.contains(e.target)) {
+                    folderContent.classList.toggle("expanded");
+                }
+            });
+
+            deleteBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (confirm(`Tem certeza que deseja deletar a pasta "${folderData.title}"?`)) {
+                    // Tenta deletar via API, se falhar deleta visualmente
+                    deleteFolder(folderData._id, folder).catch(() => {
+                        console.log('API não disponível, deletando visualmente...');
+                        deleteFolderVisual(folder);
+                    });
+                }
+            });
+
+            return folder;
+        }
+
+        async function deleteFolder(folderId, folderElement) {
+            const deleteBtn = folderElement.querySelector('.delete-btn');
+            const originalContent = deleteBtn.innerHTML;
+            
+            try {
+                const token = getAuthToken();
+                if (!token) {
+                    showNotification('Você precisa estar logado para deletar pastas', 'error');
+                    return;
+                }
+
+                console.log('Tentando deletar pasta:', folderId);
+
+                // Mostra loading no botão
+                deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-sm"></i>';
+                deleteBtn.disabled = true;
+
+                const response = await fetch(`${API_BASE_URL}/IA/${folderId}/deleteFolder`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                console.log('Resposta da deleção:', response.status, response.statusText);
+
+                // Verifica se a resposta é JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Servidor retornou resposta não-JSON. Verifique se o servidor está rodando.');
+                }
+
+                const data = await response.json();
+                console.log('Dados da resposta:', data);
+
+                if (response.ok) {
+                    showNotification('Pasta deletada com sucesso!', 'success');
+                    
+                    // Animação de remoção
+                    folderElement.style.animation = "slideDown 0.3s ease reverse";
+                    setTimeout(() => {
+                        folderElement.remove();
+                        checkEmptyState();
+                    }, 300);
+                } else {
+                    throw new Error(data.erro || data.msg || 'Erro ao deletar pasta');
+                }
+            } catch (error) {
+                console.error('Erro ao deletar pasta:', error);
+                showNotification(error.message || 'Erro ao deletar pasta', 'error');
+                
+                // Restaura o botão
+                deleteBtn.innerHTML = originalContent;
+                deleteBtn.disabled = false;
+            }
+        }
+
+        // Função para deletar pasta apenas visualmente (fallback)
+        function deleteFolderVisual(folderElement) {
+            showNotification('Pasta removida (modo offline)', 'success');
+            
+            // Animação de remoção
+            folderElement.style.animation = "slideDown 0.3s ease reverse";
+            setTimeout(() => {
+                folderElement.remove();
+                checkEmptyState();
+            }, 300);
+        }
+
+        function checkEmptyState() {
+            const folders = container.querySelectorAll('[data-folder-id]');
+            if (folders.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <div class="bg-slate-800/30 p-8 rounded-xl border border-slate-700/30 backdrop-blur-sm max-w-md mx-auto">
+                            <i class="fas fa-folder-open text-6xl text-slate-400 mb-4"></i>
+                            <h3 class="text-2xl font-semibold text-white mb-2">Nenhuma pasta encontrada</h3>
+                            <p class="text-slate-400">Você ainda não criou nenhuma pasta. Comece criando sua primeira anotação!</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadFolders() {
+            try {
+                const userId = getUserId();
+                const token = getAuthToken();
+                
+                console.log('Tentando carregar pastas...', { userId, hasToken: !!token });
+                
+                if (!userId || !token) {
+                    console.log('Usuário não autenticado');
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-16">
+                            <div class="bg-slate-800/30 p-8 rounded-xl border border-slate-700/30 backdrop-blur-sm max-w-md mx-auto">
+                                <i class="fas fa-lock text-6xl text-slate-400 mb-4"></i>
+                                <h3 class="text-2xl font-semibold text-white mb-2">Acesso Restrito</h3>
+                                <p class="text-slate-400 mb-4">Você precisa estar logado para visualizar suas pastas.</p>
+                                <a href="../Pasta HTML/login.html" class="bg-gradient-to-r from-purple-600 to-cyan-500 px-6 py-2 rounded-lg text-white font-medium hover:shadow-lg transition-all duration-300">
+                                    Fazer Login
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                console.log('Fazendo requisição para:', `${API_BASE_URL}/IA/${userId}/getUserFolders`);
+                
+                const response = await fetch(`${API_BASE_URL}/IA/${userId}/getUserFolders`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                console.log('Resposta recebida:', response.status, response.statusText);
+
+                // Verifica se a resposta é JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Servidor retornou resposta não-JSON. Verifique se o servidor está rodando.');
+                }
+
+                const data = await response.json();
+                console.log('Dados recebidos:', data);
+
+                if (response.ok) {
+                    container.innerHTML = '';
+                    
+                    if (!data.folders || data.folders.length === 0) {
+                        console.log('Nenhuma pasta encontrada');
+                        checkEmptyState();
+                        return;
+                    }
+
+                    console.log(`Carregando ${data.folders.length} pastas`);
+                    data.folders.forEach(folderData => {
+                        const folderElement = createFolder(folderData);
+                        container.appendChild(folderElement);
+                    });
+                } else {
+                    throw new Error(data.erro || data.msg || 'Erro ao carregar pastas');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar pastas:', error);
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <div class="bg-slate-800/30 p-8 rounded-xl border border-slate-700/30 backdrop-blur-sm max-w-md mx-auto">
+                            <i class="fas fa-exclamation-triangle text-6xl text-red-400 mb-4"></i>
+                            <h3 class="text-2xl font-semibold text-white mb-2">Erro ao Carregar</h3>
+                            <p class="text-slate-400 mb-4">${error.message}</p>
+                            <div class="flex gap-3 justify-center">
+                                <button onclick="loadFolders()" class="bg-gradient-to-r from-purple-600 to-cyan-500 px-6 py-2 rounded-lg text-white font-medium hover:shadow-lg transition-all duration-300">
+                                    Tentar Novamente
+                                </button>
+                                <button onclick="loadMockData()" class="bg-gradient-to-r from-gray-600 to-gray-500 px-6 py-2 rounded-lg text-white font-medium hover:shadow-lg transition-all duration-300">
+                                    Usar Dados de Exemplo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Função para testar com dados mock
+        function loadMockData() {
+            console.log('Carregando dados mock para teste...');
+            const mockData = [
+                {
+                    _id: "6881bce43a8448403a54033b",
+                    userId: "680ebf0893e6ac1aeeffc0c5",
+                    title: "Segunda Guerra Mundial (1939-1945)",
+                    relacionedText: "A Segunda Guerra Mundial (1939-1945) foi o conflito mais sangrento da história da humanidade, envolvendo mais de 100 milhões de pessoas de mais de 30 países. O conflito teve início com a invasão da Polônia pela Alemanha nazista em 1º de setembro de 1939, e terminou com a rendição do Japão em 2 de setembro de 1945.",
+                    extractedItems: [
+                        { title: "Hitler" },
+                        { title: "Holocausto" },
+                        { title: "Pearl Harbor" },
+                        { title: "Bomba Atômica" }
+                    ],
+                    createdAt: "2025-07-24T04:56:04.919+00:00"
+                },
+                {
+                    _id: "68ab6d29c68d3cd7aa69263b",
+                    userId: "680ebf0893e6ac1aeeffc0c5",
+                    title: "Pré-História: 2,5 mi A.C - 3500 A.C",
+                    relacionedText: "A pré-história abrange o período de 2,5 milhões de anos A.C até 3500 A.C, marcando o surgimento da humanidade e o desenvolvimento das primeiras civilizações. Este período é dividido em Paleolítico, Mesolítico e Neolítico, cada um com características específicas de desenvolvimento humano.",
+                    extractedItems: [
+                        { title: "Paleolítico" },
+                        { title: "Neolítico" },
+                        { title: "Ferramentas de pedra" },
+                        { title: "Caça e coleta" },
+                        { title: "Agricultura" },
+                        { title: "Domesticação" },
+                        { title: "Arte rupestre" }
+                    ],
+                    createdAt: "2025-08-24T19:51:05.122+00:00"
+                },
+                {
+                    _id: "68cd4e5f9a1234567890abcd",
+                    userId: "680ebf0893e6ac1aeeffc0c5",
+                    title: "Revolução Francesa (1789-1799)",
+                    relacionedText: "A Revolução Francesa foi um período de transformação política e social na França que durou de 1789 a 1799. Marcou o fim do Antigo Regime e o início da era moderna, com a queda da monarquia absoluta e a ascensão dos ideais de liberdade, igualdade e fraternidade.",
+                    extractedItems: [
+                        { title: "Bastilha" },
+                        { title: "Luís XVI" },
+                        { title: "Robespierre" },
+                        { title: "Terror" },
+                        { title: "Napoleão" },
+                        { title: "Declaração dos Direitos" }
+                    ],
+                    createdAt: "2025-08-15T14:30:22.456+00:00"
+                },
+                {
+                    _id: "68ef7a8b2c3456789012defg",
+                    userId: "680ebf0893e6ac1aeeffc0c5",
+                    title: "Física: Leis de Newton",
+                    relacionedText: "As três leis de Newton são os fundamentos da mecânica clássica. A primeira lei trata da inércia, a segunda relaciona força e aceleração, e a terceira estabelece que toda ação tem uma reação igual e oposta. Essas leis revolucionaram nossa compreensão do movimento.",
+                    extractedItems: [
+                        { title: "Inércia" },
+                        { title: "F = ma" },
+                        { title: "Ação e Reação" },
+                        { title: "Gravidade" },
+                        { title: "Massa" },
+                        { title: "Aceleração" }
+                    ],
+                    createdAt: "2025-08-20T09:15:33.789+00:00"
+                },
+                {
+                    _id: "68gh9i0j1d4567890123ghij",
+                    userId: "680ebf0893e6ac1aeeffc0c5",
+                    title: "Literatura Brasileira: Modernismo",
+                    relacionedText: "O Modernismo brasileiro foi um movimento literário que se desenvolveu nas primeiras décadas do século XX, marcado pela Semana de Arte Moderna de 1922. Representou uma ruptura com as tradições acadêmicas e a busca por uma identidade nacional na literatura.",
+                    extractedItems: [
+                        { title: "Semana de 22" },
+                        { title: "Mário de Andrade" },
+                        { title: "Oswald de Andrade" },
+                        { title: "Manifesto Pau-Brasil" },
+                        { title: "Antropofagia" },
+                        { title: "Macunaíma" }
+                    ],
+                    createdAt: "2025-08-18T16:45:11.234+00:00"
+                },
+                {
+                    _id: "68kl2m3n4e5678901234klmn",
+                    userId: "680ebf0893e6ac1aeeffc0c5",
+                    title: "Biologia: Sistema Nervoso",
+                    relacionedText: "O sistema nervoso é responsável por coordenar e regular todas as funções do organismo. É dividido em sistema nervoso central (encéfalo e medula espinhal) e periférico (nervos). Permite a comunicação entre diferentes partes do corpo e a resposta aos estímulos ambientais.",
+                    extractedItems: [
+                        { title: "Neurônios" },
+                        { title: "Sinapses" },
+                        { title: "Encéfalo" },
+                        { title: "Medula Espinhal" },
+                        { title: "Sistema Periférico" },
+                        { title: "Reflexos" },
+                        { title: "Neurotransmissores" }
+                    ],
+                    createdAt: "2025-08-22T11:20:44.567+00:00"
+                },
+                {
+                    _id: "68op5q6r7f6789012345opqr",
+                    userId: "680ebf0893e6ac1aeeffc0c5",
+                    title: "Geografia: Clima e Vegetação",
+                    relacionedText: "O clima e a vegetação são elementos fundamentais da geografia física que se relacionam diretamente. O clima influencia o tipo de vegetação que se desenvolve em cada região, criando biomas distintos como florestas tropicais, desertos, tundras e savanas.",
+                    extractedItems: [
+                        { title: "Biomas" },
+                        { title: "Floresta Amazônica" },
+                        { title: "Deserto do Saara" },
+                        { title: "Tundra" },
+                        { title: "Savana" },
+                        { title: "Temperatura" },
+                        { title: "Precipitação" }
+                    ],
+                    createdAt: "2025-08-25T13:10:55.890+00:00"
+                },
+                {
+                    _id: "68st8u9v0g7890123456stuv",
+                    userId: "680ebf0893e6ac1aeeffc0c5",
+                    title: "Matemática: Trigonometria",
+                    relacionedText: "A trigonometria é o ramo da matemática que estuda as relações entre os lados e ângulos de triângulos. É fundamental para resolver problemas de geometria, física e engenharia. As principais funções trigonométricas são seno, cosseno e tangente.",
+                    extractedItems: [
+                        { title: "Seno" },
+                        { title: "Cosseno" },
+                        { title: "Tangente" },
+                        { title: "Triângulo Retângulo" },
+                        { title: "Círculo Trigonométrico" },
+                        { title: "Identidades" },
+                        { title: "Lei dos Senos" }
+                    ],
+                    createdAt: "2025-08-28T08:30:12.123+00:00"
+                },
+                {
+                    _id: "68wx1y2z3h8901234567wxyz",
+                    userId: "680ebf0893e6ac1aeeffc0c5",
+                    title: "Química: Tabela Periódica",
+                    relacionedText: "A tabela periódica é uma organização sistemática dos elementos químicos baseada em suas propriedades atômicas. Foi desenvolvida por Dmitri Mendeleev e organiza os elementos em períodos e grupos, permitindo prever propriedades e comportamentos químicos.",
+                    extractedItems: [
+                        { title: "Mendeleev" },
+                        { title: "Períodos" },
+                        { title: "Grupos" },
+                        { title: "Metais" },
+                        { title: "Não-metais" },
+                        { title: "Gases Nobres" },
+                        { title: "Número Atômico" }
+                    ],
+                    createdAt: "2025-08-30T15:45:33.456+00:00"
+                },
+                {
+                    _id: "68ab4c5d6i9012345678abcd",
+                    userId: "680ebf0893e6ac1aeeffc0c5",
+                    title: "Filosofia: Existencialismo",
+                    relacionedText: "O existencialismo é uma corrente filosófica que enfatiza a existência individual, a liberdade e a responsabilidade humana. Surgiu no século XX com pensadores como Sartre, Camus e Heidegger, questionando o sentido da vida e a natureza da existência humana.",
+                    extractedItems: [
+                        { title: "Sartre" },
+                        { title: "Camus" },
+                        { title: "Heidegger" },
+                        { title: "Liberdade" },
+                        { title: "Responsabilidade" },
+                        { title: "Angústia" },
+                        { title: "Autenticidade" }
+                    ],
+                    createdAt: "2025-09-01T10:15:44.789+00:00"
+                }
+            ];
+
+            container.innerHTML = '';
+            mockData.forEach(folderData => {
+                const folderElement = createFolder(folderData);
+                container.appendChild(folderElement);
+            });
+        }
+
+
+        // Função para recarregar dados (útil para integração com API)
+        window.refreshFolders = function() {
+            loadFolders();
+        };
+
+        // Função para testar conectividade
+        async function testConnection() {
+            try {
+                console.log('Testando conectividade com o servidor...');
+                const response = await fetch(`${API_BASE_URL}/`, {
+                    method: 'GET',
+                    timeout: 5000 // 5 segundos de timeout
+                });
+                console.log('Servidor respondeu:', response.status);
+                return response.ok;
+            } catch (error) {
+                console.error('Erro de conectividade:', error);
+                return false;
+            }
+        }
+
+        // Função para detectar se deve usar dados mock
+        async function initializePage() {
+            try {
+                const isConnected = await testConnection();
+                if (!isConnected) {
+                    console.log('Servidor não está rodando, usando dados mock');
+                    loadMockData();
+                } else {
+                    console.log('Servidor conectado, tentando carregar dados reais');
+                    await loadFolders();
+                }
+            } catch (error) {
+                console.log('Erro na inicialização, usando dados mock:', error);
+                loadMockData();
+            }
+        }
+
+        // Inicialização melhorada
+        initializePage();
 </script>
-
 </body>
 </html>
