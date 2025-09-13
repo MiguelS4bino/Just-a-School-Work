@@ -119,30 +119,7 @@
 <script>
         // Mock data for demonstration
         const mockDocuments = [
-            {
-                id: "1",
-                title: "Pesquisa sobre Inteligência Artificial",
-                content: "Este documento contém uma análise detalhada sobre os avanços recentes em inteligência artificial e suas aplicações na pesquisa acadêmica...",
-                topics: ["Inteligência Artificial", "Machine Learning", "Pesquisa Acadêmica"],
-                date: "2025-01-15",
-                type: "artigo"
-            },
-            {
-                id: "2",
-                title: "Anotações de Laboratório - Química",
-                content: "Resultados dos experimentos realizados no laboratório de química orgânica, incluindo procedimentos e observações...",
-                topics: ["Química Orgânica", "Laboratório", "Experimentos"],
-                date: "2025-01-14",
-                type: "anotacao"
-            },
-            {
-                id: "3",
-                title: "Revisão Bibliográfica - Física",
-                content: "Revisão completa da literatura sobre física quântica e suas implicações teóricas...",
-                topics: ["Física Quântica", "Teoria", "Literatura"],
-                date: "2025-01-13",
-                type: "revisao"
-            }
+            
         ];
 
         function createDocumentCard(doc) {
@@ -185,34 +162,95 @@
         }
 
         // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             const container = document.getElementById('documentsContainer');
-            
+
+            const userId = localStorage.getItem('userId'); // ID do usuário logado
+            const response = await fetch(`http://localhost:3000/IA/${userId}/getFolders`);
+            const data = await response.json();
+
             // Clear loading state
-                    container.innerHTML = '';
-                    
-            // Add documents
-            mockDocuments.forEach(doc => {
-                const card = createDocumentCard(doc);
-                container.appendChild(card);
-            });
+            container.innerHTML = '';
             
-            // Add empty state if no documents
-            if (mockDocuments.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full text-center py-16">
-                        <div class="bg-white p-8 rounded-xl border border-slate-200 max-w-md mx-auto">
-                            <i class="fas fa-folder-open text-6xl text-slate-300 mb-4"></i>
-                            <h3 class="text-xl font-semibold text-slate-900 mb-2">Nenhum documento encontrado</h3>
-                            <p class="text-slate-600 mb-6">Comece criando seu primeiro documento ou fazendo upload de arquivos.</p>
-                            <button class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
-                                <i class="fas fa-plus mr-2"></i>
-                                Criar Documento
-                                </button>
+            const folders = Array.isArray(data.folders) ? data.folders : [];
+
+            if (folders.length === 0) {
+            container.innerHTML = `
+                <div class="col-span-full text-center py-16">
+                    <div class="bg-white p-8 rounded-xl border border-slate-200 max-w-md mx-auto">
+                        <i class="fas fa-folder-open text-6xl text-slate-300 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-2">Nenhuma pasta encontrada</h3>
+                        <p class="text-slate-600 mb-6">Comece criando sua primeira pasta e adicionando notas.</p>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+            // Add documents
+            folders.forEach(folder => {
+            // Card da pasta (informações básicas)
+            const folderCard = document.createElement('div');
+            folderCard.className = 'bg-white rounded-xl border border-slate-200 p-6 card-hover cursor-pointer mb-6';
+
+            // Ícone e cor da pasta
+            const typeIcon = 'fas fa-folder';
+            const typeColor = 'text-yellow-500';
+
+            folderCard.innerHTML = `
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+                            <i class="${typeIcon} ${typeColor} text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-900">${folder.title}</h3>
+                            <p class="text-sm text-slate-500">${folder.extractedItems.length} item(s)</p>
+                            <p class="text-xs text-slate-400">Criada em: ${new Date(folder.createdAt).toLocaleDateString('pt-BR')}</p>
                         </div>
                     </div>
-                `;
-            }
+                    <button class="text-slate-400 hover:text-slate-600 transition-colors">
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                </div>
+
+                <div class="mt-4 hidden folder-content"></div>
+            `;
+
+            const folderContent = folderCard.querySelector('.folder-content');
+            const chevronIcon = folderCard.querySelector('i');
+
+            folderCard.addEventListener('click', () => {
+                const isHidden = folderContent.classList.contains('hidden');
+                if (isHidden) {
+                    folderContent.classList.remove('hidden');
+                    chevronIcon.classList.add('rotate-180');
+
+                    folderContent.innerHTML = '';
+                    if (folder.extractedItems.length === 0) {
+                        folderContent.innerHTML = `<p class="text-slate-600">Esta pasta está vazia.</p>`;
+                    } else {
+                        folder.extractedItems.forEach(note => {
+                            const noteCard = document.createElement('div');
+                            noteCard.className = 'bg-slate-50 border border-slate-200 p-4 rounded-lg mb-3';
+                            noteCard.innerHTML = `
+                                <h4 class="font-semibold text-slate-900">${note.title}</h4>
+                                <ul class="list-disc pl-5 text-slate-700 text-sm">
+                                    ${note.items.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                                <p class="text-slate-500 text-xs mt-1">${new Date(note.createdAt).toLocaleDateString('pt-BR')}</p>
+                            `;
+                            folderContent.appendChild(noteCard);
+                        });
+                    }
+                } else {
+                    folderContent.classList.add('hidden');
+                    chevronIcon.classList.remove('rotate-180');
+                }
+            });
+
+            container.appendChild(folderCard);
+        });
         });
 
         // Add hover effects to cards
