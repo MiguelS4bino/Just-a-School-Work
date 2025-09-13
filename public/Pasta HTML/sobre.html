@@ -4,17 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FlashMind - Sobre</title>
+    
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="../imgs/brain.ico">
-  <!-- Tailwind CSS via CDN -->
+    
+    <!-- External CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome para ícones -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts - Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../CSS/sobre.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   
   <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
     .animate-fade-in {
       animation: fadeIn 0.8s ease-out forwards;
     }
@@ -23,330 +38,360 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    
-    .input-field:focus {
-      box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
-    }
-
-    /* Animação dos links da navegação */
-    .nav-link {
-      position: relative;
-      transition: color 0.3s ease;
-    }
-    
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: -4px;
-      left: 0;
-      background-image: linear-gradient(90deg, #8b55ff, #36aaf5);
-      transition: width 0.3s ease;
-    }
-    
-    .nav-link:hover::after {
-      width: 100%;
-    }
-    
-    .nav-link.active {
-      color: white;
-    }
-    
-    .nav-link.active::after {
-      width: 100%;
-    }
   </style>
 </head>
 
-<body class="bg-gradient-primary text-slate-100 font-sans min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-900 font-sans">
   <!-- Header -->
-  <header class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-slate-900/80 backdrop-blur-md border-b border-slate-800/50">
+    <header class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-white/80 backdrop-blur-sm border-b border-slate-200">
     <div class="flex items-center space-x-3">
-      <a href="../Pasta HTML/index.html" class="flex items-center space-x-3 hover:opacity-90 transition-opacity">
-        <div class="glow-effect">
-          <i class="fa-solid fa-brain text-3xl text-gradient"></i>
+            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-brain text-white text-xl"></i>
+            </div>
+            <span class="text-2xl font-bold text-slate-900">FlashMind</span>
         </div>
-        <span class="text-2xl font-bold text-gradient">FlashMind</span>
-      </a>
-    </div>
-    
-    <!-- Links de navegação simplificados -->
-    <div class="hidden md:flex items-center">
-      <a href="../Pasta HTML/index.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Início</a>
-      <a href="../Pasta HTML/guia.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Guia</a>
-      <a href="../Pasta HTML/sobre.html" class="nav-link text-white font-medium mr-6">Sobre</a>
-      <a href="../Pasta HTML/contato.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Contato</a>
-      <a href="../Pasta HTML/login.html" class="bg-gradient-to-r from-purple-600 to-cyan-500 px-6 py-2 rounded-md text-white font-medium hover:shadow-lg transition-all duration-300">
-        Entrar
+        
+        <nav class="hidden md:flex items-center space-x-8">
+            <a href="index.html" class="text-slate-600 hover:text-slate-900 transition-colors">Início</a>
+            <a href="index.html#features" class="text-slate-600 hover:text-slate-900 transition-colors">Recursos</a>
+            <a href="index.html#benefits" class="text-slate-600 hover:text-slate-900 transition-colors">Benefícios</a>
+            <a href="#" class="text-blue-600 font-medium">Sobre</a>
+        </nav>
+        
+        <div class="flex items-center space-x-4">
+            <a href="login.html" class="text-slate-600 hover:text-slate-900 transition-colors">Entrar</a>
+            <a href="login.html" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                Começar
       </a>
     </div>
   </header>
 
-  <!-- Background decorative elements -->
-  <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-1/3 right-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl"></div>
-  </div>
-
   <!-- Main Content -->
-  <main class="flex-grow pt-32 px-6 md:px-12 max-w-6xl mx-auto w-full pb-16 animate-fade-in relative z-10">
-    <section class="mb-16 text-center">
-      <h1 class="text-5xl font-bold mb-6 text-white">
-        Sobre o <span class="text-gradient">FlashMind</span>
+    <main class="pt-24 pb-16 px-6 md:px-12">
+        <div class="max-w-4xl mx-auto">
+            <!-- Hero Section -->
+            <section class="text-center mb-16">
+                <h1 class="text-5xl font-bold text-slate-900 mb-6 animate-fade-in">
+                    Sobre o <span class="gradient-text">FlashMind</span>
       </h1>
-      <p class="text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto">
-        Uma jornada de aprendizado gamificada com inteligência artificial, feita por estudantes e para estudantes.
+                <p class="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto animate-fade-in">
+                    Uma plataforma especializada para pesquisadores acadêmicos que combina OCR inteligente, organização automática e busca semântica para revolucionar a produtividade de pesquisa.
       </p>
     </section>
 
-    <div class="grid md:grid-cols-2 gap-8 mb-16">
-      <div class="bg-slate-800/30 p-8 rounded-xl border border-slate-700/30 backdrop-blur-sm card-hover">
+            <!-- Mission & Vision -->
+            <section class="grid md:grid-cols-2 gap-8 mb-16">
+                <div class="bg-white rounded-xl p-8 border border-slate-200 card-hover">
         <div class="flex items-center mb-6">
-          <div class="bg-gradient-to-br from-purple-500/10 to-cyan-500/10 p-3 rounded-lg mr-4">
-            <i class="fas fa-bullseye text-purple-400 text-xl"></i>
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-bullseye text-blue-600 text-xl"></i>
           </div>
-          <h2 class="text-2xl font-semibold text-white">Nosso objetivo</h2>
+                        <h2 class="text-2xl font-bold text-slate-900">Nossa Missão</h2>
         </div>
-        <p class="text-slate-300 leading-relaxed">
-          Transformar o estudo em algo interativo, divertido e eficiente. Através de gamificação e IA, ajudamos você a aprender com mais motivação e retenção.
+                    <p class="text-slate-600 leading-relaxed">
+                        Revolucionar a produtividade acadêmica, tornando a organização de pesquisas mais eficiente e inteligente. Através de OCR inteligente e IA, ajudamos pesquisadores a focar no que realmente importa: analisar e criar conhecimento.
         </p>
       </div>
 
-      <div class="bg-slate-800/30 p-8 rounded-xl border border-slate-700/30 backdrop-blur-sm card-hover">
+                <div class="bg-white rounded-xl p-8 border border-slate-200 card-hover">
         <div class="flex items-center mb-6">
-          <div class="bg-gradient-to-br from-purple-500/10 to-cyan-500/10 p-3 rounded-lg mr-4">
-            <i class="fas fa-lightbulb text-purple-400 text-xl"></i>
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-lightbulb text-green-600 text-xl"></i>
           </div>
-          <h2 class="text-2xl font-semibold text-white">Nossa origem</h2>
+                        <h2 class="text-2xl font-bold text-slate-900">Nossa Visão</h2>
         </div>
-        <p class="text-slate-300 leading-relaxed">
-          O FlashMind é um projeto de TCC técnico, unindo educação e tecnologia com foco em inovação.
+                    <p class="text-slate-600 leading-relaxed">
+                        Ser referência em soluções de produtividade acadêmica inovadoras baseadas em IA e OCR inteligente, democratizando o acesso a ferramentas avançadas de organização de pesquisa.
         </p>
       </div>
+            </section>
+
+            <!-- About Us -->
+            <section class="bg-white rounded-xl p-8 border border-slate-200 mb-16 card-hover">
+                <h2 class="text-3xl font-bold text-slate-900 mb-6">Quem Somos</h2>
+                <p class="text-slate-600 leading-relaxed mb-8">
+                    Somos alunos da Etec Jacinto Ferreira de Sá na qual cursamos Análise e Desenvolvimento de Sistemas/AMS na Fatec de Ourinhos. Nosso projeto combina tecnologia de ponta com necessidades reais de pesquisadores acadêmicos para criar uma ferramenta de produtividade única.
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-rocket text-blue-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-900 mb-2">Inovação</h3>
+                        <p class="text-sm text-slate-600">Utilizamos as mais recentes tecnologias de IA e OCR para criar soluções de produtividade acadêmica inovadoras.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-users text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-900 mb-2">Acessibilidade</h3>
+                        <p class="text-sm text-slate-600">Democratizamos o acesso a ferramentas avançadas de organização de pesquisa através da tecnologia.</p>
     </div>
 
-    <section class="bg-slate-800/30 p-8 md:p-10 rounded-xl border border-slate-700/30 backdrop-blur-sm mb-16 card-hover">
-      <div class="flex flex-col">
-        <h2 class="text-3xl font-bold text-white mb-6">Quem somos</h2>
-        <p class="text-slate-300 leading-relaxed mb-8 max-w-3xl">
-          Somos alunos da Etec Jacinto Ferreira de Sá na qual cursamos Análise e Desenvolvimento de Sistemas/AMS na Fatec de Ourinhos. Nosso projeto combina tecnologia de ponta com princípios educacionais modernos para criar uma experiência de aprendizado única.
-        </p>
-        
-        <div class="grid md:grid-cols-3 gap-6 mb-10">
-          <div class="bg-slate-700/20 p-6 rounded-lg border border-slate-600/30">
-            <div class="text-4xl mb-4 text-gradient">
-              <i class="fas fa-rocket"></i>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-graduation-cap text-purple-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-900 mb-2">Impacto Acadêmico</h3>
+                        <p class="text-sm text-slate-600">Focamos em produtividade acadêmica e impacto positivo na pesquisa científica.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Professional Niches -->
+            <section class="bg-white rounded-xl p-8 border border-slate-200 mb-16 card-hover">
+                <h2 class="text-3xl font-bold text-slate-900 mb-6">Públicos-Alvo</h2>
+                <p class="text-slate-600 mb-8">
+                    O FlashMind foi desenvolvido para atender diferentes profissionais que lidam com documentos e informações visuais, adaptando-se às necessidades específicas de cada área.
+                </p>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Academic Researchers -->
+                    <div class="bg-blue-50 rounded-lg p-6 border border-blue-200">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-graduation-cap text-blue-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-slate-900">Pesquisadores Acadêmicos</h3>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-3">OCR para anotações manuscritas, organização por tópicos de pesquisa e gestão de referências.</p>
+                        <ul class="text-xs text-slate-500 space-y-1">
+                            <li>• Digitalização de anotações</li>
+                            <li>• Classificação automática</li>
+                            <li>• Busca semântica</li>
+                        </ul>
+                    </div>
+
+                    <!-- Journalists -->
+                    <div class="bg-red-50 rounded-lg p-6 border border-red-200">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-newspaper text-red-600 text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-slate-900">Jornalistas</h3>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-3">Transcrição de entrevistas, verificação de fontes e geração de resumos automáticos.</p>
+                        <ul class="text-xs text-slate-500 space-y-1">
+                            <li>• Transcrição de áudio</li>
+                            <li>• Verificação de fontes</li>
+                            <li>• Geração de resumos</li>
+                        </ul>
             </div>
-            <h3 class="text-xl font-semibold text-white mb-2">Missão</h3>
-            <p class="text-slate-300 text-sm">Democratizar o acesso a ferramentas de aprendizado avançadas através da tecnologia.</p>
+
+                    <!-- Legal Professionals -->
+                    <div class="bg-purple-50 rounded-lg p-6 border border-purple-200">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-balance-scale text-purple-600 text-xl"></i>
           </div>
-          <div class="bg-slate-700/20 p-6 rounded-lg border border-slate-600/30">
-            <div class="text-4xl mb-4 text-gradient">
-              <i class="fas fa-eye"></i>
+                            <h3 class="text-lg font-semibold text-slate-900">Advogados</h3>
             </div>
-            <h3 class="text-xl font-semibold text-white mb-2">Visão</h3>
-            <p class="text-slate-300 text-sm">Ser referência em soluções educacionais inovadoras baseadas em IA e gamificação.</p>
+                        <p class="text-sm text-slate-600 mb-3">OCR para documentos legais, gestão de casos e busca de precedentes.</p>
+                        <ul class="text-xs text-slate-500 space-y-1">
+                            <li>• Digitalização de processos</li>
+                            <li>• Gestão de casos</li>
+                            <li>• Busca de precedentes</li>
+                        </ul>
           </div>
-          <div class="bg-slate-700/20 p-6 rounded-lg border border-slate-600/30">
-            <div class="text-4xl mb-4 text-gradient">
-              <i class="fas fa-heart"></i>
+
+                    <!-- Health Professionals -->
+                    <div class="bg-green-50 rounded-lg p-6 border border-green-200">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-user-md text-green-600 text-xl"></i>
             </div>
-            <h3 class="text-xl font-semibold text-white mb-2">Valores</h3>
-            <p class="text-slate-300 text-sm">Inovação, acessibilidade, aprendizado contínuo e impacto social positivo.</p>
+                            <h3 class="text-lg font-semibold text-slate-900">Profissionais de Saúde</h3>
           </div>
+                        <p class="text-sm text-slate-600 mb-3">OCR para prontuários, gestão de pacientes e extração de dados vitais.</p>
+                        <ul class="text-xs text-slate-500 space-y-1">
+                            <li>• Digitalização de prontuários</li>
+                            <li>• Gestão de pacientes</li>
+                            <li>• Conformidade LGPD</li>
+                        </ul>
         </div>
         
-        <!-- Seção de Tecnologias -->
-        <div class="mb-10">
-          <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
-            <i class="fas fa-code text-purple-400 mr-2"></i> Tecnologias utilizadas
-          </h3>
-          <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            <div class="tech-badge bg-slate-800/30 flex flex-col items-center py-3 px-3 rounded-lg">
-              <i class="fab fa-html5 text-orange-500 text-2xl mb-1"></i>
-              <span class="text-xs text-slate-300">HTML5</span>
+                    <!-- Designers -->
+                    <div class="bg-orange-50 rounded-lg p-6 border border-orange-200">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-palette text-orange-600 text-xl"></i>
             </div>
-            <div class="tech-badge bg-slate-800/30 flex flex-col items-center py-3 px-3 rounded-lg">
-              <i class="fab fa-css3-alt text-cyan-500 text-2xl mb-1"></i>
-              <span class="text-xs text-slate-300">CSS3 (Tailwind)</span>
+                            <h3 class="text-lg font-semibold text-slate-900">Designers</h3>
             </div>
-            <div class="tech-badge bg-slate-800/30 flex flex-col items-center py-3 px-3 rounded-lg">
-              <i class="fab fa-js-square text-yellow-400 text-2xl mb-1"></i>
-              <span class="text-xs text-slate-300">JavaScript</span>
+                        <p class="text-sm text-slate-600 mb-3">OCR para croquis, gestão de projetos e extração de especificações.</p>
+                        <ul class="text-xs text-slate-500 space-y-1">
+                            <li>• Digitalização de croquis</li>
+                            <li>• Gestão de projetos</li>
+                            <li>• Especificações técnicas</li>
+                        </ul>
             </div>
-            <div class="tech-badge bg-slate-800/30 flex flex-col items-center py-3 px-3 rounded-lg">
-              <i class="fab fa-node-js text-green-500 text-2xl mb-1"></i>
-              <span class="text-xs text-slate-300">Node.js</span>
+
+                    <!-- Managers -->
+                    <div class="bg-slate-50 rounded-lg p-6 border border-slate-200">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-chart-line text-slate-600 text-xl"></i>
             </div>
-            <div class="tech-badge bg-slate-800/30 flex flex-col items-center py-3 px-3 rounded-lg">
-              <i class="fas fa-server text-slate-300 text-2xl mb-1"></i>
-              <span class="text-xs text-slate-300">Express</span>
+                            <h3 class="text-lg font-semibold text-slate-900">Gestores</h3>
             </div>
-            <div class="tech-badge bg-slate-800/30 flex flex-col items-center py-3 px-3 rounded-lg">
-              <i class="fas fa-database text-green-400 text-2xl mb-1"></i>
-              <span class="text-xs text-slate-300">MongoDB</span>
+                        <p class="text-sm text-slate-600 mb-3">OCR para relatórios, gestão por departamentos e extração de KPIs.</p>
+                        <ul class="text-xs text-slate-500 space-y-1">
+                            <li>• Digitalização de relatórios</li>
+                            <li>• Gestão por departamentos</li>
+                            <li>• Análise de métricas</li>
+                        </ul>
             </div>
+                </div>
+            </section>
+
+            <!-- Technologies -->
+            <section class="bg-white rounded-xl p-8 border border-slate-200 mb-16 card-hover">
+                <h2 class="text-3xl font-bold text-slate-900 mb-6">Tecnologias Utilizadas</h2>
+                <p class="text-slate-600 mb-8">
+                    Desenvolvemos o FlashMind utilizando uma stack tecnológica moderna e robusta, combinando IA avançada com tecnologias web de ponta para criar uma experiência única e adaptável para diferentes profissionais.
+                </p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div class="bg-slate-50 rounded-lg p-4 text-center">
+                        <i class="fas fa-robot text-blue-600 text-2xl mb-2"></i>
+                        <span class="text-sm text-slate-700">IA Qwen</span>
+                    </div>
+                    <div class="bg-slate-50 rounded-lg p-4 text-center">
+                        <i class="fas fa-database text-green-600 text-2xl mb-2"></i>
+                        <span class="text-sm text-slate-700">MongoDB</span>
+                    </div>
+                    <div class="bg-slate-50 rounded-lg p-4 text-center">
+                        <i class="fas fa-paint-brush text-purple-600 text-2xl mb-2"></i>
+                        <span class="text-sm text-slate-700">Tailwind CSS</span>
+                    </div>
+                    <div class="bg-slate-50 rounded-lg p-4 text-center">
+                        <i class="fas fa-code text-orange-600 text-2xl mb-2"></i>
+                        <span class="text-sm text-slate-700">HTML5</span>
+                    </div>
+                    <div class="bg-slate-50 rounded-lg p-4 text-center">
+                        <i class="fas fa-file-code text-red-600 text-2xl mb-2"></i>
+                        <span class="text-sm text-slate-700">JavaScript</span>
+                    </div>
+                    <div class="bg-slate-50 rounded-lg p-4 text-center">
+                        <i class="fas fa-server text-indigo-600 text-2xl mb-2"></i>
+                        <span class="text-sm text-slate-700">Node.js</span>
           </div>
         </div>
+            </section>
         
-        <div class="flex justify-center space-x-8">
+            <!-- Values -->
+            <section class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 border border-slate-200 mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-6 text-center">Nossos Valores</h2>
+                <div class="grid md:grid-cols-3 gap-8">
           <div class="text-center">
-            <div class="bg-gradient-to-r from-purple-600 to-purple-500 p-4 rounded-full shadow-lg inline-block mb-2">
-              <i class="fas fa-code text-white text-2xl"></i>
+                        <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-lightbulb text-blue-600 text-2xl"></i>
             </div>
-            <p class="text-xs text-slate-400">Desenvolvimento</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Inovação</h3>
+                        <p class="text-slate-600">Sempre buscamos as melhores tecnologias para resolver problemas reais dos pesquisadores.</p>
           </div>
+                    
           <div class="text-center">
-            <div class="bg-gradient-to-r from-cyan-600 to-cyan-500 p-4 rounded-full shadow-lg inline-block mb-2">
-              <i class="fas fa-gamepad text-white text-2xl"></i>
+                        <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-universal-access text-green-600 text-2xl"></i>
             </div>
-            <p class="text-xs text-slate-400">Gamificação</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Acessibilidade</h3>
+                        <p class="text-slate-600">Tornamos ferramentas avançadas de IA acessíveis para todos os pesquisadores.</p>
           </div>
+                    
           <div class="text-center">
-            <div class="bg-gradient-to-r from-purple-500 to-cyan-500 p-4 rounded-full shadow-lg inline-block mb-2">
-              <i class="fas fa-robot text-white text-2xl"></i>
+                        <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-heart text-purple-600 text-2xl"></i>
             </div>
-            <p class="text-xs text-slate-400">Inteligência Artificial</p>
-          </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Impacto</h3>
+                        <p class="text-slate-600">Nosso foco é gerar impacto positivo na pesquisa científica e acadêmica.</p>
         </div>
       </div>
     </section>
 
-    <section class="text-center mb-16">
-      <div class="bg-gradient-to-r from-purple-900/20 to-cyan-900/20 p-8 rounded-xl border border-purple-800/30 mb-8 backdrop-blur-sm">
-        <h3 class="text-2xl font-bold text-white mb-4">Estude de forma eficiente agora mesmo!</h3>
-        <p class="text-slate-300 mb-8 max-w-2xl mx-auto">
-          Junte-se a milhares de estudantes que já estão usando o FlashMind para potencializar seus estudos de forma divertida e eficiente.
-        </p>
-        <a href="login.html" 
-          class="inline-block bg-gradient-button text-white font-medium py-3 px-8 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-          Comece agora
+            <!-- CTA -->
+            <section class="text-center">
+                <h2 class="text-3xl font-bold text-slate-900 mb-6">Pronto para começar?</h2>
+                <p class="text-xl text-slate-600 mb-8">
+                    Junte-se a nós na revolução da produtividade acadêmica
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="login.html" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-4 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                        Começar Agora
+                    </a>
+                    <a href="index.html" class="border border-slate-300 text-slate-700 px-8 py-4 rounded-lg font-medium hover:bg-slate-50 transition-all duration-300">
+                        Voltar ao Início
         </a>
       </div>
     </section>
+        </div>
   </main>
 
-  <!-- Footer corrigido -->
-  <footer class="w-full bg-slate-900/80 backdrop-blur-sm border-t border-slate-800/50 py-8">
-    <div class="max-w-7xl mx-auto px-6 md:px-12">
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-12 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
           <div class="flex items-center space-x-3 mb-4">
-            <div class="glow-effect">
-              <i class="fa-solid fa-brain text-3xl text-gradient"></i>
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-brain text-white text-xl"></i>
             </div>
-            <span class="text-xl font-bold text-gradient">FlashMind</span>
+                        <span class="text-xl font-bold">FlashMind</span>
           </div>
           <p class="text-slate-400 text-sm">
-            Transformando aprendizado em diversão desde 2025. Aprenda, compita e cresça com nossa plataforma.
+                        Transformando a pesquisa acadêmica em uma experiência eficiente através da inteligência artificial.
           </p>
         </div>
 
         <div>
-          <h3 class="text-lg font-semibold mb-4 text-white">Links Rápidos</h3>
+                    <h3 class="text-lg font-semibold mb-4">Produto</h3>
           <ul class="space-y-2 text-sm text-slate-400">
-            <li><a href="#" class="hover:text-purple-400 transition">Dashboard</a></li>
-            <li><a href="#" class="hover:text-purple-400 transition">Ranking</a></li>
-            <li><a href="#" class="hover:text-purple-400 transition">Comunidade</a></li>
-            <li><a href="#" class="hover:text-purple-400 transition">Torneios</a></li>
+                        <li><a href="index.html#features" class="hover:text-white transition">Recursos</a></li>
+                        <li><a href="index.html#how-it-works" class="hover:text-white transition">Como Funciona</a></li>
+                        <li><a href="index.html#benefits" class="hover:text-white transition">Benefícios</a></li>
+                        <li><a href="#" class="hover:text-white transition">Sobre</a></li>
           </ul>
         </div>
 
         <div>
-          <h3 class="text-lg font-semibold mb-4 text-white">Ajuda</h3>
+                    <h3 class="text-lg font-semibold mb-4">Suporte</h3>
           <ul class="space-y-2 text-sm text-slate-400">
-            <li><a href="#" class="hover:text-purple-400 transition">Central de Ajuda</a></li>
-            <li><a href="#" class="hover:text-purple-400 transition">Termos de Serviço</a></li>
-            <li><a href="#" class="hover:text-purple-400 transition">Política de Privacidade</a></li>
-            <li><a href="#" class="hover:text-purple-400 transition">Contate-nos</a></li>
+                        <li><a href="#" class="hover:text-white transition">Central de Ajuda</a></li>
+                        <li><a href="#" class="hover:text-white transition">Documentação</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contato</a></li>
           </ul>
         </div>
 
         <div>
-          <h3 class="text-lg font-semibold mb-4 text-white">Redes Sociais</h3>
-          <div class="flex space-x-4">
-            <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-purple-600/20 hover:text-purple-400 transition">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-cyan-600/20 hover:text-cyan-400 transition">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-purple-600/20 hover:text-purple-400 transition">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-cyan-600/20 hover:text-cyan-400 transition">
-              <i class="fab fa-youtube"></i>
-            </a>
-          </div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="hover:text-white transition">Termos de Uso</a></li>
+                        <li><a href="#" class="hover:text-white transition">Privacidade</a></li>
+                        <li><a href="#" class="hover:text-white transition">Cookies</a></li>
+                    </ul>
         </div>
       </div>
       
-      <div class="border-t border-slate-800/50 mt-8 pt-8 text-center text-sm text-slate-500">
-        <p>©2025 TCC FlashMind. Todos os direitos reservados.</p>
+            <div class="border-t border-slate-800 mt-8 pt-8 text-center text-sm text-slate-500">
+                <p>&copy; 2025 FlashMind. Todos os direitos reservados.</p>
       </div>
     </div>
   </footer>
 
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            'slate': {
-              950: '#0A101F',
-              900: '#0F172A',
-              800: '#1E293B',
-              700: '#334155',
-            },
-            'purple': {
-              600: '#9333EA',
-              500: '#A855F7',
-              400: '#C084FC',
-            },
-            'cyan': {
-              600: '#0891B2',
-              500: '#06B6D4',
-              400: '#22D3EE',
-            }
-          }
-        }
-      }
-    }
-  </script>
-
-  <script>
-    // Mobile menu toggle
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    
-    mobileMenuButton.addEventListener('click', () => {
-      mobileMenu.classList.toggle('open');
-      
-      // Toggle icon between bars and times
-      const icon = mobileMenuButton.querySelector('i');
-      if (icon.classList.contains('fa-bars')) {
-        icon.classList.remove('fa-bars');
-        icon.classList.add('fa-times');
-      } else {
-        icon.classList.remove('fa-times');
-        icon.classList.add('fa-bars');
-      }
-    });
-    
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-      if (mobileMenu.classList.contains('open') && 
-          !mobileMenu.contains(e.target) && 
-          !mobileMenuButton.contains(e.target)) {
-        mobileMenu.classList.remove('open');
-        const icon = mobileMenuButton.querySelector('i');
-        icon.classList.remove('fa-times');
-        icon.classList.add('fa-bars');
-      }
+        // Add hover effects to cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card-hover');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
     });
   </script>
 </body>

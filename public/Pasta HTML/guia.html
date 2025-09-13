@@ -1,823 +1,502 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FlashMind - Guia Completo</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashMind - Guia</title>
+    
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../imgs/brain.ico">
+    
+    <!-- External CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="../CSS/guia.css">
     
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
-            colors: {
-              'slate': {
-                950: '#0A101F',
-                900: '#0F172A',
-                800: '#1E293B',
-                700: '#334155',
-              },
-              'purple': {
-                600: '#9333EA',
-                500: '#A855F7',
-                400: '#C084FC',
-              },
-              'cyan': {
-                600: '#0891B2',
-                500: '#06B6D4',
-                400: '#22D3EE',
-              }
-            }
-          }
-        }
-      }
-    </script>
-
     <style>
-      /* Animação dos links da navegação */
-      .nav-link {
-        position: relative;
-        transition: color 0.3s ease;
-      }
-      
-      .nav-link::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: -4px;
-        left: 0;
-        background-image: linear-gradient(90deg, #8b55ff, #36aaf5);
-        transition: width 0.3s ease;
-      }
-      
-      .nav-link:hover::after {
-        width: 100%;
-      }
-      
-      .nav-link.active {
-        color: white;
-      }
-      
-      .nav-link.active::after {
-        width: 100%;
-      }
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
-  </head>
+</head>
 
-  <body class="bg-gradient-primary text-slate-100 font-sans min-h-screen">
-    <!-- Background decorative elements -->
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-1/3 right-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl"></div>
-    </div>
-    
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
     <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-slate-900/80 backdrop-blur-md border-b border-slate-800/50">
-      <div class="flex items-center space-x-3">
-        <a href="../Pasta HTML/index.html" class="flex items-center space-x-3 hover:opacity-90 transition-opacity">
-          <div class="glow-effect">
-            <i class="fa-solid fa-brain text-3xl text-gradient"></i>
-          </div>
-          <span class="text-2xl font-bold text-gradient">FlashMind</span>
-        </a>
-      </div>
-      <div class="hidden md:flex items-center">
-        <a href="../Pasta HTML/index.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Início</a>
-        <a href="../Pasta HTML/guia.html" class="nav-link text-white font-medium mr-6">Guia</a>
-        <a href="../Pasta HTML/sobre.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Sobre</a>
-        <a href="../Pasta HTML/contato.html" class="nav-link text-slate-300 hover:text-white transition-colors duration-300 mr-6">Contato</a>
-        <a href="../Pasta HTML/login.html" class="bg-gradient-to-r from-purple-600 to-cyan-500 px-6 py-2 rounded-md text-white font-medium hover:shadow-lg transition-all duration-300">
-          Entrar
-        </a>
-      </div>
+    <header class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-white/80 backdrop-blur-sm border-b border-slate-200">
+        <div class="flex items-center space-x-3">
+            <a href="index.html" class="flex items-center space-x-3 hover:opacity-90 transition-opacity">
+                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-brain text-white text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold text-slate-900">FlashMind</span>
+            </a>
+        </div>
+        
+        <nav class="hidden md:flex items-center space-x-8">
+            <a href="index.html" class="text-slate-600 hover:text-slate-900 transition-colors">Início</a>
+            <a href="#" class="text-blue-600 font-medium">Guia</a>
+            <a href="sobre.html" class="text-slate-600 hover:text-slate-900 transition-colors">Sobre</a>
+            <a href="contato.html" class="text-slate-600 hover:text-slate-900 transition-colors">Contato</a>
+            <a href="login.html" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                Entrar
+            </a>
+        </nav>
     </header>
 
     <!-- Main Content -->
-    <div class="pt-24 pb-12 px-6 md:px-12 max-w-7xl mx-auto animate-fade-in relative z-10">
-      <!-- Header Section -->
-      <div class="text-center mb-16">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gradient">Guia Completo FlashMind</h1>
-        <p class="text-xl text-slate-300 max-w-3xl mx-auto">
-          Aprenda a dominar todas as funcionalidades da plataforma e maximize seu aprendizado com nosso guia passo a passo.
-        </p>
-
-        <!-- Scroll indicator -->
-        <div class="scroll-indicator mt-8">
-          <span class="text-sm text-gray-400 mb-2 block">Rolar para baixo</span>
-          <i class="fas fa-chevron-down text-gray-400 animate-bounce"></i>
-        </div>
-      </div>
-      
-      <!-- Tabs Navigation -->
-      <div class="flex overflow-x-auto pb-2 mb-8 scrollbar-hide">
-        <div class="flex space-x-1">
-          <button class="tab-button px-6 py-3 rounded-t-lg font-medium transition active" data-tab="getting-started">
-            <i class="fas fa-rocket mr-2"></i> Começando
-          </button>
-          <button class="tab-button px-6 py-3 rounded-t-lg font-medium transition" data-tab="game-modes">
-            <i class="fas fa-gamepad mr-2"></i> Modos de Jogo
-          </button>
-          <button class="tab-button px-6 py-3 rounded-t-lg font-medium transition" data-tab="progress-system">
-            <i class="fas fa-chart-line mr-2"></i> Sistema de Progresso
-          </button>
-          <button class="tab-button px-6 py-3 rounded-t-lg font-medium transition" data-tab="community">
-            <i class="fas fa-users mr-2"></i> Comunidade
-          </button>
-          <button class="tab-button px-6 py-3 rounded-t-lg font-medium transition" data-tab="tips">
-            <i class="fas fa-lightbulb mr-2"></i> Dicas Avançadas
-          </button>
-        </div>
-      </div>
-      
-      <!-- Tab Contents -->
-      <div class="bg-slate-800/30 rounded-2xl p-8 border border-slate-700/30 backdrop-blur-sm shadow-lg">
-        <!-- Getting Started Tab -->
-        <div id="getting-started" class="tab-content active">
-          <h2 class="text-2xl font-bold mb-6 text-gradient">Começando com o FlashMind</h2>
-          
-          <div class="space-y-8">
-            <!-- Step 1 -->
-            <div class="flex items-start">
-              <div class="step-number">1</div>
-              <div>
-                <h3 class="text-xl font-semibold mb-2">Crie sua conta</h3>
-                <p class="text-slate-300 mb-4">
-                  Para começar, você precisa criar uma conta no FlashMind. Clique em "Registrar" na página inicial e preencha seus dados básicos.
+    <main class="pt-24 pb-16 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header Section -->
+            <div class="text-center mb-16">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Guia FlashMind</h1>
+                <p class="text-xl text-slate-600 max-w-3xl mx-auto">
+                    Aprenda a dominar todas as funcionalidades da plataforma e maximize sua produtividade acadêmica.
                 </p>
-                <div class="bg-slate-700/30 rounded-lg p-4 border border-slate-600/30">
-                  <p class="text-sm text-purple-400 mb-2"><i class="fas fa-info-circle mr-2"></i>Dica profissional</p>
-                  <p class="text-sm">Use um nome de usuário memorável e um email válido para receber atualizações e recuperar sua conta se necessário.</p>
-                </div>
-              </div>
             </div>
             
-            <!-- Step 2 -->
-            <div class="flex items-start">
-              <div class="step-number">2</div>
-              <div>
-                <h3 class="text-xl font-semibold mb-2">Personalize seu perfil</h3>
-                <p class="text-slate-300 mb-4">
-                  Após o login, acesse seu perfil para adicionar uma foto e personalizar suas informações. Um perfil completo ajuda na interação com a comunidade.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div class="bg-slate-700/30 rounded-lg p-4 border border-slate-600/30">
-                    <div class="flex items-center mb-2">
-                      <i class="fas fa-camera text-purple-400 mr-2"></i>
-                      <span class="font-medium">Foto de perfil</span>
-                    </div>
-                    <p class="text-sm text-slate-300">Clique na sua foto atual para fazer upload de uma nova imagem.</p>
-                  </div>
-                  <div class="bg-slate-700/30 rounded-lg p-4 border border-slate-600/30">
-                    <div class="flex items-center mb-2">
-                      <i class="fas fa-id-card text-purple-400 mr-2"></i>
-                      <span class="font-medium">Informações</span>
-                    </div>
-                    <p class="text-sm text-slate-300">Adicione interesses e áreas de conhecimento para personalizar sua experiência.</p>
-                  </div>
+            <!-- Tabs Navigation -->
+            <div class="flex overflow-x-auto pb-2 mb-8 scrollbar-hide">
+                <div class="flex space-x-1">
+                    <button class="tab-button px-6 py-3 rounded-t-lg font-medium transition active" data-tab="getting-started">
+                        <i class="fas fa-rocket mr-2"></i> Começando
+                    </button>
+                    <button class="tab-button px-6 py-3 rounded-t-lg font-medium transition" data-tab="features">
+                        <i class="fas fa-cogs mr-2"></i> Funcionalidades
+                    </button>
+                    <button class="tab-button px-6 py-3 rounded-t-lg font-medium transition" data-tab="ai-tools">
+                        <i class="fas fa-robot mr-2"></i> Ferramentas IA
+                    </button>
+                    <button class="tab-button px-6 py-3 rounded-t-lg font-medium transition" data-tab="tips">
+                        <i class="fas fa-lightbulb mr-2"></i> Dicas
+                    </button>
                 </div>
-              </div>
             </div>
             
-            <!-- Step 3 -->
-            <div class="flex items-start">
-              <div class="step-number">3</div>
-              <div>
-                <h3 class="text-xl font-semibold mb-2">Explore o Dashboard</h3>
-                <p class="text-slate-300 mb-4">
-                  Seu Dashboard é o centro de controle do FlashMind. Aqui você encontra:
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div class="bg-slate-700/30 rounded-lg p-4 border border-slate-600/30 card-hover">
-                    <div class="feature-icon">
-                      <i class="fas fa-tachometer-alt"></i>
+            <!-- Tab Contents -->
+            <div class="bg-white rounded-2xl p-8 border border-slate-200 shadow-lg">
+                <!-- Getting Started Tab -->
+                <div id="getting-started" class="tab-content active">
+                    <h2 class="text-2xl font-bold mb-6 gradient-text">Começando com o FlashMind</h2>
+                    
+                    <div class="space-y-8">
+                        <!-- Step 1 -->
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold mr-4 flex-shrink-0">1</div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Crie sua conta</h3>
+                                <p class="text-slate-600 mb-4">
+                                    Para começar, você precisa criar uma conta no FlashMind. Clique em "Registrar" na página inicial e preencha seus dados básicos.
+                                </p>
+                                <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                                    <p class="text-sm text-blue-800 mb-2"><i class="fas fa-info-circle mr-2"></i>Dica profissional</p>
+                                    <p class="text-sm text-blue-700">Use um email acadêmico para ter acesso a recursos exclusivos para pesquisadores.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2 -->
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold mr-4 flex-shrink-0">2</div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Explore o Dashboard</h3>
+                                <p class="text-slate-600 mb-4">
+                                    Seu Dashboard é o centro de controle do FlashMind. Aqui você encontra:
+                                </p>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 card-hover">
+                                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
+                                            <i class="fas fa-tachometer-alt text-blue-600"></i>
+                                        </div>
+                                        <h4 class="font-semibold mb-2">Visão Geral</h4>
+                                        <p class="text-sm text-slate-600">Seus documentos, estatísticas e progresso.</p>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 card-hover">
+                                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-3">
+                                            <i class="fas fa-robot text-purple-600"></i>
+                                        </div>
+                                        <h4 class="font-semibold mb-2">Ferramentas IA</h4>
+                                        <p class="text-sm text-slate-600">OCR inteligente e organização automática.</p>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 card-hover">
+                                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-3">
+                                            <i class="fas fa-folder-open text-green-600"></i>
+                                        </div>
+                                        <h4 class="font-semibold mb-2">Documentos</h4>
+                                        <p class="text-sm text-slate-600">Gerencie e organize seus arquivos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3 -->
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold mr-4 flex-shrink-0">3</div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Primeira transcrição</h3>
+                                <p class="text-slate-600 mb-4">
+                                    Comece fazendo upload de uma imagem com texto para testar nossa IA Qwen.
+                                </p>
+                                <div class="bg-green-50 rounded-lg p-4 border border-green-200">
+                                    <p class="text-sm text-green-800 mb-2"><i class="fas fa-check-circle mr-2"></i>Formatos suportados</p>
+                                    <p class="text-sm text-green-700">JPG, PNG, PDF - nossa IA reconhece texto em qualquer formato comum.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h4 class="font-semibold mb-2">Visão Geral</h4>
-                    <p class="text-sm text-slate-300">Seu progresso, nível atual e XP acumulado.</p>
-                  </div>
-                  <div class="bg-slate-700/30 rounded-lg p-4 border border-slate-600/30 card-hover">
-                    <div class="feature-icon">
-                      <i class="fas fa-gamepad"></i>
-                    </div>
-                    <h4 class="font-semibold mb-2">Modos de Jogo</h4>
-                    <p class="text-sm text-slate-300">Acesso rápido a todos os modos disponíveis.</p>
-                  </div>
-                  <div class="bg-slate-700/30 rounded-lg p-4 border border-slate-600/30 card-hover">
-                    <div class="feature-icon">
-                      <i class="fas fa-trophy"></i>
-                    </div>
-                    <h4 class="font-semibold mb-2">Conquistas</h4>
-                    <p class="text-sm text-slate-300">Seus badges e prêmios conquistados.</p>
-                  </div>
                 </div>
-              </div>
+
+                <!-- Features Tab -->
+                <div id="features" class="tab-content">
+                    <h2 class="text-2xl font-bold mb-6 gradient-text">Funcionalidades Principais</h2>
+
+                    <div class="space-y-8">
+                        <!-- OCR Inteligente -->
+                        <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-camera text-blue-600 text-xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold">OCR Inteligente</h3>
+                            </div>
+                            <p class="text-slate-600 mb-4">
+                                Nossa IA Qwen converte imagens em texto com precisão excepcional. Ideal para digitalizar anotações manuscritas, documentos e artigos.
+                            </p>
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <h4 class="font-medium text-blue-600 mb-2"><i class="fas fa-star mr-2"></i>Características</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-sm text-slate-600">
+                                    <li>Reconhecimento de texto manuscrito</li>
+                                    <li>Suporte a múltiplos idiomas</li>
+                                    <li>Processamento em lote</li>
+                                    <li>Alta precisão de transcrição</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Organização Automática -->
+                        <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-sitemap text-purple-600 text-xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold">Organização Automática</h3>
+                            </div>
+                            <p class="text-slate-600 mb-4">
+                                A IA analisa o conteúdo e organiza automaticamente por tópicos, facilitando a navegação e busca posterior.
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                    <h4 class="font-medium text-purple-600 mb-2"><i class="fas fa-tags mr-2"></i>Classificação</h4>
+                                    <p class="text-sm text-slate-600">Identifica automaticamente tópicos e categorias</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                    <h4 class="font-medium text-purple-600 mb-2"><i class="fas fa-search mr-2"></i>Busca Semântica</h4>
+                                    <p class="text-sm text-slate-600">Encontre conteúdo por significado, não apenas palavras</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Colaboração -->
+                        <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-users text-green-600 text-xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold">Colaboração</h3>
+                            </div>
+                            <p class="text-slate-600 mb-4">
+                                Compartilhe documentos e trabalhe em equipe com outros pesquisadores de forma eficiente.
+                            </p>
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <h4 class="font-medium text-green-600 mb-2"><i class="fas fa-share-alt mr-2"></i>Recursos de Compartilhamento</h4>
+                                <ul class="list-disc pl-5 space-y-1 text-sm text-slate-600">
+                                    <li>Compartilhamento por link</li>
+                                    <li>Controle de permissões</li>
+                                    <li>Comentários colaborativos</li>
+                                    <li>Versionamento automático</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Tools Tab -->
+                <div id="ai-tools" class="tab-content">
+                    <h2 class="text-2xl font-bold mb-6 gradient-text">Ferramentas de IA</h2>
+
+                    <div class="space-y-8">
+                        <!-- IA Qwen -->
+                        <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-brain text-white text-xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold">IA Qwen</h3>
+                            </div>
+                            <p class="text-slate-600 mb-4">
+                                Nossa inteligência artificial baseada no modelo Qwen oferece capacidades avançadas de processamento de linguagem natural.
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                <div class="bg-white rounded-lg p-4 text-center border border-slate-200">
+                                    <div class="text-2xl font-bold text-blue-600 mb-1">99%</div>
+                                    <p class="text-sm text-slate-600">Precisão OCR</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-4 text-center border border-slate-200">
+                                    <div class="text-2xl font-bold text-purple-600 mb-1">50+</div>
+                                    <p class="text-sm text-slate-600">Idiomas</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-4 text-center border border-slate-200">
+                                    <div class="text-2xl font-bold text-green-600 mb-1">24/7</div>
+                                    <p class="text-sm text-slate-600">Disponível</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                <h4 class="font-medium text-blue-600 mb-2"><i class="fas fa-cogs mr-2"></i>Capacidades</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                    <ul class="space-y-1 text-slate-600">
+                                        <li>• Reconhecimento de texto manuscrito</li>
+                                        <li>• Análise de contexto</li>
+                                        <li>• Classificação automática</li>
+                                        <li>• Resumo inteligente</li>
+                                    </ul>
+                                    <ul class="space-y-1 text-slate-600">
+                                        <li>• Tradução automática</li>
+                                        <li>• Extração de entidades</li>
+                                        <li>• Análise de sentimento</li>
+                                        <li>• Geração de tags</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tips Tab -->
+                <div id="tips" class="tab-content">
+                    <h2 class="text-2xl font-bold mb-6 gradient-text">Dicas para Pesquisadores</h2>
+
+                    <div class="space-y-8">
+                        <!-- Dicas Gerais -->
+                        <div class="bg-slate-50 rounded-xl p-6 border border-slate-200 card-hover">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-lightbulb text-yellow-600 text-xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold">Dicas Gerais</h3>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-white rounded-lg p-5 border border-slate-200">
+                                    <h4 class="font-semibold mb-3 text-blue-600"><i class="fas fa-camera mr-2"></i>Qualidade da Imagem</h4>
+                                    <ul class="list-disc pl-5 space-y-2 text-sm text-slate-600">
+                                        <li>Use boa iluminação ao fotografar</li>
+                                        <li>Mantenha a imagem nítida e focada</li>
+                                        <li>Evite sombras sobre o texto</li>
+                                        <li>Use resolução mínima de 300 DPI</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white rounded-lg p-5 border border-slate-200">
+                                    <h4 class="font-semibold mb-3 text-purple-600"><i class="fas fa-folder-open mr-2"></i>Organização</h4>
+                                    <ul class="list-disc pl-5 space-y-2 text-sm text-slate-600">
+                                        <li>Crie pastas por projeto ou disciplina</li>
+                                        <li>Use nomes descritivos para arquivos</li>
+                                        <li>Adicione tags relevantes</li>
+                                        <li>Revise e organize regularmente</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white rounded-lg p-5 border border-slate-200">
+                                    <h4 class="font-semibold mb-3 text-green-600"><i class="fas fa-search mr-2"></i>Busca Eficiente</h4>
+                                    <ul class="list-disc pl-5 space-y-2 text-sm text-slate-600">
+                                        <li>Use palavras-chave específicas</li>
+                                        <li>Combine termos para busca refinada</li>
+                                        <li>Utilize filtros por data e tipo</li>
+                                        <li>Salve buscas frequentes</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white rounded-lg p-5 border border-slate-200">
+                                    <h4 class="font-semibold mb-3 text-orange-600"><i class="fas fa-users mr-2"></i>Colaboração</h4>
+                                    <ul class="list-disc pl-5 space-y-2 text-sm text-slate-600">
+                                        <li>Compartilhe documentos por link</li>
+                                        <li>Use comentários para feedback</li>
+                                        <li>Defina permissões adequadas</li>
+                                        <li>Mantenha comunicação clara</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <!-- FAQ -->
+            <div class="mt-16">
+                <h2 class="text-2xl font-bold mb-6 text-center gradient-text">Perguntas Frequentes</h2>
+
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-lg">
+                    <div class="space-y-4">
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition flex justify-between items-center">
+                                <span>Como funciona o OCR da IA Qwen?</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                            </button>
+                            <div class="faq-answer hidden p-4 bg-slate-50 rounded-b-lg">
+                                <p class="text-slate-600">
+                                    A IA Qwen utiliza algoritmos avançados de visão computacional para analisar imagens e extrair texto com alta precisão. 
+                                    Ela é capaz de reconhecer texto manuscrito, impresso e até mesmo em diferentes idiomas.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition flex justify-between items-center">
+                                <span>Posso usar o FlashMind offline?</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                            </button>
+                            <div class="faq-answer hidden p-4 bg-slate-50 rounded-b-lg">
+                                <p class="text-slate-600">
+                                    Atualmente o FlashMind requer conexão com a internet para todas as funcionalidades, especialmente para o processamento de IA.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <button class="faq-question w-full text-left p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition flex justify-between items-center">
+                                <span>Como funciona a organização automática?</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                            </button>
+                            <div class="faq-answer hidden p-4 bg-slate-50 rounded-b-lg">
+                                <p class="text-slate-600">
+                                    A IA analisa o conteúdo dos seus documentos e identifica automaticamente tópicos, categorias e palavras-chave relevantes. 
+                                    Com base nessa análise, os documentos são organizados e classificados para facilitar a busca e navegação.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="mt-16 text-center">
+                <a href="dashboard.html" class="inline-block bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg text-white font-bold py-3 px-8 rounded-lg text-lg transition transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-play mr-2"></i> Começar Agora
+                </a>
+            </div>
         </div>
-
-        <!-- Game Modes Tab -->
-        <div id="game-modes" class="tab-content">
-          <h2 class="text-2xl font-bold mb-6 text-gradient">Modos de Jogo</h2>
-
-          <div class="space-y-8">
-            <!-- Casual Mode -->
-            <div class="bg-slate-700/30 rounded-xl p-6 border border-slate-600/30 card-hover">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center mr-4 glow-effect">
-                  <i class="fas fa-gamepad text-purple-400"></i>
-                </div>
-                <h3 class="text-xl font-semibold">Modo Casual</h3>
-              </div>
-              <p class="text-slate-300 mb-4">
-                Jogue sem pressão! O modo casual é perfeito para praticar sem afetar seu ranking. Você ganha XP por cada resposta correta e pode pausar a qualquer momento.
-              </p>
-              <div class="bg-slate-600/30 rounded-lg p-4">
-                <h4 class="font-medium text-purple-400 mb-2"><i class="fas fa-star mr-2"></i>Benefícios</h4>
-                <ul class="list-disc pl-5 space-y-1 text-sm">
-                  <li>Sem penalidades por erros</li>
-                  <li>Pode selecionar categorias específicas</li>
-                  <li>Ótimo para iniciantes</li>
-                  <li>Ganhe até 50 XP por sessão</li>
-                </ul>
-              </div>
-            </div>
-            
-            <!-- Competitive Mode -->
-            <div class="bg-slate-700/30 rounded-xl p-6 border border-slate-600/30 card-hover">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center mr-4 glow-effect">
-                  <i class="fas fa-trophy text-cyan-400"></i>
-                </div>
-                <h3 class="text-xl font-semibold">Modo Competitivo</h3>
-              </div>
-              <p class="text-slate-300 mb-4">
-                Teste seus conhecimentos contra outros jogadores em tempo real! Cada vitória aumenta seu ranking e XP. Derrotas podem reduzir seus pontos, então prepare-se bem!
-              </p>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-slate-600/30 rounded-lg p-4">
-                  <h4 class="font-medium text-cyan-400 mb-2"><i class="fas fa-check-circle mr-2"></i>Como Jogar</h4>
-                  <ol class="list-decimal pl-5 space-y-1 text-sm">
-                    <li>Clique em "Jogar Competitivo"</li>
-                    <li>O sistema encontrará um oponente</li>
-                    <li>Responda mais rápido e corretamente</li>
-                    <li>Ganhe pontos de ranking</li>
-                  </ol>
-                </div>
-                <div class="bg-slate-600/30 rounded-lg p-4">
-                  <h4 class="font-medium text-cyan-400 mb-2"><i class="fas fa-chess-king mr-2"></i>Estratégias</h4>
-                  <ul class="list-disc pl-5 space-y-1 text-sm">
-                    <li>Foque em suas áreas fortes</li>
-                    <li>Pratique no modo casual primeiro</li>
-                    <li>Observe os padrões de perguntas</li>
-                    <li>Mantenha a calma sob pressão</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Challenge Mode -->
-            <div class="bg-slate-700/30 rounded-xl p-6 border border-slate-600/30 card-hover">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center mr-4 glow-effect">
-                  <i class="fas fa-chess text-purple-400"></i>
-                </div>
-                <h3 class="text-xl font-semibold">Modo Desafio</h3>
-              </div>
-              <p class="text-slate-300 mb-4">
-                Desafie seus amigos para duelos de conhecimento! Você pode criar desafios personalizados com categorias específicas e convidar até 5 amigos simultaneamente.
-              </p>
-              <div class="bg-slate-600/30 rounded-lg p-4">
-                <h4 class="font-medium text-purple-400 mb-2"><i class="fas fa-user-friends mr-2"></i>Criando um Desafio</h4>
-                <div class="flex items-start space-x-4">
-                  <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-purple-900/20 rounded-full flex items-center justify-center">
-                      <span class="text-sm font-bold">1</span>
-                    </div>
-                  </div>
-                  <div>
-                    <p class="font-medium">Selecione os participantes</p>
-                    <p class="text-sm text-slate-300">Digite os nomes de usuário ou escolha da sua lista de amigos</p>
-                  </div>
-                </div>
-                <div class="flex items-start space-x-4 mt-4">
-                  <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-purple-900/20 rounded-full flex items-center justify-center">
-                      <span class="text-sm font-bold">2</span>
-                    </div>
-                  </div>
-                  <div>
-                    <p class="font-medium">Escolha as categorias</p>
-                    <p class="text-sm text-slate-300">Selecione até 3 áreas de conhecimento para o desafio</p>
-                  </div>
-                </div>
-                <div class="flex items-start space-x-4 mt-4">
-                  <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-purple-900/20 rounded-full flex items-center justify-center">
-                      <span class="text-sm font-bold">3</span>
-                    </div>
-                  </div>
-                  <div>
-                    <p class="font-medium">Defina as regras</p>
-                    <p class="text-sm text-slate-300">Número de perguntas, tempo por resposta e se há penalidades</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Progress System Tab -->
-        <div id="progress-system" class="tab-content">
-          <h2 class="text-2xl font-bold mb-6 text-gradient">Sistema de Progresso</h2>
-
-          <div class="space-y-8">
-            <!-- XP System -->
-            <div class="bg-slate-700/30 rounded-xl p-6 border border-slate-600/30 card-hover">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center mr-4 glow-effect">
-                  <i class="fas fa-bolt text-purple-400"></i>
-                </div>
-                <h3 class="text-xl font-semibold">Sistema de XP</h3>
-              </div>
-              <p class="text-slate-300 mb-4">
-                O XP (Pontos de Experiência) é a base do seu progresso no FlashMind. Você ganha XP completando jogos, respondendo corretamente e mantendo sequências.
-              </p>
-              
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div class="bg-slate-600/30 rounded-lg p-4 text-center">
-                  <div class="text-2xl font-bold text-purple-400 mb-1">+10</div>
-                  <p class="text-sm">Resposta correta</p>
-                </div>
-                <div class="bg-slate-600/30 rounded-lg p-4 text-center">
-                  <div class="text-2xl font-bold text-purple-400 mb-1">+50</div>
-                  <p class="text-sm">Vitória no modo casual</p>
-                </div>
-                <div class="bg-slate-600/30 rounded-lg p-4 text-center">
-                  <div class="text-2xl font-bold text-purple-400 mb-1">+100</div>
-                  <p class="text-sm">Vitória no modo competitivo</p>
-                </div>
-              </div>
-              
-              <div class="bg-slate-600/30 rounded-lg p-4">
-                <h4 class="font-medium text-purple-400 mb-2"><i class="fas fa-fire mr-2"></i>Bônus de Sequência</h4>
-                <p class="text-sm mb-3">Jogar dias consecutivos aumenta seu multiplicador de XP:</p>
-                <div class="flex items-center justify-between text-sm mb-1">
-                  <span>1 dia</span>
-                  <span class="font-bold">1x XP</span>
-                </div>
-                <div class="w-full bg-slate-500/30 rounded-full h-2 mb-3">
-                  <div class="bg-gradient-to-r from-purple-500 to-cyan-500 h-2 rounded-full" style="width: 10%"></div>
-                </div>
-                <div class="flex items-center justify-between text-sm mb-1">
-                  <span>3 dias</span>
-                  <span class="font-bold">1.2x XP</span>
-                </div>
-                <div class="w-full bg-slate-500/30 rounded-full h-2 mb-3">
-                  <div class="bg-gradient-to-r from-purple-500 to-cyan-500 h-2 rounded-full" style="width: 30%"></div>
-                </div>
-                <div class="flex items-center justify-between text-sm mb-1">
-                  <span>7 dias</span>
-                  <span class="font-bold">1.5x XP</span>
-                </div>
-                <div class="w-full bg-slate-500/30 rounded-full h-2 mb-3">
-                  <div class="bg-gradient-to-r from-purple-500 to-cyan-500 h-2 rounded-full" style="width: 70%"></div>
-                </div>
-                <div class="flex items-center justify-between text-sm">
-                  <span>30 dias</span>
-                  <span class="font-bold">2x XP</span>
-                </div>
-                <div class="w-full bg-slate-500/30 rounded-full h-2">
-                  <div class="bg-gradient-to-r from-purple-500 to-cyan-500 h-2 rounded-full" style="width: 100%"></div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Level System -->
-            <div class="bg-slate-700/30 rounded-xl p-6 border border-slate-600/30 card-hover">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center mr-4 glow-effect">
-                  <i class="fas fa-level-up-alt text-cyan-400"></i>
-                </div>
-                <h3 class="text-xl font-semibold">Sistema de Níveis</h3>
-              </div>
-              <p class="text-slate-300 mb-4">
-                Seu nível representa seu progresso geral na plataforma. Cada nível requer mais XP que o anterior, mas também desbloqueia novos recursos e recompensas.
-              </p>
-              
-              <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                  <thead>
-                    <tr class="text-left border-b border-slate-600/30">
-                      <th class="pb-2">Nível</th>
-                      <th class="pb-2">XP Necessário</th>
-                      <th class="pb-2">Recompensas</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="border-b border-slate-600/30 hover:bg-slate-600/30">
-                      <td class="py-3">1-5</td>
-                      <td class="py-3">300 XP cada</td>
-                      <td class="py-3">Badges básicos, acesso ao modo casual</td>
-                    </tr>
-                    <tr class="border-b border-slate-600/30 hover:bg-slate-600/30">
-                      <td class="py-3">6-10</td>
-                      <td class="py-3">500 XP cada</td>
-                      <td class="py-3">Modo competitivo, desafios com amigos</td>
-                    </tr>
-                    <tr class="border-b border-slate-600/30 hover:bg-slate-600/30">
-                      <td class="py-3">11-20</td>
-                      <td class="py-3">750 XP cada</td>
-                      <td class="py-3">Criação de torneios, estatísticas avançadas</td>
-                    </tr>
-                    <tr class="hover:bg-slate-600/30">
-                      <td class="py-3">21+</td>
-                      <td class="py-3">1000 XP cada</td>
-                      <td class="py-3">Badges exclusivos, reconhecimento na comunidade</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Community Tab -->
-        <div id="community" class="tab-content">
-          <h2 class="text-2xl font-bold mb-6 text-gradient">Comunidade FlashMind</h2>
-
-          <div class="space-y-8">
-            <!-- Community Features -->
-            <div class="bg-slate-700/30 rounded-xl p-6 border border-slate-600/30 card-hover">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center mr-4 glow-effect">
-                  <i class="fas fa-users text-purple-400"></i>
-                </div>
-                <h3 class="text-xl font-semibold">Interação Social</h3>
-              </div>
-              <p class="text-slate-300 mb-6">
-                A comunidade FlashMind é o coração da plataforma. Conecte-se com outros jogadores, participe de discussões e mostre suas conquistas.
-              </p>
-              
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-slate-600/30 rounded-lg p-5">
-                  <div class="flex items-center mb-3">
-                    <i class="fas fa-comments text-purple-400 mr-3"></i>
-                    <h4 class="font-semibold">Fórum</h4>
-                  </div>
-                  <p class="text-sm text-slate-300">
-                    Participe de discussões sobre estratégias, peça ajuda ou compartilhe suas experiências com outros membros.
-                  </p>
-                </div>
-                <div class="bg-slate-600/30 rounded-lg p-5">
-                  <div class="flex items-center mb-3">
-                    <i class="fas fa-trophy text-cyan-400 mr-3"></i>
-                    <h4 class="font-semibold">Torneios</h4>
-                  </div>
-                  <p class="text-sm text-slate-300">
-                    Participe de competições semanais e mensais com prêmios exclusivos para os melhores colocados.
-                  </p>
-                </div>
-                <div class="bg-slate-600/30 rounded-lg p-5">
-                  <div class="flex items-center mb-3">
-                    <i class="fas fa-user-friends text-purple-400 mr-3"></i>
-                    <h4 class="font-semibold">Grupos</h4>
-                  </div>
-                  <p class="text-sm text-slate-300">
-                    Crie ou junte-se a grupos de estudo com interesses em comum para aprender junto.
-                  </p>
-                </div>
-                <div class="bg-slate-600/30 rounded-lg p-5">
-                  <div class="flex items-center mb-3">
-                    <i class="fas fa-share-alt text-cyan-400 mr-3"></i>
-                    <h4 class="font-semibold">Compartilhamento</h4>
-                  </div>
-                  <p class="text-sm text-slate-300">
-                    Mostre suas conquistas nas redes sociais e convide amigos para jogar.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Leaderboards -->
-            <div class="bg-slate-700/30 rounded-xl p-6 border border-slate-600/30 card-hover">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center mr-4 glow-effect">
-                  <i class="fas fa-medal text-cyan-400"></i>
-                </div>
-                <h3 class="text-xl font-semibold">Ranking Global</h3>
-              </div>
-              <p class="text-slate-300 mb-6">
-                O ranking classifica os jogadores mais ativos e bem-sucedidos da plataforma. Subir no ranking desbloqueia benefícios exclusivos.
-              </p>
-              
-              <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                  <thead>
-                    <tr class="text-left border-b border-slate-600/30">
-                      <th class="pb-2">Posição</th>
-                      <th class="pb-2">Benefícios</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="border-b border-slate-600/30 hover:bg-slate-600/30">
-                      <td class="py-3 font-medium">Top 100</td>
-                      <td class="py-3">Badge especial no perfil</td>
-                    </tr>
-                    <tr class="border-b border-slate-600/30 hover:bg-slate-600/30">
-                      <td class="py-3 font-medium">Top 50</td>
-                      <td class="py-3">Acesso antecipado a novos recursos</td>
-                    </tr>
-                    <tr class="border-b border-slate-600/30 hover:bg-slate-600/30">
-                      <td class="py-3 font-medium">Top 10</td>
-                      <td class="py-3">Convites para torneios exclusivos</td>
-                    </tr>
-                    <tr class="hover:bg-slate-600/30">
-                      <td class="py-3 font-medium">#1</td>
-                      <td class="py-3">Reconhecimento especial e prêmios mensais</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tips Tab -->
-        <div id="tips" class="tab-content">
-          <h2 class="text-2xl font-bold mb-6 text-gradient">Dicas Avançadas</h2>
-
-          <div class="space-y-8">
-            <!-- General Tips -->
-            <div class="bg-slate-700/30 rounded-xl p-6 border border-slate-600/30 card-hover">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center mr-4 glow-effect">
-                  <i class="fas fa-lightbulb text-cyan-400"></i>
-                </div>
-                <h3 class="text-xl font-semibold">Dicas Gerais</h3>
-              </div>
-              
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-slate-600/30 rounded-lg p-5">
-                  <h4 class="font-semibold mb-3 text-purple-400"><i class="fas fa-brain mr-2"></i>Memorização</h4>
-                  <ul class="list-disc pl-5 space-y-2 text-sm">
-                    <li>Use técnicas de repetição espaçada</li>
-                    <li>Crie associações mentais para fatos complexos</li>
-                    <li>Foque em entender conceitos, não apenas memorizar</li>
-                  </ul>
-                </div>
-                <div class="bg-slate-600/30 rounded-lg p-5">
-                  <h4 class="font-semibold mb-3 text-cyan-400"><i class="fas fa-stopwatch mr-2"></i>Tempo</h4>
-                  <ul class="list-disc pl-5 space-y-2 text-sm">
-                    <li>Gerencie bem o tempo em perguntas difíceis</li>
-                    <li>Não gaste mais que 30s em uma única pergunta</li>
-                    <li>Pratique com timer para melhorar sua velocidade</li>
-                  </ul>
-                </div>
-                <div class="bg-slate-600/30 rounded-lg p-5">
-                  <h4 class="font-semibold mb-3 text-purple-400"><i class="fas fa-book mr-2"></i>Estudo</h4>
-                  <ul class="list-disc pl-5 space-y-2 text-sm">
-                    <li>Use o modo prática para áreas fracas</li>
-                    <li>Revise perguntas erradas após cada sessão</li>
-                    <li>Estude em sessões curtas e frequentes</li>
-                  </ul>
-                </div>
-                <div class="bg-slate-600/30 rounded-lg p-5">
-                  <h4 class="font-semibold mb-3 text-cyan-400"><i class="fas fa-heart mr-2"></i>Saúde</h4>
-                  <ul class="list-disc pl-5 space-y-2 text-sm">
-                    <li>Descanse adequadamente entre sessões</li>
-                    <li>Mantenha-se hidratado durante os jogos</li>
-                    <li>Evite longas sessões sem pausas</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Competitive Strategies -->
-            <div class="bg-slate-700/30 rounded-xl p-6 border border-slate-600/30 card-hover">
-              <div class="flex items-center mb-4">
-                <div class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center mr-4 glow-effect">
-                  <i class="fas fa-chess-knight text-purple-400"></i>
-                </div>
-                <h3 class="text-xl font-semibold">Estratégias Competitivas</h3>
-              </div>
-              
-              <div class="space-y-6">
-                <div class="flex items-start">
-                  <div class="mt-1 mr-4 flex-shrink-0">
-                    <div class="w-6 h-6 bg-purple-900/20 rounded-full flex items-center justify-center">
-                      <i class="fas fa-check text-xs text-purple-400"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 class="font-semibold">Conheça seus pontos fortes</h4>
-                    <p class="text-sm text-slate-300 mt-1">
-                      Antes de entrar no modo competitivo, identifique suas áreas de maior conhecimento através do modo casual e pratique-as.
-                    </p>
-                  </div>
-                </div>
-                
-                <div class="flex items-start">
-                  <div class="mt-1 mr-4 flex-shrink-0">
-                    <div class="w-6 h-6 bg-purple-900/20 rounded-full flex items-center justify-center">
-                      <i class="fas fa-check text-xs text-purple-400"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 class="font-semibold">Analise os padrões</h4>
-                    <p class="text-sm text-slate-300 mt-1">
-                      As perguntas seguem certos padrões. Após várias partidas, você começará a identificar esses padrões e responder mais rápido.
-                    </p>
-                  </div>
-                </div>
-                
-                <div class="flex items-start">
-                  <div class="mt-1 mr-4 flex-shrink-0">
-                    <div class="w-6 h-6 bg-purple-900/20 rounded-full flex items-center justify-center">
-                      <i class="fas fa-check text-xs text-purple-400"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 class="font-semibold">Controle emocional</h4>
-                    <p class="text-sm text-slate-300 mt-1">
-                      Em partidas acirradas, mantenha a calma. O nervosismo pode levar a erros em perguntas que você normalmente acertaria.
-                    </p>
-                  </div>
-                </div>
-                
-                <div class="flex items-start">
-                  <div class="mt-1 mr-4 flex-shrink-0">
-                    <div class="w-6 h-6 bg-purple-900/20 rounded-full flex items-center justify-center">
-                      <i class="fas fa-check text-xs text-purple-400"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 class="font-semibold">Horários estratégicos</h4>
-                    <p class="text-sm text-slate-300 mt-1">
-                      Jogue nos horários em que você está mais alerta. Evite jogar quando estiver cansado ou distraído.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- FAQ -->
-      <div class="mt-16">
-        <h2 class="text-2xl font-bold mb-6 text-center text-gradient">Perguntas Frequentes</h2>
-
-        <div class="bg-slate-800/30 rounded-2xl p-6 border border-slate-700/30 backdrop-blur-sm">
-          <div class="space-y-4">
-            <div class="faq-item">
-              <button class="faq-question w-full text-left p-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition flex justify-between items-center">
-                <span>Como ganho mais XP rápido?</span>
-                <i class="fas fa-chevron-down transition-transform duration-300"></i>
-              </button>
-              <div class="faq-answer hidden p-4 bg-slate-700/20 rounded-b-lg">
-                <p class="text-slate-300">
-                  Para maximizar seu XP: 1) Jogue no modo competitivo (mais XP por vitória), 2) Mantenha uma sequência de dias jogados, 
-                  3) Complete desafios diários, 4) Participe de torneios com bônus de XP.
-                </p>
-              </div>
-            </div>
-            
-            <div class="faq-item">
-              <button class="faq-question w-full text-left p-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition flex justify-between items-center">
-                <span>Posso jogar sem internet?</span>
-                <i class="fas fa-chevron-down transition-transform duration-300"></i>
-              </button>
-              <div class="faq-answer hidden p-4 bg-slate-700/20 rounded-b-lg">
-                <p class="text-slate-300">
-                  Atualmente o FlashMind requer conexão com a internet para todos os modos.
-                </p>
-              </div>
-            </div>
-            
-            <div class="faq-item">
-              <button class="faq-question w-full text-left p-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition flex justify-between items-center">
-                <span>Como funcionam os torneios?</span>
-                <i class="fas fa-chevron-down transition-transform duration-300"></i>
-              </button>
-              <div class="faq-answer hidden p-4 bg-slate-700/20 rounded-b-lg">
-                <p class="text-slate-300">
-                  Os torneios são eventos especiais com regras e prêmios exclusivos. Eles podem ser: 1) Limitados por tempo (ex: 24h), 
-                  2) Baseados em categorias específicas, 3) Abertos a todos ou apenas para convidados. Fique de olho nas notificações!
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Centro - começar agora -->
-      <div class="mt-16 text-center">
-        <a href="dashboard.html" class="inline-block bg-gradient-button hover:shadow-lg text-white font-bold py-3 px-8 rounded-full text-lg transition transform hover:scale-105 shadow-lg">
-          <i class="fas fa-play mr-2"></i> Começar Agora
-        </a>
-      </div>
-    </div>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-900/80 backdrop-blur-sm border-t border-slate-800/50 py-8 mt-16">
-      <div class="max-w-7xl mx-auto px-6 md:px-12">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <div class="flex items-center space-x-3 mb-4">
-              <div class="glow-effect">
-                <i class="fa-solid fa-brain text-3xl text-gradient"></i>
-              </div>
-              <span class="text-xl font-bold text-gradient">FlashMind</span>
+    <footer class="bg-slate-900 text-slate-100 py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-brain text-white text-xl"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white">FlashMind</span>
+                    </div>
+                    <p class="text-slate-400 text-sm">
+                        Transformando pesquisa acadêmica com inteligência artificial desde 2025.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Links Rápidos</h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="dashboard.html" class="hover:text-blue-400 transition">Dashboard</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition">Documentos</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition">OCR</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition">Busca</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Ajuda</h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="hover:text-blue-400 transition">Central de Ajuda</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition">Termos de Serviço</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition">Política de Privacidade</a></li>
+                        <li><a href="contato.html" class="hover:text-blue-400 transition">Contate-nos</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Redes Sociais</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <p class="text-slate-400 text-sm">
-              Transformando aprendizado em diversão desde 2025. Aprenda, compita e cresça com nossa plataforma.
-            </p>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-semibold mb-4">Links Rápidos</h3>
-            <ul class="space-y-2 text-sm text-slate-400">
-              <li><a href="#" class="hover:text-purple-400 transition">Dashboard</a></li>
-              <li><a href="#" class="hover:text-purple-400 transition">Ranking</a></li>
-              <li><a href="#" class="hover:text-purple-400 transition">Comunidade</a></li>
-              <li><a href="#" class="hover:text-purple-400 transition">Torneios</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-semibold mb-4">Ajuda</h3>
-            <ul class="space-y-2 text-sm text-slate-400">
-              <li><a href="#" class="hover:text-purple-400 transition">Central de Ajuda</a></li>
-              <li><a href="#" class="hover:text-purple-400 transition">Termos de Serviço</a></li>
-              <li><a href="#" class="hover:text-purple-400 transition">Política de Privacidade</a></li>
-              <li><a href="#" class="hover:text-purple-400 transition">Contate-nos</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 class="text-lg font-semibold mb-4">Redes Sociais</h3>
-            <div class="flex space-x-4">
-              <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-purple-600/20 hover:text-purple-400 transition">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-cyan-600/20 hover:text-cyan-400 transition">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-purple-600/20 hover:text-purple-400 transition">
-                <i class="fab fa-instagram"></i>
-              </a>
-              <a href="#" class="w-10 h-10 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-cyan-600/20 hover:text-cyan-400 transition">
-                <i class="fab fa-youtube"></i>
-              </a>
+            
+            <div class="border-t border-slate-800 mt-8 pt-8 text-center text-sm text-slate-500">
+                <p>©2025 TCC FlashMind. Todos os direitos reservados.</p>
             </div>
-          </div>
         </div>
-        
-        <div class="border-t border-slate-800/50 mt-8 pt-8 text-center text-sm text-slate-500">
-          <p>©2025 TCC FlashMind. Todos os direitos reservados.</p>
-        </div>
-      </div>
     </footer>
     
-    <!-- Scripts -->
     <script>
-      // Tab functionality
-      document.querySelectorAll('.tab-button').forEach(button => {
-        button.addEventListener('click', () => {
-          // Remove active class from all buttons and contents
-          document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-          document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-          
-          // Add active class to clicked button
-          button.classList.add('active');
-          
-          // Show corresponding content
-          const tabId = button.getAttribute('data-tab');
-          document.getElementById(tabId).classList.add('active');
+        // Tab functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
         });
-      });
-      
-      // FAQ accordion
-      document.querySelectorAll('.faq-question').forEach(question => {
-        question.addEventListener('click', () => {
-          const answer = question.nextElementSibling;
-          const icon = question.querySelector('i');
-          
-          // Toggle answer visibility
-          answer.classList.toggle('hidden');
-          
-          // Rotate icon
-          icon.classList.toggle('rotate-180');
+        
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                // Toggle answer visibility
+                answer.classList.toggle('hidden');
+                
+                // Rotate icon
+                icon.classList.toggle('rotate-180');
+            });
         });
-      });
     </script>
-  </body>
+</body>
 </html>

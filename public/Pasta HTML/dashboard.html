@@ -1,1228 +1,1854 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlashMind - Dashboard</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../../public/imgs/brain.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="../../public/imgs/brain.ico">
-    <link rel="apple-touch-icon" href="../../public/imgs/brain.ico">
+    <link rel="icon" type="image/x-icon" href="../imgs/brain.ico">
     
     <!-- External CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     
-    <!-- Tailwind Config -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Inter", "sans-serif"],
-            },
-            animation: {
-              "fade-in": "fadeIn 0.5s ease-in-out",
-              float: "float 3s ease-in-out infinite",
-              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-              "gradient": "gradient 6s ease infinite",
-              "slide-up": "slideUp 0.5s ease-out",
-              "slide-down": "slideDown 0.3s ease-in",
-              "scale": "scale 0.2s ease-in-out",
-            },
-            keyframes: {
-              fadeIn: {
-                "0%": { opacity: "0", transform: "translateY(10px)" },
-                "100%": { opacity: "1", transform: "translateY(0)" },
-              },
-              float: {
-                "0%, 100%": { transform: "translateY(0)" },
-                "50%": { transform: "translateY(-3px)" },
-              },
-              gradient: {
-                "0%, 100%": { 'background-position': '0% 50%' },
-                "50%": { 'background-position': '100% 50%' },
-              },
-              slideUp: {
-                "0%": { transform: "translateY(20px)", opacity: "0" },
-                "100%": { transform: "translateY(0)", opacity: "1" },
-              },
-              slideDown: {
-                "0%": { transform: "translateY(-20px)", opacity: "0" },
-                "100%": { transform: "translateY(0)", opacity: "1" },
-              },
-              scale: {
-                "0%": { transform: "scale(0.95)" },
-                "100%": { transform: "scale(1)" },
-              }
-            },
-          },
-        },
-      };
-    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="../CSS/dashboard.css">
-  </head>
+        /* Dark Theme Styles */
+        .dark {
+            background-color: #0f172a;
+            color: #f1f5f9;
+        }
 
-  <body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
-    <!-- Todo o conteúdo HTML existente permanece aqui, sem alterações -->
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-gray-900 bg-opacity-90 backdrop-blur-sm border-b border-gray-800">
-      <div class="flex items-center space-x-3">
-        <i class="fas fa-brain text-3xl gradient-text animate-float"></i>
-        <span class="text-2xl font-bold gradient-text">FlashMind</span>
-      </div>
-      <div class="hidden md:flex space-x-8">
-        <!-- Adicione os links de navegação aqui se necessário -->
-      </div>
-      <div class="flex items-center space-x-4">
-        <!-- Notificações -->
-        <div class="relative">
-          <button class="text-gray-400 hover:text-white transition" id="notificationBtn">
-            <i class="fas fa-bell text-xl"></i>
-            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">3</span>
-          </button>
-          <!-- Dropdown de notificações -->
-          <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-80 bg-gray-800 rounded-xl shadow-lg border border-gray-700 z-50">
-            <div class="p-4 border-b border-gray-700">
-              <h3 class="font-semibold">Notificações</h3>
-            </div>
-            <div class="max-h-96 overflow-y-auto">
-              <a href="#" class="block p-4 hover:bg-gray-700 border-b border-gray-700">
-                <p class="text-sm"><span class="font-medium text-blue-400">Novo desafio!</span> Você recebeu um desafio de matemática.</p>
-                <p class="text-xs text-gray-400 mt-1">Há 5 minutos</p>
-              </a>
-              <a href="#" class="block p-4 hover:bg-gray-700 border-b border-gray-700">
-                <p class="text-sm"><span class="font-medium text-green-400">Conquista desbloqueada!</span> Você completou 3 jogos seguidos.</p>
-                <p class="text-xs text-gray-400 mt-1">Há 30 minutos</p>
-              </a>
-              <a href="#" class="block p-4 hover:bg-gray-700">
-                <p class="text-sm"><span class="font-medium text-purple-400">Novo torneio!</span> Um torneio de ciências começará em breve.</p>
-                <p class="text-xs text-gray-400 mt-1">Há 1 hora</p>
-              </a>
-            </div>
-            <div class="p-4 border-t border-gray-700">
-              <a href="#" class="text-sm text-blue-400 hover:text-blue-300">Ver todas as notificações</a>
+        .dark .bg-white {
+            background-color: #1e293b;
+        }
+
+        .dark .text-slate-900 {
+            color: #f1f5f9;
+        }
+
+        .dark .text-slate-600 {
+            color: #cbd5e1;
+        }
+
+        .dark .text-slate-500 {
+            color: #94a3b8;
+        }
+
+        .dark .border-slate-200 {
+            border-color: #334155;
+        }
+
+        .dark .bg-slate-50 {
+            background-color: #334155;
+        }
+
+        .dark .bg-slate-100 {
+            background-color: #475569;
+        }
+
+        .dark .hover\:bg-slate-50:hover {
+            background-color: #334155;
+        }
+
+        .dark .hover\:text-slate-900:hover {
+            color: #f1f5f9;
+        }
+
+        .dark .bg-blue-50 {
+            background-color: #1e3a8a;
+        }
+
+        .dark .text-blue-600 {
+            color: #60a5fa;
+        }
+
+        .dark .border-blue-200 {
+            border-color: #1e40af;
+        }
+
+        .dark .bg-gradient-to-r {
+            background: linear-gradient(to right, #1e40af, #7c3aed);
+        }
+
+        .dark .bg-slate-50 {
+            background-color: #334155;
+        }
+
+        .dark .border-slate-300 {
+            border-color: #475569;
+        }
+
+        .dark .focus\:ring-blue-500:focus {
+            --tw-ring-color: #3b82f6;
+        }
+
+        .dark .focus\:border-transparent:focus {
+            border-color: transparent;
+        }
+
+        /* Sidebar Scroll Styles */
+        .sidebar-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .dark .sidebar-scroll::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        .dark .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+
+        .dark .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
+    <!-- Sidebar -->
+    <aside class="fixed left-0 top-0 w-64 h-full bg-white border-r border-slate-200 flex flex-col z-40 overflow-y-auto sidebar-scroll">
+        <div class="p-6 border-b border-slate-200">
+                    <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-brain text-white text-xl"></i>
+                      </div>
+                      <div>
+                    <span class="text-xl font-semibold text-slate-900">FlashMind</span>
+                    <p class="text-xs text-slate-500" id="profile-name">Pesquisador Acadêmico</p>
             </div>
           </div>
         </div>
 
-        <!-- Amigos -->
-        <div class="relative">
-          <button class="text-gray-400 hover:text-white transition" id="friendsBtn">
-            <i class="fas fa-users text-xl"></i>
-            <span class="absolute -top-1 -right-1 bg-green-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">5</span>
-          </button>
-          <!-- Dropdown de amigos -->
-          <div id="friendsDropdown" class="hidden absolute right-0 mt-2 w-80 bg-gray-800 rounded-xl shadow-lg border border-gray-700 z-50">
-            <div class="p-4 border-b border-gray-700">
-              <div class="flex justify-between items-center">
-                <h3 class="font-semibold">Amigos</h3>
-                <div class="flex space-x-2">
-                  <button class="text-gray-400 hover:text-white transition" title="Adicionar amigo">
-                    <i class="fas fa-user-plus"></i>
-                  </button>
-                  <button class="text-gray-400 hover:text-white transition" title="Procurar amigos">
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="max-h-96 overflow-y-auto">
-              <!-- Online Friends -->
-              <div class="p-3 border-b border-gray-700">
-                <h4 class="text-sm text-gray-400 mb-2">Online (3)</h4>
-                <div class="space-y-3">
-                  <div class="flex items-center justify-between hover:bg-gray-700/50 p-2 rounded-lg transition-colors">
-                    <div class="flex items-center space-x-3">
-                      <div class="relative">
-                        <img src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png" class="w-8 h-8 rounded-full" alt="Amigo">
-                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-gray-800"></div>
-                      </div>
-                      <div>
-                        <p class="text-sm font-medium">Dilma Rousseff</p>
-                        <p class="text-xs text-gray-400">Jogando agora</p>
-                      </div>
-                    </div>
-                    <button class="text-blue-400 hover:text-blue-300 transition">
-                      <i class="fas fa-gamepad"></i>
-                    </button>
-                  </div>
-                  <div class="flex items-center justify-between hover:bg-gray-700/50 p-2 rounded-lg transition-colors">
-                    <div class="flex items-center space-x-3">
-                      <div class="relative">
-                        <img src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png" class="w-8 h-8 rounded-full" alt="Amigo">
-                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-gray-800"></div>
-                      </div>
-                      <div>
-                        <p class="text-sm font-medium">Pablo Marçal</p>
-                        <p class="text-xs text-gray-400">Online</p>
-                      </div>
-                    </div>
-                    <button class="text-blue-400 hover:text-blue-300 transition">
-                      <i class="fas fa-gamepad"></i>
-                    </button>
-                  </div>
-                  <div class="flex items-center justify-between hover:bg-gray-700/50 p-2 rounded-lg transition-colors">
-                    <div class="flex items-center space-x-3">
-                      <div class="relative">
-                        <img src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png" class="w-8 h-8 rounded-full" alt="Amigo">
-                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-gray-800"></div>
-                      </div>
-                      <div>
-                        <p class="text-sm font-medium">Alexandre de Moraes</p>
-                        <p class="text-xs text-gray-400">No menu</p>
-                      </div>
-                    </div>
-                    <button class="text-blue-400 hover:text-blue-300 transition">
-                      <i class="fas fa-gamepad"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Offline Friends -->
-              <div class="p-3">
-                <h4 class="text-sm text-gray-400 mb-2">Offline (2)</h4>
-                <div class="space-y-3">
-                  <div class="flex items-center justify-between hover:bg-gray-700/50 p-2 rounded-lg transition-colors opacity-50">
-                    <div class="flex items-center space-x-3">
-                      <div class="relative">
-                        <img src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png" class="w-8 h-8 rounded-full" alt="Amigo">
-                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-gray-500 rounded-full border-2 border-gray-800"></div>
-                      </div>
-                      <div>
-                        <p class="text-sm font-medium">Gustavo Guanabara</p>
-                        <p class="text-xs text-gray-400">Última vez: 2h atrás</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex items-center justify-between hover:bg-gray-700/50 p-2 rounded-lg transition-colors opacity-50">
-                    <div class="flex items-center space-x-3">
-                      <div class="relative">
-                        <img src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png" class="w-8 h-8 rounded-full" alt="Amigo">
-                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-gray-500 rounded-full border-2 border-gray-800"></div>
-                      </div>
-                      <div>
-                        <p class="text-sm font-medium">Filipe Deschamps</p>
-                        <p class="text-xs text-gray-400">Última vez: 5h atrás</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <nav class="flex-1 p-4 space-y-4 overflow-y-auto">
+            <!-- Dashboard Section -->
+            <div class="space-y-1">
+                <div class="flex items-center space-x-2 px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    <i class="fas fa-home w-3"></i>
+                    <span>Dashboard</span>
         </div>
-
-        <!-- Indicador de status online -->
-        <div class="hidden md:flex items-center space-x-2 bg-gray-800/50 px-3 py-1 rounded-full">
-          <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-          <span class="text-xs text-white">Online</span>
-        </div>
-        <!-- Botão para menu mobile -->
-        <button class="md:hidden text-gray-400 hover:text-white transition">
-          <i class="fas fa-bars text-xl"></i>
-        </button>
+                <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-lg bg-blue-50 text-blue-600 border border-blue-200">
+                    <i class="fas fa-chart-pie w-4"></i>
+                    <span class="text-sm font-medium">Visão Geral</span>
+                </a>
+                <a href="#" onclick="showStatsModal()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-chart-bar w-4"></i>
+                    <span class="text-sm">Estatísticas</span>
+                </a>
+                <a href="#" onclick="showNotifications()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors relative">
+                    <i class="fas fa-bell w-4"></i>
+                    <span class="text-sm">Notificações</span>
+                    <span id="notification-badge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                </a>
       </div>
-    </header>
 
-    <!-- Main Content -->
-    <div class="flex pt-16">
-      <!-- Sidebar - Removida a classe hidden -->
-      <aside class="md:flex md:w-64 flex-col justify-between p-6 bg-gray-800/50 border-r border-gray-700 h-screen sticky top-0 backdrop-blur-sm">
-        <div>
-          <div class="flex flex-col items-center text-center mb-8">
-            <div class="relative group w-24 h-24 rounded-full overflow-hidden border-4 border-blue-500/50 glow-effect">
-              <img
-                id="foto-usuario"
-                src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png"
-                alt="Foto do usuário"
-                class="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-60"/>
-              <label
-                for="uploadInput"
-                class="absolute inset-0 bg-black bg-opacity-50 text-white text-center flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer text-sm">
-                Alterar
-              </label>
-              <input id="uploadInput" type="file" accept="image/*" class="hidden" />
+            <!-- Documents Section -->
+            <div class="space-y-1">
+                <div class="flex items-center space-x-2 px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    <i class="fas fa-folder w-3"></i>
+                    <span>Documentos</span>
             </div>
-            <div class="mt-4">
-              <span class="text-yellow-400 text-xl"><i class="fas fa-trophy"></i></span>
-              <h2 id="nome-usuario" class="font-semibold mt-1 text-lg">Carregando...</h2>
-              <p id="nivel-usuario" class="text-sm text-gray-300">Nível 1</p>
+                <a href="foldersView.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-folder w-4"></i>
+                    <span class="text-sm">Minhas Pastas</span>
+                </a>
+                <a href="#" onclick="showAllDocuments()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-file-alt w-4"></i>
+                    <span class="text-sm">Todos os Documentos</span>
+                </a>
+                <a href="#" onclick="showCategories()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-tags w-4"></i>
+                    <span class="text-sm">Por Categorias</span>
+                </a>
+                <a href="#" onclick="showFavorites()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-star w-4"></i>
+                    <span class="text-sm">Favoritos</span>
+                </a>
             </div>
 
-            <!-- Barra de XP -->
-            <div class="w-full mt-4">
-              <div class="w-full bg-gray-700 rounded-full h-2">
-                <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full" style="width: 40%"></div>
+            <!-- AI & OCR Section -->
+            <div class="space-y-1">
+                <div class="flex items-center space-x-2 px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    <i class="fas fa-robot w-3"></i>
+                    <span>IA & OCR</span>
               </div>
-              <p id="xp-text" class="text-xs text-gray-400 mt-1">XP: 0 / 300</p>
+                <a href="#" onclick="openOCRModal()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-camera w-4"></i>
+                    <span class="text-sm">Digitalizar</span>
+                </a>
+                <a href="#" onclick="openAudioModal()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-microphone w-4"></i>
+                    <span class="text-sm">Transcrição de Áudio</span>
+                </a>
+                <a href="#" onclick="openSearchModal()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-search w-4"></i>
+                    <span class="text-sm">Busca Avançada</span>
+                </a>
+                <a href="#" onclick="openAnalysisModal()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-brain w-4"></i>
+                    <span class="text-sm">Análise Inteligente</span>
+                </a>
             </div>
-          </div>
 
-          <nav>
-            <ul class="space-y-4 text-sm">
-              <li>
-                <a href="#" id="dashboard-link" class="flex items-center space-x-3 text-blue-400 hover:text-white transition p-3 rounded-lg bg-gray-700/30">
-                  <i class="fas fa-home w-5 text-center"></i>
-                  <span>Dashboard</span>
+            <!-- Tools Section -->
+            <div class="space-y-1">
+                <div class="flex items-center space-x-2 px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    <i class="fas fa-tools w-3"></i>
+                    <span>Ferramentas</span>
+                </div>
+                <a href="#" onclick="openOrganizationModal()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-sitemap w-4"></i>
+                    <span class="text-sm">Organização</span>
                 </a>
-              </li>
-              <li>
-                <a href="#" id="ranking-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition p-3 rounded-lg hover:bg-gray-700/30">
-                  <i class="fas fa-trophy w-5 text-center"></i>
-                  <span>Ranking</span>
+                <a href="#" onclick="openCollaborationModal()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-users w-4"></i>
+                    <span class="text-sm">Colaboração</span>
                 </a>
-              </li>
-              <li>
-                <a href="toTextPage.html" id="ia-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition p-3 rounded-lg hover:bg-gray-700/30">
-                  <i class="fas fa-robot w-5 text-center"></i>
-                  <span>IA</span>
+                <a href="#" onclick="showReports()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-chart-line w-4"></i>
+                    <span class="text-sm">Relatórios</span>
                 </a>
-              </li>
-              <li>
-                <a href="#" id="community-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition p-3 rounded-lg hover:bg-gray-700/30">
-                  <i class="fas fa-users w-5 text-center"></i>
-                  <span>Comunidade</span>
+                <a href="#" onclick="openSettings()" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-cog w-4"></i>
+                    <span class="text-sm">Configurações</span>
                 </a>
-              </li>
-              <li>
-                <a href="#" id="achievements-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition p-3 rounded-lg hover:bg-gray-700/30">
-                  <i class="fas fa-trophy w-5 text-center"></i>
-                  <span>Conquistas</span>
+        </div>
+
+            <!-- Help Section -->
+            <div class="space-y-1">
+                <div class="flex items-center space-x-2 px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    <i class="fas fa-question-circle w-3"></i>
+                    <span>Ajuda</span>
+          </div>
+                <a href="guia.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-book w-4"></i>
+                    <span class="text-sm">Guia</span>
                 </a>
-              </li>
-              <li>
-                <a href="#" id="stats-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition p-3 rounded-lg hover:bg-gray-700/30">
-                  <i class="fas fa-chart-line w-5 text-center"></i>
-                  <span>Estatísticas</span>
+                <a href="contato.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-headset w-4"></i>
+                    <span class="text-sm">Suporte</span>
                 </a>
-              </li>
-              <li>
-                <a href="#" id="settings-link" class="flex items-center space-x-3 text-gray-400 hover:text-white transition p-3 rounded-lg hover:bg-gray-700/30">
-                  <i class="fas fa-cog w-5 text-center"></i>
-                  <span>Configurações</span>
+                <a href="sobre.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-info-circle w-4"></i>
+                    <span class="text-sm">Sobre</span>
                 </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  id="logout-link"
-                  class="flex items-center space-x-3 text-gray-400 hover:text-red-400 transition p-3 rounded-lg hover:bg-gray-700/30"
-                >
-                  <i class="fas fa-sign-out-alt w-5 text-center"></i>
-                  <span>Sair</span>
-                </a>
-              </li>
-            </ul>
+          </div>
           </nav>
-        </div>
-      </aside>
-
-      <!-- Main Content Area -->
-      <main class="flex-1 p-6 md:p-8 overflow-y-auto animate-fade-in">
-        <!-- Welcome Banner -->
-        <div class="bg-gradient-to-r from-blue-900/80 to-blue-800/80 rounded-2xl p-6 mb-8 relative overflow-hidden border border-blue-700/30 card-hover">
-          <div class="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-blue-800/30 opacity-20"></div>
-          <div class="relative z-10">
-            <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">Bem-vindo de volta, <span id="welcome-name" class="gradient-text">Usuário</span>!</h1>
-            <p class="text-blue-200 max-w-2xl">
-              Continue sua jornada de aprendizado. Complete desafios, ganhe XP e suba no ranking!
-            </p>
-            <button
-              id="btnEntrar"
-              class="mt-4 bg-white text-blue-800 hover:bg-blue-100 font-medium py-2 px-6 rounded-full transition duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Jogar Agora
-            </button>
-          </div>
-          <div class="absolute -right-10 -bottom-10 opacity-20">
-            <i class="fas fa-brain text-[200px] text-white"></i>
-          </div>
-        </div>
-
-        <!-- Tesseract OCR Feature Banner -->
-        <div class="bg-gradient-to-r from-purple-900/80 via-pink-800/80 to-purple-800/80 rounded-2xl p-6 mb-8 relative overflow-hidden border border-purple-700/30 card-hover animate-pulse-slow">
-          <div class="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-pink-800/30 to-purple-800/30 opacity-20"></div>
-          <div class="relative z-10 flex items-center justify-between">
-            <div class="flex-1">
-              <div class="flex items-center space-x-3 mb-3">
-                <div class="bg-purple-900/30 p-3 rounded-full glow-effect">
-                  <i class="fas fa-eye text-purple-400 text-2xl"></i>
+        
+        <div class="p-4 border-t border-slate-200 mt-auto">
+            <div class="flex items-center space-x-3 mb-4">
+                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-user text-white text-sm"></i>
                 </div>
                 <div>
-                  <h2 class="text-xl md:text-2xl font-bold text-white">✨ Diferencial Exclusivo</h2>
-                  <p class="text-purple-200 text-sm">Tecnologia única do FlashMind</p>
+                    <p class="text-sm font-medium text-slate-900" id="user-role">Pesquisador</p>
+                    <p class="text-xs text-slate-500">Ativo</p>
                 </div>
               </div>
-              <h3 class="text-lg md:text-xl font-semibold text-white mb-2">Tesseract OCR - Reconhecimento de Imagens</h3>
-              <p class="text-purple-200 max-w-2xl mb-4">
-                Transforme qualquer imagem com texto em conteúdo editável! Tire uma foto de um documento, 
-                anotações ou qualquer texto e nossa IA fará a transcrição instantânea. 
-                <span class="font-semibold text-yellow-300">Experimente agora!</span>
-              </p>
-                             <div class="flex flex-wrap gap-3">
-                 <a href="toTextPage.html" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium py-3 px-6 rounded-full transition duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2">
-                   <i class="fas fa-magic"></i>
-                   <span>Experimente o Tesseract</span>
-                 </a>
-                 <a href="foldersView.html" class="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium py-3 px-6 rounded-full transition duration-300 transform hover:scale-105 shadow-lg flex items-center space-x-2">
-                   <i class="fas fa-folder-open"></i>
-                   <span>Minhas Pastas</span>
-                 </a>
+            <button onclick="logout()" class="w-full bg-slate-100 text-slate-600 hover:bg-slate-200 py-2 px-3 rounded-lg transition-colors text-sm">
+                <i class="fas fa-sign-out-alt mr-2"></i>
+                Sair
+            </button>
                </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 p-8 animate-fade-in">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-900 mb-2">Dashboard</h1>
+                <p class="text-slate-600" id="welcome-message">Gerencie seus documentos de pesquisa com inteligência artificial</p>
             </div>
-            <div class="hidden lg:flex items-center justify-center w-32 h-32">
+            <div class="flex items-center space-x-4">
+                <!-- Search Bar -->
               <div class="relative">
-                <div class="absolute inset-0 bg-purple-500/20 rounded-full animate-ping"></div>
-                <div class="relative bg-purple-900/30 p-6 rounded-full border-2 border-purple-500/50">
-                  <i class="fas fa-camera text-purple-400 text-4xl"></i>
+                    <input type="text" placeholder="Buscar documentos..." 
+                           class="w-64 pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <i class="fas fa-search absolute left-3 top-3 text-slate-400"></i>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="absolute -right-8 -bottom-8 opacity-10">
-            <i class="fas fa-robot text-[150px] text-white"></i>
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" id="theme-toggle" 
+                        class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors">
+                    <i class="fas fa-moon text-slate-600"></i>
+                </button>
+                <!-- Notifications -->
+                <button onclick="showNotifications()" class="relative p-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors">
+                    <i class="fas fa-bell text-slate-600"></i>
+                    <span id="header-notification-badge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                </button>
           </div>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <!-- XP Card -->
-          <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 card-hover">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm text-blue-400">Experiência</p>
-                <h3 class="text-2xl font-bold" id="xp-stat">0 XP</h3>
-                <p class="text-xs text-gray-400 mt-1">Próximo nível em <span id="xp-remaining">300</span> XP</p>
+                        <p class="text-sm text-slate-600">Documentos Processados</p>
+                        <p class="text-2xl font-bold text-slate-900">1,247</p>
               </div>
-              <div class="w-14 h-14 bg-blue-900/20 rounded-full flex items-center justify-center glow-effect">
-                <i class="fas fa-bolt text-blue-400 text-xl"></i>
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-file-alt text-blue-600 text-xl"></i>
               </div>
             </div>
           </div>
 
-          <!-- Level Card -->
-          <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 card-hover">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm text-blue-400">Nível</p>
-                <h3 class="text-2xl font-bold" id="level-stat">1</h3>
-                <p class="text-xs text-gray-400 mt-1">Progresso na jornada</p>
+                        <p class="text-sm text-slate-600">Precisão IA Qwen</p>
+                        <p class="text-2xl font-bold text-slate-900">99%</p>
               </div>
-              <div class="w-14 h-14 bg-blue-900/20 rounded-full flex items-center justify-center glow-effect">
-                <i class="fas fa-level-up-alt text-blue-400 text-xl"></i>
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-eye text-green-600 text-xl"></i>
               </div>
             </div>
           </div>
 
-          <!-- Streak Card -->
-          <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 card-hover">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm text-blue-400">Sequência</p>
-                <h3 class="text-2xl font-bold" id="streak-stat">0 dias</h3>
-                <p class="text-xs text-gray-400 mt-1">Dias consecutivos</p>
+                        <p class="text-sm text-slate-600">Tópicos Identificados</p>
+                        <p class="text-2xl font-bold text-slate-900">156</p>
               </div>
-              <div class="w-14 h-14 bg-blue-900/20 rounded-full flex items-center justify-center glow-effect">
-                <i class="fas fa-fire text-orange-400 text-xl"></i>
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-sitemap text-purple-600 text-xl"></i>
               </div>
             </div>
           </div>
 
-          <!-- Rank Card -->
-          <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 card-hover">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-sm text-blue-400">Ranking</p>
-                <h3 class="text-2xl font-bold" id="rank-stat">#---</h3>
-                <p class="text-xs text-gray-400 mt-1">Entre todos os jogadores</p>
+                        <p class="text-sm text-slate-600">Economia de Tempo</p>
+                        <p class="text-2xl font-bold text-slate-900">70%</p>
               </div>
-              <div class="w-14 h-14 bg-blue-900/20 rounded-full flex items-center justify-center glow-effect">
-                <i class="fas fa-trophy text-yellow-400 text-xl"></i>
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-clock text-orange-600 text-xl"></i>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Main Content Sections -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <!-- Left Column -->
           <div class="lg:col-span-2 space-y-6">
-            <!-- Quick Play Section -->
-            <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
-              <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-bold">Modos de Jogo</h2>
-                <div class="flex space-x-2">
-                  <button class="text-xs bg-blue-900/30 text-blue-400 px-3 py-1 rounded-full hover:bg-blue-900/50 transition">
-                    Ver todos
-                  </button>
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-xl border border-slate-200 p-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-6">Ações Rápidas</h2>
+
+                    <!-- Main Actions -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-semibold text-slate-700 mb-3 flex items-center">
+                            <i class="fas fa-star text-yellow-500 mr-2"></i>
+                            Principais
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="main-actions">
+                            <!-- Ações principais serão carregadas dinamicamente -->
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Casual Mode -->
-                <div class="game-card bg-blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer card-hover">
-                  <div class="flex items-center space-x-4">
-                    <div class="bg-blue-900/30 p-3 rounded-full glow-effect">
-                      <i class="fas fa-gamepad text-blue-400 text-xl"></i>
+                    <!-- Quick Actions -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-semibold text-slate-700 mb-3 flex items-center">
+                            <i class="fas fa-bolt text-blue-500 mr-2"></i>
+                            Rápidas
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="quick-actions">
+                            <!-- Ações rápidas serão carregadas dinamicamente -->
                     </div>
+                    </div>
+
+                    <!-- Tools -->
                     <div>
-                      <h3 class="font-semibold">Casual</h3>
-                      <p class="text-xs text-blue-300">Jogo rápido e divertido</p>
+                        <h3 class="text-sm font-semibold text-slate-700 mb-3 flex items-center">
+                            <i class="fas fa-tools text-green-500 mr-2"></i>
+                            Ferramentas
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="tool-actions">
+                            <!-- Ferramentas serão carregadas dinamicamente -->
                     </div>
-                  </div>
-
-                  <button
-                  class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg text-sm transition transform hover:scale-[1.02]"
-                  id="btnCasual">
-                  Jogar
-                </button>                
-                </div>
-
-                <!-- Competitive Mode -->
-                <div class="game-card bg-blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer card-hover">
-                  <div class="flex items-center space-x-4">
-                    <div class="bg-blue-900/30 p-3 rounded-full glow-effect">
-                      <i class="fas fa-trophy text-yellow-400 text-xl"></i>
-                    </div>
-                    <div>
-                      <h3 class="font-semibold">Competitivo</h3>
-                      <p class="text-xs text-blue-300">Ganhe pontos de ranking</p>
-                    </div>
-                  </div>
-                  <button
-                    class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg text-sm transition transform hover:scale-[1.02]"
-                    id="btnRanked"
-                  >
-                    Jogar
-                  </button>
-                </div>
-
-                <!-- Challenge Mode -->
-                <div class="game-card bg-blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer card-hover">
-                  <div class="flex items-center space-x-4">
-                    <div class="bg-blue-900/30 p-3 rounded-full glow-effect">
-                      <i class="fas fa-chess text-purple-400 text-xl"></i>
-                    </div>
-                    <div>
-                      <h3 class="font-semibold">Desafio</h3>
-                      <p class="text-xs text-blue-300">Desafie um amigo</p>
-                    </div>
-                  </div>
-                  <button
-                    class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg text-sm transition transform hover:scale-[1.02]"
-                    id="btnFriendlyChallenge"
-                  >
-                    Jogar
-                  </button>
-                </div>
-
-                <!-- Practice Mode -->
-                <div class="game-card bg-blue-900/20 rounded-lg p-5 border border-blue-800/30 cursor-pointer card-hover">
-                  <div class="flex items-center space-x-4">
-                    <div class="bg-blue-900/30 p-3 rounded-full glow-effect">
-                      <i class="fas fa-book text-green-400 text-xl"></i>
-                    </div>
-                    <div>
-                      <h3 class="font-semibold">Prática</h3>
-                      <p class="text-xs text-blue-300">Aprenda no seu ritmo</p>
-                    </div>
-                  </div>
-                  <button
-                    class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg text-sm transition transform hover:scale-[1.02]"
-                    id="btnPractice"
-                  >
-                    Jogar
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Tesseract OCR Features -->
-            <div class="bg-gradient-to-r from-purple-900/50 via-pink-800/50 to-purple-800/50 rounded-xl p-6 shadow-lg border border-purple-700/30 card-hover mb-6">
-              <div class="flex items-center justify-between mb-6">
-                <div class="flex items-center space-x-3">
-                  <div class="bg-purple-900/30 p-3 rounded-full glow-effect">
-                    <i class="fas fa-eye text-purple-400 text-xl"></i>
-                  </div>
-                  <div>
-                    <h2 class="text-xl font-bold">Tesseract OCR - Funcionalidades</h2>
-                    <p class="text-sm text-purple-300">Tecnologia exclusiva do FlashMind</p>
                   </div>
                 </div>
-                <a href="toTextPage.html" class="text-xs bg-purple-900/30 text-purple-400 px-3 py-1 rounded-full hover:bg-purple-900/50 transition">
-                  Experimentar
-                </a>
-              </div>
-
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-purple-900/20 rounded-lg p-4 border border-purple-800/30">
-                  <div class="flex items-center space-x-3 mb-3">
-                    <div class="bg-purple-900/30 p-2 rounded-full">
-                      <i class="fas fa-camera text-purple-400"></i>
-                    </div>
-                    <h3 class="font-semibold text-sm">Captura de Imagens</h3>
-                  </div>
-                  <p class="text-xs text-purple-300">Tire fotos de documentos, anotações ou qualquer texto</p>
-                </div>
-
-                <div class="bg-purple-900/20 rounded-lg p-4 border border-purple-800/30">
-                  <div class="flex items-center space-x-3 mb-3">
-                    <div class="bg-purple-900/30 p-2 rounded-full">
-                      <i class="fas fa-magic text-purple-400"></i>
-                    </div>
-                    <h3 class="font-semibold text-sm">Transcrição Automática</h3>
-                  </div>
-                  <p class="text-xs text-purple-300">IA converte imagem em texto editável instantaneamente</p>
-                </div>
-
-                <div class="bg-purple-900/20 rounded-lg p-4 border border-purple-800/30">
-                  <div class="flex items-center space-x-3 mb-3">
-                    <div class="bg-purple-900/30 p-2 rounded-full">
-                      <i class="fas fa-edit text-purple-400"></i>
-                    </div>
-                    <h3 class="font-semibold text-sm">Edição Inteligente</h3>
-                  </div>
-                  <p class="text-xs text-purple-300">Edite, copie e salve o texto transcrito facilmente</p>
-                </div>
-              </div>
-            </div>
 
             <!-- Recent Activity -->
-            <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
-              <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-bold">Atividade Recente</h2>
-                <button class="text-xs bg-blue-900/30 text-blue-400 px-3 py-1 rounded-full hover:bg-blue-900/50 transition">
-                  Ver histórico
-                </button>
-              </div>
+                <div class="bg-white rounded-xl border border-slate-200 p-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-6">Atividade Recente</h2>
 
               <div class="space-y-4">
-                <div class="flex items-start space-x-3 p-3 rounded-lg bg-blue-900/10 border border-blue-800/20 hover:bg-blue-900/20 transition">
-                  <div class="bg-blue-900/20 p-2 rounded-full">
-                    <i class="fas fa-trophy text-yellow-400 text-sm"></i>
-                  </div>
-                  <div>
-                    <p class="text-sm">
-                      <span class="font-medium">Você</span> completou o desafio "Matemática Básica"
+                        <div class="flex items-start space-x-3 p-3 rounded-lg bg-slate-50 border border-slate-200">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-robot text-blue-600 text-sm"></i>
+                    </div>
+                    <div>
+                                <p class="text-sm text-slate-900">
+                                    <span class="font-medium">IA Qwen</span> digitalizou 5 páginas de anotações
                     </p>
-                    <p class="text-xs text-blue-300 mt-1">+50 XP • 15 minutos atrás</p>
-                  </div>
+                                <p class="text-xs text-slate-500 mt-1">99% precisão • 15 minutos atrás</p>
+                    </div>
                 </div>
 
-                <div class="flex items-start space-x-3 p-3 rounded-lg bg-blue-900/10 border border-blue-800/20 hover:bg-blue-900/20 transition">
-                  <div class="bg-blue-900/20 p-2 rounded-full">
-                    <i class="fas fa-level-up-alt text-blue-400 text-sm"></i>
-                  </div>
-                  <div>
-                    <p class="text-sm">
-                      <span class="font-medium">Você</span> subiu para o nível 3
+                        <div class="flex items-start space-x-3 p-3 rounded-lg bg-slate-50 border border-slate-200">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-sitemap text-green-600 text-sm"></i>
+                    </div>
+                    <div>
+                                <p class="text-sm text-slate-900">
+                                    <span class="font-medium">IA</span> organizou 12 documentos por tópicos
                     </p>
-                    <p class="text-xs text-blue-300 mt-1">+100 XP • 2 horas atrás</p>
-                  </div>
+                                <p class="text-xs text-slate-500 mt-1">3 categorias criadas • 2 horas atrás</p>
+                    </div>
                 </div>
 
-                <div class="flex items-start space-x-3 p-3 rounded-lg bg-blue-900/10 border border-blue-800/20 hover:bg-blue-900/20 transition">
-                  <div class="bg-blue-900/20 p-2 rounded-full">
-                    <i class="fas fa-book text-green-400 text-sm"></i>
-                  </div>
-                  <div>
-                    <p class="text-sm">
-                      <span class="font-medium">Você</span> completou uma sessão de prática
+                        <div class="flex items-start space-x-3 p-3 rounded-lg bg-slate-50 border border-slate-200">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-search text-purple-600 text-sm"></i>
+                    </div>
+                    <div>
+                                <p class="text-sm text-slate-900">
+                                    <span class="font-medium">Você</span> fez 8 buscas semânticas
                     </p>
-                    <p class="text-xs text-blue-300 mt-1">Ontem às 18:30</p>
+                                <p class="text-xs text-slate-500 mt-1">3 resultados encontrados • Ontem às 18:30</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
           <!-- Right Column -->
           <div class="space-y-6">
-            <!-- Achievements -->
-            <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
-              <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-bold">Conquistas</h2>
-                <button class="text-xs bg-blue-900/30 text-blue-400 px-3 py-1 rounded-full hover:bg-blue-900/50 transition">
-                  Ver todas
-                </button>
+                <!-- AI Features -->
+                <div class="bg-white rounded-xl border border-slate-200 p-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-6">Recursos de IA</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3 p-3 rounded-lg bg-slate-50 border border-slate-200">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-robot text-blue-600"></i>
+                  </div>
+                  <div>
+                                <h3 class="font-medium text-slate-900">IA Qwen OCR</h3>
+                                <p class="text-xs text-slate-600">99% de precisão</p>
+                  </div>
               </div>
 
-              <div class="grid grid-cols-2 gap-4">
-                <div class="achievement-card bg-blue-900/10 rounded-lg p-4 text-center border border-blue-800/30 achievement-badge">
-                  <div class="w-12 h-12 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-2 glow-effect">
-                    <i class="fas fa-medal text-yellow-400 text-xl"></i>
+                        <div class="flex items-center space-x-3 p-3 rounded-lg bg-slate-50 border border-slate-200">
+                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-sitemap text-green-600"></i>
+                    </div>
+            <div>
+                                <h3 class="font-medium text-slate-900">Classificação Automática</h3>
+                                <p class="text-xs text-slate-600">Por tópicos e conceitos</p>
                   </div>
-                  <h3 class="text-sm font-medium">Primeiros Passos</h3>
-                  <p class="text-xs text-blue-300">Complete seu primeiro jogo</p>
                 </div>
 
-                <div class="achievement-card bg-blue-900/10 rounded-lg p-4 text-center border border-blue-800/30 opacity-50">
-                  <div class="w-12 h-12 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                    <i class="fas fa-fire text-orange-400 text-xl"></i>
+                        <div class="flex items-center space-x-3 p-3 rounded-lg bg-slate-50 border border-slate-200">
+                            <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-search text-purple-600"></i>
+                    </div>
+              <div>
+                                <h3 class="font-medium text-slate-900">Busca Semântica</h3>
+                                <p class="text-xs text-slate-600">Por significado</p>
                   </div>
-                  <h3 class="text-sm font-medium">Sequência</h3>
-                  <p class="text-xs text-blue-300">Jogue 7 dias seguidos</p>
-                </div>
-
-                <div class="achievement-card bg-blue-900/10 rounded-lg p-4 text-center border border-blue-800/30 opacity-50">
-                  <div class="w-12 h-12 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                    <i class="fas fa-brain text-purple-400 text-xl"></i>
-                  </div>
-                  <h3 class="text-sm font-medium">Gênio</h3>
-                  <p class="text-xs text-blue-300">Acerto 90% em um jogo</p>
-                </div>
-
-                <div class="achievement-card bg-blue-900/10 rounded-lg p-4 text-center border border-blue-800/30 opacity-50">
-                  <div class="w-12 h-12 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                    <i class="fas fa-star text-blue-400 text-xl"></i>
-                  </div>
-                  <h3 class="text-sm font-medium">Estrela</h3>
-                  <p class="text-xs text-blue-300">Complete 10 jogos</p>
                 </div>
               </div>
             </div>
 
-            <!-- Progress Section -->
-            <div class="bg-gray-800/50 rounded-xl p-6 shadow-lg border border-blue-900/30 card-hover">
-              <h2 class="text-xl font-bold mb-4">Seu Progresso</h2>
-              <div class="flex flex-col items-center">
-                <div class="relative w-32 h-32 mb-4">
-                  <svg class="w-full h-full" viewBox="0 0 100 100">
-                    <!-- Background circle -->
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="45"
-                      fill="none"
-                      stroke="#1E293B"
-                      stroke-width="8"
-                    />
-                    <!-- Progress circle -->
-                    <circle
-                      class="progress-ring-circle"
-                      cx="50"
-                      cy="50"
-                      r="45"
-                      fill="none"
-                      stroke="url(#progressGradient)"
-                      stroke-width="8"
-                      stroke-linecap="round"
-                      stroke-dasharray="283"
-                      stroke-dashoffset="170"
-                    />
-                    <defs>
-                      <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#3B82F6" />
-                        <stop offset="100%" stop-color="#8B5CF6" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                  <div class="absolute inset-0 flex items-center justify-center">
-                    <span class="text-2xl font-bold">40%</span>
+                <!-- Quick Stats -->
+                <div class="bg-white rounded-xl border border-slate-200 p-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-6">Estatísticas</h2>
+
+              <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-slate-600">Documentos hoje</span>
+                            <span class="font-medium text-slate-900">12</span>
+                  </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-slate-600">Tempo economizado</span>
+                            <span class="font-medium text-slate-900">3.2h</span>
+                  </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-slate-600">Precisão IA Qwen</span>
+                            <span class="font-medium text-slate-900">99.2%</span>
+                </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-slate-600">Tópicos ativos</span>
+                            <span class="font-medium text-slate-900">8</span>
+                  </div>
                   </div>
                 </div>
-                <p class="text-sm text-center text-gray-300">Você completou 40% da jornada de aprendizado</p>
+    </div>
+    </div>
+    </main>
+
+    <!-- OCR Modal -->
+    <div id="ocrModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-camera text-blue-600 text-xl"></i>
+                  </div>
+                  <div>
+                            <h2 class="text-xl font-semibold text-slate-900">OCR com IA Qwen</h2>
+                            <p class="text-sm text-slate-600">Digitalize documentos com precisão</p>
+                  </div>
+                </div>
+                    <button onclick="closeOCRModal()" class="text-slate-400 hover:text-slate-600 transition">
+                        <i class="fas fa-times text-xl"></i>
+        </button>
+            </div>
+          </div>
+
+            <div class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Upload Section -->
+            <div class="space-y-4">
+                        <h3 class="text-lg font-medium text-slate-900">Enviar Imagem</h3>
+                        
+                        <div id="uploadArea" class="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors cursor-pointer">
+                            <div class="mb-4">
+                                <i class="fas fa-cloud-upload-alt text-4xl text-slate-400 mb-4"></i>
+                                <p class="text-lg font-medium text-slate-700 mb-2">Arraste e solte ou clique para selecionar</p>
+                                <p class="text-sm text-slate-500">Formatos aceitos: JPG, PNG, PDF</p>
+                  </div>
+                            <input type="file" id="imageInput" accept="image/*,application/pdf" multiple class="hidden">
+                </div>
+
+                        <div id="imagePreview" class="hidden">
+                            <h4 class="text-sm font-medium text-slate-700 mb-2">Imagens selecionadas:</h4>
+                            <div id="previewContainer" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                        <button onclick="processImages()" id="processBtn" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 px-4 rounded-lg font-medium hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fas fa-magic mr-2"></i>
+                            Processar com IA Qwen
+          </button>
+                </div>
+
+                    <!-- Results Section -->
+        <div class="space-y-4">
+                        <h3 class="text-lg font-medium text-slate-900">Texto Transcrito</h3>
+                        
+                        <div class="bg-slate-50 rounded-lg p-4 min-h-[300px] border border-slate-200">
+                            <div id="ocrResults" class="text-slate-600">
+                                <div class="text-center py-12">
+                                    <i class="fas fa-file-text text-4xl text-slate-400 mb-4"></i>
+                                    <p class="text-slate-500">O texto transcrito aparecerá aqui</p>
+                </div>
+              </div>
+            </div>
+
+                        <div id="ocrActions" class="hidden space-y-2">
+                            <button onclick="copyText()" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                                <i class="fas fa-copy mr-2"></i>
+                                Copiar Texto
+          </button>
+                            <button onclick="organizeText()" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg font-medium transition">
+                                <i class="fas fa-sitemap mr-2"></i>
+                                Organizar por IA
+          </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </main>
     </div>
 
-    <!-- Modal de Matchmaking -->
-    <div id="matchmakingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden transition-opacity duration-300">
-      <div class="bg-gradient-to-br from-blue-900 to-blue-800 rounded-xl p-8 shadow-lg text-center w-80 border border-blue-700/30 transform transition-all duration-300 scale-95 opacity-0">
-        <h2 class="text-xl font-semibold mb-4 text-white">Procurando oponente...</h2>
-        <div class="mb-6">
-          <div class="relative w-20 h-20 mx-auto">
-            <div class="absolute inset-0 flex items-center justify-center">
-              <i class="fas fa-brain text-4xl text-blue-300 animate-pulse"></i>
+    <!-- Search Modal -->
+    <div id="searchModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-search text-purple-600 text-xl"></i>
             </div>
-            <!-- Círculo de loading animado -->
-            <svg class="animate-spin absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="45" 
-                fill="none" 
-                stroke="currentColor" 
-                class="text-blue-500/20" 
-                stroke-width="8"
-              />
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="45" 
-                fill="none" 
-                stroke="currentColor" 
-                class="text-blue-400" 
-                stroke-width="8"
-                stroke-dasharray="283"
-                stroke-dashoffset="200"
-                transform="rotate(-90 50 50)"
-              />
-            </svg>
+                        <div>
+                            <h2 class="text-xl font-semibold text-slate-900">Busca Semântica</h2>
+                            <p class="text-sm text-slate-600">Encontre documentos por significado</p>
           </div>
         </div>
-        <div class="flex justify-center space-x-2 mb-4">
-          <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0s"></div>
-          <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-          <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
-        </div>
-        <p class="text-sm text-blue-200 mb-4" id="searchingText">Procurando jogadores próximos ao seu nível...</p>
-        <button id="cancelMatchmaking" class="mt-2 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
-          Cancelar
+                    <button onclick="closeSearchModal()" class="text-slate-400 hover:text-slate-600 transition">
+                        <i class="fas fa-times text-xl"></i>
         </button>
       </div>
     </div>
 
-    <!-- Modal de Aceitar/Negar desafio -->
-    <div id="challengeModal" class="hidden">
-      <div class="modal-content">
-        <h2 id="challengeModalTitle"></h2>
-        <button id="acceptChallengeBtn">Aceitar</button>
-        <button id="rejectChallengeBtn">Rejeitar</button>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div>
+                        <label class="form-label">Digite sua busca</label>
+                        <input type="text" id="searchInput" placeholder="Ex: conceitos de inteligência artificial..." class="form-input">
+    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="form-label">Tipo de documento</label>
+                            <select id="documentType" class="form-input">
+                                <option value="">Todos</option>
+                                <option value="artigo">Artigos</option>
+                                <option value="anotacao">Anotações</option>
+                                <option value="revisao">Revisões</option>
+                            </select>
+        </div>
+                        <div>
+                            <label class="form-label">Período</label>
+                            <select id="dateRange" class="form-input">
+                                <option value="">Todos</option>
+                                <option value="today">Hoje</option>
+                                <option value="week">Esta semana</option>
+                                <option value="month">Este mês</option>
+                            </select>
       </div>
     </div>
 
-    <!-- Páginas de redirecionamento -->
-    <div id="ranking-page" class="hidden fixed inset-0 bg-gray-900 z-50 overflow-y-auto p-8">
-      <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 shadow-2xl">
-        <div class="flex justify-between items-center mb-8">
-          <h2 class="text-3xl font-bold gradient-text">Ranking Global</h2>
-          <button onclick="hidePage('ranking-page')" class="text-gray-400 hover:text-white text-2xl">
-            &times;
+                    <button onclick="performSearch()" class="btn-primary w-full">
+                        <i class="fas fa-search mr-2"></i>
+                        Buscar
           </button>
+
+                    <div id="searchResults" class="hidden">
+                        <h3 class="font-medium text-slate-900 mb-4">Resultados da busca:</h3>
+                        <div id="searchResultsList" class="space-y-3"></div>
         </div>
-        <div class="overflow-x-auto">
-          <table class="w-full">
-            <thead>
-              <tr class="text-left border-b border-gray-700">
-                <th class="pb-3">Posição</th>
-                <th class="pb-3">Jogador</th>
-                <th class="pb-3">Nível</th>
-                <th class="pb-3">XP</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b border-gray-700 hover:bg-gray-700/50">
-                <td class="py-4">1</td>
-                <td class="py-4 flex items-center space-x-3">
-                  <img src="#" class="w-8 h-8 rounded-full" alt="Jogador">
-                  <span>Getúlio Vargas</span>
-                </td>
-                <td class="py-4">25</td>
-                <td class="py-4">7,500</td>
-              </tr>
-              <tr class="border-b border-gray-700 hover:bg-gray-700/50">
-                <td class="py-4">2</td>
-                <td class="py-4 flex items-center space-x-3">
-                  <img src="#" class="w-8 h-8 rounded-full" alt="Jogador">
-                  <span>Bolsonaro</span>
-                </td>
-                <td class="py-4">23</td>
-                <td class="py-4">6,900</td>
-              </tr>
-              <tr class="border-b border-gray-700 hover:bg-gray-700/50">
-                <td class="py-4">3</td>
-                <td class="py-4 flex items-center space-x-3">
-                  <img src="#" class="w-8 h-8 rounded-full" alt="Jogador">
-                  <span>Lula</span>
-                </td>
-                <td class="py-4">22</td>
-                <td class="py-4">6,600</td>
-              </tr>
-              <tr class="border-b border-gray-700 hover:bg-gray-700/50">
-                <td class="py-4">4</td>
-                <td class="py-4 flex items-center space-x-3">
-                  <img src="#" class="w-8 h-8 rounded-full" alt="Jogador">
-                  <span>Janja</span>
-                </td>
-                <td class="py-4">21</td>
-                <td class="py-4">6,300</td>
-              </tr>
-              <tr class="border-b border-gray-700 hover:bg-gray-700/50">
-                <td class="py-4">5</td>
-                <td class="py-4 flex items-center space-x-3">
-                  <img src="#" class="w-8 h-8 rounded-full" alt="Jogador">
-                  <span>Pablo Marçal</span>
-                </td>
-                <td class="py-4">20</td>
-                <td class="py-4">6,000</td>
-              </tr>
-            </tbody>
-          </table>
+            </div>
+            </div>
+          </div>
         </div>
-        <div class="mt-6 flex justify-center">
-          <button onclick="hidePage('ranking-page')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
-            Voltar ao Dashboard
+
+    <!-- Organization Modal -->
+    <div id="organizationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-sitemap text-green-600 text-xl"></i>
+          </div>
+                        <div>
+                            <h2 class="text-xl font-semibold text-slate-900">Organização por IA</h2>
+                            <p class="text-sm text-slate-600">Classifique documentos automaticamente</p>
+          </div>
+          </div>
+                    <button onclick="closeOrganizationModal()" class="text-slate-400 hover:text-slate-600 transition">
+                        <i class="fas fa-times text-xl"></i>
           </button>
-        </div>
       </div>
     </div>
 
-    <div id="ia-page" class="hidden fixed inset-0 bg-gray-900 z-50 overflow-y-auto p-8">
-      <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 shadow-2xl">
-        <div class="flex justify-between items-center mb-8">
-          <h2 class="text-3xl font-bold gradient-text">Assistente de IA</h2>
-          <button onclick="hidePage('ia-page')" class="text-gray-400 hover:text-white text-2xl">
-            &times;
-          </button>
-        </div>
-        <div class="bg-gray-700/50 rounded-lg p-6 mb-6">
-          <div class="flex items-start space-x-4">
-            <div class="bg-blue-900/20 p-3 rounded-full">
-              <i class="fas fa-robot text-blue-400 text-xl"></i>
-            </div>
-            <div>
-              <h3 class="font-semibold mb-2">Como posso te ajudar hoje?</h3>
-              <p class="text-gray-300 text-sm">
-                Eu sou o assistente de IA do FlashMind. Posso te ajudar a melhorar seu desempenho, sugerir exercícios personalizados e responder perguntas sobre o jogo.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="space-y-4">
-          <div class="bg-gray-700/50 rounded-lg p-4 cursor-pointer hover:bg-gray-700/70 transition">
-            <h3 class="font-medium">Sugira exercícios para melhorar minha memória</h3>
-          </div>
-          <div class="bg-gray-700/50 rounded-lg p-4 cursor-pointer hover:bg-gray-700/70 transition">
-            <h3 class="font-medium">Analise meu desempenho recente</h3>
-          </div>
-          <div class="bg-gray-700/50 rounded-lg p-4 cursor-pointer hover:bg-gray-700/70 transition">
-            <h3 class="font-medium">Explique como funciona o sistema de XP</h3>
-          </div>
-          <div class="bg-gray-700/50 rounded-lg p-4 cursor-pointer hover:bg-gray-700/70 transition">
-            <h3 class="font-medium">Me dê dicas de como estudar de forma eficiente</h3>
-          </div>
-        </div>
-        <div class="mt-6 flex justify-center">
-          <button onclick="hidePage('ia-page')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
-            Voltar ao Dashboard
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div id="community-page" class="hidden fixed inset-0 bg-gray-900 z-50 overflow-y-auto p-8">
-      <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 shadow-2xl">
-        <div class="flex justify-between items-center mb-8">
-          <h2 class="text-3xl font-bold gradient-text">Comunidade FlashMind</h2>
-          <button onclick="hidePage('community-page')" class="text-gray-400 hover:text-white text-2xl">
-            &times;
-          </button>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-gray-700/50 rounded-xl p-6 hover:bg-gray-700/70 transition cursor-pointer">
-            <div class="flex items-center space-x-4 mb-4">
-              <div class="bg-blue-900/20 p-3 rounded-full">
-                <i class="fas fa-comments text-blue-400 text-xl"></i>
-              </div>
-              <h3 class="font-semibold">Fórum</h3>
-            </div>
-            <p class="text-gray-300 text-sm">
-              Participe de discussões, faça perguntas e compartilhe suas experiências com outros jogadores.
-            </p>
-          </div>
-          <div class="bg-gray-700/50 rounded-xl p-6 hover:bg-gray-700/70 transition cursor-pointer">
-            <div class="flex items-center space-x-4 mb-4">
-              <div class="bg-blue-900/20 p-3 rounded-full">
-                <i class="fas fa-users text-blue-400 text-xl"></i>
-              </div>
-              <h3 class="font-semibold">Grupos</h3>
-            </div>
-            <p class="text-gray-300 text-sm">
-              Junte-se a grupos de estudo ou crie o seu próprio para aprender junto com amigos.
-            </p>
-          </div>
-          <div class="bg-gray-700/50 rounded-xl p-6 hover:bg-gray-700/70 transition cursor-pointer">
-            <div class="flex items-center space-x-4 mb-4">
-              <div class="bg-blue-900/20 p-3 rounded-full">
-                <i class="fas fa-trophy text-yellow-400 text-xl"></i>
-              </div>
-              <h3 class="font-semibold">Torneios</h3>
-            </div>
-            <p class="text-gray-300 text-sm">
-              Participe de torneios semanais e mostre suas habilidades para toda a comunidade.
-            </p>
-          </div>
-          <div class="bg-gray-700/50 rounded-xl p-6 hover:bg-gray-700/70 transition cursor-pointer">
-            <div class="flex items-center space-x-4 mb-4">
-              <div class="bg-blue-900/20 p-3 rounded-full">
-                <i class="fas fa-share-alt text-green-400 text-xl"></i>
-              </div>
-              <h3 class="font-semibold">Compartilhar</h3>
-            </div>
-            <p class="text-gray-300 text-sm">
-              Compartilhe suas conquistas e resultados nas redes sociais.
-            </p>
-          </div>
-        </div>
-        <div class="mt-6 flex justify-center">
-          <button onclick="hidePage('community-page')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
-            Voltar ao Dashboard
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div id="achievements-page" class="hidden fixed inset-0 bg-gray-900 z-50 overflow-y-auto p-8">
-      <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 shadow-2xl">
-        <div class="flex justify-between items-center mb-8">
-          <h2 class="text-3xl font-bold gradient-text">Suas Conquistas</h2>
-          <button onclick="hidePage('achievements-page')" class="text-gray-400 hover:text-white text-2xl">
-            &times;
-          </button>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="achievement-card bg-blue-900/10 rounded-xl p-6 text-center border border-blue-800/30 achievement-badge">
-            <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4 glow-effect">
-              <i class="fas fa-medal text-yellow-400 text-2xl"></i>
-            </div>
-            <h3 class="font-semibold">Primeiros Passos</h3>
-            <p class="text-sm text-blue-300 mt-2">Complete seu primeiro jogo</p>
-            <p class="text-xs text-gray-400 mt-2">Desbloqueado em: 10/05/2025</p>
-          </div>
-          <div class="achievement-card bg-blue-900/10 rounded-xl p-6 text-center border border-blue-800/30 opacity-50">
-            <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-fire text-orange-400 text-2xl"></i>
-            </div>
-            <h3 class="font-semibold">Sequência</h3>
-            <p class="text-sm text-blue-300 mt-2">Jogue 7 dias seguidos</p>
-            <p class="text-xs text-gray-400 mt-2">0/7 dias completos</p>
-          </div>
-          <div class="achievement-card bg-blue-900/10 rounded-xl p-6 text-center border border-blue-800/30 opacity-50">
-            <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-brain text-purple-400 text-2xl"></i>
-            </div>
-            <h3 class="font-semibold">Gênio</h3>
-            <p class="text-sm text-blue-300 mt-2">Acerto 90% em um jogo</p>
-            <p class="text-xs text-gray-400 mt-2">Melhor: 75%</p>
-          </div>
-          <div class="achievement-card bg-blue-900/10 rounded-xl p-6 text-center border border-blue-800/30 opacity-50">
-            <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-star text-blue-400 text-2xl"></i>
-            </div>
-            <h3 class="font-semibold">Estrela</h3>
-            <p class="text-sm text-blue-300 mt-2">Complete 10 jogos</p>
-            <p class="text-xs text-gray-400 mt-2">3/10 jogos</p>
-          </div>
-          <div class="achievement-card bg-blue-900/10 rounded-xl p-6 text-center border border-blue-800/30 opacity-50">
-            <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-bolt text-yellow-400 text-2xl"></i>
-            </div>
-            <h3 class="font-semibold">Rápido</h3>
-            <p class="text-sm text-blue-300 mt-2">Complete um jogo em menos de 1 minuto</p>
-          </div>
-          <div class="achievement-card bg-blue-900/10 rounded-xl p-6 text-center border border-blue-800/30 opacity-50">
-            <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-book text-green-400 text-2xl"></i>
-            </div>
-            <h3 class="font-semibold">Estudioso</h3>
-            <p class="text-sm text-blue-300 mt-2">Complete 5 sessões de prática</p>
-            <p class="text-xs text-gray-400 mt-2">1/5 sessões</p>
-          </div>
-        </div>
-        <div class="mt-6 flex justify-center">
-          <button onclick="hidePage('achievements-page')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
-            Voltar ao Dashboard
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div id="stats-page" class="hidden fixed inset-0 bg-gray-900 z-50 overflow-y-auto p-8">
-      <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 shadow-2xl">
-        <div class="flex justify-between items-center mb-8">
-          <h2 class="text-3xl font-bold gradient-text">Suas Estatísticas</h2>
-          <button onclick="hidePage('stats-page')" class="text-gray-400 hover:text-white text-2xl">
-            &times;
-          </button>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div class="bg-gray-700/50 rounded-xl p-6">
-            <h3 class="font-semibold mb-4">Desempenho Geral</h3>
+            <div class="p-6">
             <div class="space-y-4">
               <div>
-                <p class="text-sm text-gray-400">Jogos Completos</p>
-                <p class="text-xl font-bold">3</p>
+                        <label class="form-label">Selecione os documentos para organizar</label>
+                        <div class="border border-slate-200 rounded-lg p-4 min-h-[200px]">
+                            <div id="documentList" class="space-y-2">
+                                <!-- Documents will be loaded here -->
+        </div>
               </div>
+            </div>
+
+                    <div class="grid grid-cols-2 gap-4">
               <div>
-                <p class="text-sm text-gray-400">Taxa de Acerto</p>
-                <p class="text-xl font-bold">75%</p>
+                            <label class="form-label">Critério de organização</label>
+                            <select id="organizationCriteria" class="form-input">
+                                <option value="topic">Por tópico</option>
+                                <option value="date">Por data</option>
+                                <option value="type">Por tipo</option>
+                                <option value="importance">Por importância</option>
+                            </select>
+          </div>
+              <div>
+                            <label class="form-label">Criar pastas automáticas</label>
+                            <select id="createFolders" class="form-input">
+                                <option value="yes">Sim</option>
+                                <option value="no">Não</option>
+                            </select>
               </div>
-              <div>
-                <p class="text-sm text-gray-400">Melhor Sequência</p>
-                <p class="text-xl font-bold">2 dias</p>
+            </div>
+
+                    <button onclick="organizeDocuments()" class="btn-primary w-full">
+                        <i class="fas fa-magic mr-2"></i>
+                        Organizar com IA
+                    </button>
+
+                    <div id="organizationResults" class="hidden">
+                        <h3 class="font-medium text-slate-900 mb-4">Resultado da organização:</h3>
+                        <div id="organizationResultsList" class="space-y-3"></div>
+          </div>
               </div>
             </div>
           </div>
-          <div class="bg-gray-700/50 rounded-xl p-6">
-            <h3 class="font-semibold mb-4">Progresso Mensal</h3>
-            <div class="h-40">
-              <!-- Gráfico de progresso (simulado) -->
-              <div class="flex items-end h-full space-x-2">
-                <div class="w-8 bg-blue-500 rounded-t" style="height: 30%"></div>
-                <div class="w-8 bg-blue-500 rounded-t" style="height: 50%"></div>
-                <div class="w-8 bg-blue-500 rounded-t" style="height: 70%"></div>
-                <div class="w-8 bg-blue-500 rounded-t" style="height: 40%"></div>
-                <div class="w-8 bg-blue-500 rounded-t" style="height: 60%"></div>
-                <div class="w-8 bg-blue-500 rounded-t" style="height: 80%"></div>
-                <div class="w-8 bg-blue-500 rounded-t" style="height: 30%"></div>
               </div>
-              <div class="flex justify-between text-xs text-gray-400 mt-2">
-                <span>Seg</span>
-                <span>Ter</span>
-                <span>Qua</span>
-                <span>Qui</span>
-                <span>Sex</span>
-                <span>Sáb</span>
-                <span>Dom</span>
-              </div>
+
+    <!-- Collaboration Modal -->
+    <div id="collaborationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-orange-600 text-xl"></i>
             </div>
+            <div>
+                            <h2 class="text-xl font-semibold text-slate-900">Colaboração</h2>
+                            <p class="text-sm text-slate-600">Compartilhe e trabalhe em equipe</p>
           </div>
         </div>
-        <div class="bg-gray-700/50 rounded-xl p-6 mb-6">
-          <h3 class="font-semibold mb-4">Áreas de Conhecimento</h3>
-          <div class="space-y-3">
-            <div>
-              <div class="flex justify-between text-sm mb-1">
-                <span>Matemática</span>
-                <span>65%</span>
-              </div>
-              <div class="w-full bg-gray-600 rounded-full h-2">
-                <div class="bg-blue-500 h-2 rounded-full" style="width: 65%"></div>
-              </div>
-            </div>
-            <div>
-              <div class="flex justify-between text-sm mb-1">
-                <span>Ciências</span>
-                <span>45%</span>
-              </div>
-              <div class="w-full bg-gray-600 rounded-full h-2">
-                <div class="bg-blue-500 h-2 rounded-full" style="width: 45%"></div>
-              </div>
-            </div>
-            <div>
-              <div class="flex justify-between text-sm mb-1">
-                <span>História</span>
-                <span>30%</span>
-              </div>
-              <div class="w-full bg-gray-600 rounded-full h-2">
-                <div class="bg-blue-500 h-2 rounded-full" style="width: 30%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mt-6 flex justify-center">
-          <button onclick="hidePage('stats-page')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
-            Voltar ao Dashboard
+                    <button onclick="closeCollaborationModal()" class="text-slate-400 hover:text-slate-600 transition">
+                        <i class="fas fa-times text-xl"></i>
           </button>
-        </div>
       </div>
     </div>
 
-    <div id="settings-page" class="hidden fixed inset-0 bg-gray-900 z-50 overflow-y-auto p-8">
-      <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl p-8 shadow-2xl">
-        <div class="flex justify-between items-center mb-8">
-          <h2 class="text-3xl font-bold gradient-text">Configurações</h2>
-          <button onclick="hidePage('settings-page')" class="text-gray-400 hover:text-white text-2xl">
-            &times;
+            <div class="p-6">
+                <div class="space-y-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="showShareDocument()" class="btn-secondary">
+                            <i class="fas fa-share-alt mr-2"></i>
+                            Compartilhar Documento
+                        </button>
+                        <button onclick="showInviteCollaborator()" class="btn-secondary">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            Convidar Colaborador
           </button>
         </div>
-        <div class="space-y-6">
-          <div class="bg-gray-700/50 rounded-xl p-6">
-            <h3 class="font-semibold mb-4">Perfil</h3>
-            <div class="space-y-4">
+
+                    <div id="shareDocumentSection" class="hidden space-y-4">
+                        <h3 class="font-medium text-slate-900">Compartilhar Documento</h3>
               <div>
-                <label class="block text-sm text-gray-400 mb-1">Nome de usuário</label>
-                <input type="text" value="FlashUser123" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <label class="form-label">Selecione o documento</label>
+                            <select id="shareDocumentSelect" class="form-input">
+                                <option value="">Escolha um documento...</option>
+                            </select>
+            </div>
+              <div>
+                            <label class="form-label">Permissões</label>
+                            <select id="sharePermissions" class="form-input">
+                                <option value="view">Apenas visualização</option>
+                                <option value="comment">Visualização e comentários</option>
+                                <option value="edit">Edição completa</option>
+                            </select>
+          </div>
+                        <button onclick="generateShareLink()" class="btn-primary">
+                            <i class="fas fa-link mr-2"></i>
+                            Gerar Link de Compartilhamento
+                  </button>
+            </div>
+
+                    <div id="inviteCollaboratorSection" class="hidden space-y-4">
+                        <h3 class="font-medium text-slate-900">Convidar Colaborador</h3>
+            <div>
+                            <label class="form-label">E-mail do colaborador</label>
+                            <input type="email" id="collaboratorEmail" placeholder="colaborador@email.com" class="form-input">
+          </div>
+            <div>
+                            <label class="form-label">Mensagem (opcional)</label>
+                            <textarea id="inviteMessage" placeholder="Convide para colaborar no projeto..." class="form-input" rows="3"></textarea>
+            </div>
+                        <button onclick="sendInvitation()" class="btn-primary">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Enviar Convite
+                        </button>
+          </div>
+
+                    <div id="collaborationResults" class="hidden">
+                        <h3 class="font-medium text-slate-900 mb-4">Resultado:</h3>
+                        <div id="collaborationResultsContent" class="space-y-3"></div>
+            </div>
+          </div>
+            </div>
+      </div>
+    </div>
+
+    <script>
+        // Sistema de Perfis Profissionais
+        const PROFESSIONAL_PROFILES = {
+            academic: {
+                name: "Pesquisador Acadêmico",
+                icon: "fa-graduation-cap",
+                color: "from-blue-500 to-indigo-500",
+                welcomeMessage: "Bem-vindo ao seu laboratório de pesquisa digital!",
+                features: {
+                    primary: "OCR para Anotações Acadêmicas",
+                    secondary: "Organização por Tópicos de Pesquisa",
+                    tertiary: "Gestão de Referências"
+                },
+                quickActions: [
+                    { title: "Digitalizar Anotações", icon: "fa-file-text", action: "openOCRModal" },
+                    { title: "Organizar por Tópicos", icon: "fa-tags", action: "openOrganizationModal" },
+                    { title: "Busca Semântica", icon: "fa-search", action: "openSearchModal" },
+                    { title: "Colaboração", icon: "fa-users", action: "openCollaborationModal" }
+                ],
+                categories: ["Artigos", "Pesquisas", "Referências", "Anotações"]
+            },
+            journalist: {
+                name: "Jornalista e Criador de Conteúdo",
+                icon: "fa-newspaper",
+                color: "from-red-500 to-pink-500",
+                welcomeMessage: "Transforme suas fontes em conteúdo de impacto!",
+                features: {
+                    primary: "Transcrição de Entrevistas",
+                    secondary: "Verificação de Fontes",
+                    tertiary: "Geração de Resumos"
+                },
+                quickActions: [
+                    { title: "Transcrever Entrevista", icon: "fa-microphone", action: "openOCRModal" },
+                    { title: "Verificar Fontes", icon: "fa-check-circle", action: "openOrganizationModal" },
+                    { title: "Busca de Notícias", icon: "fa-search", action: "openSearchModal" },
+                    { title: "Compartilhar", icon: "fa-share", action: "openCollaborationModal" }
+                ],
+                categories: ["Entrevistas", "Fontes", "Notícias", "Conteúdo"]
+            },
+            legal: {
+                name: "Advogado e Profissional Jurídico",
+                icon: "fa-balance-scale",
+                color: "from-purple-500 to-violet-500",
+                welcomeMessage: "Organize seus casos com precisão jurídica!",
+                features: {
+                    primary: "OCR para Documentos Legais",
+                    secondary: "Gestão de Casos",
+                    tertiary: "Busca de Precedentes"
+                },
+                quickActions: [
+                    { title: "Digitalizar Processo", icon: "fa-file-contract", action: "openOCRModal" },
+                    { title: "Organizar Casos", icon: "fa-folder-open", action: "openOrganizationModal" },
+                    { title: "Buscar Precedentes", icon: "fa-search", action: "openSearchModal" },
+                    { title: "Compartilhar com Cliente", icon: "fa-handshake", action: "openCollaborationModal" }
+                ],
+                categories: ["Processos", "Clientes", "Jurisprudência", "Contratos"]
+            },
+            health: {
+                name: "Profissional de Saúde",
+                icon: "fa-user-md",
+                color: "from-green-500 to-emerald-500",
+                welcomeMessage: "Cuidado digital para seus pacientes!",
+                features: {
+                    primary: "OCR para Prontuários",
+                    secondary: "Gestão de Pacientes",
+                    tertiary: "Extração de Dados Vitais"
+                },
+                quickActions: [
+                    { title: "Digitalizar Prontuário", icon: "fa-file-medical", action: "openOCRModal" },
+                    { title: "Organizar Pacientes", icon: "fa-users", action: "openOrganizationModal" },
+                    { title: "Buscar Histórico", icon: "fa-search", action: "openSearchModal" },
+                    { title: "Compartilhar com Equipe", icon: "fa-share-alt", action: "openCollaborationModal" }
+                ],
+                categories: ["Pacientes", "Exames", "Medicamentos", "Prontuários"]
+            },
+            design: {
+                name: "Designer e Arquiteto",
+                icon: "fa-palette",
+                color: "from-orange-500 to-yellow-500",
+                welcomeMessage: "Transforme seus croquis em projetos digitais!",
+                features: {
+                    primary: "OCR para Croquis",
+                    secondary: "Gestão de Projetos",
+                    tertiary: "Extração de Especificações"
+                },
+                quickActions: [
+                    { title: "Digitalizar Croqui", icon: "fa-drafting-compass", action: "openOCRModal" },
+                    { title: "Organizar Projetos", icon: "fa-project-diagram", action: "openOrganizationModal" },
+                    { title: "Buscar Referências", icon: "fa-search", action: "openSearchModal" },
+                    { title: "Compartilhar Projeto", icon: "fa-share", action: "openCollaborationModal" }
+                ],
+                categories: ["Projetos", "Clientes", "Especificações", "Croquis"]
+            },
+            management: {
+                name: "Gestor e Administrador",
+                icon: "fa-chart-line",
+                color: "from-slate-500 to-gray-500",
+                welcomeMessage: "Gerencie informações com eficiência!",
+                features: {
+                    primary: "OCR para Relatórios",
+                    secondary: "Gestão por Departamentos",
+                    tertiary: "Extração de KPIs"
+                },
+                quickActions: [
+                    { title: "Digitalizar Relatório", icon: "fa-chart-bar", action: "openOCRModal" },
+                    { title: "Organizar por Depto", icon: "fa-building", action: "openOrganizationModal" },
+                    { title: "Buscar Métricas", icon: "fa-search", action: "openSearchModal" },
+                    { title: "Compartilhar Dados", icon: "fa-share", action: "openCollaborationModal" }
+                ],
+                categories: ["Relatórios", "Departamentos", "Métricas", "Projetos"]
+            }
+        };
+
+        const userId = localStorage.getItem('userId');
+        const userProfile = localStorage.getItem('userProfile') || 'academic';
+        const apiUrl = 'http://localhost:3000';
+        let currentText = "";
+
+        // Obter perfil do usuário
+        const currentProfile = PROFESSIONAL_PROFILES[userProfile] || PROFESSIONAL_PROFILES.academic;
+
+        // Função para carregar perfil do usuário
+        function loadUserProfile() {
+            // Atualizar elementos da interface
+            document.getElementById('profile-name').textContent = currentProfile.name;
+            document.getElementById('user-role').textContent = currentProfile.name;
+            document.getElementById('welcome-message').textContent = currentProfile.welcomeMessage;
+            
+            // Atualizar ícone do perfil
+            const profileIcon = document.querySelector('.w-8.h-8.bg-gradient-to-r');
+            if (profileIcon) {
+                profileIcon.className = `w-8 h-8 bg-gradient-to-r ${currentProfile.color} rounded-full flex items-center justify-center`;
+                profileIcon.innerHTML = `<i class="fas ${currentProfile.icon} text-white text-sm"></i>`;
+            }
+            
+            // Carregar ações rápidas
+            loadQuickActions();
+        }
+
+        // Função para carregar ações rápidas baseadas no perfil
+        function loadQuickActions() {
+            // Ações principais
+            const mainActionsContainer = document.getElementById('main-actions');
+            mainActionsContainer.innerHTML = '';
+            
+            const mainActions = [
+                { title: "Digitalizar Documento", icon: "fa-camera", action: "openOCRModal", color: "blue" },
+                { title: "Transcrição de Áudio", icon: "fa-microphone", action: "openAudioModal", color: "green" },
+                { title: "Busca Avançada", icon: "fa-search", action: "openSearchModal", color: "purple" },
+                { title: "Análise Inteligente", icon: "fa-brain", action: "openAnalysisModal", color: "orange" }
+            ];
+            
+            mainActions.forEach((action, index) => {
+                const actionCard = createActionCard(action, index);
+                mainActionsContainer.appendChild(actionCard);
+            });
+
+            // Ações rápidas
+            const quickActionsContainer = document.getElementById('quick-actions');
+            quickActionsContainer.innerHTML = '';
+            
+            const quickActions = [
+                { title: "Nova Pasta", icon: "fa-folder-plus", action: "createNewFolder", color: "blue" },
+                { title: "Organizar IA", icon: "fa-sitemap", action: "openOrganizationModal", color: "green" },
+                { title: "Favoritos", icon: "fa-star", action: "showFavorites", color: "yellow" },
+                { title: "Relatórios", icon: "fa-chart-line", action: "showReports", color: "purple" }
+            ];
+            
+            quickActions.forEach((action, index) => {
+                const actionCard = createActionCard(action, index);
+                quickActionsContainer.appendChild(actionCard);
+            });
+
+            // Ferramentas
+            const toolActionsContainer = document.getElementById('tool-actions');
+            toolActionsContainer.innerHTML = '';
+            
+            const toolActions = [
+                { title: "Configurações", icon: "fa-cog", action: "openSettings", color: "gray" },
+                { title: "Colaboração", icon: "fa-users", action: "openCollaborationModal", color: "blue" },
+                { title: "Histórico", icon: "fa-history", action: "showHistory", color: "green" },
+                { title: "Backup", icon: "fa-download", action: "createBackup", color: "purple" }
+            ];
+            
+            toolActions.forEach((action, index) => {
+                const actionCard = createActionCard(action, index);
+                toolActionsContainer.appendChild(actionCard);
+            });
+        }
+
+        // Função para criar cards de ação
+        function createActionCard(action, index) {
+            const colors = {
+                blue: { bg: 'bg-blue-100', text: 'text-blue-600', border: 'hover:border-blue-300' },
+                green: { bg: 'bg-green-100', text: 'text-green-600', border: 'hover:border-green-300' },
+                purple: { bg: 'bg-purple-100', text: 'text-purple-600', border: 'hover:border-purple-300' },
+                orange: { bg: 'bg-orange-100', text: 'text-orange-600', border: 'hover:border-orange-300' },
+                yellow: { bg: 'bg-yellow-100', text: 'text-yellow-600', border: 'hover:border-yellow-300' },
+                gray: { bg: 'bg-gray-100', text: 'text-gray-600', border: 'hover:border-gray-300' }
+            };
+            
+            const color = colors[action.color] || colors.blue;
+            const actionCard = document.createElement('div');
+            actionCard.className = `bg-slate-50 rounded-lg p-4 border border-slate-200 ${color.border} transition-colors cursor-pointer`;
+            actionCard.onclick = () => window[action.action]();
+            
+            actionCard.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 ${color.bg} rounded-lg flex items-center justify-center">
+                        <i class="fas ${action.icon} ${color.text} text-lg"></i>
+        </div>
+              <div>
+                        <h3 class="font-medium text-slate-900">${action.title}</h3>
+                        <p class="text-sm text-slate-600">Clique para acessar</p>
               </div>
-              <div>
-                <label class="block text-sm text-gray-400 mb-1">Email</label>
-                <input type="email" value="seuemail@gmail.com" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
               </div>
-              <div>
-                <label class="block text-sm text-gray-400 mb-1">Foto de perfil</label>
-                <div class="flex items-center space-x-4">
-                  <img src="https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png" class="w-12 h-12 rounded-full" alt="Perfil">
-                  <button class="text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
-                    Alterar
+            `;
+            
+            return actionCard;
+        }
+
+        // Simple interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aplicar tema salvo
+            applySavedTheme();
+            
+            // Carregar perfil do usuário
+            loadUserProfile();
+            
+            // Add hover effects to cards
+            const cards = document.querySelectorAll('.card-hover');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Setup OCR modal
+            setupOCRModal();
+        });
+
+        // OCR Modal Functions
+        function openOCRModal() {
+            document.getElementById('ocrModal').classList.remove('hidden');
+        }
+
+        function closeOCRModal() {
+            document.getElementById('ocrModal').classList.add('hidden');
+            resetOCRModal();
+        }
+
+        function resetOCRModal() {
+            document.getElementById('imageInput').value = '';
+            document.getElementById('imagePreview').classList.add('hidden');
+            document.getElementById('previewContainer').innerHTML = '';
+            document.getElementById('ocrResults').innerHTML = `
+                <div class="text-center py-12">
+                    <i class="fas fa-file-text text-4xl text-slate-400 mb-4"></i>
+                    <p class="text-slate-500">O texto transcrito aparecerá aqui</p>
+              </div>
+            `;
+            document.getElementById('ocrActions').classList.add('hidden');
+            document.getElementById('processBtn').disabled = false;
+            document.getElementById('processBtn').innerHTML = '<i class="fas fa-magic mr-2"></i>Processar com IA Qwen';
+        }
+
+        function setupOCRModal() {
+            const uploadArea = document.getElementById('uploadArea');
+            const imageInput = document.getElementById('imageInput');
+
+            // Click to upload
+            uploadArea.addEventListener('click', () => {
+                imageInput.click();
+            });
+
+            // Drag and drop
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('border-blue-400', 'bg-blue-50');
+            });
+
+            uploadArea.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('border-blue-400', 'bg-blue-50');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('border-blue-400', 'bg-blue-50');
+                const files = e.dataTransfer.files;
+                handleFiles(files);
+            });
+
+            // File input change
+            imageInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+            });
+        }
+
+        function handleFiles(files) {
+            const previewContainer = document.getElementById('previewContainer');
+            const imagePreview = document.getElementById('imagePreview');
+            
+            previewContainer.innerHTML = '';
+            
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/') || file.type === 'application/pdf') {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'w-20 h-20 object-cover rounded border border-slate-200';
+                        previewContainer.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            if (files.length > 0) {
+                imagePreview.classList.remove('hidden');
+            }
+        }
+
+        async function processImages() {
+            const imageInput = document.getElementById('imageInput');
+            const processBtn = document.getElementById('processBtn');
+            const ocrResults = document.getElementById('ocrResults');
+            const ocrActions = document.getElementById('ocrActions');
+
+            if (!imageInput.files || imageInput.files.length === 0) {
+                alert('Por favor, selecione pelo menos uma imagem.');
+                return;
+            }
+
+            processBtn.disabled = true;
+            processBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processando...';
+
+            try {
+                const formData = new FormData();
+                for (let i = 0; i < imageInput.files.length; i++) {
+                    formData.append("imgs", imageInput.files[i]);
+                }
+
+                const response = await fetch(`${apiUrl}/IA/${userId}/extractText`, {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao processar as imagens');
+                }
+
+                const data = await response.json();
+                currentText = data.resumoOrganizado || data.text || 'Nenhum texto encontrado';
+
+                ocrResults.innerHTML = `
+                    <div class="space-y-2">
+                        <h4 class="font-medium text-slate-900">Texto transcrito pela IA Qwen:</h4>
+                        <div class="bg-white p-4 rounded border border-slate-200 text-sm leading-relaxed">
+                            ${currentText.replace(/\n/g, '<br>')}
+            </div>
+          </div>
+                `;
+
+                ocrActions.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Erro:', error);
+                ocrResults.innerHTML = `
+                    <div class="text-center py-8 text-red-600">
+                        <i class="fas fa-exclamation-triangle text-2xl mb-2"></i>
+                        <p>Erro ao processar as imagens. Tente novamente.</p>
+              </div>
+                `;
+            } finally {
+                processBtn.disabled = false;
+                processBtn.innerHTML = '<i class="fas fa-magic mr-2"></i>Processar com IA Qwen';
+            }
+        }
+
+        function copyText() {
+            if (currentText) {
+                navigator.clipboard.writeText(currentText).then(() => {
+                    alert('Texto copiado para a área de transferência!');
+                });
+            }
+        }
+
+        async function organizeText() {
+            if (!currentText) {
+                alert('Nenhum texto para organizar.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiUrl}/IA/${userId}/organizeText`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ prompt: currentText })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro ao organizar o texto');
+                }
+
+                const data = await response.json();
+                currentText = data.msg || data.organizedText || currentText;
+
+                document.getElementById('ocrResults').innerHTML = `
+                    <div class="space-y-2">
+                        <h4 class="font-medium text-slate-900">Texto organizado pela IA:</h4>
+                        <div class="bg-white p-4 rounded border border-slate-200 text-sm leading-relaxed">
+                            ${currentText.replace(/\n/g, '<br>')}
+              </div>
+            </div>
+                `;
+
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao organizar o texto. Tente novamente.');
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('ocrModal').addEventListener('click', (e) => {
+            if (e.target.id === 'ocrModal') {
+                closeOCRModal();
+            }
+        });
+
+        // Search Modal Functions
+        function openSearchModal() {
+            document.getElementById('searchModal').classList.remove('hidden');
+        }
+
+        function closeSearchModal() {
+            document.getElementById('searchModal').classList.add('hidden');
+            document.getElementById('searchResults').classList.add('hidden');
+            document.getElementById('searchInput').value = '';
+        }
+
+        async function performSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const documentType = document.getElementById('documentType');
+            const dateRange = document.getElementById('dateRange');
+            const searchResults = document.getElementById('searchResults');
+            const searchResultsList = document.getElementById('searchResultsList');
+
+            if (!searchInput.value.trim()) {
+                alert('Por favor, digite um termo de busca.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiUrl}/search/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: searchInput.value,
+                        type: documentType.value,
+                        dateRange: dateRange.value
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro na busca');
+                }
+
+                const data = await response.json();
+                displaySearchResults(data.results || []);
+                searchResults.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Erro na busca:', error);
+                // Mock data for demonstration
+                const mockResults = [
+                    { title: 'Pesquisa sobre IA', type: 'artigo', date: '2025-01-15', relevance: 95 },
+                    { title: 'Anotações de Laboratório', type: 'anotacao', date: '2025-01-14', relevance: 87 },
+                    { title: 'Revisão Bibliográfica', type: 'revisao', date: '2025-01-13', relevance: 92 }
+                ];
+                displaySearchResults(mockResults);
+                searchResults.classList.remove('hidden');
+            }
+        }
+
+        function displaySearchResults(results) {
+            const searchResultsList = document.getElementById('searchResultsList');
+            searchResultsList.innerHTML = '';
+
+            if (results.length === 0) {
+                searchResultsList.innerHTML = '<p class="text-slate-500 text-center py-4">Nenhum resultado encontrado.</p>';
+                return;
+            }
+
+            results.forEach(result => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'bg-slate-50 rounded-lg p-4 border border-slate-200';
+                resultDiv.innerHTML = `
+                    <div class="flex justify-between items-start">
+            <div>
+                            <h4 class="font-medium text-slate-900">${result.title}</h4>
+                            <p class="text-sm text-slate-600">${result.type} • ${new Date(result.date).toLocaleDateString('pt-BR')}</p>
+              </div>
+                        <div class="text-right">
+                            <span class="text-sm text-green-600 font-medium">${result.relevance}% relevante</span>
+              </div>
+            </div>
+                `;
+                searchResultsList.appendChild(resultDiv);
+            });
+        }
+
+        // Organization Modal Functions
+        function openOrganizationModal() {
+            document.getElementById('organizationModal').classList.remove('hidden');
+            loadDocumentsForOrganization();
+        }
+
+        function closeOrganizationModal() {
+            document.getElementById('organizationModal').classList.add('hidden');
+            document.getElementById('organizationResults').classList.add('hidden');
+        }
+
+        function loadDocumentsForOrganization() {
+            const documentList = document.getElementById('documentList');
+            // Mock documents for demonstration
+            const mockDocuments = [
+                { id: 1, title: 'Pesquisa sobre IA', type: 'artigo', date: '2025-01-15' },
+                { id: 2, title: 'Anotações de Laboratório', type: 'anotacao', date: '2025-01-14' },
+                { id: 3, title: 'Revisão Bibliográfica', type: 'revisao', date: '2025-01-13' }
+            ];
+
+            documentList.innerHTML = '';
+            mockDocuments.forEach(doc => {
+                const docDiv = document.createElement('div');
+                docDiv.className = 'flex items-center space-x-3 p-2 border border-slate-200 rounded';
+                docDiv.innerHTML = `
+                    <input type="checkbox" id="doc-${doc.id}" value="${doc.id}" class="rounded">
+                    <label for="doc-${doc.id}" class="flex-1">
+                        <span class="font-medium">${doc.title}</span>
+                        <span class="text-sm text-slate-500 ml-2">${doc.type}</span>
+                </label>
+                `;
+                documentList.appendChild(docDiv);
+            });
+        }
+
+        async function organizeDocuments() {
+            const selectedDocs = Array.from(document.querySelectorAll('#documentList input:checked')).map(cb => cb.value);
+            const criteria = document.getElementById('organizationCriteria').value;
+            const createFolders = document.getElementById('createFolders').value;
+
+            if (selectedDocs.length === 0) {
+                alert('Selecione pelo menos um documento para organizar.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiUrl}/organize/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        documentIds: selectedDocs,
+                        criteria: criteria,
+                        createFolders: createFolders === 'yes'
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro na organização');
+                }
+
+                const data = await response.json();
+                displayOrganizationResults(data);
+
+            } catch (error) {
+                console.error('Erro na organização:', error);
+                // Mock result for demonstration
+                const mockResult = {
+                    organized: true,
+                    folders: ['Inteligência Artificial', 'Laboratório', 'Revisões'],
+                    documents: selectedDocs.length
+                };
+                displayOrganizationResults(mockResult);
+            }
+        }
+
+        function displayOrganizationResults(result) {
+            const organizationResults = document.getElementById('organizationResults');
+            const organizationResultsList = document.getElementById('organizationResultsList');
+
+            organizationResultsList.innerHTML = `
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i class="fas fa-check-circle text-green-600"></i>
+                        <span class="font-medium text-green-800">Organização concluída!</span>
+              </div>
+                    <p class="text-sm text-green-700">${result.documents} documentos organizados em ${result.folders.length} pastas.</p>
+              </div>
+                <div class="space-y-2">
+                    <h4 class="font-medium text-slate-900">Pastas criadas:</h4>
+                    ${result.folders.map(folder => `<div class="flex items-center space-x-2"><i class="fas fa-folder text-blue-500"></i><span>${folder}</span></div>`).join('')}
+            </div>
+            `;
+
+            organizationResults.classList.remove('hidden');
+        }
+
+        // Collaboration Modal Functions
+        function openCollaborationModal() {
+            document.getElementById('collaborationModal').classList.remove('hidden');
+            loadDocumentsForSharing();
+        }
+
+        function closeCollaborationModal() {
+            document.getElementById('collaborationModal').classList.add('hidden');
+            document.getElementById('collaborationResults').classList.add('hidden');
+            document.getElementById('shareDocumentSection').classList.add('hidden');
+            document.getElementById('inviteCollaboratorSection').classList.add('hidden');
+        }
+
+        function loadDocumentsForSharing() {
+            const shareDocumentSelect = document.getElementById('shareDocumentSelect');
+            // Mock documents for demonstration
+            const mockDocuments = [
+                { id: 1, title: 'Pesquisa sobre IA' },
+                { id: 2, title: 'Anotações de Laboratório' },
+                { id: 3, title: 'Revisão Bibliográfica' }
+            ];
+
+            shareDocumentSelect.innerHTML = '<option value="">Escolha um documento...</option>';
+            mockDocuments.forEach(doc => {
+                const option = document.createElement('option');
+                option.value = doc.id;
+                option.textContent = doc.title;
+                shareDocumentSelect.appendChild(option);
+            });
+        }
+
+        function showShareDocument() {
+            document.getElementById('shareDocumentSection').classList.remove('hidden');
+            document.getElementById('inviteCollaboratorSection').classList.add('hidden');
+        }
+
+        function showInviteCollaborator() {
+            document.getElementById('inviteCollaboratorSection').classList.remove('hidden');
+            document.getElementById('shareDocumentSection').classList.add('hidden');
+        }
+
+        function generateShareLink() {
+            const documentId = document.getElementById('shareDocumentSelect').value;
+            const permissions = document.getElementById('sharePermissions').value;
+
+            if (!documentId) {
+                alert('Selecione um documento para compartilhar.');
+                return;
+            }
+
+            // Mock share link generation
+            const shareLink = `https://flashmind.com/share/${documentId}?perm=${permissions}`;
+            
+            document.getElementById('collaborationResults').classList.remove('hidden');
+            document.getElementById('collaborationResultsContent').innerHTML = `
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i class="fas fa-link text-blue-600"></i>
+                        <span class="font-medium text-blue-800">Link gerado com sucesso!</span>
+              </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="text" value="${shareLink}" class="form-input flex-1" readonly>
+                        <button onclick="copyToClipboard('${shareLink}')" class="btn-secondary">
+                            <i class="fas fa-copy"></i>
+              </button>
+              </div>
+            </div>
+            `;
+        }
+
+        function sendInvitation() {
+            const email = document.getElementById('collaboratorEmail').value;
+            const message = document.getElementById('inviteMessage').value;
+
+            if (!email) {
+                alert('Digite o e-mail do colaborador.');
+                return;
+            }
+
+            // Mock invitation sending
+            document.getElementById('collaborationResults').classList.remove('hidden');
+            document.getElementById('collaborationResultsContent').innerHTML = `
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i class="fas fa-check-circle text-green-600"></i>
+                        <span class="font-medium text-green-800">Convite enviado!</span>
+          </div>
+                    <p class="text-sm text-green-700">Convite enviado para ${email}</p>
+        </div>
+            `;
+
+            // Clear form
+            document.getElementById('collaboratorEmail').value = '';
+            document.getElementById('inviteMessage').value = '';
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Link copiado para a área de transferência!');
+            });
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userProfile');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // ===== SISTEMA DE TEMAS =====
+        function toggleTheme() {
+            const body = document.body;
+            const isDark = body.classList.contains('dark');
+            
+            if (isDark) {
+                body.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-moon text-slate-600"></i>';
+            } else {
+                body.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun text-yellow-500"></i>';
+            }
+        }
+
+        // Aplicar tema salvo
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark');
+                document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun text-yellow-500"></i>';
+            }
+        }
+
+        // ===== SISTEMA DE NOTIFICAÇÕES =====
+        function showNotifications() {
+            document.getElementById('notificationsModal').classList.remove('hidden');
+            loadNotifications();
+        }
+
+        function closeNotifications() {
+            document.getElementById('notificationsModal').classList.add('hidden');
+        }
+
+        function loadNotifications() {
+            const notificationsList = document.getElementById('notifications-list');
+            const notifications = [
+                { type: 'success', message: 'Documento processado com sucesso!', time: '2 min atrás' },
+                { type: 'info', message: 'Nova colaboração recebida de João Silva', time: '15 min atrás' },
+                { type: 'warning', message: 'Lembrete: Organizar documentos pendentes', time: '1 hora atrás' }
+            ];
+
+            notificationsList.innerHTML = notifications.map(notif => `
+                <div class="flex items-start space-x-3 p-3 rounded-lg bg-slate-50 border border-slate-200">
+                    <div class="w-8 h-8 bg-${notif.type === 'success' ? 'green' : notif.type === 'warning' ? 'yellow' : 'blue'}-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-${notif.type === 'success' ? 'check' : notif.type === 'warning' ? 'exclamation' : 'info'}-circle text-${notif.type === 'success' ? 'green' : notif.type === 'warning' ? 'yellow' : 'blue'}-600 text-sm"></i>
+        </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-slate-900">${notif.message}</p>
+                        <p class="text-xs text-slate-500 mt-1">${notif.time}</p>
+      </div>
+    </div>
+            `).join('');
+        }
+
+        // ===== CONFIGURAÇÕES =====
+        function openSettings() {
+            document.getElementById('settingsModal').classList.remove('hidden');
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.add('hidden');
+        }
+
+        // ===== ÁUDIO =====
+        function openAudioModal() {
+            document.getElementById('audioModal').classList.remove('hidden');
+        }
+
+        function closeAudioModal() {
+            document.getElementById('audioModal').classList.add('hidden');
+        }
+
+        function startRecording() {
+            alert('Funcionalidade de gravação será implementada com WebRTC API');
+        }
+
+        // ===== ANÁLISE =====
+        function openAnalysisModal() {
+            document.getElementById('analysisModal').classList.remove('hidden');
+        }
+
+        function closeAnalysisModal() {
+            document.getElementById('analysisModal').classList.add('hidden');
+        }
+
+        function performAnalysis() {
+            alert('Análise inteligente será processada com IA Qwen');
+        }
+
+        // ===== FUNCIONALIDADES ADICIONAIS =====
+        function showStatsModal() {
+            alert('Modal de estatísticas detalhadas será implementado');
+        }
+
+        function showAllDocuments() {
+            alert('Lista de todos os documentos será carregada');
+        }
+
+        function showCategories() {
+            alert('Visualização por categorias será implementada');
+        }
+
+        function showFavorites() {
+            alert('Lista de favoritos será carregada');
+        }
+
+        function showReports() {
+            alert('Relatórios detalhados serão gerados');
+        }
+
+        function showHistory() {
+            alert('Histórico de atividades será exibido');
+        }
+
+        function createNewFolder() {
+            const folderName = prompt('Nome da nova pasta:');
+            if (folderName) {
+                alert(`Pasta "${folderName}" criada com sucesso!`);
+            }
+        }
+
+        function createBackup() {
+            alert('Backup dos documentos será criado');
+        }
+
+        // ===== SISTEMA DE NOTIFICAÇÕES EM TEMPO REAL =====
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500'} text-white`;
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'info'}-circle"></i>
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-2 text-white hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+          </button>
+        </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Simular notificações em tempo real
+        setInterval(() => {
+            if (Math.random() > 0.9) {
+                const messages = [
+                    'Novo documento processado!',
+                    'Colaboração recebida',
+                    'Organização automática concluída',
+                    'Backup realizado com sucesso'
+                ];
+                const types = ['success', 'info', 'warning'];
+                showNotification(messages[Math.floor(Math.random() * messages.length)], types[Math.floor(Math.random() * types.length)]);
+            }
+        }, 30000);
+
+        // Close modals when clicking outside
+        document.getElementById('searchModal').addEventListener('click', (e) => {
+            if (e.target.id === 'searchModal') {
+                closeSearchModal();
+            }
+        });
+
+        document.getElementById('organizationModal').addEventListener('click', (e) => {
+            if (e.target.id === 'organizationModal') {
+                closeOrganizationModal();
+            }
+        });
+
+        document.getElementById('collaborationModal').addEventListener('click', (e) => {
+            if (e.target.id === 'collaborationModal') {
+                closeCollaborationModal();
+            }
+        });
+
+        document.getElementById('notificationsModal').addEventListener('click', (e) => {
+            if (e.target.id === 'notificationsModal') {
+                closeNotifications();
+            }
+        });
+
+        document.getElementById('settingsModal').addEventListener('click', (e) => {
+            if (e.target.id === 'settingsModal') {
+                closeSettings();
+            }
+        });
+
+        document.getElementById('audioModal').addEventListener('click', (e) => {
+            if (e.target.id === 'audioModal') {
+                closeAudioModal();
+            }
+        });
+
+        document.getElementById('analysisModal').addEventListener('click', (e) => {
+            if (e.target.id === 'analysisModal') {
+                closeAnalysisModal();
+            }
+        });
+    </script>
+
+    <!-- Notifications Modal -->
+    <div id="notificationsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl p-6 w-96 max-h-96 overflow-y-auto">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-slate-900">Notificações</h3>
+                <button onclick="closeNotifications()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fas fa-times"></i>
                   </button>
                 </div>
+            <div id="notifications-list" class="space-y-3">
+                <!-- Notificações serão carregadas aqui -->
               </div>
             </div>
           </div>
-          <div class="bg-gray-700/50 rounded-xl p-6">
-            <h3 class="font-semibold mb-4">Preferências</h3>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl p-6 w-96">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-slate-900">Configurações</h3>
+                <button onclick="closeSettings()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
             <div class="space-y-4">
               <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm font-medium">Modo Escuro</p>
-                  <p class="text-xs text-gray-400">Ativar/desativar o tema escuro</p>
-                </div>
+                    <span class="text-sm text-slate-700">Tema Escuro</span>
                 <label class="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" checked class="sr-only peer">
-                  <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <input type="checkbox" id="dark-mode-toggle" class="sr-only peer" onchange="toggleTheme()">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
               </div>
               <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm font-medium">Efeitos Sonoros</p>
-                  <p class="text-xs text-gray-400">Ativar/desativar sounds do jogo</p>
-                </div>
+                    <span class="text-sm text-slate-700">Notificações</span>
                 <label class="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" checked class="sr-only peer">
-                  <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <input type="checkbox" id="notifications-toggle" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
               </div>
               <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm font-medium">Notificações</p>
-                  <p class="text-xs text-gray-400">Receber notificações por email</p>
-                </div>
+                    <span class="text-sm text-slate-700">Auto-organização</span>
                 <label class="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" class="sr-only peer">
-                  <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <input type="checkbox" id="auto-org-toggle" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                 </label>
               </div>
             </div>
           </div>
-          <div class="bg-gray-700/50 rounded-xl p-6">
-            <h3 class="font-semibold mb-4">Segurança</h3>
+    </div>
+
+    <!-- Audio Transcription Modal -->
+    <div id="audioModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl p-6 w-96">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-slate-900">Transcrição de Áudio</h3>
+                <button onclick="closeAudioModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
             <div class="space-y-4">
-              <button class="w-full text-left py-3 px-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition">
-                <p class="font-medium">Alterar senha</p>
-                <p class="text-xs text-gray-400">Atualize sua senha regularmente</p>
-              </button>
-              <button class="w-full text-left py-3 px-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition">
-                <p class="font-medium">Autenticação de dois fatores</p>
-                <p class="text-xs text-gray-400">Adicione uma camada extra de segurança</p>
+                <div class="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center">
+                    <i class="fas fa-microphone text-4xl text-slate-400 mb-4"></i>
+                    <p class="text-slate-600 mb-4">Clique para gravar ou arraste um arquivo de áudio</p>
+                    <button onclick="startRecording()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                        <i class="fas fa-microphone mr-2"></i>
+                        Gravar
               </button>
             </div>
+                <div id="audio-transcription-result" class="hidden">
+                    <h4 class="font-medium text-slate-900 mb-2">Transcrição:</h4>
+                    <div class="bg-slate-50 p-3 rounded-lg text-sm text-slate-700">
+                        <!-- Resultado da transcrição aparecerá aqui -->
           </div>
         </div>
-        <div class="mt-6 flex justify-center">
-          <button onclick="hidePage('settings-page')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
-            Voltar ao Dashboard
+            </div>
+        </div>
+    </div>
+
+    <!-- Analysis Modal -->
+    <div id="analysisModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl p-6 w-96">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-slate-900">Análise Inteligente</h3>
+                <button onclick="closeAnalysisModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fas fa-times"></i>
           </button>
         </div>
+            <div class="space-y-4">
+                <div class="text-center">
+                    <i class="fas fa-brain text-4xl text-purple-500 mb-4"></i>
+                    <p class="text-slate-600 mb-4">Selecione um documento para análise inteligente</p>
+                    <select class="w-full p-2 border border-slate-300 rounded-lg">
+                        <option>Selecione um documento...</option>
+                        <option>Documento 1</option>
+                        <option>Documento 2</option>
+                    </select>
+                </div>
+                <button onclick="performAnalysis()" class="w-full bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600">
+                    <i class="fas fa-brain mr-2"></i>
+                    Analisar Documento
+                </button>
+            </div>
       </div>
     </div>
 
-    <!-- Scripts -->
-    <!-- External Dependencies -->
-    <script src="/socket.io/socket.io.js"></script>
-    
-    <!-- Application Scripts -->
-    <script src="../JS/dashboard/auth.js"></script>
-    <script src="../JS/dashboard/navigation.js"></script>
-    <script src="../JS/dashboard/main.js"></script>
   </body>
 </html>

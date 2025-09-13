@@ -1,2531 +1,415 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlashMind - Início</title>
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="../../public/imgs/brain.ico">
-  <link rel="shortcut icon" type="image/x-icon" href="../../public/imgs/brain.ico">
-  <link rel="apple-touch-icon" href="../../public/imgs/brain.ico">
-
-  <!-- Animation Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-
-  <!-- Tailwind CSS via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Font Awesome para ícones -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Google Fonts - Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Custom Styles -->
-  <style>
-    /* Animações Suaves */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Logo Animation */
-    .icon-glow {
-      position: relative;
-      background: linear-gradient(90deg, #8b55ff, #2196f3);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      animation: iconFloat 4s ease-in-out infinite;
-    }
-
-    .icon-glow::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 180%;
-      height: 180%;
-      background: radial-gradient(circle, rgba(139, 85, 255, 0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: glowFloat 4s ease-in-out infinite;
-      z-index: -2;
-    }
-
-    .icon-glow::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 150%;
-      height: 150%;
-      background: radial-gradient(circle, rgba(33, 150, 243, 0.3) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: glowFloatInner 4s ease-in-out infinite;
-      z-index: -1;
-    }
-
-    @keyframes glowFloat {
-      0%, 100% { 
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.3;
-      }
-      25% { 
-        transform: translate(-52%, -48%) scale(1.4);
-        opacity: 0.1;
-      }
-      50% { 
-        transform: translate(-50%, -52%) scale(1.8);
-        opacity: 0.2;
-      }
-      75% { 
-        transform: translate(-48%, -50%) scale(1.4);
-        opacity: 0.1;
-      }
-    }
-
-    @keyframes glowFloatInner {
-      0%, 100% { 
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.5;
-      }
-      25% { 
-        transform: translate(-51%, -49%) scale(1.2);
-        opacity: 0.2;
-      }
-      50% { 
-        transform: translate(-50%, -51%) scale(1.5);
-        opacity: 0.3;
-      }
-      75% { 
-        transform: translate(-49%, -50%) scale(1.2);
-        opacity: 0.2;
-      }
-    }
-
-    @keyframes iconFloat {
-      0%, 100% { 
-        transform: translateY(0) scale(1);
-        filter: brightness(1) drop-shadow(0 0 0 rgba(139, 85, 255, 0));
-      }
-      25% { 
-        transform: translateY(-4px) scale(1.1);
-        filter: brightness(1.2) drop-shadow(0 0 8px rgba(139, 85, 255, 0.3));
-      }
-      50% { 
-        transform: translateY(-8px) scale(1.2);
-        filter: brightness(1.4) drop-shadow(0 0 12px rgba(139, 85, 255, 0.5));
-      }
-      75% { 
-        transform: translateY(-4px) scale(1.1);
-        filter: brightness(1.2) drop-shadow(0 0 8px rgba(139, 85, 255, 0.3));
-      }
-    }
-
-    /* Estado inicial para garantir visibilidade */
-    @media (prefers-reduced-motion: reduce) {
-      .fade-in {
-        opacity: 1;
-        transform: none;
-        transition: none;
-      }
-    }
-
-    /* Fallback para garantir visibilidade se JS falhar */
-    .no-js .fade-in {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* Partículas Sutis */
-    #particles-js {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.5;
-    }
-
-    /* Gradiente Animado Suave */
-    .animated-gradient {
-      background: linear-gradient(-45deg, #1e293b, #0f172a, #1e40af, #1d4ed8);
-      background-size: 400% 400%;
-      animation: gradient 15s ease infinite;
-    }
-
-    @keyframes gradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* Cards Interativos */
-    .card-hover {
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card-hover:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.2);
-    }
-
-    .card-hover::before {
-      content: '';
-      position: absolute;
-      top: var(--mouse-y, 0);
-      left: var(--mouse-x, 0);
-      transform: translate(-50%, -50%);
-      width: 100px;
-      height: 100px;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-
-    .card-hover:hover::before {
-      opacity: 1;
-    }
-
-    /* Botões Animados */
-    .btn-hover {
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-hover:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
-    }
-
-    .btn-hover::before {
-      content: '';
-      position: absolute;
-      top: var(--mouse-y, 0);
-      left: var(--mouse-x, 0);
-      transform: translate(-50%, -50%);
-      width: 100px;
-      height: 100px;
-      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-
-    .btn-hover:hover::before {
-      opacity: 1;
-    }
-
-    /* Ícones Animados */
-    .icon-pulse {
-      animation: iconPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes iconPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-
-    /* Texto Gradiente */
-    .text-gradient {
-      background: linear-gradient(90deg, #8b55ff, #2196f3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative;
-      animation: textFloat 4s ease-in-out infinite;
-    }
-
-    .text-gradient::before {
-      content: '';
-      position: absolute;
-      top: -20px;
-      left: -20px;
-      right: -20px;
-      bottom: -20px;
-      background: radial-gradient(circle, rgba(139, 85, 255, 0.15) 0%, transparent 70%);
-      border-radius: 15px;
-      animation: textGlowFloat 4s ease-in-out infinite;
-      z-index: -2;
-    }
-
-    .text-gradient::after {
-      content: '';
-      position: absolute;
-      top: -10px;
-      left: -10px;
-      right: -10px;
-      bottom: -10px;
-      background: radial-gradient(circle, rgba(33, 150, 243, 0.2) 0%, transparent 70%);
-      border-radius: 10px;
-      animation: textGlowFloatInner 4s ease-in-out infinite;
-      z-index: -1;
-    }
-
-    @keyframes textFloat {
-      0%, 100% { transform: translateY(0); filter: brightness(1); }
-      50% { transform: translateY(-4px); filter: brightness(1.2); }
-    }
-
-    @keyframes textGlowFloat {
-      0%, 100% { 
-        transform: scale(1);
-        opacity: 0.15;
-      }
-      50% { 
-        transform: scale(1.1);
-        opacity: 0.1;
-      }
-    }
-
-    @keyframes textGlowFloatInner {
-      0%, 100% { 
-        transform: scale(1);
-        opacity: 0.2;
-      }
-      50% { 
-        transform: scale(1.05);
-        opacity: 0.15;
-      }
-    }
-
-    /* Navbar Animation */
-    .nav-scroll {
-      transform: translateY(-100%);
-      transition: transform 0.3s ease;
-    }
-
-    .nav-scroll.visible {
-      transform: translateY(0);
-    }
-
-    /* Mobile Menu */
-    .mobile-menu {
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-
-    .mobile-menu.open {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    /* Scroll Indicator */
-    .scroll-indicator {
-      animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    /* Imagem Hover Effect */
-    .img-hover {
-      transition: all 0.3s ease;
-    }
-
-    .img-hover:hover {
-      transform: scale(1.02);
-      box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Seção Hover Effect */
-    .section-hover {
-      transition: all 0.3s ease;
-    }
-
-    .section-hover:hover {
-      transform: translateY(-5px);
-    }
-
-    /* Animação de Loading */
-    .loading {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .loading::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.1),
-        transparent
-      );
-      animation: loading 1.5s infinite;
-    }
-
-    @keyframes loading {
-      0% { left: -100%; }
-      100% { left: 200%; }
-    }
-
-    /* Animação de Foco */
-    .focus-animation {
-      transition: all 0.3s ease;
-    }
-
-    .focus-animation:focus {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-    }
-
-    /* Animação de Notificação */
-    .notification {
-      animation: notification 0.3s ease-out;
-    }
-
-    @keyframes notification {
-      0% { transform: translateY(-10px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-
-    /* Navbar Styles */
-    .navbar {
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-      height: 5rem;
-    }
-
-    .navbar.scrolled {
-      background: rgba(15, 23, 42, 0.95);
-      border-bottom: 1px solid rgba(59, 130, 246, 0.2);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Navigation Link Styles */
-    .nav-link {
-      position: relative;
-      padding: 0.5rem;
-      color: #94a3b8;
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-    }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-      transition: all 0.3s ease;
-      opacity: 0;
-    }
-
-    .nav-link:hover::after,
-    .nav-link.active::after {
-      width: 20px;
-      opacity: 1;
-    }
-
-    .nav-link:hover {
-      color: white;
-    }
-
-    .nav-link.active {
-      color: white;
-    }
-
-    /* Logo Styles */
-    .icon-glow {
-      position: relative;
-      color: #3b82f6;
-      animation: iconPulse 2s ease-in-out infinite;
-    }
-
-    .icon-glow::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 150%;
-      height: 150%;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: glowPulse 2s ease-in-out infinite;
-    }
-
-    /* Text Gradient */
-    .text-gradient {
-      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* Button Gradient */
-    .nav-button {
-      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-      transition: all 0.3s ease;
-    }
-
-    .nav-button:hover {
-      transform: translateY(-1px);
-    }
-
-    /* Desktop Navigation Container */
-    .desktop-nav {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      height: 100%;
-    }
-
-    /* Navbar Container */
-    .navbar-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 100%;
-      padding: 0 1.5rem;
-    }
-
-    .nav-button {
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .nav-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: all 0.5s ease;
-    }
-
-    .nav-button:hover::before {
-      left: 100%;
-    }
-
-    .nav-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-    }
-
-    /* Mobile Menu Styles */
-    .mobile-menu {
-      background: rgba(15, 23, 42, 0.98);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      transform: translateX(100%);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      opacity: 0;
-      visibility: hidden;
-      z-index: 1001;
-    }
-
-    .mobile-menu.open {
-      transform: translateX(0);
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .mobile-nav-link {
-      transition: all 0.3s ease;
-      border: 1px solid transparent;
-    }
-
-    .mobile-nav-link:hover,
-    .mobile-nav-link.active {
-      background: rgba(59, 130, 246, 0.1);
-      border-color: rgba(59, 130, 246, 0.2);
-      transform: translateX(5px);
-    }
-
-    .hamburger {
-      width: 24px;
-      height: 24px;
-      position: relative;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .hamburger-line {
-      width: 100%;
-      height: 2px;
-      background: white;
-      position: absolute;
-      transition: all 0.3s ease;
-    }
-
-    .hamburger-line:nth-child(1) { top: 6px; }
-    .hamburger-line:nth-child(2) { top: 50%; transform: translateY(-50%); }
-    .hamburger-line:nth-child(3) { bottom: 6px; }
-
-    .hamburger.active .hamburger-line:nth-child(1) {
-      transform: translateY(5px) rotate(45deg);
-    }
-
-    .hamburger.active .hamburger-line:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.active .hamburger-line:nth-child(3) {
-      transform: translateY(-5px) rotate(-45deg);
-    }
-
-    /* ... existing styles ... */
-
-    /* Flashcard Styles */
-    .flashcard {
-      perspective: 2000px;
-      width: 100%;
-      max-width: 680px;
-      height: 680px; /* Aumentado para mostrar todo o conteúdo sem scroll */
-      cursor: pointer;
-      position: relative;
-      margin: 2rem auto;
-      background: rgba(15, 23, 42, 0.7);
-      border-radius: 1.5rem;
-      border: 1px solid rgba(139, 85, 255, 0.2);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .flashcard-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-      transform-style: preserve-3d;
-    }
-
-    /* Adiciona de volta a animação de virar */
-    .flashcard.flipped .flashcard-inner {
-      transform: rotateY(180deg);
-    }
-
-    .flashcard-front,
-    .flashcard-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      display: flex;
-      flex-direction: column;
-      padding: 1.5rem;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(20px);
-    }
-
-    /* Adiciona de volta a rotação do verso */
-    .flashcard-back {
-      transform: rotateY(180deg);
-      background: rgba(15, 23, 42, 0.98);
-    }
-
-    .flashcard-header {
-      padding: 1rem 1.25rem;
-      background: rgba(30, 41, 59, 0.8);
-      border-radius: 1rem;
-      border: 1px solid rgba(139, 85, 255, 0.2);
-      margin-bottom: 1.5rem;
-      flex-shrink: 0;
-    }
-
-    .flashcard-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 1.5rem;
-      background: rgba(30, 41, 59, 0.3);
-      border-radius: 1rem;
-      border: 1px solid rgba(139, 85, 255, 0.1);
-      margin-bottom: 1rem;
-    }
-
-    .flashcard-question {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #f1f5f9;
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
-    }
-
-    .flashcard-image {
-      width: 100%;
-      max-width: 240px; /* Reduzido para caber melhor */
-      height: auto;
-      margin: 1rem auto;
-      border-radius: 0.75rem;
-      border: 1px solid rgba(139, 85, 255, 0.2);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
-    }
-
-    .answer-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-top: 1rem;
-      padding: 0.5rem;
-    }
-
-    .answer-option {
-      padding: 0.875rem 1rem; /* Reduzido um pouco */
-      background: rgba(30, 41, 59, 0.5);
-      border: 1px solid rgba(139, 85, 255, 0.2);
-      border-radius: 0.75rem;
-      color: #e2e8f0;
-      text-align: left;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      min-height: 3rem; /* Reduzido um pouco */
-    }
-
-    /* Estilo para resposta incorreta */
-    .answer-option.incorrect {
-      background: rgba(239, 68, 68, 0.1) !important;
-      border-color: rgba(239, 68, 68, 0.4) !important;
-      color: #ef4444 !important;
-    }
-
-    /* Estilo para resposta correta */
-    .answer-option.correct {
-      background: rgba(34, 197, 94, 0.1) !important;
-      border-color: rgba(34, 197, 94, 0.4) !important;
-      color: #22c55e !important;
-    }
-
-    /* Efeito de shake para respostas erradas */
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-8px); }
-      75% { transform: translateX(8px); }
-    }
-
-    .shake {
-      animation: shake 0.5s ease-in-out;
-    }
-
-    .flashcard-controls {
-      padding: 1rem;
-      border-top: 1px solid rgba(139, 85, 255, 0.1);
-      background: rgba(15, 23, 42, 0.4);
-      border-radius: 0 0 1.5rem 1.5rem;
-      flex-shrink: 0;
-    }
-
-    /* Ajuste para telas menores */
-    @media (max-width: 768px) {
-      .flashcard {
-        height: 720px; /* Um pouco maior em mobile */
-      }
-
-      .answer-grid {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
-      }
-
-      .flashcard-image {
-        max-width: 200px;
-      }
-
-      .answer-option {
-        padding: 0.75rem;
-      }
-    }
-
-    .answer-option:hover {
-      background: rgba(30, 41, 59, 0.7);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .control-btn {
-      width: 2.5rem;
-      height: 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(30, 41, 59, 0.5);
-      border: 1px solid rgba(139, 85, 255, 0.2);
-      border-radius: 9999px;
-      color: #94a3b8;
-      transition: all 0.3s ease;
-      font-size: 1rem;
-    }
-
-    .control-btn:hover {
-      background: rgba(30, 41, 59, 0.7);
-      color: #8b55ff;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    @media (max-width: 768px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .answer-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Estilo para os modais */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      backdrop-filter: blur(4px);
-    }
-
-    .modal-overlay.show {
-      display: block;
-    }
-
-    .modal-content {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(139, 85, 255, 0.2);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      z-index: 1000;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    }
-
-    .modal-content.show {
-      display: block;
-    }
-
-    /* Estilo para o formulário de report */
-    .report-form {
-      margin-top: 1rem;
-    }
-
-    .report-form textarea {
-      width: 100%;
-      background: rgba(30, 41, 59, 0.5);
-      border: 1px solid rgba(139, 85, 255, 0.2);
-      border-radius: 0.5rem;
-      padding: 0.75rem;
-      color: #e2e8f0;
-      margin-bottom: 1rem;
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .report-form textarea:focus {
-      outline: none;
-      border-color: rgba(139, 85, 255, 0.4);
-    }
-  </style>
-  
-  <link rel="stylesheet" href="../CSS/index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashMind - IA para Pesquisa Acadêmica</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../imgs/brain.ico">
+    
+    <!-- External CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 
-<body class="bg-gradient-primary text-white font-sans min-h-screen animated-gradient no-js">
-  <!-- Particles Container -->
-  <div id="particles-js"></div>
-
-  <!-- Navbar -->
-  <nav id="navbar" class="navbar fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 h-20">
-      <div class="flex items-center justify-between h-full">
-        <!-- Logo -->
-        <a href="#" class="flex items-center space-x-4">
-          <div class="relative w-14 h-14 flex items-center justify-center icon-glow">
-            <i class="fa-solid fa-brain text-3xl"></i>
-          </div>
-          <span class="text-3xl font-bold text-gradient">FlashMind</span>
-        </a>
-
-        <!-- Desktop Navigation -->
-        <div class="hidden lg:flex items-center space-x-8">
-          <a href="#hero" class="nav-link active">Início</a>
-          <a href="#about" class="nav-link">O que é</a>
-          <a href="#gamification" class="nav-link">Gamificação</a>
-          <a href="#ai" class="nav-link">IA</a>
-          <a href="#benefits" class="nav-link">Benefícios</a>
-          <div class="h-6 w-px bg-primary-700/30"></div>
-          <a href="../Pasta HTML/login.html" 
-             class="nav-button px-6 py-2 rounded-lg text-white font-medium 
-                    hover:shadow-lg hover:shadow-primary-500/20 
-                    transition-all duration-300 flex items-center space-x-2">
-            <span>Entrar</span>
-            <i class="fas fa-arrow-right text-sm opacity-70"></i>
-          </a>
+<body class="bg-slate-50 text-slate-900 font-sans">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-white/80 backdrop-blur-sm border-b border-slate-200">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                <i class="fa-solid fa-brain text-white text-xl"></i>
+            </div>
+            <span class="text-2xl font-bold text-slate-900">FlashMind</span>
         </div>
-
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-button" class="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-primary-800/50 transition-colors">
-          <div class="hamburger">
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-            <span class="hamburger-line"></span>
-          </div>
-        </button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="mobile-menu lg:hidden fixed top-0 right-0 bottom-0 w-[280px] z-50 p-6">
-    <div class="flex flex-col h-full">
-      <div class="flex items-center justify-between mb-8">
+        
+        <nav class="hidden md:flex items-center space-x-8">
+            <a href="#features" class="text-slate-600 hover:text-slate-900 transition-colors">Recursos</a>
+            <a href="#how-it-works" class="text-slate-600 hover:text-slate-900 transition-colors">Como Funciona</a>
+            <a href="#benefits" class="text-slate-600 hover:text-slate-900 transition-colors">Benefícios</a>
+            <a href="sobre.html" class="text-slate-600 hover:text-slate-900 transition-colors">Sobre</a>
+        </nav>
+        
         <div class="flex items-center space-x-4">
-          <div class="w-14 h-14 flex items-center justify-center icon-glow">
-            <i class="fa-solid fa-brain text-3xl"></i>
-          </div>
-          <span class="text-3xl font-bold text-gradient">FlashMind</span>
-        </div>
-      </div>
-
-      <div class="flex-1">
-        <div class="flex flex-col space-y-2">
-          <a href="#hero" class="mobile-nav-link active px-4 py-3 rounded-lg text-white hover:text-white flex items-center">
-            <i class="fas fa-home w-6"></i>
-            <span>Início</span>
-          </a>
-          <a href="#about" class="mobile-nav-link px-4 py-3 rounded-lg text-gray-300 hover:text-white flex items-center">
-            <i class="fas fa-info-circle w-6"></i>
-            <span>O que é</span>
-          </a>
-          <a href="#gamification" class="mobile-nav-link px-4 py-3 rounded-lg text-gray-300 hover:text-white flex items-center">
-            <i class="fas fa-gamepad w-6"></i>
-            <span>Gamificação</span>
-          </a>
-          <a href="#ai" class="mobile-nav-link px-4 py-3 rounded-lg text-gray-300 hover:text-white flex items-center">
-            <i class="fas fa-robot w-6"></i>
-            <span>IA</span>
-          </a>
-          <a href="#benefits" class="mobile-nav-link px-4 py-3 rounded-lg text-gray-300 hover:text-white flex items-center">
-            <i class="fas fa-star w-6"></i>
-            <span>Benefícios</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="pt-4 mt-4 border-t border-primary-700/30">
-        <a href="../Pasta HTML/login.html" class="nav-button w-full py-3 px-4 rounded-lg text-white font-medium flex items-center justify-center space-x-2 hover:shadow-lg transition-all duration-300">
-          <span>Entrar na Plataforma</span>
-          <i class="fas fa-arrow-right text-sm opacity-70"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Overlay for mobile menu -->
-  <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden lg:hidden"></div>
-
-  <!-- Hero Section -->
-  <section id="hero" class="relative min-h-screen flex items-center pt-28 pb-20 overflow-hidden">
-    <div class="container mx-auto px-6 md:px-12 relative z-10">
-      <div class="flex flex-col lg:flex-row items-center gap-16">
-        <div class="lg:w-1/2 fade-in">
-          <span class="inline-block px-4 py-2 text-sm bg-secondary-500/10 text-secondary-300 rounded-full mb-8 border border-secondary-500/20">
-            PROJETO DE TCC
-          </span>
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8">
-            <span id="typed-text"></span>
-            <span class="text-gradient">FlashMind</span>
-          </h1>
-          <p class="text-xl text-gray-300 mb-10 leading-relaxed">
-            Uma plataforma inovadora que combina flashcards, gamificação e inteligência artificial para transformar a maneira como você aprende.
-          </p>
-          
-          <div class="flex flex-col sm:flex-row gap-6 mb-12">
-            <a href="#about" class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-4 rounded-lg font-medium transition-all duration-300 btn-hover">
-              Conheça o Projeto
+            <a href="login.html" class="text-slate-600 hover:text-slate-900 transition-colors">Entrar</a>
+            <a href="login.html" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                Começar
             </a>
-          </div>
-          
-          <div class="flex items-center space-x-4 text-gray-400 text-sm">
-            <div class="flex items-center">
-              <i class="fas fa-graduation-cap mr-2 icon-pulse"></i>
-              <span>Projeto Acadêmico</span>
-            </div>
-            <div class="h-4 border-l border-primary-700"></div>
-            <div class="flex items-center">
-              <i class="fas fa-code mr-2 icon-pulse"></i>
-              <span>Tecnologia Inovadora</span>
-            </div>
-          </div>
         </div>
-        
-        <!-- Hero Section Image -->
-        <div class="lg:w-1/2 relative fade-in">
-          <div class="relative">
-            <div class="absolute -inset-4 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-xl blur-xl"></div>
-            <img 
-              src="../imgs/ImgLandingPage1.png" 
-              alt="FlashMind Interface" 
-              class="relative z-10 rounded-xl shadow-2xl border border-primary-700/50 w-full"
-              loading="lazy"
-            >
-          </div>
-        </div>
-      </div>
-      
-      <!-- Scroll indicator -->
-      <div class="scroll-indicator absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
-        <span class="text-sm text-gray-400 mb-2 bg-primary-950/80 px-4 py-1 rounded-full backdrop-blur-sm">Rolar para baixo</span>
-        <i class="fas fa-chevron-down text-gray-400"></i>
-      </div>
-    </div>
-  </section>
+    </header>
 
-  <!-- About Section -->
-  <section id="about" class="py-24 md:py-32 relative">
-    <div class="container mx-auto px-6 md:px-12">
-      <div class="max-w-3xl mx-auto text-center mb-20 fade-in">
-        <span class="inline-block px-3 py-1 text-sm bg-secondary-500/10 text-secondary-300 rounded-full mb-4 border border-secondary-500/20">
-          O QUE É FLASHMIND
-        </span>
-        <h2 class="text-3xl md:text-4xl font-bold mb-6">
-          Entendendo o <span class="text-gradient">FlashMind</span>
-        </h2>
-        <p class="text-lg text-gray-300 leading-relaxed">
-          FlashMind é uma plataforma educacional inovadora que combina técnicas comprovadas de aprendizado com tecnologias modernas para criar uma experiência de estudo mais eficiente e envolvente.
-        </p>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-        <!-- Card 1 -->
-        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover fade-in">
-          <div class="w-14 h-14 bg-secondary-500/10 rounded-xl flex items-center justify-center text-secondary-400 mb-6">
-            <i class="fas fa-lightbulb text-2xl icon-pulse"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3">Problema</h3>
-          <p class="text-gray-300">
-            Estudantes enfrentam dificuldades para manter a motivação e reter informações a longo prazo usando métodos tradicionais de estudo.
-          </p>
-        </div>
-        
-        <!-- Card 2 -->
-        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover fade-in">
-          <div class="w-14 h-14 bg-primary-500/10 rounded-xl flex items-center justify-center text-primary-400 mb-6">
-            <i class="fas fa-rocket text-2xl icon-float"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3">Solução</h3>
-          <p class="text-gray-300">
-            Uma plataforma que utiliza flashcards inteligentes, elementos de gamificação e IA para criar uma experiência de aprendizado personalizada e envolvente.
-          </p>
-        </div>
-        
-        <!-- Card 3 -->
-        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover fade-in">
-          <div class="w-14 h-14 bg-green-500/10 rounded-xl flex items-center justify-center text-green-400 mb-6">
-            <i class="fas fa-bullseye text-2xl icon-rotate"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3">Objetivo</h3>
-          <p class="text-gray-300">
-            Aumentar a retenção de conhecimento e engajamento dos estudantes, tornando o processo de aprendizado mais eficiente e prazeroso.
-          </p>
-        </div>
-      </div>
-      
-      <div class="flex flex-col lg:flex-row items-center gap-12">
-        <div class="lg:w-1/2 fade-in">
-          <img 
-            src="../imgs/ImgLandingPage3.png" 
-            alt="Estudante usando FlashMind" 
-            class="rounded-xl shadow-lg border border-primary-700/50 w-full img-hover"
-            loading="lazy"
-          >
-        </div>
-        
-        <div class="lg:w-1/2 space-y-6 fade-in">
-          <h3 class="text-2xl font-bold">Por que <span class="text-gradient">FlashMind</span>?</h3>
-          
-          <div class="space-y-4">
-            <div class="flex items-start card-hover bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
-              <div class="flex-shrink-0 w-10 h-10 bg-secondary-500/10 rounded-full flex items-center justify-center mr-4">
-                <i class="fas fa-brain text-secondary-400 icon-bounce"></i>
-              </div>
-              <div>
-                <h4 class="font-semibold mb-1">Aprendizado Eficiente</h4>
-                <p class="text-gray-300">Usa métodos como repetição espaçada e testes ativos para facilitar a memorização.</p>
-              </div>
-            </div>
-            
-            <div class="flex items-start card-hover bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
-              <div class="flex-shrink-0 w-10 h-10 bg-primary-500/10 rounded-full flex items-center justify-center mr-4">
-                <i class="fas fa-gamepad text-primary-400 icon-shake"></i>
-              </div>
-              <div>
-                <h4 class="font-semibold mb-1">Gamificação Envolvente</h4>
-                <p class="text-gray-300">Transforma o estudo em uma experiência divertida com pontos, níveis, conquistas e competições que mantêm a motivação.</p>
-              </div>
-            </div>
-            
-            <div class="flex items-start card-hover bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
-              <div class="flex-shrink-0 w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center mr-4">
-                <i class="fas fa-robot text-green-400 icon-wave"></i>
-              </div>
-              <div>
-                <h4 class="font-semibold mb-1">IA Adaptativa</h4>
-                <p class="text-gray-300">Algoritmos inteligentes que se adaptam ao seu ritmo de aprendizado, focando nas áreas que você mais precisa revisar.</p>
-              </div>
-            </div>
-          </div>
-          
-          <a href="#gamification" class="inline-block mt-4 text-secondary-400 hover:text-secondary-300 transition-colors btn-hover">
-            Saiba mais sobre gamificação <i class="fas fa-arrow-right ml-1"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Gamification Section -->
-  <section id="gamification" class="py-24 md:py-32 bg-primary-950/50 relative">
-    <div class="container mx-auto px-6 md:px-12 relative z-10">
-      <div class="max-w-3xl mx-auto text-center mb-20 fade-in">
-        <span class="inline-block px-3 py-1 text-sm bg-primary-500/10 text-primary-300 rounded-full mb-4 border border-primary-500/20">
-          GAMIFICAÇÃO
-        </span>
-        <h2 class="text-3xl md:text-4xl font-bold mb-6">
-          Como a <span class="text-gradient">Gamificação</span> transforma o aprendizado
-        </h2>
-        <p class="text-lg text-gray-300 leading-relaxed">
-          A gamificação aplica elementos de jogos em contextos não-lúdicos para aumentar o engajamento e a motivação. No FlashMind, isso se traduz em uma experiência de estudo mais divertida e eficaz.
-        </p>
-      </div>
-      
-      <div class="flex flex-col lg:flex-row items-center gap-12 mb-16">
-        <div class="lg:w-1/2 order-2 lg:order-1 fade-in">
-          <h3 class="text-2xl font-bold mb-6">Elementos de Gamificação no FlashMind</h3>
-          
-          <div class="space-y-6">
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30 card-hover">
-              <div class="flex items-start">
-                <div class="flex-shrink-0 w-12 h-12 bg-secondary-500/10 rounded-xl flex items-center justify-center mr-4">
-                  <i class="fas fa-star text-secondary-400 text-xl icon-pulse"></i>
-                </div>
-                <div>
-                  <h4 class="text-lg font-semibold mb-2">Sistema de Pontos e Recompensas</h4>
-                  <p class="text-gray-300">
-                    Ganhe pontos ao responder corretamente e completar desafios. Acumule pontos para desbloquear novos níveis, conquistas e recursos exclusivos.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30 card-hover">
-              <div class="flex items-start">
-                <div class="flex-shrink-0 w-12 h-12 bg-primary-500/10 rounded-xl flex items-center justify-center mr-4">
-                  <i class="fas fa-trophy text-primary-400 text-xl icon-pulse"></i>
-                </div>
-                <div>
-                  <h4 class="text-lg font-semibold mb-2">Conquistas e Medalhas</h4>
-                  <p class="text-gray-300">
-                    Desbloqueie conquistas ao atingir marcos específicos, como estudar por vários dias consecutivos ou dominar um conjunto de flashcards.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30 card-hover">
-              <div class="flex items-start">
-                <div class="flex-shrink-0 w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mr-4">
-                  <i class="fas fa-chart-line text-green-400 text-xl icon-pulse"></i>
-                </div>
-                <div>
-                  <h4 class="text-lg font-semibold mb-2">Progressão e Níveis</h4>
-                  <p class="text-gray-300">
-                    Acompanhe seu progresso com barras de experiência e suba de nível à medida que avança em seu aprendizado, desbloqueando novos desafios.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30 card-hover">
-              <div class="flex items-start">
-                <div class="flex-shrink-0 w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mr-4">
-                  <i class="fas fa-users text-amber-400 text-xl icon-pulse"></i>
-                </div>
-                <div>
-                  <h4 class="text-lg font-semibold mb-2">Competição e Colaboração</h4>
-                  <p class="text-gray-300">
-                    Participe de desafios contra outros estudantes ou forme grupos de estudo para resolver problemas colaborativamente.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="lg:w-1/2 order-1 lg:order-2 mb-8 lg:mb-0 fade-in">
-          <div class="relative">
-            <div class="absolute -inset-4 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-xl blur-xl"></div>
-            <img 
-              src="../imgs/ImgLandingPage4.png" 
-              alt="Gamificação transformando o aprendizado" 
-              class="relative z-10 rounded-xl shadow-2xl border border-primary-700/50 w-full"
-            >
-          </div>
-        </div>
-      </div>
-      
-      <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 animate-fade-in animate-delay-300">
-        <h3 class="text-2xl font-bold mb-6 text-center">Benefícios da Gamificação na Educação</h3>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="text-center">
-            <div class="w-16 h-16 bg-secondary-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-heart text-secondary-400 text-2xl"></i>
-            </div>
-            <h4 class="font-semibold mb-2">Aumenta a Motivação</h4>
-            <p class="text-gray-300 text-sm">
-              Recompensas imediatas e feedback constante mantêm os estudantes motivados a continuar aprendendo.
-            </p>
-          </div>
-          
-          <div class="text-center">
-            <div class="w-16 h-16 bg-primary-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-brain text-primary-400 text-2xl"></i>
-            </div>
-            <h4 class="font-semibold mb-2">Melhora a Retenção</h4>
-            <p class="text-gray-300 text-sm">
-              O engajamento emocional proporcionado pelos elementos de jogo aumenta a memorização e retenção de conteúdo.
-            </p>
-          </div>
-          
-          <div class="text-center">
-            <div class="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-clock text-green-400 text-2xl"></i>
-            </div>
-            <h4 class="font-semibold mb-2">Cria Hábitos</h4>
-            <p class="text-gray-300 text-sm">
-              Sistemas de sequências e recompensas diárias incentivam a criação de hábitos de estudo consistentes.
-            </p>
-          </div>
-          
-          <div class="text-center">
-            <div class="w-16 h-16 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-smile text-amber-400 text-2xl"></i>
-            </div>
-            <h4 class="font-semibold mb-2">Reduz a Ansiedade</h4>
-            <p class="text-gray-300 text-sm">
-              Transformar o estudo em uma atividade divertida reduz o estresse e a ansiedade associados ao aprendizado.
-            </p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="mt-16 text-center animate-fade-in animate-delay-400">
-        <a href="#ai" class="inline-flex items-center justify-center bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
-          Descubra o papel da IA <i class="fas fa-arrow-right ml-2"></i>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- AI Section -->
-  <section id="ai" class="py-24 md:py-32 relative">
-    <div class="container mx-auto px-6 md:px-12">
-      <div class="max-w-3xl mx-auto text-center mb-20">
-        <span class="inline-block px-4 py-2 text-sm bg-green-500/10 text-green-400 rounded-full mb-4 border border-green-500/20">
-          INTELIGÊNCIA ARTIFICIAL
-        </span>
-        <h2 class="text-3xl md:text-4xl font-bold mb-8">
-          Por que usar <span class="text-gradient">Inteligência Artificial</span>?
-        </h2>
-        <p class="text-lg text-gray-300 leading-relaxed max-w-2xl mx-auto">
-          A inteligência artificial no FlashMind personaliza a experiência de aprendizado, adaptando-se às necessidades individuais de cada estudante para maximizar a eficiência do estudo.
-        </p>
-      </div>
-      
-      <div class="flex flex-col lg:flex-row items-start gap-16 mb-24">
-        <div class="lg:w-1/2 animate-fade-in">
-          <div class="relative mb-12">
-            <div class="absolute -inset-4 bg-gradient-to-r from-secondary-500/20 to-primary-500/20 rounded-xl blur-xl"></div>
-            <img 
-              src="../imgs/ImgLandingPage2.png" 
-              alt="IA no FlashMind" 
-              class="relative z-10 rounded-xl shadow-2xl border border-primary-700/50 w-full">
-          </div>
-
-          <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30">
-            <h4 class="text-xl font-semibold mb-6">Tecnologias de IA Utilizadas</h4>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div class="flex items-center space-x-3 bg-primary-800/30 p-4 rounded-lg">
-                <div class="w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center">
-                  <i class="fas fa-brain text-green-400"></i>
-                </div>
-                <span class="text-gray-300">Machine Learning</span>
-              </div>
-              <div class="flex items-center space-x-3 bg-primary-800/30 p-4 rounded-lg">
-                <div class="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center">
-                  <i class="fas fa-language text-blue-400"></i>
-                </div>
-                <span class="text-gray-300">Processamento de Linguagem Natural</span>
-              </div>
-              <div class="flex items-center space-x-3 bg-primary-800/30 p-4 rounded-lg">
-                <div class="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center">
-                  <i class="fas fa-robot text-purple-400"></i>
-                </div>
-                <span class="text-gray-300">GPT</span>
-              </div>
-              <div class="flex items-center space-x-3 bg-primary-800/30 p-4 rounded-lg">
-                <div class="w-10 h-10 bg-amber-500/10 rounded-full flex items-center justify-center">
-                  <i class="fas fa-chart-line text-amber-400"></i>
-                </div>
-                <span class="text-gray-300">Análise Preditiva</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="lg:w-1/2 animate-fade-in animate-delay-200">
-          <h3 class="text-2xl font-bold mb-8">Como a IA Potencializa o Aprendizado</h3>
-          
-          <div class="space-y-8">
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 hover:bg-primary-800/30 transition-colors">
-              <div class="flex items-start">
-                <div class="flex-shrink-0 w-12 h-12 bg-secondary-500/10 rounded-xl flex items-center justify-center mr-6">
-                  <i class="fas fa-user-cog text-secondary-400 text-xl"></i>
-                </div>
-                <div>
-                  <h4 class="text-lg font-semibold mb-3">Personalização Avançada</h4>
-                  <p class="text-gray-300 leading-relaxed">
-                    Algoritmos de aprendizado de máquina analisam seu desempenho e padrões de estudo para criar um plano de aprendizado personalizado que se adapta continuamente.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 hover:bg-primary-800/30 transition-colors">
-              <div class="flex items-start">
-                <div class="flex-shrink-0 w-12 h-12 bg-primary-500/10 rounded-xl flex items-center justify-center mr-6">
-                  <i class="fas fa-brain text-primary-400 text-xl"></i>
-                </div>
-                <div>
-                  <h4 class="text-lg font-semibold mb-3">Algoritmo de Repetição Espaçada</h4>
-                  <p class="text-gray-300 leading-relaxed">
-                    A IA calcula o momento ideal para revisar cada conceito, baseando-se em modelos cognitivos de como a memória funciona, maximizando a retenção a longo prazo.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 hover:bg-primary-800/30 transition-colors">
-              <div class="flex items-start">
-                <div class="flex-shrink-0 w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mr-6">
-                  <i class="fas fa-file-alt text-green-400 text-xl"></i>
-                </div>
-                <div>
-                  <h4 class="text-lg font-semibold mb-3">Geração de Conteúdo</h4>
-                  <p class="text-gray-300 leading-relaxed">
-                    Modelos de linguagem natural podem gerar flashcards automaticamente a partir de textos, resumos ou anotações, poupando tempo na criação de material de estudo.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 hover:bg-primary-800/30 transition-colors">
-              <div class="flex items-start">
-                <div class="flex-shrink-0 w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mr-6">
-                  <i class="fas fa-chart-pie text-amber-400 text-xl"></i>
-                </div>
-                <div>
-                  <h4 class="text-lg font-semibold mb-3">Análise Preditiva</h4>
-                  <p class="text-gray-300 leading-relaxed">
-                    Algoritmos preditivos identificam padrões em seu aprendizado, prevendo áreas de dificuldade e sugerindo estratégias de estudo específicas para superá-las.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Benefits Section -->
-  <section id="benefits" class="py-24 md:py-32 bg-primary-950/50 relative">
-    <div class="container mx-auto px-6 md:px-12 relative z-10">
-      <div class="max-w-3xl mx-auto text-center mb-20">
-        <span class="inline-block px-3 py-1 text-sm bg-amber-500/10 text-amber-400 rounded-full mb-4 border border-amber-500/20">
-          BENEFÍCIOS
-        </span>
-        <h2 class="text-3xl md:text-4xl font-bold mb-6">
-          Vantagens da plataforma <span class="text-gradient">FlashMind</span>
-        </h2>
-        <p class="text-lg text-gray-300 leading-relaxed">
-          Descubra como o FlashMind pode transformar sua experiência de aprendizado e melhorar seus resultados acadêmicos.
-        </p>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-        <!-- Benefit 1 -->
-        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in">
-          <div class="w-14 h-14 bg-secondary-500/10 rounded-xl flex items-center justify-center text-secondary-400 mb-6">
-            <i class="fas fa-brain text-2xl icon-pulse"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3">Retenção Aprimorada</h3>
-          <p class="text-gray-300">
-            A combinação de repetição espaçada e recuperação ativa aumenta significativamente a retenção de informações a longo prazo.
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-300">
-            <li class="flex items-start">
-              <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
-              <span>Aumento de até 80% na retenção comparado a métodos tradicionais</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
-              <span>Redução do esquecimento através de revisões estratégicas</span>
-            </li>
-          </ul>
-        </div>
-        
-        <!-- Benefit 2 -->
-        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in animate-delay-100">
-          <div class="w-14 h-14 bg-primary-500/10 rounded-xl flex items-center justify-center text-primary-400 mb-6">
-            <i class="fas fa-clock text-2xl icon-pulse"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3">Eficiência no Estudo</h3>
-          <p class="text-gray-300">
-            Estude de forma mais inteligente, não mais demorada, focando nas áreas que realmente precisam de atenção.
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-300">
-            <li class="flex items-start">
-              <i class="fas fa-check text-primary-400 mt-1 mr-2"></i>
-              <span>Redução de até 50% no tempo necessário para dominar um assunto</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check text-primary-400 mt-1 mr-2"></i>
-              <span>Otimização do tempo de estudo com foco em pontos fracos</span>
-            </li>
-          </ul>
-        </div>
-        
-        <!-- Benefit 3 -->
-        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in animate-delay-200">
-          <div class="w-14 h-14 bg-green-500/10 rounded-xl flex items-center justify-center text-green-400 mb-6">
-            <i class="fas fa-chart-line text-2xl icon-pulse"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3">Monitoramento de Progresso</h3>
-          <p class="text-gray-300">
-            Acompanhe seu desenvolvimento com métricas detalhadas e visualizações claras do seu progresso ao longo do tempo.
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-300">
-            <li class="flex items-start">
-              <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
-              <span>Dashboards personalizados com estatísticas de desempenho</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
-              <span>Identificação de padrões e tendências no seu aprendizado</span>
-            </li>
-          </ul>
-        </div>
-        
-        <!-- Benefit 4 -->
-        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in animate-delay-300">
-          <div class="w-14 h-14 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-400 mb-6">
-            <i class="fas fa-smile text-2xl icon-pulse"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3">Motivação Constante</h3>
-          <p class="text-gray-300">
-            Mantenha-se motivado com elementos de gamificação que tornam o estudo uma atividade prazerosa e recompensadora.
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-300">
-            <li class="flex items-start">
-              <i class="fas fa-check text-amber-400 mt-1 mr-2"></i>
-              <span>Aumento significativo na consistência dos estudos</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check text-amber-400 mt-1 mr-2"></i>
-              <span>Redução da procrastinação através de recompensas imediatas</span>
-            </li>
-          </ul>
-        </div>
-        
-        <!-- Benefit 5 -->
-        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in animate-delay-400">
-          <div class="w-14 h-14 bg-rose-500/10 rounded-xl flex items-center justify-center text-rose-400 mb-6">
-            <i class="fas fa-user-graduate text-2xl icon-pulse"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3">Aprendizado Personalizado</h3>
-          <p class="text-gray-300">
-            Experimente um plano de estudos adaptado ao seu estilo de aprendizado, ritmo e objetivos específicos.
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-300">
-            <li class="flex items-start">
-              <i class="fas fa-check text-rose-400 mt-1 mr-2"></i>
-              <span>Adaptação contínua baseada no seu desempenho</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check text-rose-400 mt-1 mr-2"></i>
-              <span>Conteúdo personalizado para diferentes estilos de aprendizado</span>
-            </li>
-          </ul>
-        </div>
-        
-        <!-- Benefit 6 -->
-        <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 card-hover animate-fade-in animate-delay-500">
-          <div class="w-14 h-14 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-400 mb-6">
-            <i class="fas fa-mobile-alt text-2xl icon-pulse"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-3">Acessibilidade</h3>
-          <p class="text-gray-300">
-            Estude em qualquer lugar e a qualquer momento com uma plataforma totalmente responsiva e disponível em múltiplos dispositivos.
-          </p>
-          <ul class="mt-4 space-y-2 text-gray-300">
-            <li class="flex items-start">
-              <i class="fas fa-check text-indigo-400 mt-1 mr-2"></i>
-              <span>Sincronização automática entre dispositivos</span>
-            </li>
-            <li class="flex items-start">
-              <i class="fas fa-check text-indigo-400 mt-1 mr-2"></i>
-              <span>Modo offline para estudar sem conexão com internet</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-8 border border-primary-700/30 animate-fade-in animate-delay-600">
-        <div class="flex flex-col md:flex-row items-center">
-          <div class="md:w-1/2 md:pr-8">
-            <h3 class="text-2xl font-bold mb-4">Impacto Acadêmico</h3>
-            <p class="text-gray-300 mb-6">
-              O FlashMind foi desenvolvido com base em pesquisas científicas sobre aprendizado e memória, resultando em melhorias significativas no desempenho acadêmico.
-            </p>
-            
-            <div class="space-y-4">
-              <div class="bg-primary-800/30 rounded-lg p-4">
-                <h4 class="font-semibold mb-2 flex items-center">
-                  <i class="fas fa-graduation-cap text-secondary-400 mr-2"></i>
-                  Melhoria no Desempenho
-                </h4>
-                <p class="text-gray-300 text-sm">
-                  Estudantes que utilizam o FlashMind regularmente relatam melhoria nas notas e melhor compreensão dos conceitos estudados.
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h1 class="text-5xl md:text-6xl font-bold text-slate-900 mb-6 animate-fade-in">
+                    IA para <span class="gradient-text">Pesquisa Acadêmica</span>
+                </h1>
+                <p class="text-xl text-slate-600 mb-8 max-w-3xl mx-auto animate-fade-in">
+                    Transforme anotações manuscritas, artigos e documentos em conhecimento organizado e acessível com inteligência artificial.
                 </p>
-              </div>
-              
-              <div class="bg-primary-800/30 rounded-lg p-4">
-                <h4 class="font-semibold mb-2 flex items-center">
-                  <i class="fas fa-book text-primary-400 mr-2"></i>
-                  Preparação para Provas acadêmicas
-                </h4>
-                <p class="text-gray-300 text-sm">
-                  A plataforma é especialmente eficaz na preparação para provas, ajudando os estudantes a revisar grandes volumes de conteúdo de forma eficiente.
+                <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
+                    <a href="login.html" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-4 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                        Começar Gratuitamente
+                    </a>
+                    <a href="#how-it-works" class="border border-slate-300 text-slate-700 px-8 py-4 rounded-lg font-medium hover:bg-slate-50 transition-all duration-300">
+                        Ver Demonstração
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Hero Image -->
+            <div class="relative max-w-4xl mx-auto animate-fade-in">
+                <div class="bg-white rounded-2xl shadow-2xl p-8 border border-slate-200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-4">Digitalize e Organize</h3>
+                            <p class="text-slate-600 mb-6">Nossa IA processa seus documentos e os organiza automaticamente por tópicos e conceitos-chave.</p>
+                            <div class="space-y-3">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-check text-green-500"></i>
+                                    <span class="text-slate-700">95% de precisão no OCR</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-check text-green-500"></i>
+                                    <span class="text-slate-700">Organização automática por IA</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-check text-green-500"></i>
+                                    <span class="text-slate-700">Busca semântica inteligente</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 rounded-lg p-6">
+                            <div class="space-y-4">
+                                <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-eye text-blue-600"></i>
+                                        </div>
+                                        <span class="font-medium text-slate-900">OCR Inteligente</span>
+                                    </div>
+                                    <p class="text-sm text-slate-600">Digitalize anotações manuscritas com precisão de 95%</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                    <div class="flex items-center space-x-3 mb-2">
+                                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-sitemap text-green-600"></i>
+                                        </div>
+                                        <span class="font-medium text-slate-900">Organização IA</span>
+                                    </div>
+                                    <p class="text-sm text-slate-600">Classificação automática por tópicos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 px-6 md:px-12 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-slate-900 mb-6">Recursos Inteligentes</h2>
+                <p class="text-xl text-slate-600 max-w-3xl mx-auto">
+                    Ferramentas avançadas de IA desenvolvidas especificamente para pesquisadores acadêmicos
                 </p>
-              </div>
             </div>
-          </div>
-          
-          <div class="md:w-1/2 mt-8 md:mt-0">
-            <div class="bg-primary-800/30 rounded-lg p-6">
-              <h4 class="font-semibold mb-4 text-center">Comparação de Métodos de Estudo</h4>
-              
-              <div class="space-y-4">
-                <div class="flex items-center">
-                  <div class="w-32 text-sm font-medium">Leitura Passiva</div>
-                  <div class="flex-1 ml-4">
-                    <div class="h-4 bg-primary-700/50 rounded-full overflow-hidden">
-                      <div class="h-full bg-gradient-to-r from-secondary-600 to-primary-600 w-[30%]"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-slate-50 rounded-xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-eye text-blue-600 text-2xl"></i>
                     </div>
-                  </div>
-                  <div class="ml-4 text-sm font-medium">30%</div>
-                </div>
-                
-                <div class="flex items-center">
-                  <div class="w-32 text-sm font-medium">Anotações</div>
-                  <div class="flex-1 ml-4">
-                    <div class="h-4 bg-primary-700/50 rounded-full overflow-hidden">
-                      <div class="h-full bg-gradient-to-r from-secondary-600 to-primary-600 w-[45%]"></div>
-                    </div>
-                  </div>
-                  <div class="ml-4 text-sm font-medium">45%</div>
-                </div>
-                
-                <div class="flex items-center">
-                  <div class="w-32 text-sm font-medium">Flashcards Tradicionais</div>
-                  <div class="flex-1 ml-4">
-                    <div class="h-4 bg-primary-700/50 rounded-full overflow-hidden">
-                      <div class="h-full bg-gradient-to-r from-secondary-600 to-primary-600 w-[65%]"></div>
-                    </div>
-                  </div>
-                  <div class="ml-4 text-sm font-medium">65%</div>
-                </div>
-                
-                <div class="flex items-center">
-                  <div class="w-32 text-sm font-medium">FlashMind</div>
-                  <div class="flex-1 ml-4">
-                    <div class="h-4 bg-primary-700/50 rounded-full overflow-hidden">
-                      <div class="h-full bg-gradient-to-r from-secondary-600 to-primary-600 w-[85%]"></div>
-                    </div>
-                  </div>
-                  <div class="ml-4 text-sm font-medium">85%</div>
-                </div>
-              </div>
-              
-              <p class="text-xs text-gray-400 mt-4 text-center">
-                Percentual de retenção de informações após 30 dias
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="mt-16 text-center animate-fade-in animate-delay-700">
-        <a href="#demo" class="inline-flex items-center justify-center bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300">
-          Ver demonstração <i class="fas fa-arrow-right ml-2"></i>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Demo Section -->
-  <section id="demo" class="py-24 md:py-32 relative">
-    <div class="container mx-auto px-6 md:px-12">
-      <div class="max-w-3xl mx-auto text-center mb-20">
-        <span class="inline-block px-3 py-1 text-sm bg-rose-500/10 text-rose-400 rounded-full mb-4 border border-rose-500/20">
-          DEMONSTRAÇÃO
-        </span>
-        <h2 class="text-3xl md:text-4xl font-bold mb-6">
-          Experimente o <span class="text-gradient">FlashMind</span> em ação
-        </h2>
-        <p class="text-lg text-gray-300 leading-relaxed">
-          Veja como funciona a plataforma na prática e experimente alguns dos recursos que tornam o FlashMind uma ferramenta revolucionária de aprendizado.
-        </p>
-      </div>
-      
-      <div class="grid grid-cols-1 gap-8 mb-20 mt-16">
-       
-
-          <!-- Flashcard Demo -->
-          <div class="flashcard" id="demo-flashcard">
-            <div class="flashcard-inner">
-              <!-- Front of Card -->
-              <div class="flashcard-front">
-                <div class="flashcard-header">
-                  <div class="flashcard-title">
-                    <i class="fas fa-flask"></i>
-                    <span>Biologia</span>
-                  </div>
-                  <div class="flashcard-progress">12/30</div>
-                </div>
-
-                <div class="flashcard-content">
-                  <div class="flex-1">
-                    <h3 class="flashcard-question">
-                      Qual é a função da mitocôndria na célula?
-                    </h3>
-
-                    <img src="../imgs/ImgExemploMitocôndria.jpg" alt="Mitocôndria" class="flashcard-image">
-
-                    <div class="answer-grid">
-                      <button class="answer-option">
-                        A. Síntese de proteínas
-                      </button>
-                      <button class="answer-option">
-                        B. Digestão celular
-                      </button>
-                      <button class="answer-option">
-                        C. Produção de energia
-                      </button>
-                      <button class="answer-option">
-                        D. Armazenamento de água
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="flashcard-controls">
-                  <div class="flex justify-center gap-4">
-                    <button class="control-btn" title="Reportar">
-                      <i class="fas fa-flag"></i>
-                    </button>
-                    <button class="control-btn" title="Dica" id="hintBtn">
-                      <i class="fas fa-lightbulb"></i>
-                    </button>
-                    <button class="control-btn" title="Informações">
-                      <i class="fas fa-info-circle"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Back of Card -->
-              <div class="flashcard-back">
-                <div class="flashcard-header">
-                  <div class="flashcard-title">
-                    <i class="fas fa-check-circle text-green-400"></i>
-                    <span>Resposta Correta!</span>
-                  </div>
-                  <div class="flashcard-progress">12/30</div>
-                </div>
-
-                <div class="flashcard-content">
-                  <div class="flex-1">
-                    <div class="bg-slate-800/50 rounded-xl p-6 mb-6">
-                      <h4 class="font-semibold mb-4">Explicação:</h4>
-                      <p class="text-gray-300">
-                        A mitocôndria é conhecida como a "usina de energia" da célula. Ela realiza a respiração celular, 
-                        processo que produz ATP (adenosina trifosfato), a principal fonte de energia para as atividades celulares.
-                      </p>
-                    </div>
-
-                    <div class="bg-slate-800/50 rounded-xl p-6">
-                      <h4 class="font-semibold mb-4">Análise das alternativas:</h4>
-                      <ul class="space-y-3 text-gray-300">
-                        <li class="flex items-start">
-                          <i class="fas fa-times text-red-400 mt-1 mr-2"></i>
-                          <span>A. Síntese de proteínas - Função do Ribossomo</span>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">OCR Inteligente</h3>
+                    <p class="text-slate-600 mb-6">
+                        Digitalize anotações manuscritas, artigos impressos e documentos com precisão de 95% usando Tesseract OCR avançado.
+                    </p>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-green-500"></i>
+                            <span>Reconhecimento em múltiplos idiomas</span>
                         </li>
-                        <li class="flex items-start">
-                          <i class="fas fa-times text-red-400 mt-1 mr-2"></i>
-                          <span>B. Digestão celular - Função do Lisossomo</span>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-green-500"></i>
+                            <span>Preservação da formatação original</span>
                         </li>
-                        <li class="flex items-start">
-                          <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
-                          <span>C. Produção de energia - Função correta da mitocôndria</span>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-green-500"></i>
+                            <span>Processamento em lote</span>
                         </li>
-                        <li class="flex items-start">
-                          <i class="fas fa-times text-red-400 mt-1 mr-2"></i>
-                          <span>D. Armazenamento de água - Função do Vacúolo</span>
-                        </li>
-                      </ul>
+                    </ul>
+                </div>
+                
+                <div class="bg-slate-50 rounded-xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-sitemap text-green-600 text-2xl"></i>
                     </div>
-                  </div>
-                </div>
-
-                <div class="flashcard-controls">
-                  <div class="flex justify-center gap-4">
-                    <button class="control-btn" title="Voltar" id="backBtn">
-                      <i class="fas fa-undo"></i>
-                    </button>
-                    <button class="control-btn" title="Compartilhar">
-                      <i class="fas fa-share"></i>
-                    </button>
-                    <button class="control-btn" title="Salvar">
-                      <i class="fas fa-bookmark"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Stats and Features Section -->
-        <div class="max-w-4xl mx-auto mt-16 space-y-8">
-          <!-- Stats Grid -->
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30 text-center">
-              <div class="text-3xl font-bold text-secondary-400 mb-2">87%</div>
-              <p class="text-sm text-gray-400">Taxa de Acerto</p>
-            </div>
-            
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30 text-center">
-              <div class="text-3xl font-bold text-primary-400 mb-2">243</div>
-              <p class="text-sm text-gray-400">Cards Estudados</p>
-            </div>
-            
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30 text-center">
-              <div class="text-3xl font-bold text-green-400 mb-2">12</div>
-              <p class="text-sm text-gray-400">Dias Consecutivos</p>
-            </div>
-            
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30 text-center">
-              <div class="text-3xl font-bold text-amber-400 mb-2">7</div>
-              <p class="text-sm text-gray-400">Conquistas</p>
-            </div>
-          </div>
-
-          <!-- Features Grid -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
-            <!-- Features Card -->
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
-              <h4 class="font-semibold mb-4">Recursos dos Flashcards</h4>
-              <ul class="space-y-3">
-                <li class="flex items-start">
-                  <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
-                  <span class="text-gray-300">Suporte a imagens, áudio e vídeo para aprendizado multimídia</span>
-                </li>
-                <li class="flex items-start">
-                  <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
-                  <span class="text-gray-300">Diferentes tipos de questões: múltipla escolha, verdadeiro/falso, preenchimento de lacunas</span>
-                </li>
-                <li class="flex items-start">
-                  <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
-                  <span class="text-gray-300">Marcação de dificuldade para ajustar a frequência de revisão</span>
-                </li>
-                <li class="flex items-start">
-                  <i class="fas fa-check text-secondary-400 mt-1 mr-2"></i>
-                  <span class="text-gray-300">Organização por tópicos, tags e coleções personalizadas</span>
-                </li>
-              </ul>
-            </div>
-
-            <!-- Advanced Features Card -->
-            <div class="bg-primary-900/30 backdrop-blur-sm rounded-xl p-6 border border-primary-700/30">
-              <h4 class="font-semibold mb-4">Recursos Avançados</h4>
-              <div class="space-y-4">
-                <div class="flex items-center gap-3 bg-primary-800/50 rounded-lg p-3">
-                  <div class="w-10 h-10 bg-secondary-500/10 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-users text-secondary-400"></i>
-                  </div>
-                  <div>
-                    <h5 class="font-medium">Modo Competitivo</h5>
-                    <p class="text-sm text-gray-400">Desafie amigos e participe de rankings</p>
-                  </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">Organização Automática</h3>
+                    <p class="text-slate-600 mb-6">
+                        IA identifica automaticamente temas, metodologias e conceitos-chave, organizando seu material de pesquisa em categorias lógicas.
+                    </p>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-green-500"></i>
+                            <span>Classificação por tópicos</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-green-500"></i>
+                            <span>Identificação de metodologias</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-green-500"></i>
+                            <span>Agrupamento semântico</span>
+                        </li>
+                    </ul>
                 </div>
                 
-                <div class="flex items-center gap-3 bg-primary-800/50 rounded-lg p-3">
-                  <div class="w-10 h-10 bg-primary-500/10 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-magic text-primary-400"></i>
-                  </div>
-                  <div>
-                    <h5 class="font-medium">Geração por IA</h5>
-                    <p class="text-sm text-gray-400">Crie flashcards automaticamente</p>
-                  </div>
+                <div class="bg-slate-50 rounded-xl p-8 card-hover">
+                    <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-search text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">Busca Semântica</h3>
+                    <p class="text-slate-600 mb-6">
+                        Encontre informações rapidamente usando busca por significado, localizando conceitos relacionados e referências cruzadas.
+                    </p>
+                    <ul class="space-y-2 text-sm text-slate-600">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-green-500"></i>
+                            <span>Busca por conceitos</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-green-500"></i>
+                            <span>Referências cruzadas</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-green-500"></i>
+                            <span>Resultados contextuais</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-16 px-6 md:px-12 bg-slate-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-slate-900 mb-6">Como Funciona</h2>
+                <p class="text-xl text-slate-600 max-w-3xl mx-auto">
+                    Processo simples e eficiente para transformar seus documentos em conhecimento organizado
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-upload text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">1. Upload</h3>
+                    <p class="text-slate-600">
+                        Faça upload de seus documentos, anotações manuscritas ou artigos impressos
+                    </p>
                 </div>
                 
-                <div class="flex items-center gap-3 bg-primary-800/50 rounded-lg p-3">
-                  <div class="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-sync-alt text-green-400"></i>
-                  </div>
-                  <div>
-                    <h5 class="font-medium">Sincronização</h5>
-                    <p class="text-sm text-gray-400">Acesse em qualquer dispositivo</p>
-                  </div>
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-cog text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">2. Processamento</h3>
+                    <p class="text-slate-600">
+                        Nossa IA processa e organiza automaticamente o conteúdo por tópicos e conceitos
+                    </p>
                 </div>
-              </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-search text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4">3. Busca</h3>
+                    <p class="text-slate-600">
+                        Encontre informações rapidamente usando busca semântica inteligente
+                    </p>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </section>
 
-      <div class="text-center mt-12">
-        <a href="../Pasta HTML/login.html" class="inline-flex items-center justify-center bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-4 h-14 text-lg rounded-lg font-medium transition-all duration-300 hover:scale-105">
-          Experimente a versão completa
-          <i class="fas fa-arrow-right ml-2"></i>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="py-24 md:py-32 bg-gradient-to-br from-secondary-900/20 to-primary-900/20 relative">
-    <div class="container mx-auto px-6 md:px-12 relative z-10">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-8">
-          Pronto para revolucionar sua forma de estudar?
-        </h2>
-        <p class="text-xl text-gray-300 mb-10 leading-relaxed">
-          Junte-se a milhares de estudantes que já estão transformando seu aprendizado com o FlashMind.
-        </p>
-        
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-          <a href="../Pasta HTML/login.html" class="bg-gradient-button hover:shadow-lg hover:shadow-secondary-500/10 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 text-center">
-            Começar Agora
-          </a>
-          <a href="../Pasta HTML/contato.html" class="bg-primary-800/50 hover:bg-primary-700/50 border border-primary-700/50 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 inline-block">
-            Entre em Contato
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-primary-950 pt-16 pb-8 border-t border-primary-800/50">
-    <div class="container mx-auto px-6">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-        <div>
-          <div class="flex items-center space-x-3 mb-6">
-            <div class="glow-effect">
-              <i class="fa-solid fa-brain text-3xl text-gradient"></i>
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-16 px-6 md:px-12 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-slate-900 mb-6">Benefícios para Pesquisadores</h2>
+                <p class="text-xl text-slate-600 max-w-3xl mx-auto">
+                    Aumente sua produtividade acadêmica com ferramentas inteligentes de organização
+                </p>
             </div>
-            <span class="text-xl font-bold text-gradient">FlashMind</span>
-          </div>
-          <p class="text-gray-400 mb-6">
-            Transformando o aprendizado em uma experiência memorável através da gamificação e inteligência artificial.
-          </p>
-          <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-secondary-400 transition-colors">
-              <i class="fab fa-github"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-secondary-400 transition-colors">
-              <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-secondary-400 transition-colors">
-              <i class="fab fa-instagram"></i>
-            </a>
-          </div>
-        </div>
-        
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Navegação</h3>
-          <ul class="space-y-2">
-            <li><a href="#hero" class="text-gray-400 hover:text-white transition-colors">Início</a></li>
-            <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">O que é</a></li>
-            <li><a href="#gamification" class="text-gray-400 hover:text-white transition-colors">Gamificação</a></li>
-            <li><a href="#ai" class="text-gray-400 hover:text-white transition-colors">IA</a></li>
-            <li><a href="#benefits" class="text-gray-400 hover:text-white transition-colors">Benefícios</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h3 class="text-lg font-semibold mb-4">Contato</h3>
-          <ul class="space-y-2">
-            <li class="flex items-center">
-              <i class="fas fa-envelope text-secondary-400 mr-2"></i>
-              <a href="mailto:contato@flashmind.com" class="text-gray-400 hover:text-white transition-colors">contato@flashmind.com</a>
-            </li>
-            <li class="flex items-center">
-              <i class="fas fa-map-marker-alt text-secondary-400 mr-2"></i>
-              <span class="text-gray-400">Etec Jacinto Ferreira de Sá, Ourinhos - SP</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="pt-8 border-t border-primary-800/50 flex flex-col md:flex-row justify-between items-center">
-        <p class="text-gray-400 mb-4 md:mb-0">©2025 TCC FlashMind. Todos os direitos reservados.</p>
-        <div class="flex space-x-6">
-          <a href="#" class="text-gray-400 hover:text-white transition-colors">Termos</a>
-          <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacidade</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-
-
-
-   <script>
-    // Tailwind Config
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            primary: {
-              50: '#f0f7ff',
-              100: '#e0eefe',
-              200: '#bae0fd',
-              300: '#7cc8fb',
-              400: '#36aaf5',
-              500: '#0c8de3',
-              600: '#026fc2',
-              700: '#055a9e',
-              800: '#0a4b82',
-              900: '#0e406d',
-              950: '#0a2847',
-            },
-            secondary: {
-              50: '#f5f3ff',
-              100: '#ede8ff',
-              200: '#dcd5ff',
-              300: '#c3b2ff',
-              400: '#a683ff',
-              500: '#8b55ff',
-              600: '#7c33f9',
-              700: '#6b21e8',
-              800: '#581dc0',
-              900: '#491c9c',
-              950: '#2e0e70',
-            },
-          }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    .scroll-indicator {
-      z-index: 20;
-      pointer-events: none;
-    }
-    
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0) translateX(-50%);
-      }
-      50% {
-        transform: translateY(-10px) translateX(-50%);
-      }
-    }
-    
-    .animate-bounce {
-      animation: bounce 2s infinite;
-    }
-  </style>
-
-  <script>
-
-
-    // Remove no-js class
-    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
-
-    // Initialize animations
-    function initializeAnimations() {
-      document.querySelectorAll('.fade-in').forEach(el => {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      });
-
-      setTimeout(() => {
-        document.querySelectorAll('.fade-in').forEach(el => {
-          el.style.opacity = '';
-          el.style.transform = '';
-          fadeObserver.observe(el);
-        });
-      }, 100);
-    }
-
-    // Intersection Observer setup
-    const fadeObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    });
-
-    // Initialize animations on DOM ready
-    document.addEventListener('DOMContentLoaded', initializeAnimations);
-
-    // Fallback for IntersectionObserver
-    if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.fade-in').forEach(el => {
-        el.classList.add('visible');
-      });
-    }
-
-    // Navbar scroll effect
-    let lastScroll = 0;
-    function updateNavbar() {
-      const navbar = document.getElementById('navbar');
-      const currentScroll = window.pageYOffset;
-      const scrolled = currentScroll > 20;
-      
-      navbar.classList.toggle('scrolled', scrolled);
-
-      if (currentScroll <= 0) {
-        navbar.classList.remove('nav-scroll');
-        return;
-      }
-
-      if (currentScroll > lastScroll && !navbar.classList.contains('nav-scroll')) {
-        navbar.classList.add('nav-scroll');
-      } else if (currentScroll < lastScroll && navbar.classList.contains('nav-scroll')) {
-        navbar.classList.remove('nav-scroll');
-      }
-
-      lastScroll = currentScroll;
-    }
-
-    window.addEventListener('scroll', updateNavbar);
-    updateNavbar();
-
-    // Card hover effects
-    document.querySelectorAll('.card-hover').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
-      });
-    });
-
-    // Button hover effects
-    document.querySelectorAll('.btn-hover').forEach(button => {
-      button.addEventListener('mousemove', (e) => {
-        const rect = button.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        button.style.setProperty('--mouse-x', `${x}px`);
-        button.style.setProperty('--mouse-y', `${y}px`);
-      });
-    });
-
-    // Mobile menu setup
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
-    const hamburger = mobileMenuButton.querySelector('.hamburger');
-
-    function toggleMobileMenu() {
-      const isOpen = mobileMenu.classList.contains('open');
-      mobileMenu.classList.toggle('open');
-      hamburger.classList.toggle('active');
-      mobileMenuOverlay.classList.toggle('hidden');
-      document.body.style.overflow = isOpen ? '' : 'hidden';
-    }
-
-    mobileMenuButton.addEventListener('click', toggleMobileMenu);
-    mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
-
-    // Close mobile menu on link click
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', toggleMobileMenu);
-    });
-
-    // Active link highlighting
-    function updateActiveLink() {
-      const scrollPosition = window.scrollY;
-      
-      document.querySelectorAll('section[id]').forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        const sectionBottom = sectionTop + section.offsetHeight;
-        const sectionId = section.getAttribute('id');
-        
-        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-          document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${sectionId}`) {
-              link.classList.add('active');
-            }
-          });
-        }
-      });
-    }
-
-    window.addEventListener('scroll', updateActiveLink);
-    updateActiveLink();
-
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-
-        if (targetElement) {
-          const navbarHeight = document.getElementById('navbar').offsetHeight;
-          const targetPosition = targetElement.offsetTop - navbarHeight;
-
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-
-    // Typed.js setup
-    const typed = new Typed('#typed-text', {
-      strings: ['Revolucione seus estudos com ', 'Transforme seu aprendizado com ', 'Potencialize sua memória com '],
-      typeSpeed: 50,
-      backSpeed: 30,
-      backDelay: 3000,
-      startDelay: 1000,
-      loop: true
-    });
-
-    // Particles.js setup
-    particlesJS('particles-js', {
-      particles: {
-        number: { value: 40, density: { enable: true, value_area: 800 } },
-        color: { value: '#ffffff' },
-        opacity: { value: 0.1, random: true },
-        size: { value: 3, random: true },
-        line_linked: {
-          enable: true,
-          distance: 150,
-          color: '#ffffff',
-          opacity: 0.1,
-          width: 1
-        },
-        move: {
-          enable: true,
-          speed: 1,
-          direction: 'none',
-          random: true,
-          straight: false,
-          out_mode: 'out',
-          bounce: false
-        }
-      },
-      interactivity: {
-        detect_on: 'canvas',
-        events: {
-          onhover: { enable: true, mode: 'grab' },
-          resize: true
-        },
-        modes: {
-          grab: { distance: 140, line_linked: { opacity: 0.3 } }
-        }
-      }
-    });
-  </script>
-
-  <!-- Scripts -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const flashcard = document.getElementById('demo-flashcard');
-      const answerOptions = document.querySelectorAll('.answer-option');
-      const backBtn = document.getElementById('backBtn');
-      const hintBtn = document.getElementById('hintBtn');
-      const hintModal = document.getElementById('hintModal');
-      const hintOverlay = document.getElementById('hintOverlay');
-      let hasAnswered = false;
-
-      // Função para mostrar a dica
-      function showHintModal() {
-        hintModal.classList.add('show');
-        hintOverlay.classList.add('show');
-      }
-
-      // Função para fechar a dica
-      window.closeHintModal = function() {
-        hintModal.classList.remove('show');
-        hintOverlay.classList.remove('show');
-      }
-
-      // Botão de dica
-      hintBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        showHintModal();
-      });
-
-      // Fechar modal ao clicar fora
-      hintOverlay.addEventListener('click', closeHintModal);
-
-      answerOptions.forEach(option => {
-        option.addEventListener('click', function(e) {
-          e.stopPropagation();
-          if (hasAnswered) return;
-          hasAnswered = true;
-
-          // Remove classes anteriores
-          answerOptions.forEach(opt => {
-            opt.classList.remove('correct', 'incorrect', 'shake');
-          });
-
-          const isCorrect = this.textContent.trim() === 'C. Produção de energia';
-
-          if (isCorrect) {
-            this.classList.add('correct');
-            setTimeout(() => {
-              flashcard.classList.add('flipped');
-            }, 500);
-          } else {
-            this.classList.add('incorrect', 'shake');
             
-            const correctOption = document.querySelector('.answer-option:nth-child(3)');
-            setTimeout(() => {
-              correctOption.classList.add('correct');
-            }, 300);
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-clock text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Economia de Tempo</h3>
+                    <p class="text-slate-600 text-sm">Reduza em até 70% o tempo gasto organizando documentos</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-search text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Busca Eficiente</h3>
+                    <p class="text-slate-600 text-sm">Encontre informações em segundos usando busca semântica</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-sitemap text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Organização Automática</h3>
+                    <p class="text-slate-600 text-sm">IA organiza automaticamente por tópicos e conceitos</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-users text-orange-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Colaboração</h3>
+                    <p class="text-slate-600 text-sm">Compartilhe e colabore facilmente com sua equipe</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            setTimeout(() => {
-              flashcard.classList.add('flipped');
-            }, 1200);
-          }
-        });
-      });
+    <!-- CTA Section -->
+    <section class="py-16 px-6 md:px-12 bg-gradient-to-r from-blue-500 to-purple-500">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold text-white mb-6">
+                Pronto para revolucionar sua pesquisa?
+            </h2>
+            <p class="text-xl text-blue-100 mb-8">
+                Junte-se a milhares de pesquisadores que já estão transformando sua produtividade acadêmica
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="login.html" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+                    Começar Gratuitamente
+                </a>
+                <a href="sobre.html" class="border border-white text-white px-8 py-4 rounded-lg font-medium hover:bg-white/10 transition-all duration-300">
+                    Saiba Mais
+                </a>
+            </div>
+        </div>
+    </section>
 
-      // Botão de voltar
-      backBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        flashcard.classList.remove('flipped');
-        hasAnswered = false;
-        answerOptions.forEach(option => {
-          option.classList.remove('correct', 'incorrect', 'shake');
-        });
-      });
-
-      // Remover o evento de clique do flashcard
-      flashcard.removeEventListener('click', function() {});
-    });
-  </script>
-
-  <!-- Estilo para o modal de dica -->
-  <style>
-    .modal-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-        backdrop-filter: blur(4px);
-      }
-
-      .modal-overlay.show {
-        display: block;
-      }
-
-      .modal-content {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(15, 23, 42, 0.95);
-        border: 1px solid rgba(139, 85, 255, 0.2);
-        border-radius: 1rem;
-        padding: 1.5rem;
-        z-index: 1000;
-        width: 90%;
-        max-width: 400px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      }
-
-      .modal-content.show {
-        display: block;
-      }
-  </style>
-
-      <!-- Modais -->
-    <div class="modal-overlay" id="hintOverlay"></div>
-    <div class="modal-content" id="hintModal">
-      <h3 class="text-xl font-semibold mb-4 text-white">Dica</h3>
-      <p class="text-gray-300 mb-6">
-        Esta organela é conhecida como a "usina de energia" da célula, pois é responsável pela produção de ATP através da respiração celular.
-      </p>
-      <button class="w-full bg-gradient-button text-white py-2 px-4 rounded-lg hover:opacity-90 transition" onclick="closeModal('hint')">
-        Entendi
-      </button>
-    </div>
-
-  <!-- Estilo para os modais -->
-  <style>
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      backdrop-filter: blur(4px);
-    }
-
-    .modal-overlay.show {
-      display: block;
-    }
-
-    .modal-content {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(139, 85, 255, 0.2);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      z-index: 1000;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    }
-
-    .modal-content.show {
-      display: block;
-    }
-
-    /* Estilo para o formulário de report */
-    .report-form {
-      margin-top: 1rem;
-    }
-
-    .report-form textarea {
-      width: 100%;
-      background: rgba(30, 41, 59, 0.5);
-      border: 1px solid rgba(139, 85, 255, 0.2);
-      border-radius: 0.5rem;
-      padding: 0.75rem;
-      color: #e2e8f0;
-      margin-bottom: 1rem;
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .report-form textarea:focus {
-      outline: none;
-      border-color: rgba(139, 85, 255, 0.4);
-    }
-  </style>
-
-  <!-- Modal de Dica -->
-  <div class="modal-overlay" id="hintOverlay"></div>
-  <div class="modal-content" id="hintModal">
-    <h3 class="text-xl font-semibold mb-4 text-white">Dica</h3>
-    <p class="text-gray-300 mb-6">
-      Esta organela é conhecida como a "usina de energia" da célula, pois é responsável pela produção de ATP através da respiração celular.
-    </p>
-    <button class="w-full bg-gradient-button text-white py-2 px-4 rounded-lg hover:opacity-90 transition" onclick="closeModal('hint')">
-      Entendi
-    </button>
-  </div>
-
-  <!-- Modal de Report -->
-  <div class="modal-overlay" id="reportOverlay"></div>
-  <div class="modal-content" id="reportModal">
-    <h3 class="text-xl font-semibold mb-4 text-white">Reportar Problema</h3>
-    <div class="report-form">
-      <textarea placeholder="Descreva o problema que você encontrou nesta questão..." id="reportText"></textarea>
-      <div class="flex gap-3">
-        <button class="flex-1 bg-gradient-button text-white py-2 px-4 rounded-lg hover:opacity-90 transition" onclick="submitReport()">
-          Enviar
-        </button>
-        <button class="flex-1 bg-slate-700 text-white py-2 px-4 rounded-lg hover:bg-slate-600 transition" onclick="closeModal('report')">
-          Cancelar
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const flashcard = document.getElementById('demo-flashcard');
-      const answerOptions = document.querySelectorAll('.answer-option');
-      const backBtn = document.getElementById('backBtn');
-      const hintBtn = document.getElementById('hintBtn');
-      const reportBtn = document.querySelector('.control-btn[title="Reportar"]');
-      let hasAnswered = false;
-
-      // Funções para manipular os modais
-      window.showModal = function(type) {
-        document.getElementById(`${type}Modal`).classList.add('show');
-        document.getElementById(`${type}Overlay`).classList.add('show');
-      }
-
-      window.closeModal = function(type) {
-        document.getElementById(`${type}Modal`).classList.remove('show');
-        document.getElementById(`${type}Overlay`).classList.remove('show');
-        if (type === 'report') {
-          document.getElementById('reportText').value = '';
-        }
-      }
-
-      // Função para enviar report
-      window.submitReport = function() {
-        const reportText = document.getElementById('reportText').value;
-        if (reportText.trim()) {
-          alert('Problema reportado com sucesso! Obrigado pelo feedback.');
-          closeModal('report');
-        } else {
-          alert('Por favor, descreva o problema antes de enviar.');
-        }
-      }
-
-      // Event listeners para os botões
-      hintBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        showModal('hint');
-      });
-
-      reportBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        showModal('report');
-      });
-
-      // Fechar modais ao clicar no overlay
-      document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', function(e) {
-          if (this.id === 'hintOverlay') {
-            closeModal('hint');
-          } else if (this.id === 'reportOverlay') {
-            closeModal('report');
-          }
-        });
-      });
-
-      answerOptions.forEach(option => {
-        option.addEventListener('click', function(e) {
-          e.stopPropagation();
-          if (hasAnswered) return;
-          hasAnswered = true;
-
-          answerOptions.forEach(opt => {
-            opt.classList.remove('correct', 'incorrect', 'shake');
-          });
-
-          const isCorrect = this.textContent.trim() === 'C. Produção de energia';
-
-          if (isCorrect) {
-            this.classList.add('correct');
-            setTimeout(() => {
-              flashcard.classList.add('flipped');
-            }, 500);
-          } else {
-            this.classList.add('incorrect', 'shake');
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-12 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-brain text-white text-xl"></i>
+                        </div>
+                        <span class="text-xl font-bold">FlashMind</span>
+                    </div>
+                    <p class="text-slate-400 text-sm">
+                        Transformando a pesquisa acadêmica em uma experiência eficiente através da inteligência artificial.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Produto</h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#features" class="hover:text-white transition">Recursos</a></li>
+                        <li><a href="#how-it-works" class="hover:text-white transition">Como Funciona</a></li>
+                        <li><a href="#benefits" class="hover:text-white transition">Benefícios</a></li>
+                        <li><a href="sobre.html" class="hover:text-white transition">Sobre</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Suporte</h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="hover:text-white transition">Central de Ajuda</a></li>
+                        <li><a href="#" class="hover:text-white transition">Documentação</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Legal</h3>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="#" class="hover:text-white transition">Termos de Uso</a></li>
+                        <li><a href="#" class="hover:text-white transition">Privacidade</a></li>
+                        <li><a href="#" class="hover:text-white transition">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
             
-            const correctOption = document.querySelector('.answer-option:nth-child(3)');
-            setTimeout(() => {
-              correctOption.classList.add('correct');
-            }, 300);
+            <div class="border-t border-slate-800 mt-8 pt-8 text-center text-sm text-slate-500">
+                <p>&copy; 2025 FlashMind. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
-            setTimeout(() => {
-              flashcard.classList.add('flipped');
-            }, 1200);
-          }
+    <script>
+        // Simple smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
-      });
 
-      backBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        flashcard.classList.remove('flipped');
-        hasAnswered = false;
-        answerOptions.forEach(option => {
-          option.classList.remove('correct', 'incorrect', 'shake');
+        // Add hover effects to cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card-hover');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
         });
-      });
-
-      // Remover o evento de clique do flashcard
-      flashcard.removeEventListener('click', function() {});
-    });
-  </script>
+    </script>
 </body>
 </html>
