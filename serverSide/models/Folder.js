@@ -3,7 +3,9 @@ const Note = require('../models/Note')
 
 const Folder = mongoose.model('Folder', {
     userId: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'User'
+        type: mongoose.Schema.Types.ObjectId, ref: 'User',
+        ref: "User",   // 🔑 faz referência ao modelo User
+        required: true
     },
     title: String,
     relacionedText: String,

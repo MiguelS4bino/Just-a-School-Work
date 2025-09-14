@@ -923,27 +923,43 @@
         };
 
         const userId = localStorage.getItem('userId');
+        const token = localStorage.getItem('token')
         const userProfile = localStorage.getItem('userProfile') || 'academic';
         const apiUrl = 'http://localhost:3000';
         let currentText = "";
-
+        
         // Obter perfil do usuário
         const currentProfile = PROFESSIONAL_PROFILES[userProfile] || PROFESSIONAL_PROFILES.academic;
 
         // Função para carregar perfil do usuário
-        function loadUserProfile() {
-            // Atualizar elementos da interface
-            document.getElementById('profile-name').textContent = currentProfile.name;
-            document.getElementById('user-role').textContent = currentProfile.name;
-            document.getElementById('welcome-message').textContent = currentProfile.welcomeMessage;
-            
-            // Atualizar ícone do perfil
+        async function loadUserProfile() {
+            try{
+                const res = await fetch(`${apiUrl}/user/${userId}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`, // 🔑 envia o token
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (!res.ok) {
+                throw new Error("Erro ao buscar usuário");
+                }
+
+                const data = await res.json();
+                console.log("Usuário carregado:", data.user);
+                document.getElementById('user-role').textContent = data.user.nickname;
+                document.getElementById('welcome-message').textContent = currentProfile.welcomeMessage;
+                // Atualizar ícone do perfil
             const profileIcon = document.querySelector('.w-8.h-8.bg-gradient-to-r');
             if (profileIcon) {
                 profileIcon.className = `w-8 h-8 bg-gradient-to-r ${currentProfile.color} rounded-full flex items-center justify-center`;
                 profileIcon.innerHTML = `<i class="fas ${currentProfile.icon} text-white text-sm"></i>`;
             }
-            
+            } catch (err){
+                console.error("Erro ao retornar usuário:", err.message);
+            }
+            // Atualizar elementos da interface
             // Carregar ações rápidas
             loadQuickActions();
         }
@@ -956,9 +972,6 @@
             
             const mainActions = [
                 { title: "Digitalizar Documento", icon: "fa-camera", action: "openOCRModal", color: "blue" },
-                { title: "Transcrição de Áudio", icon: "fa-microphone", action: "openAudioModal", color: "green" },
-                { title: "Busca Avançada", icon: "fa-search", action: "openSearchModal", color: "purple" },
-                { title: "Análise Inteligente", icon: "fa-brain", action: "openAnalysisModal", color: "orange" }
             ];
             
             mainActions.forEach((action, index) => {
@@ -972,7 +985,6 @@
             
             const quickActions = [
                 { title: "Nova Pasta", icon: "fa-folder-plus", action: "createNewFolder", color: "blue" },
-                { title: "Organizar IA", icon: "fa-sitemap", action: "openOrganizationModal", color: "green" },
                 { title: "Favoritos", icon: "fa-star", action: "showFavorites", color: "yellow" },
                 { title: "Relatórios", icon: "fa-chart-line", action: "showReports", color: "purple" }
             ];
@@ -988,7 +1000,6 @@
             
             const toolActions = [
                 { title: "Configurações", icon: "fa-cog", action: "openSettings", color: "gray" },
-                { title: "Colaboração", icon: "fa-users", action: "openCollaborationModal", color: "blue" },
                 { title: "Histórico", icon: "fa-history", action: "showHistory", color: "green" },
                 { title: "Backup", icon: "fa-download", action: "createBackup", color: "purple" }
             ];
