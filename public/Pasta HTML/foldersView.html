@@ -93,7 +93,7 @@
                     
                     <div class="flex items-center space-x-4">
                         <div class="relative">
-                            <input type="text" placeholder="Buscar documentos..." class="pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <input id="searchInput" type="text" placeholder="Buscar documentos..." class="pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                             <i class="fas fa-search absolute left-3 top-3 text-slate-400"></i>
                         </div>
                         <button class="text-slate-600 hover:text-slate-900 transition-colors">
@@ -191,34 +191,81 @@
             folders.forEach(folder => {
             // Card da pasta (informações básicas)
             const folderCard = document.createElement('div');
-            folderCard.className = 'bg-white rounded-xl border border-slate-200 p-6 card-hover cursor-pointer mb-6';
-
-            // Ícone e cor da pasta
-            const typeIcon = 'fas fa-folder';
-            const typeColor = 'text-yellow-500';
+            folderCard.className = 'bg-white rounded-xl border border-slate-200 p-6 card-hover cursor-pointer mb-6 relative';
 
             folderCard.innerHTML = `
-                <div class="flex items-start justify-between mb-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
-                            <i class="${typeIcon} ${typeColor} text-xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-slate-900">${folder.title}</h3>
-                            <p class="text-sm text-slate-500">${folder.extractedItems.length} item(s)</p>
-                            <p class="text-xs text-slate-400">Criada em: ${new Date(folder.createdAt).toLocaleDateString('pt-BR')}</p>
-                        </div>
-                    </div>
-                    <button class="text-slate-400 hover:text-slate-600 transition-colors">
-                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
-                    </button>
+            <div class="flex items-start justify-between mb-4">
+                <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-folder text-yellow-500 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-slate-900">${folder.title}</h3>
+                    <p class="text-sm text-slate-500">${folder.extractedItems.length} item(s)</p>
+                    <p class="text-xs text-slate-400">Criada em: ${new Date(folder.createdAt).toLocaleDateString('pt-BR')}</p>
+                </div>
                 </div>
 
-                <div class="mt-4 hidden folder-content"></div>
+                <div class="flex items-center space-x-2">
+                <!-- Botão expandir -->
+                <button class="text-slate-400 hover:text-slate-600 transition-colors toggle-folder">
+                    <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                </button>
+
+                <!-- Botão três pontinhos -->
+                <div class="relative">
+                    <button class="text-slate-400 hover:text-slate-600 transition-colors options-btn">
+                    <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <!-- Menu dropdown -->
+                    <div class="hidden absolute right-0 mt-2 w-40 bg-white border border-slate-200 rounded-lg shadow-lg z-20 options-menu">
+                    <button class="block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">
+                        <i class="fas fa-edit mr-2"></i> Editar
+                    </button>
+                    <button class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                        <i class="fas fa-trash mr-2"></i> Apagar
+                    </button>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="mt-4 hidden folder-content"></div>
             `;
 
+            // Toggle dropdown
+            const optionsBtn = folderCard.querySelector('.options-btn');
+            const optionsMenu = folderCard.querySelector('.options-menu');
+
+            optionsBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            optionsMenu.classList.toggle('hidden');
+            });
+
+            // Fecha dropdown ao clicar fora
+            document.addEventListener('click', e => {
+            if (!optionsBtn.contains(e.target)) {
+                optionsMenu.classList.add('hidden');
+            }
+            });
+
+            // Toggle expandir pasta
+            const toggleBtn = folderCard.querySelector('.toggle-folder');
             const folderContent = folderCard.querySelector('.folder-content');
-            const chevronIcon = folderCard.querySelector('i');
+            const chevronIcon = toggleBtn.querySelector('i');
+
+            toggleBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            const isHidden = folderContent.classList.contains('hidden');
+            if (isHidden) {
+                folderContent.classList.remove('hidden');
+                chevronIcon.classList.add('rotate-180');
+                // Aqui você popula o conteúdo da pasta...
+            } else {
+                folderContent.classList.add('hidden');
+                chevronIcon.classList.remove('rotate-180');
+            }
+            });
 
             folderCard.addEventListener('click', () => {
                 const isHidden = folderContent.classList.contains('hidden');
@@ -263,6 +310,26 @@
                 card.addEventListener('mouseleave', function() {
                     this.style.transform = 'translateY(0)';
                 });
+            });
+        });
+
+        // Busca das pastas
+        const searchInput = document.getElementById('searchInput');
+
+        searchInput.addEventListener('input', function () {
+            const searchTerm = this.value.toLowerCase();
+
+            // Seleciona todos os cards de pasta
+            const folderCards = document.querySelectorAll('#documentsContainer > div');
+
+            folderCards.forEach(card => {
+                const title = card.querySelector('h3')?.textContent.toLowerCase() || "";
+
+                if (title.includes(searchTerm)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         });
 </script>
