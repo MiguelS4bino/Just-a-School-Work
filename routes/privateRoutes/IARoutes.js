@@ -3,6 +3,8 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
+const checkToken = require('../../config/auth')
+
 //Utils
 const saveOrganizedNotes = require("../../serverSide/utils/noteUtils");
 
@@ -79,33 +81,6 @@ router.post("/:id/organizeText", async (req, res) => {
   }
 })
 
-router.get("/:id/getFolders", async (req, res) => {
-  try {
-    const userId = req.params.id; // <-- corrigido
-
-    const folders = await Folder.find({ userId: userId }).populate('extractedItems');
-
-    const formattedFolders = folders.map(folder => ({
-      id: folder._id,
-      title: folder.title || 'Sem título',
-      relacionedText: folder.relationedText || '',
-      createdAt: folder.createdAt,
-      extractedItems: folder.extractedItems.map(note => ({
-        id: note._id,
-        title: note.title || 'Sem título',
-        items: Array.isArray(note.items) ? note.items : [],
-        createdAt: note.createdAt,
-        type: 'note'
-      }))
-    }));
-
-    console.log(formattedFolders);
-    return res.status(200).json({ folders: formattedFolders });
-  } catch (err) {
-    console.error("Erro ao resgatar pastas do usuário: ", err);
-    return res.status(500).json({ erro: "Erro ao resgatar pastas." });
-  }
-});
 
 
 module.exports = router;

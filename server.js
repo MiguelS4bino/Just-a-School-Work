@@ -27,6 +27,7 @@ const authRoutes = require("./routes/authRoutes.js");
 const userRoutes = require("./routes/privateRoutes/userRoutes.js");
 const challengeRoutes = require("./routes/privateRoutes/challengeRoutes.js");
 const IARoutes = require("./routes/privateRoutes/IARoutes.js");
+const folderRoutes = require("./routes/privateRoutes/folderRoutes.js");
 
 const app = express();
 app.use(express.json({ limit: '50mb' })); //configura o express pra conseguir trabalhar com json e aumenta a capacidade de armazenamento que ele consegue trabalhar
@@ -64,6 +65,7 @@ const startServer = async () => {
     app.use("/user", userRoutes);
     app.use("/challenge", challengeRoutes);
     app.use("/IA", IARoutes);
+    app.use("/Folder", folderRoutes);
 
     server.listen(3000, () => {
       console.log

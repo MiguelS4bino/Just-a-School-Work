@@ -27,8 +27,6 @@ router.post('/photo/:id', checkToken, async(req, res) => {
         return res.status(400).json({ msg: 'Imagem não enviada' })
     }
 
-    
-
     try{
         const user = await User.findById(id);
         if (!user) {

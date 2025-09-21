@@ -8,7 +8,10 @@ const Folder = mongoose.model('Folder', {
         required: true
     },
     title: String,
-    relacionedText: String,
+    relacionedText: {
+        type: String,
+        default: null
+    },
     extractedItems: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Note'
