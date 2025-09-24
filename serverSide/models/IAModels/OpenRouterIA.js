@@ -37,7 +37,9 @@ async function extractTextfromImage(imagePath) {
     // Retorna o texto gerado pela IA
     return response.data.choices[0].message.content;
   } catch (error) {
-    console.error("Erro na comunicação com OpenRouter:", error.response?.data || error.message);
+    console.error("Erro na comunicação com OpenRouter (extractTextfromImage):", error.response?.data || error.message);
+    console.error("Status do erro:", error.response?.status);
+    console.error("API_KEY presente:", !!API_KEY);
     return null;
   }
 }
@@ -94,7 +96,9 @@ async function organizeContent(texto) {
     // Retorna o texto gerado pela IA
     return response.data.choices[0].message.content;
   } catch (error) {
-    console.error("Erro na comunicação com OpenRouter:", error.response?.data || error.message);
+    console.error("Erro na comunicação com OpenRouter (organizeContent):", error.response?.data || error.message);
+    console.error("Status do erro:", error.response?.status);
+    console.error("API_KEY presente:", !!API_KEY);
     return null;
   }
 }

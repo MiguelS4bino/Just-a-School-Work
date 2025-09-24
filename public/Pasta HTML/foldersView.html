@@ -302,6 +302,18 @@
                     const isHidden = folderContent.classList.contains('hidden');
 
                     if (isHidden) {
+                        // Fechar outras pastas abertas primeiro
+                        const allOpenFolders = document.querySelectorAll('.folder-content:not(.hidden)');
+                        allOpenFolders.forEach(openFolder => {
+                            if (openFolder !== folderContent) {
+                                openFolder.classList.add('hidden');
+                                const openChevron = openFolder.closest('.bg-white').querySelector('.toggle-folder i');
+                                if (openChevron) {
+                                    openChevron.classList.remove('rotate-180');
+                                }
+                            }
+                        });
+
                         folderContent.classList.remove('hidden');
                         chevronIcon.classList.add('rotate-180');
 
@@ -350,14 +362,24 @@
                     }
                 }
 
+                // Event listener apenas no botão de toggle
                 toggleBtn.addEventListener('click', e => {
                     e.stopPropagation();
                     toggleFolder();
                 });
 
+                // Event listener no card para abrir pasta (mas não no botão de toggle)
                 folderCard.addEventListener('click', e => {
-                    if (e.target.closest('.toggle-folder') || e.target.closest('.delete-btn') || e.target.closest('.options-btn')) return;
-                    toggleFolder();
+                    // Só executa se não clicou em botões específicos
+                    if (e.target.closest('.toggle-folder') || 
+                        e.target.closest('.delete-btn') || 
+                        e.target.closest('.options-btn') ||
+                        e.target.closest('.options-menu')) return;
+                    
+                    // Só abre se a pasta estiver fechada
+                    if (folderContent.classList.contains('hidden')) {
+                        toggleFolder();
+                    }
                 });
                 container.appendChild(folderCard);
             });

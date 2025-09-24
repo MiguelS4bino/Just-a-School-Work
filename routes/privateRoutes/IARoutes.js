@@ -39,7 +39,7 @@ router.post("/:id/extractText", upload.array('imgs'), async (req, res) => {
       fs.unlinkSync(img.path); // apaga o arquivo após uso
     }
 
-    console.log(extractedText.trim());
+    // Retorna o texto extraído para o frontend
     return res.status(200).json({ resumoOrganizado: extractedText.trim() });
   } catch (err) {
     console.error("Erro ao extrair texto:", err);
