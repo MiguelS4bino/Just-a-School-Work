@@ -302,18 +302,6 @@
                     const isHidden = folderContent.classList.contains('hidden');
 
                     if (isHidden) {
-                        // Fechar outras pastas abertas primeiro
-                        const allOpenFolders = document.querySelectorAll('.folder-content:not(.hidden)');
-                        allOpenFolders.forEach(openFolder => {
-                            if (openFolder !== folderContent) {
-                                openFolder.classList.add('hidden');
-                                const openChevron = openFolder.closest('.bg-white').querySelector('.toggle-folder i');
-                                if (openChevron) {
-                                    openChevron.classList.remove('rotate-180');
-                                }
-                            }
-                        });
-
                         folderContent.classList.remove('hidden');
                         chevronIcon.classList.add('rotate-180');
 
