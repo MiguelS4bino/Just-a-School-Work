@@ -9,6 +9,25 @@ const checkToken = require('../../config/auth')
 const Note = require('../../serverSide/models/Note');
 const Folder = require('../../serverSide/models/Folder');
 
+// Configura armazenamento
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadPath = path.join(__dirname, 'uploads/notes');
+    
+    // Cria a pasta se não existir
+    fs.mkdir(uploadPath, { recursive: true }, (err) => {
+      if (err) return cb(err);
+      cb(null, uploadPath);
+    });
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage });
+
 router.post("/:folderId/createNote", checkToken, async (req, res) => {
     try{
         const folderId = req.params.folderId;

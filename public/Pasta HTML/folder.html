@@ -8,21 +8,21 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-
 <style>
-.gradient-text {
-  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.card-hover {
-  transition: all 0.3s ease;
-}
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-}
+    .gradient-text {
+        background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .card-hover {
+        transition: all 0.3s ease;
+    }
+    .card-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    .notes-card { width: 100%; }
 </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
@@ -43,7 +43,7 @@
 </header>
 
 <!-- MAIN -->
-<main class="pt-24 pb-16 px-6 md:px-12">
+<main class="pt-24 pb-16 px-6 md:px-12 min-h-[calc(100vh-6rem)]">
   <div class="max-w-5xl mx-auto">
     <!-- Header da pasta -->
     <div id="folderHeader" class="mb-8">
@@ -51,16 +51,14 @@
       <p class="text-slate-600">Aguarde enquanto os dados são carregados</p>
     </div>
 
-    <!-- Campo relacionedText -->
-    <div id="relacionedTextContainer" class="bg-white rounded-xl p-4 shadow mb-6 hidden">
-        <div id="relacionedHeader" class="flex justify-between items-center cursor-pointer">
-            <h2 class="text-lg font-semibold mb-0">Texto Relacionado</h2>
-            <span class="text-gray-400 text-sm">Clique para expandir</span>
-        </div>
-        <p id="relacionedText" class="text-gray-700 mt-2 max-h-0 overflow-hidden transition-all duration-300 whitespace-pre-line"></p>
-        <button id="editRelacionedText" class="absolute top-4 right-4 text-blue-600 hover:underline text-sm">Editar</button>
+    <!-- Texto Relacionado -->
+    <div id="relacionedTextContainer" class="bg-white rounded-xl p-4 shadow mb-6 hidden relative">
+      <div id="relacionedHeader" class="flex justify-between items-center cursor-pointer">
+        <h2 class="text-lg font-semibold mb-0">Texto Relacionado</h2>
+        <span class="text-gray-400 text-sm">Clique para expandir</span>
+      </div>
+      <p id="relacionedText" class="text-gray-700 mt-2 hidden whitespace-pre-line"></p>
     </div>
-
 
     <!-- Botões -->
     <div class="flex items-center gap-4 mb-8">
@@ -72,8 +70,18 @@
       </button>
     </div>
 
+    <!-- Barra de pesquisa -->
+    <div class="mb-6">
+    <input 
+        type="text" 
+        id="searchNotes" 
+        placeholder="Pesquisar notas..." 
+        class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+    </div>
+
     <!-- Notas -->
-    <div id="notesContainer" class="grid md:grid-cols-2 gap-6">
+    <div id="notesContainer" class="grid grid-cols-1 gap-3">
       <div class="flex justify-center items-center h-40 text-slate-600">
         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mr-4"></div>
         Carregando notas...
@@ -83,7 +91,7 @@
 </main>
 
 <!-- MODAL Nova Nota -->
-<div id="createNoteModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+<div id="createNoteModal" class="fixed inset-0 flex bg-black/40 hidden items-center justify-center z-50">
   <div class="bg-white rounded-xl w-full max-w-lg p-6 relative">
     <button id="closeCreateNoteModal" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
       <i class="fas fa-times"></i>
@@ -109,35 +117,31 @@
 const token = localStorage.getItem("token");
 if (!token) window.location.href = "login.html";
 
-const userId = localStorage.getItem('userId'); // ID do usuário logado
-
-const urlParams = new URLSearchParams(window.location.search);
-const folderId = urlParams.get("id");
+const userId = localStorage.getItem('userId');
+const folderId = new URLSearchParams(window.location.search).get("id");
 
 const folderHeader = document.getElementById("folderHeader");
 const notesContainer = document.getElementById("notesContainer");
+const textContainer = document.getElementById("relacionedTextContainer");
+const textContent = document.getElementById("relacionedText");
+const textHeader = document.getElementById("relacionedHeader");
 
-// --- Carrega dados da pasta ---
+let folder = null;
+
 async function loadFolder() {
   try {
     const res = await fetch(`http://localhost:3000/Folder/${folderId}`, {
       headers: { "Authorization": `Bearer ${token}` }
     });
-
     if (!res.ok) throw new Error("Erro ao carregar pasta");
 
-    const folder = await res.json();
+    folder = await res.json();
     renderFolder(folder);
   } catch (err) {
     console.error(err);
     folderHeader.innerHTML = `<h1 class="text-3xl font-bold text-red-500">Erro ao carregar pasta</h1>`;
   }
 }
-
-// --- RelacionedText ---
-const textContainer = document.getElementById("relacionedTextContainer");
-const textContent = document.getElementById("relacionedText");
-const textHeader = document.getElementById("relacionedHeader");
 
 function renderFolder(folder) {
   folderHeader.innerHTML = `
@@ -146,67 +150,79 @@ function renderFolder(folder) {
     <p class="text-slate-500 mt-2">${folder.extractedItems?.length || 0} nota(s)</p>
   `;
 
-  if (folder.relacionedText) {
-    textContainer.classList.remove("hidden");
-    textContent.textContent = folder.relacionedText;
-  } else {
-    textContainer.classList.remove("hidden");
-    textContent.textContent = "Sem texto relacionado.";
-  }
+  textContainer.classList.remove("hidden");
+  textContent.textContent = folder.relacionedText || "Sem texto relacionado.";
+  textContent.classList.add("hidden");
 
-  // Tornar colapsável
-  textHeader.onclick = () => {
-    if (textContent.style.maxHeight && textContent.style.maxHeight !== "0px") {
-      textContent.style.maxHeight = "0px";
-    } else {
-      textContent.style.maxHeight = textContent.scrollHeight + "px";
-    }
-  };
-
-  // Botão de editar
-  document.getElementById("editRelacionedText").onclick = (e) => {
-    e.stopPropagation(); // evita fechar ao editar
-    const newText = prompt("Edite o texto relacionado:", textContent.textContent);
-    if (newText !== null) updateRelacionedText(newText);
-  };
-
+  textHeader.onclick = () => textContent.classList.toggle("hidden");
   renderNotes(folder.extractedItems || []);
 }
 
-// --- Renderiza notas colapsáveis ---
 function renderNotes(notes) {
   notesContainer.innerHTML = '';
 
-  if (notes.length === 0) {
+  if (!notes.length) {
     notesContainer.innerHTML = `
       <div class="col-span-full text-center py-16 text-slate-500">
         <i class="fas fa-sticky-note text-6xl text-slate-300 mb-4"></i>
         <p>Nenhuma nota encontrada. Crie uma nova!</p>
-      </div>
-    `;
+      </div>`;
     return;
   }
 
   notes.forEach(note => {
     const card = document.createElement('div');
-    card.className = "bg-white border border-slate-200 rounded-xl p-5 shadow-sm card-hover";
+    card.className = "bg-white border border-slate-200 rounded-xl p-5 shadow-sm card-hover notes-card";
 
-    // Header clicável
+    // Header clicável com ações
     const header = document.createElement('div');
-    header.className = "flex justify-between items-center cursor-pointer";
-    header.innerHTML = `
-      <h3 class="text-lg font-semibold text-slate-900">${note.title}</h3>
-      <span class="text-gray-400 text-sm">${new Date(note.createdAt).toLocaleDateString('pt-BR')}</span>
+    header.className = "flex items-center cursor-pointer";
+
+    // Título e data
+    const titleContainer = document.createElement('div');
+    titleContainer.className = "flex flex-col";
+    titleContainer.innerHTML = `
+        <h3 class="text-lg font-semibold text-slate-900">${note.title}</h3>
+        <span class="text-gray-400 text-sm">${new Date(note.createdAt).toLocaleDateString('pt-BR')}</span>
     `;
 
+    // Botões Editar e Deletar
+    const actions = document.createElement('div');
+    actions.className = "flex gap-3 ml-auto"; // ml-auto empurra para a direita
+    actions.innerHTML = `
+        <button class="delete-note hover:text-red-500" title="Excluir"><i class="fas fa-trash"></i></button>
+    `;
+
+    header.append(titleContainer, actions);
+
+    actions.querySelector(".delete-note").onclick = async (e) => {
+      e.stopPropagation(); // evita colapsar a lista
+      if (confirm("Deseja realmente deletar esta nota?")) {
+        try {
+          const res = await fetch(`http://localhost:3000/Note/${note._id}/delete`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${token}` }
+          });
+          if (!res.ok) throw new Error("Erro ao apagar nota");
+          loadFolder();
+        } catch (err) {
+          console.error(err);
+          alert("Erro ao apagar nota");
+        }
+      }
+    };
+
+    // Lista de itens
     const itemsList = document.createElement('ul');
     itemsList.className = "list-disc list-inside text-slate-700 mt-3 space-y-1 max-h-0 overflow-hidden transition-all duration-300";
+
     note.items.forEach(item => {
       const li = document.createElement('li');
       li.textContent = item;
       itemsList.appendChild(li);
     });
 
+    // Toggle com animação
     header.addEventListener("click", () => {
       if (itemsList.style.maxHeight && itemsList.style.maxHeight !== "0px") {
         itemsList.style.maxHeight = "0px";
@@ -215,14 +231,12 @@ function renderNotes(notes) {
       }
     });
 
-    card.appendChild(header);
-    card.appendChild(itemsList);
-    notesContainer.appendChild(card);
+    card.append(header, itemsList);
+    notesContainer.appendChild(card); // <- Isso era o que faltava!
   });
 }
 
-
-// --- Modal Nova Nota ---
+// Modal Nova Nota
 const modal = document.getElementById("createNoteModal");
 document.getElementById("newNoteButton").onclick = () => modal.classList.remove("hidden");
 document.getElementById("closeCreateNoteModal").onclick = () => modal.classList.add("hidden");
@@ -237,26 +251,21 @@ document.getElementById("addNoteItem").onclick = () => {
   container.appendChild(input);
 };
 
-// --- Criar Nota ---
 document.getElementById("confirmCreateNote").onclick = async () => {
   const title = document.getElementById("noteTitle").value.trim();
   const items = [...document.querySelectorAll(".note-item")].map(i => i.value.trim()).filter(v => v);
 
-  if (!title || items.length === 0) {
+  if (!title || !items.length) {
     alert("Preencha o título e pelo menos um tópico!");
     return;
   }
 
   try {
-    const res = await fetch(`http://localhost:3000/Note/${userId}/createNote`, {
+    const res = await fetch(`http://localhost:3000/Note/${folderId}/createNote`, {
       method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
+      headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
       body: JSON.stringify({ folderId, title, items })
     });
-
     if (!res.ok) throw new Error("Erro ao criar nota");
 
     modal.classList.add("hidden");
@@ -266,6 +275,14 @@ document.getElementById("confirmCreateNote").onclick = async () => {
     alert("Erro ao criar nota.");
   }
 };
+
+const searchInput = document.getElementById("searchNotes");
+
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.toLowerCase();
+  const filteredNotes = folder.extractedItems.filter(note => note.title.toLowerCase().includes(query));
+  renderNotes(filteredNotes);
+});
 
 // Inicializa
 loadFolder();
