@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlashMind - Pasta</title>
+<link rel="icon" type="image/x-icon" href="../imgs/brain.ico">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+<style>
+.gradient-text {
+  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.card-hover {
+  transition: all 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen">
+
+<!-- HEADER -->
+<header class="fixed top-0 left-0 right-0 z-50 py-4 px-6 md:px-12 flex items-center justify-between bg-white/80 backdrop-blur-sm border-b border-slate-200">
+  <div class="flex items-center space-x-3">
+    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+      <i class="fa-solid fa-brain text-white text-xl"></i>
+    </div>
+    <span class="text-2xl font-bold text-slate-900">FlashMind</span>
+  </div>
+  <nav class="hidden md:flex items-center space-x-8">
+    <a href="dashboard.html" class="text-slate-600 hover:text-slate-900 transition-colors">Dashboard</a>
+    <a href="foldersView.html" class="text-slate-600 hover:text-slate-900 transition-colors">Documentos</a>
+    <a href="#" class="text-blue-600 font-medium">Pasta</a>
+  </nav>
+</header>
+
+<!-- MAIN -->
+<main class="pt-24 pb-16 px-6 md:px-12">
+  <div class="max-w-5xl mx-auto">
+    <!-- Header da pasta -->
+    <div id="folderHeader" class="mb-8">
+      <h1 class="text-3xl font-bold text-slate-900 mb-2">Carregando...</h1>
+      <p class="text-slate-600">Aguarde enquanto os dados são carregados</p>
+    </div>
+
+    <!-- Campo relacionedText -->
+    <div id="relacionedTextContainer" class="bg-white rounded-xl p-4 shadow mb-6 hidden">
+        <div id="relacionedHeader" class="flex justify-between items-center cursor-pointer">
+            <h2 class="text-lg font-semibold mb-0">Texto Relacionado</h2>
+            <span class="text-gray-400 text-sm">Clique para expandir</span>
+        </div>
+        <p id="relacionedText" class="text-gray-700 mt-2 max-h-0 overflow-hidden transition-all duration-300 whitespace-pre-line"></p>
+        <button id="editRelacionedText" class="absolute top-4 right-4 text-blue-600 hover:underline text-sm">Editar</button>
+    </div>
+
+
+    <!-- Botões -->
+    <div class="flex items-center gap-4 mb-8">
+      <button id="newNoteButton" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-5 py-2 rounded-lg hover:shadow-lg transition-all duration-300">
+        <i class="fas fa-plus mr-2"></i> Nova Nota
+      </button>
+      <button onclick="window.location.href='foldersView.html'" class="border border-slate-300 text-slate-700 px-5 py-2 rounded-lg hover:bg-slate-50 transition-all duration-300">
+        <i class="fas fa-arrow-left mr-2"></i> Voltar
+      </button>
+    </div>
+
+    <!-- Notas -->
+    <div id="notesContainer" class="grid md:grid-cols-2 gap-6">
+      <div class="flex justify-center items-center h-40 text-slate-600">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mr-4"></div>
+        Carregando notas...
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- MODAL Nova Nota -->
+<div id="createNoteModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-xl w-full max-w-lg p-6 relative">
+    <button id="closeCreateNoteModal" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+      <i class="fas fa-times"></i>
+    </button>
+    <h2 class="text-xl font-semibold text-slate-900 mb-4">Criar Nova Nota</h2>
+
+    <input type="text" id="noteTitle" placeholder="Título da nota" class="w-full border border-slate-300 rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+    <div id="noteItemsContainer" class="space-y-2 mb-4">
+      <input type="text" class="note-item w-full border border-slate-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Digite um tópico...">
+    </div>
+
+    <button id="addNoteItem" class="text-blue-600 text-sm mb-4 hover:underline">+ Adicionar tópico</button>
+
+    <div class="flex justify-end space-x-4">
+      <button id="cancelCreateNote" class="px-4 py-2 rounded-lg border border-slate-300 hover:bg-slate-50 transition-all">Cancelar</button>
+      <button id="confirmCreateNote" class="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-lg transition-all">Criar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "login.html";
+
+const userId = localStorage.getItem('userId'); // ID do usuário logado
+
+const urlParams = new URLSearchParams(window.location.search);
+const folderId = urlParams.get("id");
+
+const folderHeader = document.getElementById("folderHeader");
+const notesContainer = document.getElementById("notesContainer");
+
+// --- Carrega dados da pasta ---
+async function loadFolder() {
+  try {
+    const res = await fetch(`http://localhost:3000/Folder/${folderId}`, {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    if (!res.ok) throw new Error("Erro ao carregar pasta");
+
+    const folder = await res.json();
+    renderFolder(folder);
+  } catch (err) {
+    console.error(err);
+    folderHeader.innerHTML = `<h1 class="text-3xl font-bold text-red-500">Erro ao carregar pasta</h1>`;
+  }
+}
+
+// --- RelacionedText ---
+const textContainer = document.getElementById("relacionedTextContainer");
+const textContent = document.getElementById("relacionedText");
+const textHeader = document.getElementById("relacionedHeader");
+
+function renderFolder(folder) {
+  folderHeader.innerHTML = `
+    <h1 class="text-3xl font-bold text-slate-900 mb-1">${folder.title}</h1>
+    <p class="text-slate-600">Criada em ${new Date(folder.createdAt).toLocaleDateString('pt-BR')}</p>
+    <p class="text-slate-500 mt-2">${folder.extractedItems?.length || 0} nota(s)</p>
+  `;
+
+  if (folder.relacionedText) {
+    textContainer.classList.remove("hidden");
+    textContent.textContent = folder.relacionedText;
+  } else {
+    textContainer.classList.remove("hidden");
+    textContent.textContent = "Sem texto relacionado.";
+  }
+
+  // Tornar colapsável
+  textHeader.onclick = () => {
+    if (textContent.style.maxHeight && textContent.style.maxHeight !== "0px") {
+      textContent.style.maxHeight = "0px";
+    } else {
+      textContent.style.maxHeight = textContent.scrollHeight + "px";
+    }
+  };
+
+  // Botão de editar
+  document.getElementById("editRelacionedText").onclick = (e) => {
+    e.stopPropagation(); // evita fechar ao editar
+    const newText = prompt("Edite o texto relacionado:", textContent.textContent);
+    if (newText !== null) updateRelacionedText(newText);
+  };
+
+  renderNotes(folder.extractedItems || []);
+}
+
+// --- Renderiza notas colapsáveis ---
+function renderNotes(notes) {
+  notesContainer.innerHTML = '';
+
+  if (notes.length === 0) {
+    notesContainer.innerHTML = `
+      <div class="col-span-full text-center py-16 text-slate-500">
+        <i class="fas fa-sticky-note text-6xl text-slate-300 mb-4"></i>
+        <p>Nenhuma nota encontrada. Crie uma nova!</p>
+      </div>
+    `;
+    return;
+  }
+
+  notes.forEach(note => {
+    const card = document.createElement('div');
+    card.className = "bg-white border border-slate-200 rounded-xl p-5 shadow-sm card-hover";
+
+    // Header clicável
+    const header = document.createElement('div');
+    header.className = "flex justify-between items-center cursor-pointer";
+    header.innerHTML = `
+      <h3 class="text-lg font-semibold text-slate-900">${note.title}</h3>
+      <span class="text-gray-400 text-sm">${new Date(note.createdAt).toLocaleDateString('pt-BR')}</span>
+    `;
+
+    const itemsList = document.createElement('ul');
+    itemsList.className = "list-disc list-inside text-slate-700 mt-3 space-y-1 max-h-0 overflow-hidden transition-all duration-300";
+    note.items.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      itemsList.appendChild(li);
+    });
+
+    header.addEventListener("click", () => {
+      if (itemsList.style.maxHeight && itemsList.style.maxHeight !== "0px") {
+        itemsList.style.maxHeight = "0px";
+      } else {
+        itemsList.style.maxHeight = itemsList.scrollHeight + "px";
+      }
+    });
+
+    card.appendChild(header);
+    card.appendChild(itemsList);
+    notesContainer.appendChild(card);
+  });
+}
+
+
+// --- Modal Nova Nota ---
+const modal = document.getElementById("createNoteModal");
+document.getElementById("newNoteButton").onclick = () => modal.classList.remove("hidden");
+document.getElementById("closeCreateNoteModal").onclick = () => modal.classList.add("hidden");
+document.getElementById("cancelCreateNote").onclick = () => modal.classList.add("hidden");
+
+document.getElementById("addNoteItem").onclick = () => {
+  const container = document.getElementById("noteItemsContainer");
+  const input = document.createElement("input");
+  input.type = "text";
+  input.placeholder = "Digite um tópico...";
+  input.className = "note-item w-full border border-slate-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500";
+  container.appendChild(input);
+};
+
+// --- Criar Nota ---
+document.getElementById("confirmCreateNote").onclick = async () => {
+  const title = document.getElementById("noteTitle").value.trim();
+  const items = [...document.querySelectorAll(".note-item")].map(i => i.value.trim()).filter(v => v);
+
+  if (!title || items.length === 0) {
+    alert("Preencha o título e pelo menos um tópico!");
+    return;
+  }
+
+  try {
+    const res = await fetch(`http://localhost:3000/Note/${userId}/createNote`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ folderId, title, items })
+    });
+
+    if (!res.ok) throw new Error("Erro ao criar nota");
+
+    modal.classList.add("hidden");
+    loadFolder();
+  } catch (err) {
+    console.error(err);
+    alert("Erro ao criar nota.");
+  }
+};
+
+// Inicializa
+loadFolder();
+</script>
+</body>
+</html>

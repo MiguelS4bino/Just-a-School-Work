@@ -37,7 +37,7 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
-    }
+        }
 </style>
 </head>
 
@@ -103,17 +103,20 @@
                 </div>
                 </div>
 
-            <!-- Documents Grid -->
-            <div id="documentsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+        </div>
+            <!-- Documents List -->
+            <div id="documentsContainer" 
+                class="flex overflow-x-auto space-x-6 pb-4 scrollbar-custom px-2">
                 <!-- Loading State -->
-                <div class="col-span-full flex justify-center items-center h-64">
+                <div class="flex justify-center items-center h-64 w-full">
                     <div class="flex items-center text-slate-600">
                         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mr-4"></div>
                         Carregando seus documentos...
                     </div>
                 </div>
             </div>
-        </div>
+
     </main>
 
     <!-- Modal Criar Pasta -->
@@ -171,458 +174,192 @@
 
 
 <script>
+    // --- Autenticação ---
+    const token = localStorage.getItem("token");
+    if (!token) {
+        window.location.href = "login.html";
+    }
 
-        const token = localStorage.getItem('token');
-        const userId = localStorage.getItem('userId'); // ID do usuário logado
+    const userId = localStorage.getItem('userId'); // ID do usuário logado
 
-        // Função para buscar as pastas do backend
-        async function loadDocuments() {
-            const container = document.getElementById('documentsContainer');
+    // --- Elementos DOM ---
+    const documentsContainer = document.getElementById("documentsContainer");
+    const searchInput = document.getElementById("searchInput");
+
+    // --- Carregar pastas do usuário ---
+    async function loadFolders() {
+        try {
+            const res = await fetch(`http://localhost:3000/Folder/${userId}/getFolders`, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+
+            if (!res.ok) throw new Error("Erro ao carregar as pastas");
+
+            const data = await res.json();
+            const folders = data.folders || [];
+            createDocumentCard(folders, documentsContainer);
+        } catch (err) {
+            console.error(err);
+            documentsContainer.innerHTML = `
+                <div class="w-full flex justify-center items-center py-16">
+                    <div class="bg-white p-8 rounded-xl border border-slate-200 max-w-md mx-auto text-center">
+                        <i class="fas fa-exclamation-circle text-6xl text-red-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-2">Erro ao carregar pastas</h3>
+                        <p class="text-slate-600 mb-6">Verifique sua conexão e tente novamente.</p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    // --- Renderizar lista de pastas ---
+    function createDocumentCard(folders, container) {
+        if (!container) return;
+        container.innerHTML = '';
+
+        if (folders.length === 0) {
+            container.innerHTML = `
+                <div class="w-full flex justify-center items-center py-16">
+                    <div class="bg-white p-8 rounded-xl border border-slate-200 max-w-md mx-auto text-center">
+                        <i class="fas fa-folder-open text-6xl text-slate-300 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-slate-900 mb-2">Nenhuma pasta encontrada</h3>
+                        <p class="text-slate-600 mb-6">Comece criando sua primeira pasta e adicionando notas.</p>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        // Lista que se estende horizontalmente até o final da página
+        const list = document.createElement('ul');
+        list.className = 'w-full bg-white rounded-xl border border-slate-200 shadow-sm divide-y divide-slate-200';
+
+        folders.forEach(folder => {
+            const li = document.createElement('li');
+            li.className = 'w-full flex items-center justify-between px-6 py-4 hover:bg-slate-50 transition-colors';
+            li.dataset.id = folder.id;
+
+            const folderInfo = document.createElement('div');
+            folderInfo.className = 'flex items-center space-x-4 flex-1 min-w-0';
+
+            folderInfo.innerHTML = `
+                <i class="fas fa-folder text-yellow-500 text-xl flex-shrink-0"></i>
+                <div class="min-w-0">
+                    <a href="folder.html?id=${folder.id}" class="folder-title font-semibold text-slate-900 block truncate">
+                        ${folder.title}
+                    </a>
+                    <p class="text-sm text-slate-500">${folder.extractedItems.length} item(s) • Criada em ${new Date(folder.createdAt).toLocaleDateString('pt-BR')}</p>
+                </div>
+            `;
+
+            const actions = document.createElement('div');
+            actions.className = 'flex items-center gap-3 ml-4 text-slate-400';
+            actions.innerHTML = `
+                <button class="rename-btn hover:text-slate-600" title="Renomear"><i class="fas fa-pen"></i></button>
+                <button class="delete-btn hover:text-red-500" title="Excluir"><i class="fas fa-trash"></i></button>
+            `;
+
+            const renameBtn = actions.querySelector('.rename-btn');
+            const deleteBtn = actions.querySelector('.delete-btn');
+
+            renameBtn.addEventListener('click', e => {
+                e.stopPropagation();
+                enableInlineRename(folder.id, li);
+            });
+
+            deleteBtn.addEventListener('click', e => {
+                e.stopPropagation();
+                deleteFolder(folder.id, li);
+            });
+
+            li.appendChild(folderInfo);
+            li.appendChild(actions);
+            list.appendChild(li);
+        });
+
+        container.appendChild(list);
+    }
+
+    // --- Função de renomear ---
+    async function enableInlineRename(folderId, containerElement) {
+        const titleElem = containerElement.querySelector('.folder-title');
+        if (!titleElem) return;
+
+        const originalText = titleElem.textContent.trim();
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = originalText;
+        input.className = 'border border-slate-300 rounded px-2 py-1 w-full max-w-xs';
+        titleElem.replaceWith(input);
+        input.focus();
+        input.select();
+
+        const restoreOriginal = () => {
+            const newTitleElem = document.createElement('a');
+            newTitleElem.href = `folder.html?id=${folderId}`;
+            newTitleElem.className = 'folder-title font-semibold text-slate-900 block truncate';
+            newTitleElem.textContent = originalText;
+            if (input.parentNode) input.parentNode.replaceChild(newTitleElem, input);
+        };
+
+        const saveRename = async () => {
+            const newTitle = input.value.trim();
+            if (!newTitle) {
+                restoreOriginal();
+                return;
+            }
 
             try {
-                const response = await fetch(`http://localhost:3000/Folder/${userId}/getFolders`, {
+                const res = await fetch(`http://localhost:3000/Folder/${folderId}/rename`, {
+                    method: "PUT",
                     headers: {
                         "Authorization": `Bearer ${token}`,
                         "Content-Type": "application/json"
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error("Erro ao buscar pastas");
-                }
-
-                const data = await response.json();
-
-                // garante que folders seja sempre um array
-                const folders = Array.isArray(data.folders) ? data.folders : [];
-
-                // renderiza os cards
-                createDocumentCard(folders, container);
-            } catch (err) {
-                console.error("Erro ao carregar pastas: ", err);
-                container.innerHTML = `
-                    <div class="col-span-full text-center py-16 text-red-500">
-                        Erro ao se conectar ao servidor.
-                    </div>
-                `;
-            }
-        }
-
-        // Função para criar e renderizar os cards
-        function createDocumentCard(folders, container) {
-            if (!container) return;
-            container.innerHTML = '';
-
-            if (folders.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full text-center py-16">
-                        <div class="bg-white p-8 rounded-xl border border-slate-200 max-w-md mx-auto">
-                            <i class="fas fa-folder-open text-6xl text-slate-300 mb-4"></i>
-                            <h3 class="text-xl font-semibold text-slate-900 mb-2">Nenhuma pasta encontrada</h3>
-                            <p class="text-slate-600 mb-6">Comece criando sua primeira pasta e adicionando notas.</p>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            folders.forEach(folder => {
-                const folderCard = document.createElement('div');
-                folderCard.className = 'bg-white rounded-xl border border-slate-200 p-6 card-hover cursor-pointer mb-6 relative';
-                folderCard.dataset.id = folder.id;
-
-                folderCard.innerHTML = `
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-folder text-yellow-500 text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-slate-900">${folder.title}</h3>
-                                <p class="text-sm text-slate-500">${folder.extractedItems.length} item(s)</p>
-                                <p class="text-xs text-slate-400">Criada em: ${new Date(folder.createdAt).toLocaleDateString('pt-BR')}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button class="text-slate-400 hover:text-slate-600 transition-colors toggle-folder">
-                                <i class="fas fa-chevron-down transition-transform duration-300"></i>
-                            </button>
-                            <div class="relative">
-                                <button class="text-slate-400 hover:text-slate-600 transition-colors options-btn">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <div class="hidden absolute right-0 mt-2 w-40 bg-white border border-slate-200 rounded-lg shadow-lg z-20 options-menu">
-                                    <button class="rename-btn block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Renomear</button>
-                                    <button class="delete-btn block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:text-red-500 transition-colors">
-                                        Apagar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4 hidden folder-content"></div>
-                `;
-
-                const folderId = folderCard.dataset.id;
-                // Eventos: dropdown
-                const optionsBtn = folderCard.querySelector('.options-btn');
-                const optionsMenu = folderCard.querySelector('.options-menu');
-
-                optionsBtn.addEventListener('click', e => {
-                    e.stopPropagation();
-                    optionsMenu.classList.toggle('hidden');
-                });
-
-                document.addEventListener('click', e => {
-                    if (!optionsBtn.contains(e.target)) {
-                        optionsMenu.classList.add('hidden');
-                    }
-                });
-
-                // Evento: deletar pasta
-                const deleteBtn = folderCard.querySelector('.delete-btn');
-                deleteBtn.addEventListener('click', e => {
-                    e.stopPropagation();
-                    deleteFolder(folderId, folderCard);
-                });
-                // Evento: renomear pasta
-                const renameBtn = folderCard.querySelector('.rename-btn');
-                renameBtn.addEventListener('click', e => {
-                    e.stopPropagation();
-                    enableInlineRename(folderId, folderCard);
-                });
-
-                // Evento: expandir pasta
-                const toggleBtn = folderCard.querySelector('.toggle-folder');
-                const folderContent = folderCard.querySelector('.folder-content');
-                const chevronIcon = toggleBtn.querySelector('i');
-
-                // Função para expandir/recolher pasta
-                function toggleFolder() {
-                    const isHidden = folderContent.classList.contains('hidden');
-
-                    if (isHidden) {
-                        folderContent.classList.remove('hidden');
-                        chevronIcon.classList.add('rotate-180');
-
-                        folderContent.innerHTML = '';
-                        if (folder.extractedItems.length === 0) {
-                            const infoText = document.createElement('p');
-                            infoText.className = 'text-slate-600 mb-2';
-                            infoText.textContent = 'Esta pasta está vazia. Crie um item:';
-                            folderContent.appendChild(infoText);
-                        } else {
-                            folder.extractedItems.forEach(note => {
-                                const noteCard = document.createElement('div');
-                                noteCard.className = 'bg-slate-50 border border-slate-200 p-4 rounded-lg mb-3 relative';
-                                noteCard.dataset.id = note.id;
-                                noteCard.innerHTML = `
-                                    <h4 class="font-semibold text-slate-900">${note.title}</h4>
-                                    <ul class="list-disc pl-5 text-slate-700 text-sm">
-                                        ${note.items.map(item => `<li>${item}</li>`).join('')}
-                                    </ul>
-                                    <button class="absolute bottom-2 right-3 text-gray-500 hover:text-gray-700 delete-note">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                    <p class="text-slate-500 text-xs mt-1">${new Date(note.createdAt).toLocaleDateString('pt-BR')}</p>
-                                `;
-                                const deleteBtn = noteCard.querySelector('.delete-note');
-                                deleteBtn.addEventListener('click', () => deleteNote(note.id));
-
-                                folderContent.appendChild(noteCard);
-                            });
-                        }
-
-                        // Botão de criar item sempre no final
-                        const createBtn = document.createElement('button');
-                        createBtn.className = 'flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200';
-                        createBtn.dataset.id = folder.id;
-                        createBtn.innerHTML = `<i class="fas fa-plus"></i> Criar Item`;
-                        folderContent.appendChild(createBtn);
-
-                        createBtn.addEventListener('click', async () => {
-                            createNoteModal(folderId);
-                        })
-
-                    } else {
-                        folderContent.classList.add('hidden');
-                        chevronIcon.classList.remove('rotate-180');
-                    }
-                }
-
-                // Event listener apenas no botão de toggle
-                toggleBtn.addEventListener('click', e => {
-                    e.stopPropagation();
-                    toggleFolder();
-                });
-
-                // Event listener no card para abrir pasta (mas não no botão de toggle)
-                folderCard.addEventListener('click', e => {
-                    // Só executa se não clicou em botões específicos
-                    if (e.target.closest('.toggle-folder') || 
-                        e.target.closest('.delete-btn') || 
-                        e.target.closest('.options-btn') ||
-                        e.target.closest('.options-menu')) return;
-                    
-                    // Só abre se a pasta estiver fechada
-                    if (folderContent.classList.contains('hidden')) {
-                        toggleFolder();
-                    }
-                });
-                container.appendChild(folderCard);
-            });
-        }
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', async function() {
-            loadDocuments();
-            createEmptyFolder();
-        });
-
-        // Add hover effects to cards
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.card-hover');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-2px)';
-                });
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-        });
-
-        //Criar pastA
-        function createEmptyFolder() {
-            const createFolderButton = document.getElementById('createFolderButton');
-            const createFolderModal = document.getElementById('createFolderModal');
-            const closeModalBtn = document.getElementById('closeCreateFolderModal');
-            const cancelCreateFolder = document.getElementById('cancelCreateFolder');
-            const confirmCreateFolder = document.getElementById('confirmCreateFolder');
-            const newFolderTitle = document.getElementById('newFolderTitle');
-
-            // Abrir modal
-            createFolderButton.addEventListener('click', () => {
-            createFolderModal.classList.remove('hidden');
-            createFolderModal.classList.add('flex');
-            newFolderTitle.focus();
-            });
-
-            // Fechar modal
-            const closeModal = () => {
-            createFolderModal.classList.add('hidden');
-            createFolderModal.classList.remove('flex');
-            newFolderTitle.value = '';
-            }
-
-            closeModalBtn.addEventListener('click', closeModal);
-            cancelCreateFolder.addEventListener('click', closeModal);
-
-            // Fechar clicando fora do conteúdo
-            createFolderModal.addEventListener('click', (e) => {
-            if (e.target === createFolderModal) closeModal();
-            });
-
-            // Criar pasta
-            confirmCreateFolder.addEventListener('click', async () => {
-            const title = newFolderTitle.value.trim();
-            if (!title) {
-                alert("Por favor, insira um nome para a pasta.");
-                return;
-            }
-
-            try {
-                const res = await fetch(`http://localhost:3000/Folder/${userId}/createFolder`, {
-                method: 'POST',
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ title })
+                    },
+                    body: JSON.stringify({ newTitle })
                 });
 
                 if (res.ok) {
-                const data = await res.json();
-                alert("Pasta criada com sucesso!");
-                await loadDocuments();
-                closeModal();
-
+                    const updatedTitleElem = document.createElement('a');
+                    updatedTitleElem.href = `folder.html?id=${folderId}`;
+                    updatedTitleElem.className = 'folder-title font-semibold text-slate-900 block truncate';
+                    updatedTitleElem.textContent = newTitle;
+                    if (input.parentNode) input.parentNode.replaceChild(updatedTitleElem, input);
                 } else {
-                alert("Erro ao criar a pasta.");
+                    alert("Erro ao renomear a pasta.");
+                    restoreOriginal();
                 }
             } catch (err) {
                 console.error(err);
                 alert("Erro ao se conectar ao servidor.");
+                restoreOriginal();
             }
-            });
-        }
-        
-        //Apagar pasta
-        async function deleteFolder(folderId, folderCard) {
-            try {
-                const res = await fetch(`http://localhost:3000/Folder/${folderId}/deleteFolder`, {
-                        method: 'DELETE',
-                        headers: {
-                            "Authorization": `Bearer ${token}`,
-                            "Content-Type": "application/json"
-                        }
-                    });
-                if (res.ok) {
-                    folderCard.style.transition = "opacity 0.3s";
-                    folderCard.style.opacity = "0";
-                    setTimeout(() => loadDocuments(), 300); // atualiza lista após remover
-                    alert("Pasta apagada com sucesso!");
-                } else {
-                    alert("Erro ao apagar a pasta.");
-                }                
-            } catch (err) {
-                console.error(err);
-                alert("Erro ao se conectar ao servidor.");
-            }            
-        }
-        
-        //Renomear pasta
-        function enableInlineRename(folderId, folderCard) {
-            const titleElem = folderCard.querySelector('h3');
-            const originalTitle = titleElem.textContent;
+        };
 
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.value = originalTitle;
-            input.className = 'border border-slate-300 rounded px-2 py-1 w-full';
-            titleElem.replaceWith(input);
-            input.focus();
+        input.addEventListener('keydown', e => {
+            if (e.key === 'Enter') saveRename();
+            if (e.key === 'Escape') restoreOriginal();
+        });
 
-            // confirma alteração com Enter ou blur
-            const saveRename = async () => {
-                const newTitle = input.value.trim();
-                if (!newTitle) {
-                    input.replaceWith(titleElem);
-                    return;
-                }
+        input.addEventListener('blur', saveRename);
+    }
 
-                try {
-                    const res = await fetch(`http://localhost:3000/Folder/${folderId}/rename`, {
-                        method: "PUT",
-                        headers: {
-                            "Authorization": `Bearer ${token}`,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ newTitle })
-                    });
-
-                    if (res.ok) {
-                        titleElem.textContent = newTitle;
-                        input.replaceWith(titleElem);
-                    } else {
-                        alert("Erro ao renomear a pasta.");
-                        input.replaceWith(titleElem);
-                    }
-                } catch (err) {
-                    console.error(err);
-                    alert("Erro ao se conectar ao servidor.");
-                    input.replaceWith(titleElem);
-                }
-            };
-
-            input.addEventListener('keydown', e => {
-                if (e.key === 'Enter') saveRename();
-                if (e.key === 'Escape') input.replaceWith(titleElem);
-            });
-
-            input.addEventListener('blur', saveRename);
-        }
-
-
-        //Criar Notas
-        function createNoteModal(folderId) {
-            const modal = document.getElementById("createNoteModal");
-            const closeModalBtn = document.getElementById("closeCreateNoteModal");
-            const cancelBtn = document.getElementById("cancelCreateNote");
-            const confirmBtn = document.getElementById("confirmCreateNote");
-            const addItemBtn = document.getElementById("addNoteItem");
-            const noteTitle = document.getElementById("noteTitle");
-            const itemsContainer = document.getElementById("noteItemsContainer");
-
-            // abrir modal
-            modal.classList.remove("hidden");
-            modal.classList.add("flex");
-            noteTitle.focus();
-
-            // fechar modal
-            function closeModal() {
-                modal.classList.add("hidden");
-                modal.classList.remove("flex");
-                noteTitle.value = "";
-                itemsContainer.innerHTML = `<input type="text" class="note-item w-full border border-slate-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Digite um tópico...">`;
-            }
-
-            closeModalBtn.onclick = closeModal;
-            cancelBtn.onclick = closeModal;
-            modal.onclick = e => { if (e.target === modal) closeModal(); };
-
-            // adicionar mais tópicos
-            addItemBtn.onclick = () => {
-                const input = document.createElement("input");
-                input.type = "text";
-                input.placeholder = "Digite um tópico...";
-                input.className = "note-item w-full border border-slate-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500";
-                itemsContainer.appendChild(input);
-            };
-
-            // confirmar criação
-            confirmBtn.onclick = async () => {
-                const title = noteTitle.value.trim();
-                const items = [...itemsContainer.querySelectorAll(".note-item")]
-                    .map(input => input.value.trim())
-                    .filter(text => text.length > 0);
-
-                if (!title) {
-                    alert("Por favor, insira um título para a nota.");
-                    return;
-                }
-
-                try {
-                    const res = await fetch(`http://localhost:3000/Note/${folderId}/createNote`, {
-                        method: "POST",
-                        headers: {
-                            "Authorization": `Bearer ${token}`,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ title, items })
-                    });
-
-                    if (res.ok) {
-                        alert("Nota criada com sucesso!");
-                        await loadDocuments();
-                        closeModal();
-                    } else {
-                        alert("Erro ao criar a nota.");
-                    }
-                } catch (err) {
-                    console.error(err);
-                    alert("Erro ao se conectar ao servidor.");
-                }
-            };
-        }
-
-        //Apagar Nota
-        async function deleteNote(noteId) {
+    // --- Função para excluir pasta ---
+    async function deleteFolder(folderId, containerElement) {
+        const confirmDelete = confirm("Deseja realmente excluir esta pasta?");
+        if (!confirmDelete) return;
 
         try {
-            const res = await fetch(`http://localhost:3000/Note/${noteId}/delete`, {
-                method: 'DELETE',
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
+            const res = await fetch(`http://localhost:3000/Folder/${folderId}/deleteFolder`, {
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${token}` }
             });
 
             if (res.ok) {
-                alert("Nota apagada com sucesso!");
-                await loadDocuments(); // Atualiza a lista de pastas e notas
+                containerElement.remove();
             } else {
-                alert("Erro ao apagar a nota.");
+                alert("Erro ao excluir a pasta.");
             }
         } catch (err) {
             console.error(err);
@@ -630,26 +367,75 @@
         }
     }
 
-    
-        // Busca das pastas
-        const searchInput = document.getElementById('searchInput');
+    // --- Filtro de busca atualizado ---
+    searchInput.addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
+        const folderCards = document.querySelectorAll('#documentsContainer li');
 
-        searchInput.addEventListener('input', function () {
-            const searchTerm = this.value.toLowerCase();
-
-            // Seleciona todos os cards de pasta
-            const folderCards = document.querySelectorAll('#documentsContainer > div');
-
-            folderCards.forEach(card => {
-                const title = card.querySelector('h3')?.textContent.toLowerCase() || "";
-
-                if (title.includes(searchTerm)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+        folderCards.forEach(card => {
+            const title = card.querySelector('.folder-title')?.textContent.toLowerCase() || "";
+            card.style.display = title.includes(searchTerm) ? '' : 'none';
         });
+    });
+
+    // --- Inicialização ---
+    loadFolders();
+
+    // --- Modal de Criação de Pasta ---
+    const createFolderButton = document.getElementById("createFolderButton");
+    const createFolderModal = document.getElementById("createFolderModal");
+    const closeCreateFolderModal = document.getElementById("closeCreateFolderModal");
+    const cancelCreateFolder = document.getElementById("cancelCreateFolder");
+    const confirmCreateFolder = document.getElementById("confirmCreateFolder");
+    const newFolderTitle = document.getElementById("newFolderTitle");
+
+    // Abrir modal
+    createFolderButton.addEventListener("click", () => {
+        createFolderModal.classList.remove("hidden");
+        createFolderModal.classList.add("flex");
+        newFolderTitle.value = "";
+        newFolderTitle.focus();
+    });
+
+    // Fechar modal
+    [closeCreateFolderModal, cancelCreateFolder].forEach(btn => {
+        btn.addEventListener("click", () => {
+            createFolderModal.classList.add("hidden");
+            createFolderModal.classList.remove("flex");
+        });
+    });
+
+    // Criar nova pasta
+    confirmCreateFolder.addEventListener("click", async () => {
+        const title = newFolderTitle.value.trim();
+        if (!title) {
+            alert("Digite um nome para a pasta!");
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:3000/Folder/${userId}/createFolder`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ title })
+            });
+
+            if (res.ok) {
+                createFolderModal.classList.add("hidden");
+                createFolderModal.classList.remove("flex");
+                loadFolders(); // recarrega a lista
+            } else {
+                const error = await res.json();
+                alert(error.message || "Erro ao criar pasta.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Erro ao se conectar ao servidor.");
+        }
+    });
 </script>
 </body>
 </html>

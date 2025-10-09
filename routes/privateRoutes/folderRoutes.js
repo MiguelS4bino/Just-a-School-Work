@@ -36,6 +36,19 @@ router.get("/:id/getFolders", checkToken, async (req, res) => {
   }
 });
 
+router.get("/:folderId", checkToken, async (req, res) => {
+  try {
+    const folder = await Folder.findById(req.params.folderId)
+      .populate("extractedItems");
+
+    if (!folder) return res.status(404).json({ error: "Pasta não encontrada" });
+
+    res.json(folder);
+  } catch (err) {
+    res.status(500).json({ error: "Erro ao buscar pasta" });
+  }
+});
+
 router.post("/:userId/createFolder", checkToken, async (req, res) => {
     try{
         const userId = req.params.userId;
