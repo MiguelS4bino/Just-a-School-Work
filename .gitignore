@@ -135,4 +135,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-/localUploads/
+/routes/privateRoutes/uploads
+/routes/privateRoutes/tempUploads
