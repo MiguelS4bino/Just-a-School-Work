@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     const folder = isImage ? 'images' : 'files';
 
     // Caminho final: /uploads/notes/images ou /uploads/notes/files
-    const uploadPath = path.join(__dirname, 'uploads', 'notes', folder);
+    const uploadPath = path.join(__dirname, '../../uploads', 'notes', folder);
 
     // Cria o diretório se não existir
     fs.mkdir(uploadPath, { recursive: true }, (err) => {
@@ -73,6 +73,7 @@ router.post("/:folderId/createNote", checkToken, async (req, res) => {
     }
 })
 
+//Upload de arquivos e imagens á uma nota
 router.post("/:noteId/upload", checkToken, upload.fields([{ name: 'images' }, { name: 'files' }]), async (req, res) => {
     try{
         const noteId = req.params.noteId;
@@ -98,6 +99,24 @@ router.post("/:noteId/upload", checkToken, upload.fields([{ name: 'images' }, { 
         res.status(500).json({ msg: "Erro ao associar arquivo/imagem á nota." });
     }
 })
+
+//Renomear nota
+router.put("/:noteId/rename", checkToken, async(req, res) => {
+  const noteId = req.params.noteId;
+  const { newTitle } = req.body;
+
+  if (!newTitle || !noteId) return res.status(400).json({ msg: "É necessário informar o novo título e o ID da nota." });
+
+  try {
+    const updatedNote = await Note.findByIdAndUpdate(noteId, { title: newTitle }, { new: true });
+    if (!updatedNote) return res.status(404).json({ msg: "Nota não encontrada." });
+
+    res.status(200).json({ msg: "Nota renomeada com sucesso!", newTitle: updatedNote.title });
+  } catch (err) {
+    console.error("Erro ao atualizar nota: ", err);
+    return res.status(500).json({ msg: "Erro ao atualizar nota." });
+  }
+});
 
 //Apagar nota
 router.delete("/:noteId/delete", checkToken, async(req, res) => {
@@ -133,6 +152,7 @@ router.delete("/:noteId/delete", checkToken, async(req, res) => {
             $pull: { extractedItems: deletedNote._id }
         });
 
+        console.log("Nota apaga com sucesso.");
         return res.status(200).json({ msg: "Nota apagada com sucesso." });
     }catch(err){
                 console.error("Erro ao apagar nota: ", err);

@@ -113,6 +113,23 @@
   </div>
 </div>
 
+<!-- MODAL Upload -->
+<div id="uploadModal" class="fixed inset-0 flex bg-black/40 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-xl w-full max-w-lg p-6 relative">
+    <button id="closeUploadModal" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+      <i class="fas fa-times"></i>
+    </button>
+    <h2 class="text-xl font-semibold text-slate-900 mb-4">Adicionar Arquivos/Imagens</h2>
+
+    <input type="file" id="uploadFiles" multiple class="mb-4" />
+
+    <div class="flex justify-end space-x-4">
+      <button id="cancelUpload" class="px-4 py-2 rounded-lg border border-slate-300 hover:bg-slate-50 transition-all">Cancelar</button>
+      <button id="confirmUpload" class="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-lg transition-all">Enviar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const token = localStorage.getItem("token");
 if (!token) window.location.href = "login.html";
@@ -170,33 +187,47 @@ function renderNotes(notes) {
     return;
   }
 
+  const itemsList = document.createElement('ul');
+  itemsList.className = "list-disc list-inside text-slate-700 mt-3 space-y-1 max-h-0 overflow-hidden transition-all duration-300";
+
   notes.forEach(note => {
     const card = document.createElement('div');
     card.className = "bg-white border border-slate-200 rounded-xl p-5 shadow-sm card-hover notes-card";
 
-    // Header clicável com ações
+    // Header: Título, data e ações
     const header = document.createElement('div');
     header.className = "flex items-center cursor-pointer";
 
-    // Título e data
     const titleContainer = document.createElement('div');
     titleContainer.className = "flex flex-col";
     titleContainer.innerHTML = `
-        <h3 class="text-lg font-semibold text-slate-900">${note.title}</h3>
-        <span class="text-gray-400 text-sm">${new Date(note.createdAt).toLocaleDateString('pt-BR')}</span>
+      <h3 class="text-lg font-semibold text-slate-900">${note.title}</h3>
+      <span class="text-gray-400 text-sm">${new Date(note.createdAt).toLocaleDateString('pt-BR')}</span>
     `;
+    titleContainer.querySelector('h3').onclick = () => enableInlineRenameNote(note._id, titleContainer.querySelector('h3'));
 
-    // Botões Editar e Deletar
     const actions = document.createElement('div');
-    actions.className = "flex gap-3 ml-auto"; // ml-auto empurra para a direita
-    actions.innerHTML = `
-        <button class="delete-note hover:text-red-500" title="Excluir"><i class="fas fa-trash"></i></button>
-    `;
+    actions.className = "flex gap-3 ml-auto";
+
+    // Botão Upload
+    const uploadBtn = document.createElement('button');
+    uploadBtn.className = "ml-2 text-blue-600 hover:underline text-sm";
+    uploadBtn.textContent = "Adicionar arquivos";
+    uploadBtn.onclick = () => openUploadModal(note._id);
+    actions.appendChild(uploadBtn);
+
+    // Botão Deletar
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = "delete-note hover:text-red-500";
+    deleteBtn.title = "Excluir";
+    deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+    actions.appendChild(deleteBtn);
 
     header.append(titleContainer, actions);
 
-    actions.querySelector(".delete-note").onclick = async (e) => {
-      e.stopPropagation(); // evita colapsar a lista
+    // Eventos dos botões
+    deleteBtn.onclick = async (e) => {
+      e.stopPropagation();
       if (confirm("Deseja realmente deletar esta nota?")) {
         try {
           const res = await fetch(`http://localhost:3000/Note/${note._id}/delete`, {
@@ -212,27 +243,77 @@ function renderNotes(notes) {
       }
     };
 
-    // Lista de itens
+    // Containers de imagens e arquivos
+    const imagesContainer = document.createElement('div');
+    imagesContainer.className = "flex flex-wrap gap-2 mt-3 max-h-0 overflow-hidden transition-all duration-300";
+    if (note.images?.length) {
+      note.images.forEach(imgPath => {
+        const img = document.createElement('img');
+        img.src = `http://localhost:3000/${imgPath}`;
+        img.alt = "Imagem da nota";
+        img.className = "w-16 h-16 object-cover rounded-lg border border-slate-200 cursor-pointer hover:scale-105 transition-transform";
+        img.onclick = () => window.open(img.src, "_blank");
+        imagesContainer.appendChild(img);
+      });
+    }
+
+    const filesContainer = document.createElement('div');
+    filesContainer.className = "flex flex-col gap-1 mt-2 max-h-0 overflow-hidden transition-all duration-300";
+    if (note.files?.length) {
+      note.files.forEach(filePath => {
+        const fileName = filePath.split('/').pop();
+        const a = document.createElement('a');
+        a.href = `http://localhost:3000/${filePath}`;
+        a.target = "_blank";
+        a.textContent = fileName;
+        a.className = "text-blue-600 hover:underline text-sm";
+        filesContainer.appendChild(a);
+      });
+    }
+
+    // Lista de itens da nota
     const itemsList = document.createElement('ul');
     itemsList.className = "list-disc list-inside text-slate-700 mt-3 space-y-1 max-h-0 overflow-hidden transition-all duration-300";
-
     note.items.forEach(item => {
       const li = document.createElement('li');
       li.textContent = item;
       itemsList.appendChild(li);
     });
 
-    // Toggle com animação
+    // Toggle para expandir/contrair lista
     header.addEventListener("click", () => {
-      if (itemsList.style.maxHeight && itemsList.style.maxHeight !== "0px") {
-        itemsList.style.maxHeight = "0px";
-      } else {
-        itemsList.style.maxHeight = itemsList.scrollHeight + "px";
-      }
+      const isExpanded = itemsList.style.maxHeight && itemsList.style.maxHeight !== "0px";
+      const newMaxHeight = isExpanded ? "0px" : `${itemsList.scrollHeight + imagesContainer.scrollHeight + filesContainer.scrollHeight + 20}px`;
+
+      itemsList.style.maxHeight = isExpanded ? "0px" : `${itemsList.scrollHeight}px`;
+      imagesContainer.style.maxHeight = isExpanded ? "0px" : `${imagesContainer.scrollHeight}px`;
+      filesContainer.style.maxHeight = isExpanded ? "0px" : `${filesContainer.scrollHeight}px`;
     });
 
-    card.append(header, itemsList);
-    notesContainer.appendChild(card); // <- Isso era o que faltava!
+    const addItemBtn = document.createElement("button");
+    addItemBtn.textContent = "+ Adicionar item";
+    addItemBtn.className = "text-blue-600 text-sm mt-2 hover:underline";
+    addItemBtn.onclick = async () => {
+        const newItem = prompt("Digite o novo tópico:");
+        if (!newItem) return;
+        try {
+            const res = await fetch(`http://localhost:3000/Note/${note._id}/addItem`, {
+                method: "POST",
+                headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+                body: JSON.stringify({ newItem })
+            });
+            if (!res.ok) throw new Error("Erro ao adicionar item");
+            loadFolder();
+        } catch (err) {
+            console.error(err);
+            alert("Erro ao adicionar item");
+        }
+    };
+    card.append(addItemBtn);
+
+    // Append final na ordem: header → imagens → arquivos → lista
+    card.append(header, imagesContainer, filesContainer, itemsList);
+    notesContainer.appendChild(card);
   });
 }
 
@@ -275,6 +356,107 @@ document.getElementById("confirmCreateNote").onclick = async () => {
     alert("Erro ao criar nota.");
   }
 };
+
+// Renomear nota
+function enableInlineRenameNote(noteId, titleElem) {
+    const originalText = titleElem.textContent.trim();
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = originalText;
+    input.className = "border border-slate-300 rounded px-2 py-1 w-full max-w-xs";
+    titleElem.replaceWith(input);
+    input.focus();
+    input.select();
+
+    const restoreOriginal = () => {
+        const newTitleElem = document.createElement("h3");
+        newTitleElem.className = "text-lg font-semibold text-slate-900";
+        newTitleElem.textContent = originalText;
+        input.replaceWith(newTitleElem);
+
+        // Permitir clique para renomear novamente
+        newTitleElem.onclick = () => enableInlineRenameNote(noteId, newTitleElem);
+    };
+
+    const saveRename = async () => {
+        const newTitle = input.value.trim();
+        if (!newTitle) return restoreOriginal();
+
+        try {
+            const res = await fetch(`http://localhost:3000/Note/${noteId}/rename`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ newTitle })
+            });
+
+            if (!res.ok) throw new Error("Erro ao renomear nota");
+
+            const newTitleElem = document.createElement("h3");
+            newTitleElem.className = "text-lg font-semibold text-slate-900";
+            newTitleElem.textContent = newTitle;
+            input.replaceWith(newTitleElem);
+            newTitleElem.onclick = () => enableInlineRenameNote(noteId, newTitleElem);
+        } catch (err) {
+            console.error(err);
+            alert("Erro ao renomear nota");
+            restoreOriginal();
+        }
+    };
+
+    input.addEventListener("keydown", e => {
+        if (e.key === "Enter") saveRename();
+        if (e.key === "Escape") restoreOriginal();
+    });
+
+    input.addEventListener("blur", saveRename);
+}
+
+// Modal Upload de arquivos e imagens
+    const uploadModal = document.getElementById("uploadModal");
+    let currentNoteId = null;
+
+    function openUploadModal(noteId) {
+      currentNoteId = noteId;
+      uploadModal.classList.remove("hidden");
+    }
+
+    //Upload Modal functions
+    document.getElementById("closeUploadModal").onclick = () => uploadModal.classList.add("hidden");
+    document.getElementById("cancelUpload").onclick = () => uploadModal.classList.add("hidden");
+
+    document.getElementById("confirmUpload").onclick = async () => {
+      const files = document.getElementById("uploadFiles").files;
+      if (!files.length) {
+        alert("Selecione pelo menos um arquivo.");
+        return;
+      }
+
+      const formData = new FormData();
+      for (let f of files) {
+        const isImage = f.type.startsWith('image/');
+        if (isImage) formData.append('images', f);
+        else formData.append('files', f);
+      }
+
+      try {
+        const res = await fetch(`http://localhost:3000/Note/${currentNoteId}/upload`, {
+          method: "POST",
+          headers: { "Authorization": `Bearer ${token}` },
+          body: formData
+        });
+        if (!res.ok) throw new Error("Erro ao enviar arquivos");
+
+        uploadModal.classList.add("hidden");
+        loadFolder(); // Recarrega notas com novos arquivos
+      } catch (err) {
+        console.error(err);
+        alert("Erro ao enviar arquivos.");
+      }
+    };
 
 const searchInput = document.getElementById("searchNotes");
 

@@ -48,6 +48,8 @@ const startServer = async () => {
 
     //define onde os arquivos estáticos vão ficar (public)
     app.use(express.static(path.join(__dirname, "public")));
+    // Serve arquivos da pasta uploads
+    app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
     //define a pasta(public) como local onde os templates HTML estao armazenados(faz o express entender que os arquivos são .html)
     app.set("views", path.join(__dirname, "public", "Pasta HTML"));
     //configura o ejs
