@@ -294,13 +294,13 @@ function renderNotes(notes) {
     addItemBtn.textContent = "+ Adicionar item";
     addItemBtn.className = "text-blue-600 text-sm mt-2 hover:underline";
     addItemBtn.onclick = async () => {
-        const newItem = prompt("Digite o novo tópico:");
-        if (!newItem) return;
+        const noteNewItem = prompt("Digite o novo tópico:");
+        if (!noteNewItem) return;
         try {
             const res = await fetch(`http://localhost:3000/Note/${note._id}/addItem`, {
                 method: "POST",
                 headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
-                body: JSON.stringify({ newItem })
+                body: JSON.stringify({ noteNewItem })
             });
             if (!res.ok) throw new Error("Erro ao adicionar item");
             loadFolder();

@@ -181,9 +181,13 @@
             <!-- Documents Section -->
             <div class="space-y-1">
                 <div class="flex items-center space-x-2 px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                    <i class="fas fa-folder w-3"></i>
-                    <span>Documentos</span>
+                    <i class="fas fa-user w-4 h-4"></i>
+                    <span>Usuário</span>
             </div>
+                <a href="userOptions.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                    <i class="fas fa-cog w-4 h-4"></i>
+                    <span class="text-sm">Opções</span>
+                </a>
                 <a href="foldersView.html" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
                     <i class="fas fa-folder w-4"></i>
                     <span class="text-sm">Minhas Pastas</span>
@@ -229,6 +233,7 @@
                     <span class="text-sm">Sobre</span>
                 </a>
           </div>
+          
           </nav>
         
         <div class="p-4 border-t border-slate-200 mt-auto">
@@ -659,7 +664,7 @@
                 const res = await fetch(`${apiUrl}/user/${userId}`, {
                     method: "GET",
                     headers: {
-                        "Authorization": `Bearer ${token}`, // 🔑 envia o token
+                        "Authorization": `Bearer ${token}`, // envia o token
                         "Content-Type": "application/json"
                     }
                 });
@@ -675,8 +680,9 @@
                 // Atualizar ícone do perfil
             const profileIcon = document.querySelector('.w-8.h-8.bg-gradient-to-r');
             if (profileIcon) {
-                profileIcon.className = `w-8 h-8 bg-gradient-to-r ${currentProfile.color} rounded-full flex items-center justify-center`;
-                profileIcon.innerHTML = `<i class="fas ${currentProfile.icon} text-white text-sm"></i>`;
+                profileIcon.innerHTML = ''; // limpa o conteúdo
+                profileIcon.className = `w-8 h-8 rounded-full flex items-center justify-center overflow-hidden`;
+                profileIcon.innerHTML = `<img src="${data.user.img}" alt="Usuário" class="w-full h-full object-cover">`;
             }
             } catch (err){
                 console.error("Erro ao retornar usuário:", err.message);
@@ -956,7 +962,7 @@
             }
 
             btn.disabled = true; // bloqueia o botão
-            btn.innerText = "Organizando..."; // opcional: mudar texto do botão
+            btn.innerText = "Organizando...";
 
             try {
                 const response = await fetch(`${apiUrl}/IA/${userId}/organizeText`, {
@@ -982,7 +988,7 @@
               </div>
             </div>
                 `;
-
+            btn.innerText = "Organizado e guardado em 'Minhas Pastas'.";
             } catch (error) {
                 console.error('Erro:', error);
                 alert('Erro ao organizar o texto. Tente novamente.');
@@ -995,8 +1001,6 @@
                 closeOCRModal();
             }
         });
-
-
 
 
         // Logout function

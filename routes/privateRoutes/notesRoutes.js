@@ -73,6 +73,33 @@ router.post("/:folderId/createNote", checkToken, async (req, res) => {
     }
 })
 
+router.post("/:noteId/addItem", checkToken, async (req, res) => {
+    try {
+        const noteId = req.params.noteId;
+        const { noteNewItem } = req.body;
+        if (!noteNewItem) {
+            return res.status(400).json({ message: "É necessário que o novo item possua um nome." });
+        }
+
+        const noteExists = await Note.findById(noteId);
+        if (!noteExists) {
+            return res.status(404).json({ message: "Nota não encontrada." });
+        }
+
+        await Note.updateOne(
+            { _id: noteId },
+            { $push: { items: noteNewItem } }
+        );
+
+        console.log(`Nota ${noteId} => item adicionado: ${noteNewItem}`);
+        return res.status(201).json({ message: "Item adicionado com sucesso!" });
+    } catch (err) {
+        console.error("Erro ao adicionar item à nota: ", err);
+        return res.status(500).json({ msg: "Erro ao adicionar item à nota." });
+    }
+});
+
+
 //Upload de arquivos e imagens á uma nota
 router.post("/:noteId/upload", checkToken, upload.fields([{ name: 'images' }, { name: 'files' }]), async (req, res) => {
     try{
